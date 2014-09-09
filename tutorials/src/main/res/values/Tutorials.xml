@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="Tutorials">
+        <item>None</item>
+        <item>Tut_02_Vertex_Colors</item>
+        <item>Triangles</item>
+        <item>Tut_03_CPU_Position_Offset</item>
+        <item>Tut_03_Shader_Position_Offset</item>
+        <item>Tut_03_Shader_Calc_Offset</item>
+        <item>Tut_04_Orthographic_Cube</item>
+        <item>Tut_04_MatrixPerspective</item>
+        <item>Tut_04_ShaderPerspective</item>
+        <item>Tut_05_Depth_Buffering</item>
+        <item>Tut_05_Overlap_No_Depth</item>
+        <item>Tut_06_Hierarchy</item>
+        <item>Tut_06_Rotations</item>
+        <item>Tut_06_Translation</item>
+        <item>Tut_06_Scale</item>
+        <item>Tut_07_World_Scene</item>
+        <item>Tut_07_World_With_UBO</item>
+        <item>Tut_08_Camera_Relative</item>
+        <item>Tut_08_Gimbal_Lock</item>
+        <item>Tut_08_Quaternion_YPR</item>
+        <item>Tut_09_Ambient_Lighting</item>
+        <item>Tut_11_Phong_Lighting</item>
+        <item>Tut_13_Basic_Impostor</item>
+        <item>Tut_Text</item>
+        <item>Tut_Spheres</item>
+        <item>SingleMeshItem</item>
+    </string-array>
+</resources>

@@ -1,0 +1,25 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.app.Tests"
+    tools:ignore="MergeRootFrame" >
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Tutorials"
+        android:layout_gravity="left|top"
+        android:focusable="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Unknown"
+        android:id="@+id/xPosition"
+        android:layout_gravity="left|top"
+        android:layout_marginTop="50dp" />
+</FrameLayout>
+<!-- From: file:/home/jamie/repos/AndroidGitHub/GlslTutorials/tutorials/src/main/res/layout/activity_tutorials.xml -->
