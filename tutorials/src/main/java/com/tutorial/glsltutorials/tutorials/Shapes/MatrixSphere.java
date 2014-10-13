@@ -144,13 +144,6 @@ public class MatrixSphere extends Shape {
         angle = degrees;
     }
 
-    ///Applies a rotation matrix about the given axis, with the given angle in degrees.
-    public Matrix4f Rotate(Matrix4f input, Vector3f axis, float angDegCCW)
-    {
-        Matrix4f rotation = Matrix4f.Rotate(axis, (float)Math.PI / 180.0f * angDegCCW);
-        return Matrix4f.Mult(rotation, input);
-    }
-
     private void drawSub(int first_triangle, int last_triangle)
     {
         int newVertexCount = (last_triangle - first_triangle + 1) * 3 * 3 / COORDS_PER_VERTEX;

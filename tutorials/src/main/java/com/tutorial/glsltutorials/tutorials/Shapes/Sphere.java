@@ -160,17 +160,13 @@ public class Sphere extends Shape {
 
         if (mProgram < 0)
         {
-
-            int testVertexShader = Shader.compileShader(GLES20.GL_VERTEX_SHADER, vertexShaderCode);
-            int testFragmentShader = Shader.compileShader(GLES20.GL_FRAGMENT_SHADER, fragmentShaderCode);
-
             // prepare shaders and OpenGL program
             int vertexShader = Shader.loadShader(GLES20.GL_VERTEX_SHADER,
                     vertexShaderCode);
             int fragmentShader = Shader.loadShader(GLES20.GL_FRAGMENT_SHADER,
                     fragmentShaderCode);
 
-            mProgram = Shader.createAndLinkProgram(testVertexShader, testFragmentShader,
+            mProgram = Shader.createAndLinkProgram(vertexShader, fragmentShader,
                     new String[] {"a_Position", "a_Normal"});
 
 

@@ -20,39 +20,6 @@ import java.io.InputStream;
  */
 public class Tut_09_Ambient_Lighting extends TutorialBase {
 
-    private final String DirVertexLighting_PN_vert =
-    "attribute vec3 normal;" +
-    "attribute vec3 position;" +
-
-    "uniform vec3 dirToLight;" +
-    "uniform vec4 lightIntensity;" +
-
-    "uniform mat4 modelToCameraMatrix;" +
-    "uniform mat3 normalModelToCameraMatrix;" +
-
-    "struct UniformBlock" +
-    "{" +
-        "mat4 cameraToClipMatrix;" +
-    "};" +
-
-    "uniform UniformBlock Projection;" +
-
-    "void main()" +
-    "{" +
-        "gl_Position = Projection.cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
-        "vec3 normCamSpace = normalize(normalModelToCameraMatrix * normal);" +
-        "float cosAngIncidence = dot(normCamSpace, dirToLight);" +
-        "cosAngIncidence = clamp(cosAngIncidence, 0.0, 1.0);" +
-    "}";
-
-    private final String ColorPassthrough_frag =
-    "void main()" +
-    "{" +
-        "gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);" +
-
-    "}";
-
-
     static float g_fzNear = 1.0f;
     static float g_fzFar = 1000.0f;
 
