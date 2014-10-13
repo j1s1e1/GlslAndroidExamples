@@ -36,7 +36,7 @@ public class Programs {
         return program_number;
     }
 
-    public static void Draw(int program, IntBuffer vertexBufferObject, IntBuffer indexBufferObject,
+    public static void Draw(int program, int[] vertexBufferObject, int[] indexBufferObject,
                             Matrix4f cameraToClip, Matrix4f worldToCamera, Matrix4f mm,
                             int indexDataLength, float[] color, int COORDS_PER_VERTEX, int vertexStride)
     {

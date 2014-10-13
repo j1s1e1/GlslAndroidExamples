@@ -26,6 +26,8 @@
         <item>Tut_13_Basic_Impostor</item>
         <item>Tut_Text</item>
         <item>Tut_Spheres</item>
+        <item>Tut_Blender</item>
+        <item>Tut_Camera</item>
         <item>SingleMeshItem</item>
     </string-array>
 </resources>

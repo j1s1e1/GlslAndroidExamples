@@ -30,19 +30,24 @@ public class Blender {
             nextLine = sr.readLine();
             while (nextLine != null)
             {
-                if (nextLine.substring(0, 0) == "o")
+                if (nextLine.substring(0, 1).equals("o"))
                 {
                     BlenderObject bo = new BlenderObject(nextLine);
                     while (nextLine != null)
                     {
+
                         nextLine = sr.readLine();
-                        if (nextLine.substring(0, 0) == "o") break;
-                        if (nextLine.substring(0, 0) == "v")
+                        if (nextLine == null) break;
+                        if (nextLine.substring(0, 1).equals("o")) break;
+                        if (nextLine.substring(0, 1).equals("v"))
                         {
                             bo.AddVertex(nextLine);
                             vertexcount++;
                         }
-                        if (nextLine.substring(0, 0) == "f") bo.AddTriangle(nextLine, previousObjectVertexCount);
+                        if (nextLine.substring(0, 1).equals("f"))
+                        {
+                            bo.AddTriangle(nextLine, previousObjectVertexCount);
+                        }
                     }
                     previousObjectVertexCount = vertexcount;
                     bo.Setup();

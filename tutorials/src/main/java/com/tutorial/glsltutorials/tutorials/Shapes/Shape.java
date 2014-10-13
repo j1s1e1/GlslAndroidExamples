@@ -74,8 +74,17 @@ public class Shape
 
     public static Matrix4f worldToCamera = Matrix4f.Identity();
 
-    protected IntBuffer vertexBufferObject;
-    protected IntBuffer indexBufferObject;
+    protected int[] vertexBufferObject = new int[1];
+    protected int[] indexBufferObject = new int[1];
+
+    protected void SetupSimpleIndexBuffer(int elementCount)
+    {
+        indexData = new short[vertexData.length/elementCount];
+        for (short i = 0; i < indexData.length; i++)
+        {
+            indexData[i] = i;
+        }
+    }
 
     protected void SetupVertexBuffer()
     {
@@ -112,7 +121,7 @@ public class Shape
 
         // initialize index byte buffer for vertex indexes
         ByteBuffer sb = ByteBuffer.allocateDirect(
-                // (number of coordinate values * 4 bytes per float)
+                // (number of coordinate values * 2 bytes per short)
                 indexData.length * 2);
         // use the device hardware's native byte order
         sb.order(ByteOrder.nativeOrder());
@@ -124,15 +133,15 @@ public class Shape
         // set the buffer to read the first coordinate
         indexBuffer.position(0);
 
-        GLES20.glGenBuffers(1, vertexBufferObject);
-        GLES20.glGenBuffers(1, indexBufferObject);
+        GLES20.glGenBuffers(1, vertexBufferObject, 0);
+        GLES20.glGenBuffers(1, indexBufferObject, 0);
 
-        GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, indexBufferObject.get(0));
+        GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, indexBufferObject[0]);
         GLES20.glBufferData(GLES20.GL_ELEMENT_ARRAY_BUFFER, indexBuffer.capacity(),
                 indexBuffer, GLES20.GL_STATIC_DRAW);
         GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, 0);
 
-        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vertexBufferObject.get(0));
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vertexBufferObject[0]);
         GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, vertexBuffer.capacity(),
                 vertexBuffer, GLES20.GL_STATIC_DRAW);
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
@@ -180,6 +189,16 @@ public class Shape
         }
         // Element Array Buffer
         indiciesBufferID = VBO_Tools.SetupIntBuffer(indicesVboData);
+    }
+
+    public void SetAxis(Vector3f axisIn)
+    {
+        axis = axisIn;
+    }
+
+    public void UpdateAngle(float degrees)
+    {
+        angle = degrees;
     }
 
     // Set color with red, green, blue and alpha (opacity) values
@@ -299,6 +318,12 @@ public class Shape
     {
         Matrix4f rotation = Matrix4f.Rotate(axis, (float)Math.PI / 180.0f * angDegCCW);
         return Matrix4f.Mult(rotation, input);
+    }
+
+    public static void RotateWorld(Vector3f axis, float angDegCCW)
+    {
+        Matrix4f rotation = Matrix4f.Rotate(axis, (float)Math.PI / 180.0f * angDegCCW);
+        worldToCamera = Matrix4f.Mult(worldToCamera, rotation);
     }
 
     public void Draw()
