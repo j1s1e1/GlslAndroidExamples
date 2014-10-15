@@ -48,7 +48,7 @@ public class BlenderObject extends Shape {
         String[] indexData = triangleInfo.substring(2).split(" ");
         for (String s : indexData)
         {
-            newIndexes.add(Short.parseShort(s));
+            newIndexes.add(((short)(Short.parseShort(s) - offset)));
         }
         indexes.addAll(newIndexes);
     }
@@ -64,14 +64,14 @@ public class BlenderObject extends Shape {
         indexData = new short[indexes.size()];
         i = 0;
         for (Short s : indexes) {
-            indexData[i] = (s != null ? s : 0);
+            indexData[i++] = (s != null ? s : 0);
         }
 
         // fill in vertex data
         vertexData = new float[vertexes.size()];
         i = 0;
-        for (Float f : vertexData) {
-            vertexData[i] = (f != null ? f :  0);
+        for (Float f : vertexes) {
+            vertexData[i++] = (f != null ? f :  0);
         }
 
         InitializeVertexBuffer();

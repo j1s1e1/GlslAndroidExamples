@@ -4,7 +4,9 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.os.Handler;
 import android.view.KeyEvent;
+import android.widget.Toast;
 
+import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.VBO_Tools;
 import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 
@@ -176,6 +178,14 @@ public abstract class TutorialBase {
     protected static float Mix(float in1, float in2, float mix_factor)
     {
         return in1 * 1 - mix_factor + in2 * mix_factor;
+    }
+
+    protected void QuickToast(String data)
+    {
+        final Toast toast = Toast.makeText(Shader.context,data, Toast.LENGTH_SHORT);
+        toast.show();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {@Override public void run() {toast.cancel();}},200);
     }
 
     public void TouchEvent(int x_position, int y_position) throws Exception

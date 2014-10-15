@@ -9,6 +9,7 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -70,7 +71,8 @@ public class Tutorials extends Activity implements AdapterView.OnItemSelectedLis
             case 24: TestRenderer.tutorial = new Tut_Spheres(); break;
             case 25: TestRenderer.tutorial = new Tut_Blender(); break;
             case 26: TestRenderer.tutorial = new  Tut_Camera(); break;
-            case 27: TestRenderer.tutorial = new  SingleMeshItem(); break;
+            case 27: TestRenderer.tutorial = new  Tut_Blocks(); break;
+            case 28: TestRenderer.tutorial = new  SingleMeshItem(); break;
             default: return;
         }
         SetupOpenGL(version);
@@ -205,6 +207,4 @@ public class Tutorials extends Activity implements AdapterView.OnItemSelectedLis
 
         return false;
     }
-
-
 }

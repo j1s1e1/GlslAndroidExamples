@@ -2,6 +2,7 @@ package com.tutorial.glsltutorials.tutorials.Shapes;
 
 import android.opengl.GLES20;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
+import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 
 
 /**
@@ -88,10 +89,8 @@ public class Sphere extends Shape {
     @Override
     public void SetOffset (float x_in, float y_in, float z_in)
     {
-        Move(x_in - x_offset, y_offset - y_in, z_offset - z_in );
-        x_offset = x_in;
-        y_offset = y_in;
-        z_offset = z_in;
+        Move(x_in - offset.x, offset.y - y_in, offset.z - z_in );
+        offset = new Vector3f(x_in, y_in, z_in);
     }
 
     public void Move(float[] coords)

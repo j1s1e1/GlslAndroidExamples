@@ -17,6 +17,8 @@ public class Tut_Camera extends TutorialBase {
     }
     LitMatrixSphere2 lms1;
     LitMatrixSphere2 lms2;
+
+    LitMatrixBlock2 lmb1;
     LitMatrixBlock2 lmb2;
 
     float lmb2_angle = 0f;
@@ -28,13 +30,21 @@ public class Tut_Camera extends TutorialBase {
         lms2.SetOffset(new Vector3f(-0.5f, 0f, 0f));
         lms2.SetColor(0f, 1f, 0f);
 
-        Vector3f size = new Vector3f(0.1f, 0.1f, 0.1f);
-        Vector3f offset = new Vector3f(0.5f, 0.025f, 0f);
-        Vector3f axis = new Vector3f(1f, 1f, 1f);
+        Vector3f size = new Vector3f(0.01f, 0.05f, 0.05f);
+        Vector3f offset = new Vector3f(0.0f, 0.0f, 0.0f);
+        Vector3f axis = new Vector3f(0f, 0f, 1f);
 
-        lmb2 = new LitMatrixBlock2(size, Colors.BLUE_COLOR);
-        lmb2.SetOffset(offset);
-        lmb2.SetAxis(axis);
+        lmb1 = new LitMatrixBlock2(size, Colors.BLUE_COLOR);
+        lmb1.SetOffset(offset);
+        lmb1.SetAxis(axis);
+
+        Vector3f size2 = new Vector3f(0.005f, 0.005f, 0.005f);
+        Vector3f offset2 = new Vector3f(0.0f, 0.0f, 0.1f);
+        Vector3f axis2 = new Vector3f(0f, 0f, 1f);
+
+        lmb2 = new LitMatrixBlock2(size2, Colors.RED_COLOR);
+        lmb2.SetOffset(offset2);
+        lmb2.SetAxis(axis2);
 
         GLES20.glEnable(GLES20.GL_CULL_FACE);
         GLES20.glCullFace(GLES20.GL_BACK);
@@ -45,6 +55,7 @@ public class Tut_Camera extends TutorialBase {
         GLES20.glDepthFunc(GLES20.GL_LEQUAL);
         GLES20.glDepthRangef(0.0f, 1.0f);
         GLES20.glEnable(GLES20.GL_CLAMP_TO_EDGE);
+        reshape();
     }
 
     public void display()
@@ -54,6 +65,7 @@ public class Tut_Camera extends TutorialBase {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
         lms1.Draw();
         lms2.Draw();
+        lmb1.Draw();
         lmb2.Draw();
         lmb2.UpdateAngle(lmb2_angle++);
     }

@@ -88,8 +88,6 @@ public class LitMatrixBlock2 extends Shape {
 
     public void Draw()
     {
-        // Add program to OpenGL environment
-
         Matrix4f mm = Rotate(modelToWorld, axis, angle);
         mm.M41 = offset.x;
         mm.M42 = offset.y;

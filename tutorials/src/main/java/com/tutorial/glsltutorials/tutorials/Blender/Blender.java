@@ -93,4 +93,12 @@ public class Blender {
             bo.SetOffset(offset);
         }
     }
+
+    public void SetColor(float[] color)
+    {
+        for (BlenderObject bo : blenderObjects)
+        {
+            bo.SetColor(color);
+        }
+    }
 }

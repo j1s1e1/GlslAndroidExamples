@@ -26,10 +26,6 @@ public class Shape
     public static float global_y_rotate = 0;
     public static float global_z_rotate = 0;
 
-    protected float x_offset = 0;
-    protected float y_offset = 0;
-    protected float z_offset = 0;
-
     protected Vector3f offset = new Vector3f(0);
 
     protected float x = 0;
@@ -137,12 +133,12 @@ public class Shape
         GLES20.glGenBuffers(1, indexBufferObject, 0);
 
         GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, indexBufferObject[0]);
-        GLES20.glBufferData(GLES20.GL_ELEMENT_ARRAY_BUFFER, indexBuffer.capacity(),
+        GLES20.glBufferData(GLES20.GL_ELEMENT_ARRAY_BUFFER, indexBuffer.capacity() * BYTES_PER_SHORT,
                 indexBuffer, GLES20.GL_STATIC_DRAW);
         GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, 0);
 
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vertexBufferObject[0]);
-        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, vertexBuffer.capacity(),
+        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, vertexBuffer.capacity() * BYTES_PER_FLOAT,
                 vertexBuffer, GLES20.GL_STATIC_DRAW);
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
     }
@@ -160,21 +156,21 @@ public class Shape
 
     public void SetOffset (float x_in, float y_in, float z_in)
     {
-        x_offset = x_in;
-        y_offset = y_in;
-        z_offset = z_in;
+        offset.x = x_in;
+        offset.y = y_in;
+        offset.z = z_in;
     }
     public void SetXOffset(float x_in)
     {
-        x_offset = x_in;
+        offset.x = x_in;
     }
     public void SetYOffset(float y_in)
     {
-        y_offset = y_in;
+        offset.y = y_in;
     }
     public void SetZOffset(float z_in)
     {
-        z_offset = z_in;
+        offset.z = z_in;
     }
 
     public void SetOffset(Vector3f offsetIn)
@@ -206,6 +202,11 @@ public class Shape
         color[0] = red;
         color[1] = green;
         color[2] = blue;
+    }
+
+    public void SetColor(float[] new_color)
+    {
+        color = new_color;
     }
 
     public void SolidColor(int color)
