@@ -1,10 +1,8 @@
 package com.tutorial.glsltutorials.tutorials;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.ListActivity;
 import android.content.Intent;
-import android.content.pm.ConfigurationInfo;
 import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.Menu;
@@ -14,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.SimpleAdapter;
 
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
+import com.tutorial.glsltutorials.tutorials.Tutorials.Tutorials;
 
 import java.util.ArrayList;
 import java.util.HashMap;

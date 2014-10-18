@@ -101,4 +101,12 @@ public class Blender {
             bo.SetColor(color);
         }
     }
+
+    public void RotateShapes(Vector3f rotationAxis, float angle)
+    {
+        for (BlenderObject bo : blenderObjects)
+        {
+            bo.RotateShape(rotationAxis, angle);
+        }
+    }
 }

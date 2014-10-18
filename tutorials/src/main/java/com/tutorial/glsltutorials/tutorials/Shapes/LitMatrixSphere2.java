@@ -9,9 +9,6 @@ import com.tutorial.glsltutorials.tutorials.ProgramData.Programs;
  * Created by jamie on 10/12/14.
  */
 public class LitMatrixSphere2 extends Shape {
-    Matrix4f cameraToClip = Matrix4f.Identity();
-    Matrix4f modelToWorld = Matrix4f.Identity();
-
     float radius;
 
     String VertexShader = VertexShaders.PosOnlyWorldTransform_vert;

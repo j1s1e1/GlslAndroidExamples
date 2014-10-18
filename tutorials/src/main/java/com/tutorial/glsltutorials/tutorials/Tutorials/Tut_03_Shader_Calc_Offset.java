@@ -1,4 +1,4 @@
-package com.tutorial.glsltutorials.tutorials;
+package com.tutorial.glsltutorials.tutorials.Tutorials;
 
 import android.opengl.GLES20;
 

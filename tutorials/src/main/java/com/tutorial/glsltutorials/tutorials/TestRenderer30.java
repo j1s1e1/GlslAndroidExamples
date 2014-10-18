@@ -2,6 +2,8 @@ package com.tutorial.glsltutorials.tutorials;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
+import com.tutorial.glsltutorials.tutorials.Tutorials.TutorialBase;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 

@@ -1,8 +1,9 @@
-package com.tutorial.glsltutorials.tutorials;
+package com.tutorial.glsltutorials.tutorials.Tutorials;
 
 import android.opengl.GLES20;
 import android.view.KeyEvent;
 
+import com.tutorial.glsltutorials.tutorials.Framework;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.FragmentShaders;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.VertexShaders;
@@ -11,7 +12,17 @@ import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Quaternion;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector4f;
+import com.tutorial.glsltutorials.tutorials.MatrixStack;
 import com.tutorial.glsltutorials.tutorials.Mesh.Mesh;
+import com.tutorial.glsltutorials.tutorials.MouseButtons;
+import com.tutorial.glsltutorials.tutorials.ObjectData;
+import com.tutorial.glsltutorials.tutorials.ObjectPole;
+import com.tutorial.glsltutorials.tutorials.ProjectionBlock;
+import com.tutorial.glsltutorials.tutorials.PushStack;
+import com.tutorial.glsltutorials.tutorials.R;
+import com.tutorial.glsltutorials.tutorials.ViewData;
+import com.tutorial.glsltutorials.tutorials.ViewProvider;
+import com.tutorial.glsltutorials.tutorials.ViewScale;
 
 import java.io.InputStream;
 
@@ -112,7 +123,7 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
     public static ObjectData g_initialObjectData = new ObjectData(new Vector3f(0.0f, 0.5f, 0.0f),
             new Quaternion(1.0f, 0.0f, 0.0f, 0.0f));
 
-    public static  ViewProvider g_viewPole;
+    public static ViewProvider g_viewPole;
 
     public static ObjectPole g_objtPole;
 

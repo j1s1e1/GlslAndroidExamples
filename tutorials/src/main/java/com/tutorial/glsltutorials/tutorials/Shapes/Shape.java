@@ -9,7 +9,6 @@ import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 
 /**
@@ -69,6 +68,8 @@ public class Shape
     protected short[] indexData;
 
     public static Matrix4f worldToCamera = Matrix4f.Identity();
+    protected Matrix4f cameraToClip = Matrix4f.Identity();
+    protected Matrix4f modelToWorld = Matrix4f.Identity();
 
     protected int[] vertexBufferObject = new int[1];
     protected int[] indexBufferObject = new int[1];
@@ -182,6 +183,12 @@ public class Shape
     {
         offset = offsetIn;
     }
+
+    public Vector3f GetOffset()
+    {
+        return offset;
+    }
+
     protected void SetupIndexBuffer()
     {
         indicesVboData = new int[vertexCount];
@@ -322,42 +329,24 @@ public class Shape
     ///Applies a rotation matrix about the given axis, with the given angle in degrees.
     public Matrix4f Rotate(Matrix4f input, Vector3f axis, float angDegCCW)
     {
-        Matrix4f rotation = Matrix4f.Rotate(axis, (float)Math.PI / 180.0f * angDegCCW);
+        Matrix4f rotation = Matrix4f.CreateFromAxisAngle(axis, (float) Math.PI / 180.0f * angDegCCW);
         return Matrix4f.Mult(rotation, input);
     }
 
     public static void RotateWorld(Vector3f axis, float angDegCCW)
     {
-        Matrix4f rotation = Matrix4f.Rotate(axis, (float)Math.PI / 180.0f * angDegCCW);
+        Matrix4f rotation = Matrix4f.CreateFromAxisAngle(axis, (float) Math.PI / 180.0f * angDegCCW);
         worldToCamera = Matrix4f.Mult(worldToCamera, rotation);
+    }
+
+    public void RotateShape(Vector3f rotationAxis, float angleDeg)
+    {
+        Matrix4f rotation = Matrix4f.CreateFromAxisAngle(rotationAxis, (float)Math.PI / 180.0f * angleDeg);
+        modelToWorld = Matrix4f.Mult(modelToWorld, rotation);
     }
 
     public void Draw()
     {
-        /*
-        GLES20.glPushMatrix();
-        {
-            if (global_move) {
-                GLES20.glRotate(global_x_rotate, 1, 0, 0);
-                GLES20.glRotate(global_y_rotate, 0, 1, 0);
-                GLES20.glRotate(global_z_rotate, 0, 0, 1);
-                GLES20.glTranslate(global_x_offset, global_y_offset, global_z_offset);
-            }
-            GLES20.glTranslate(x + x_offset, y + y_offset, z + z_offset);
-            GLES20.glRotate(angle1, 1, 0, 0);
-            GLES20.glRotate(angle2, 0, 1, 0);
-            GLES20.glRotate(angle3, 0, 1, 1);
-            angle1 = (float)(angle1 + rotation1);
-            angle2 = (float)(angle2 + rotation2);
-            angle3 = (float)(angle3 + rotation3);
-            // Color Array Buffer (Colors not used when lighting is enabled)
-            VBO_Tools.BindColorBuffer(colorBufferID);
-            // Vertex Normal Buffer
-            VBO_Tools.BindVertexNormalBuffer(vertexNormalBufferID);
-            // Element Array Buffer
-            VBO_Tools.BindElementBuffer(indiciesBufferID, 3, 0);
-        }
-        GLES20.glPopMatrix();
-        */
+
     }
 }

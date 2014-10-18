@@ -20,8 +20,6 @@ public class BlenderObject extends Shape {
     String VertexShader = VertexShaders.PosOnlyWorldTransform_vert;
     String FragmentShader = FragmentShaders.ColorUniform_frag;
     int progarmNumber;
-    Matrix4f cameraToClip = Matrix4f.Identity();
-    Matrix4f modelToWorld = Matrix4f.Identity();
 
     public BlenderObject (String nameIn)
     {

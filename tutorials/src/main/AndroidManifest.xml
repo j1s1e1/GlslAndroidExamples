@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.tutorial.glsltutorials.tutorials.Tutorials"
+            android:name=".Tutorials.Tutorials"
             android:theme="@style/Theme.AppCompat"
             android:label="Tutorials" />
     </application>

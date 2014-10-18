@@ -1,4 +1,4 @@
-package com.tutorial.glsltutorials.tutorials;
+package com.tutorial.glsltutorials.tutorials.Tutorials;
 
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
@@ -45,8 +45,8 @@ public abstract class TutorialBase {
     protected static final int BYTES_PER_FLOAT = 4;
     protected static final int BYTES_PER_SHORT = 2;
 
-    protected int width = 0;
-    protected int height = 0;
+    public int width = 0;
+    public int height = 0;
 
     public TutorialBase()
     {
@@ -180,7 +180,7 @@ public abstract class TutorialBase {
         return in1 * 1 - mix_factor + in2 * mix_factor;
     }
 
-    protected void QuickToast(String data)
+    public static void QuickToast(String data)
     {
         final Toast toast = Toast.makeText(Shader.context,data, Toast.LENGTH_SHORT);
         toast.show();

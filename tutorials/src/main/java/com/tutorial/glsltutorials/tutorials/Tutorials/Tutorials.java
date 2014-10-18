@@ -1,30 +1,28 @@
-package com.tutorial.glsltutorials.tutorials;
+package com.tutorial.glsltutorials.tutorials.Tutorials;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.pm.ConfigurationInfo;
 import android.opengl.GLES20;
-import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
+import com.tutorial.glsltutorials.tutorials.R;
+import com.tutorial.glsltutorials.tutorials.SingleMeshItem;
+import com.tutorial.glsltutorials.tutorials.TestRenderer;
+import com.tutorial.glsltutorials.tutorials.TestRenderer30;
 
 import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.egl.EGLContext;
 import javax.microedition.khronos.egl.EGLDisplay;
-
-import static android.opengl.EGL14.eglGetDisplay;
 
 /**
  * Created by Jamie on 5/26/14.
@@ -72,7 +70,9 @@ public class Tutorials extends Activity implements AdapterView.OnItemSelectedLis
             case 25: TestRenderer.tutorial = new Tut_Blender(); break;
             case 26: TestRenderer.tutorial = new  Tut_Camera(); break;
             case 27: TestRenderer.tutorial = new  Tut_Blocks(); break;
-            case 28: TestRenderer.tutorial = new  SingleMeshItem(); break;
+            case 28: TestRenderer.tutorial = new Tut_Vectors(); break;
+            case 29: TestRenderer.tutorial = new Tut_3D_Shooter(); break;
+            case 30: TestRenderer.tutorial = new SingleMeshItem(); break;
             default: return;
         }
         SetupOpenGL(version);

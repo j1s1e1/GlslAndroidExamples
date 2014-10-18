@@ -16,6 +16,9 @@ public class Vector3f {
     public static final float[] vectorUpArray = {0.f, 1.f, 0.f, 0.f};
     public static final float[] vectorFrontArray = {0.f, 0.f, 1.f, 0.f};
     public static final Vector3f zero = new Vector3f();
+    public static final Vector3f UnitX = new Vector3f(1f, 0f, 0f);
+    public static final Vector3f UnitY = new Vector3f(0f, 1f, 0f);
+    public static final Vector3f UnitZ = new Vector3f(0f, 0f, 1f);
 
     public float x, y, z;
     public Vector3f(){
@@ -46,6 +49,10 @@ public class Vector3f {
 
     public float dot(Vector3f v){
         return x *v.x + y *v.y + z *v.z;
+    }
+
+    public static float dot(Vector3f v1, Vector3f v2){
+        return v1.x *v2.x + v1.y *v2.y + v1.z *v2.z;
     }
 
     public Vector3f cross(Vector3f v){
@@ -229,5 +236,19 @@ public class Vector3f {
         vin.y = vin.y / length;
         vin.z = vin.z / length;
         return vin;
+    }
+
+    public static Vector3f multiply(Vector3f vector, float multiple)
+    {
+        return vector.mul(multiple);
+    }
+
+    public static Vector3f Transform(Vector3f vec, Matrix4f mat)
+    {
+        Vector3f v = new Vector3f();
+        v.x = Vector3f.dot(vec, new Vector3f(mat.GetCol0()));
+        v.y = Vector3f.dot(vec, new Vector3f(mat.GetCol1()));
+        v.z = Vector3f.dot(vec, new Vector3f(mat.GetCol2()));
+        return v;
     }
 }

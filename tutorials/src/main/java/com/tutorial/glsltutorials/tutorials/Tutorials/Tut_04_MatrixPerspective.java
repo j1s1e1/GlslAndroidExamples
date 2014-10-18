@@ -1,15 +1,10 @@
-package com.tutorial.glsltutorials.tutorials;
+package com.tutorial.glsltutorials.tutorials.Tutorials;
 
 import android.opengl.GLES20;
 
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
 
-import com.tutorial.glsltutorials.tutorials.GLES_Helpers.VBO_Tools;
 import com.tutorial.glsltutorials.tutorials.Geometry.*;
-
-import java.nio.FloatBuffer;
-
-import javax.microedition.khronos.opengles.GL;
 
 /**
  * Created by Jamie on 5/27/14.

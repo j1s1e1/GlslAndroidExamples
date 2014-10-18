@@ -29,6 +29,8 @@
         <item>Tut_Blender</item>
         <item>Tut_Camera</item>
         <item>Tut_Blocks</item>
+        <item>Tut_Vectors</item>
+        <item>Tut_3D_Shooter</item>
         <item>SingleMeshItem</item>
     </string-array>
 </resources>

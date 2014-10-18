@@ -1,11 +1,8 @@
-package com.tutorial.glsltutorials.tutorials;
+package com.tutorial.glsltutorials.tutorials.Tutorials;
 
 import android.opengl.GLES20;
-import android.os.Handler;
-import android.view.KeyEvent;
-import android.widget.Toast;
 
-import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
+import com.tutorial.glsltutorials.tutorials.Colors;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 import com.tutorial.glsltutorials.tutorials.Shapes.LitMatrixBlock2;
 import com.tutorial.glsltutorials.tutorials.Shapes.Shape;

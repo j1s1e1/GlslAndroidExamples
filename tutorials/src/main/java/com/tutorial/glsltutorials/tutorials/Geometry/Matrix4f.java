@@ -218,7 +218,7 @@ public class Matrix4f {
         return matrix;
     }
 
-    static public Matrix4f Rotate(Vector3f axis, float angle)
+    static public Matrix4f CreateFromAxisAngle(Vector3f axis, float angle)
     {
         Matrix4f matrix = new Matrix4f();
         float cos = (float)Math.cos(-angle);

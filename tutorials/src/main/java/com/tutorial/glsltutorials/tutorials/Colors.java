@@ -15,6 +15,7 @@ public class Colors {
     public static float[] YELLOW_COLOR = { 1.0f, 1.0f, 0.0f, 1.0f};
     public static float[] CYAN_COLOR = { 0.0f, 1.0f, 1.0f, 1.0f};
     public static float[] MAGENTA_COLOR = { 0.0f, 1.0f, 1.0f, 1.0f};
+    public static float[] WHITE_COLOR = { 1.0f, 1.0f, 1.0f, 1.0f};
 
     public static int Red= Color.RED;
     public static int Green=Color.GREEN;

@@ -109,14 +109,14 @@ public class MatrixStack {
     ///Applies a rotation matrix about the given axis, with the given angle in degrees.
     public void Rotate(Vector3f axis, float angDegCCW)
     {
-        Matrix4f rotation = Matrix4f.Rotate(axis, (float)Math.PI / 180.0f * angDegCCW);
+        Matrix4f rotation = Matrix4f.CreateFromAxisAngle(axis, (float) Math.PI / 180.0f * angDegCCW);
         m_currMatrix = Matrix4f.Mult(rotation, m_currMatrix);
     }
 
     ///Applies a rotation matrix about the given axis, with the given angle in radians.
     public void RotateRadians(Vector3f axis, float angRadCCW)
     {
-        Matrix4f rotation = Matrix4f.Rotate(axis, angRadCCW);
+        Matrix4f rotation = Matrix4f.CreateFromAxisAngle(axis, angRadCCW);
         m_currMatrix = Matrix4f.Mult(rotation, m_currMatrix);
     }
 

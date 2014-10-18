@@ -11,6 +11,7 @@ import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector4f;
 import com.tutorial.glsltutorials.tutorials.Mesh.Mesh;
+import com.tutorial.glsltutorials.tutorials.Tutorials.TutorialBase;
 
 import java.io.InputStream;
 
