@@ -6,6 +6,7 @@ import android.view.KeyEvent;
 import com.tutorial.glsltutorials.tutorials.Blender.Blender;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
+import com.tutorial.glsltutorials.tutorials.ProgramData.Programs;
 import com.tutorial.glsltutorials.tutorials.Shapes.Shape;
 
 import java.io.InputStream;
@@ -23,6 +24,8 @@ public class Tut_Blender extends TutorialBase {
 
     protected void init()
     {
+        Programs.Reset();
+        Shape.ResetWorldToCameraMatrix();
         InputStream test1 = Shader.context.getResources().openRawResource(R.raw.test_obj);
         blender = new Blender();
         blender.ReadFile(test1);

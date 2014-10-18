@@ -73,6 +73,11 @@ public class Shape
     protected int[] vertexBufferObject = new int[1];
     protected int[] indexBufferObject = new int[1];
 
+    public static void ResetWorldToCameraMatrix()
+    {
+        worldToCamera = Matrix4f.Identity();
+    }
+
     protected void SetupSimpleIndexBuffer(int elementCount)
     {
         indexData = new short[vertexData.length/elementCount];

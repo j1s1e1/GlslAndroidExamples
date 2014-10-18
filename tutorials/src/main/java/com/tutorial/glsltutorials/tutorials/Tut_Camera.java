@@ -4,6 +4,7 @@ import android.opengl.GLES20;
 import android.view.KeyEvent;
 
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
+import com.tutorial.glsltutorials.tutorials.ProgramData.Programs;
 import com.tutorial.glsltutorials.tutorials.Shapes.LitMatrixBlock2;
 import com.tutorial.glsltutorials.tutorials.Shapes.LitMatrixSphere2;
 import com.tutorial.glsltutorials.tutorials.Shapes.Shape;
@@ -25,6 +26,8 @@ public class Tut_Camera extends TutorialBase {
 
     protected void init()
     {
+        Programs.Reset();
+        Shape.ResetWorldToCameraMatrix();
         lms1 = new LitMatrixSphere2(0.2f);
         lms2 = new LitMatrixSphere2(0.2f);
         lms2.SetOffset(new Vector3f(-0.5f, 0f, 0f));
@@ -112,5 +115,21 @@ public class Tut_Camera extends TutorialBase {
         reshape();
         display();
         return result.toString();
+    }
+
+    public void TouchEvent(int x_position, int y_position) throws Exception
+    {
+        int selection = x_position / 200;
+        switch (selection)
+        {
+            case 0: Shape.RotateWorld(new Vector3f(1f, 0f, 0f), 5f); break;
+            case 1: Shape.RotateWorld(new Vector3f(1f, 0f, 0f), -5f); break;
+            case 2: Shape.RotateWorld(new Vector3f(0f, 1f, 0f), 5f); break;
+            case 3: Shape.RotateWorld(new Vector3f(0f, 1f, 0f), -5f); break;
+            case 4: Shape.RotateWorld(new Vector3f(0f, 0f, 1f), 5f); break;
+            case 5: Shape.RotateWorld(new Vector3f(0f, 0f, 1f), -5f); break;
+        }
+        //QuickToast("Touch Event.  X = " + String.valueOf(x_position) + " Y = " + String.valueOf(y_position)
+        //        + " selection " + String.valueOf(selection));
     }
 }

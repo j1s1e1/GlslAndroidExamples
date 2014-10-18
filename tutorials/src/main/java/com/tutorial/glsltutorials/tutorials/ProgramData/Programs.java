@@ -11,6 +11,11 @@ import java.util.ArrayList;
 public class Programs {
     static ArrayList<ProgramData> ActivePrograms = new ArrayList<ProgramData>();
 
+    public static void Reset()
+    {
+        ActivePrograms = new ArrayList<ProgramData>();
+    }
+
     public static int AddProgram(String vertexShader, String fragmentShader)
     {
         int program_number = -1;
