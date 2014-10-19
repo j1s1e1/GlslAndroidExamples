@@ -1045,13 +1045,14 @@ containing a value of this type.
         public static final int mediumgimbal=0x7f050001;
         public static final int ship=0x7f050002;
         public static final int smallgimbal=0x7f050003;
-        public static final int test_obj=0x7f050004;
+        public static final int test=0x7f050004;
         public static final int unitconetint=0x7f050005;
         public static final int unitcubecolor=0x7f050006;
         public static final int unitcubetint=0x7f050007;
         public static final int unitcylinder=0x7f050008;
         public static final int unitcylindertint=0x7f050009;
         public static final int unitplane=0x7f05000a;
+        public static final int x_wing=0x7f05000b;
     }
     public static final class string {
         public static final int abc_action_bar_home_description=0x7f0c0000;

@@ -3,7 +3,10 @@ package com.tutorial.glsltutorials.tutorials.Tutorials;
 import android.opengl.GLES20;
 
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
-import com.tutorial.glsltutorials.tutorials.TextClass;
+import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
+import com.tutorial.glsltutorials.tutorials.ProgramData.Programs;
+import com.tutorial.glsltutorials.tutorials.Shapes.Shape;
+import com.tutorial.glsltutorials.tutorials.Text.TextClass;
 
 import java.util.ArrayList;
 
@@ -13,35 +16,29 @@ import java.util.ArrayList;
 public class Tut_Text extends TutorialBase {
 
     static ArrayList<TextClass> text;
-    static float[] rotationMat;
-    void InitializeProgram()
-    {
-        int vertexShader = Shader.loadShader(GLES20.GL_VERTEX_SHADER, TextClass.textVertexShader);
-        int fragmentShader = Shader.loadShader(GLES20.GL_FRAGMENT_SHADER, TextClass.textFragmentShader);
-        theProgram = Shader.createAndLinkProgram(vertexShader, fragmentShader);
-    }
+    boolean staticText = true;
+    boolean reverseRotation = true;
 
     private void SetupText()
     {
+        TextClass new_text;
         text = new ArrayList<TextClass>();
         for (int i = 0; i < 2; i++)
         {
-            TextClass new_text;
             if (i == 1)
             {
-                new_text = new TextClass("01234", 1f, 0.05f);
+                new_text = new TextClass("ABC123", 1f, 0.1f, staticText, reverseRotation);
             }
             else
             {
-                new_text = new TextClass("56789", 0.5f, 0.03f);
+                new_text = new TextClass("56789", 0.5f, 0.2f);
             }
 
-            new_text.Move(-0.5f, -0.5f+ i * 0.3f, 0.5f - i);
+            new_text.SetOffset(-0.5f, -0.5f+ i * 0.4f, 0.5f - i);
             text.add(new_text);
         }
         for (int i = 0; i < 2; i++)
         {
-            TextClass new_text;
             if (i == 1)
             {
                 new_text = new TextClass("867", 1f, 0.06f);
@@ -51,17 +48,26 @@ public class Tut_Text extends TutorialBase {
                 new_text = new TextClass("5309", 1f, 0.06f);
             }
 
-            new_text.Move(0f, -0.25f + i * 0.3f, 0.0f);
+            new_text.SetOffset(0f, -0.25f + i * 0.3f, 0.0f);
             text.add(new_text);
         }
+        new_text = new TextClass("ABCDEFGHIJKLM", 0.5f, 0.05f, staticText, reverseRotation);
+        new_text.SetOffset(new Vector3f(0f, 0.5f, 0.0f));
+        text.add(new_text);
+
+        new_text = new TextClass("NOPQRSTUVWXYZ", 0.5f, 0.05f, staticText, reverseRotation);
+        new_text.SetOffset(new Vector3f(0f, 0.4f, 0.0f));
+        text.add(new_text);
     }
 
 
     //Called after the window and OpenGL are initialized. Called exactly once, before the main loop.
     protected void init()
     {
-        //InitializeProgram();
+        Programs.Reset();
+        Shape.ResetWorldToCameraMatrix();
         SetupText();
+        SetupDepthAndCull();
     }
 
     //Called to update the display.
@@ -69,9 +75,7 @@ public class Tut_Text extends TutorialBase {
     //If you need continuous updates of the screen, call glutPostRedisplay() at the end of the function.
     public void display()
     {
-
-        GLES20.glClearColor(0.2f, 0.2f, 0.0f, 1.0f);
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
+        ClearDisplay();
         for (TextClass t : text )
         {
             t.draw();
@@ -81,5 +85,4 @@ public class Tut_Text extends TutorialBase {
         }
 
     }
-
 }

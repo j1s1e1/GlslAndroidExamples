@@ -1,7 +1,6 @@
 package com.tutorial.glsltutorials.tutorials.Tutorials;
 
 import android.opengl.GLES20;
-import android.os.Looper;
 import android.view.KeyEvent;
 
 import com.tutorial.glsltutorials.tutorials.Blender.Blender;
@@ -13,6 +12,7 @@ import com.tutorial.glsltutorials.tutorials.Objects.Missle;
 import com.tutorial.glsltutorials.tutorials.ProgramData.Programs;
 import com.tutorial.glsltutorials.tutorials.R;
 import com.tutorial.glsltutorials.tutorials.Shapes.Shape;
+import com.tutorial.glsltutorials.tutorials.Text.TextClass;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -20,8 +20,8 @@ import java.util.ArrayList;
 /**
  * Created by jamie on 10/18/14.
  */
-public class Tut_3D_Shooter extends TutorialBase {
-    public Tut_3D_Shooter ()
+public class Tut_3D_Shooter2 extends TutorialBase {
+    public Tut_3D_Shooter2()
     {
     }
 
@@ -29,26 +29,27 @@ public class Tut_3D_Shooter extends TutorialBase {
     ArrayList<Missle> missles = new ArrayList<Missle>();
     boolean addMissle = false;
 
+    TextClass credit1;
+    TextClass credit2;
+    boolean staticText = true;
+
     protected void init()
     {
         Programs.Reset();
         Shape.ResetWorldToCameraMatrix();
-        InputStream test1 = Shader.context.getResources().openRawResource(R.raw.test);
+        InputStream test1 = Shader.context.getResources().openRawResource(R.raw.x_wing);
         ship = new Blender();
         ship.ReadFile(test1);
         ship.SetColor(Colors.WHITE_COLOR);
-        ship.Scale(new Vector3f(0.05f, 0.05f, 0.05f));
+        ship.Scale(new Vector3f(0.1f, 0.1f, 0.1f));
 
-        GLES20.glEnable(GLES20.GL_CULL_FACE);
-        GLES20.glCullFace(GLES20.GL_BACK);
-        GLES20.glFrontFace(GLES20.GL_CW);
+        credit1 = new TextClass("X-Wing Model based on Blender model by", 0.4f, 0.04f, staticText);
+        credit1.SetOffset(new Vector3f(-0.75f, -0.65f, 0.0f));
 
-        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
-        GLES20.glDepthMask(true);
-        GLES20.glDepthFunc(GLES20.GL_LEQUAL);
-        GLES20.glDepthRangef(0.0f, 1.0f);
-        GLES20.glEnable(GLES20.GL_CLAMP_TO_EDGE);
+        credit2 = new TextClass("Angel David Guzman of PixelOz Designs", 0.4f, 0.04f, staticText);
+        credit2.SetOffset(new Vector3f(-0.75f, -0.75f, 0.0f));
 
+        SetupDepthAndCull();
     }
 
     double anglehorizontal = 0;
@@ -56,21 +57,12 @@ public class Tut_3D_Shooter extends TutorialBase {
 
     Vector3f axis = new Vector3f(0f, 0f, 1f);
     Vector3f up = new Vector3f(0f, 0.125f, 0f);
-    Vector3f right = new Vector3f(0.125f, 0f, 0f);
-
-    static boolean looperCreated = false;
+    Vector3f right = new Vector3f(0.25f, 0f, 0f);
 
     public void display()
     {
-        if (!looperCreated) {
-            looperCreated = true;
-            //Looper.prepare();
-            //Looper.loop();
-        }
         ArrayList<Integer> deadMissles = new ArrayList<Integer>();
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        GLES20.glClearDepthf(1.0f);
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT |  GLES20.GL_DEPTH_BUFFER_BIT);
+        ClearDisplay();
         ship.Draw();
         anglehorizontal = anglehorizontal + 0.02f;
         anglevertical = anglevertical + 0.01f;
@@ -99,6 +91,8 @@ public class Tut_3D_Shooter extends TutorialBase {
             axis.z = -axis.z;
             addMissle = false;
         }
+        credit1.draw();
+        credit2.draw();
     }
 
     private void Rotate(Vector3f rotationAxis, float angle)

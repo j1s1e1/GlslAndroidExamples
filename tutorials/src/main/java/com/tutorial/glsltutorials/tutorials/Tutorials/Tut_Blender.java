@@ -28,12 +28,12 @@ public class Tut_Blender extends TutorialBase {
     {
         Programs.Reset();
         Shape.ResetWorldToCameraMatrix();
-        InputStream test1 = Shader.context.getResources().openRawResource(R.raw.test_obj);
+        InputStream test1 = Shader.context.getResources().openRawResource(R.raw.test);
         blender = new Blender();
         blender.ReadFile(test1);
         blender.Scale(new Vector3f(0.05f, 0.05f, 0.05f));
         blender2 = new Blender();
-        test1 = Shader.context.getResources().openRawResource(R.raw.test_obj);
+        test1 = Shader.context.getResources().openRawResource(R.raw.test);
         blender2.ReadFile(test1);
         blender2.Scale(new Vector3f(0.07f, 0.05f, 0.05f));
         blender2.SetColor(Colors.BLUE_COLOR);

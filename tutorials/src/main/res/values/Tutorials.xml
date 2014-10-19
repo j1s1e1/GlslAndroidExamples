@@ -31,6 +31,7 @@
         <item>Tut_Blocks</item>
         <item>Tut_Vectors</item>
         <item>Tut_3D_Shooter</item>
+        <item>Tut_3D_Shooter2</item>
         <item>SingleMeshItem</item>
     </string-array>
 </resources>

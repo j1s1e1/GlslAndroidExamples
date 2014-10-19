@@ -1,4 +1,4 @@
-package com.tutorial.glsltutorials.tutorials;
+package com.tutorial.glsltutorials.tutorials.Text;
 
 /**
  * Created by Jamie on 1/3/14.

@@ -23,7 +23,7 @@ public class LitMatrixSphere2 extends Shape {
         vertexCount = vertexCoords.length / COORDS_PER_VERTEX / 2;
 
         vertexData = vertexCoords;
-        SetupSimpleIndexBuffer(COORDS_PER_VERTEX);
+        SetupSimpleIndexBuffer();
 
         InitializeVertexBuffer();
 

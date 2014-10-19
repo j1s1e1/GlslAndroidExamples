@@ -72,7 +72,8 @@ public class Tutorials extends Activity implements AdapterView.OnItemSelectedLis
             case 27: TestRenderer.tutorial = new  Tut_Blocks(); break;
             case 28: TestRenderer.tutorial = new Tut_Vectors(); break;
             case 29: TestRenderer.tutorial = new Tut_3D_Shooter(); break;
-            case 30: TestRenderer.tutorial = new SingleMeshItem(); break;
+            case 30: TestRenderer.tutorial = new Tut_3D_Shooter2(); break;
+            case 31: TestRenderer.tutorial = new SingleMeshItem(); break;
             default: return;
         }
         SetupOpenGL(version);

@@ -79,9 +79,9 @@ public class Shape
         worldToCamera = Matrix4f.Identity();
     }
 
-    protected void SetupSimpleIndexBuffer(int elementCount)
+    protected void SetupSimpleIndexBuffer()
     {
-        indexData = new short[vertexData.length/elementCount];
+        indexData = new short[vertexData.length/COORDS_PER_VERTEX];
         for (short i = 0; i < indexData.length; i++)
         {
             indexData[i] = i;
