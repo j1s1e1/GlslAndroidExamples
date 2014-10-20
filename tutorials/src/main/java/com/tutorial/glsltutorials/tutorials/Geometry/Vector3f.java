@@ -251,4 +251,9 @@ public class Vector3f {
         v.z = Vector3f.dot(vec, new Vector3f(mat.GetCol2()));
         return v;
     }
+
+    public String toString()
+    {
+        return new String("X= " + String.valueOf(x) + " Y= " + String.valueOf(y) + " Z= " + String.valueOf(z));
+    }
 }

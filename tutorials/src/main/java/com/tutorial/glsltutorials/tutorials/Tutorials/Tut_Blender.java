@@ -10,6 +10,7 @@ import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 import com.tutorial.glsltutorials.tutorials.ProgramData.Programs;
 import com.tutorial.glsltutorials.tutorials.R;
 import com.tutorial.glsltutorials.tutorials.Shapes.Shape;
+import com.tutorial.glsltutorials.tutorials.Text.TextClass;
 
 import java.io.InputStream;
 
@@ -23,6 +24,9 @@ public class Tut_Blender extends TutorialBase {
 
     Blender blender;
     Blender blender2;
+
+    TextClass controls;
+    boolean staticText = true;
 
     protected void init()
     {
@@ -38,15 +42,10 @@ public class Tut_Blender extends TutorialBase {
         blender2.Scale(new Vector3f(0.07f, 0.05f, 0.05f));
         blender2.SetColor(Colors.BLUE_COLOR);
 
-        GLES20.glEnable(GLES20.GL_CULL_FACE);
-        GLES20.glCullFace(GLES20.GL_BACK);
-        GLES20.glFrontFace(GLES20.GL_CW);
+        controls = new TextClass("X_CCW   X_CW    Y_CCW   Y_CW    Z_CCW   Z_CW", 0.4f, 0.04f, staticText);
+        controls.SetOffset(new Vector3f(-0.9f, -0.8f, 0.0f));
 
-        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
-        GLES20.glDepthMask(true);
-        GLES20.glDepthFunc(GLES20.GL_LEQUAL);
-        GLES20.glDepthRangef(0.0f, 1.0f);
-        GLES20.glEnable(GLES20.GL_CLAMP_TO_EDGE);
+        SetupDepthAndCull();
     }
 
     double anglehorizontal = 0;
@@ -58,9 +57,7 @@ public class Tut_Blender extends TutorialBase {
 
     public void display()
     {
-       GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-       GLES20.glClearDepthf(1.0f);
-       GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT |  GLES20.GL_DEPTH_BUFFER_BIT);
+        ClearDisplay();
         blender.Draw();
         blender2.Draw();
         xoffset = (float) (Math.cos(anglevertical) * Math.cos(anglehorizontal));
@@ -70,6 +67,8 @@ public class Tut_Blender extends TutorialBase {
         blender2.SetOffset(new Vector3f(-xoffset, yoffset, -zoffset));
         anglehorizontal = anglehorizontal + 0.02f;
         anglevertical = anglevertical + 0.01f;
+
+        controls.draw();
     }
 
     public String keyboard(int keyCode, int x, int y)
@@ -104,7 +103,7 @@ public class Tut_Blender extends TutorialBase {
 
     public void TouchEvent(int x_position, int y_position) throws Exception
     {
-        int selection = x_position / 200;
+        int selection = x_position / (width/6);
         switch (selection)
         {
             case 0: Shape.RotateWorld(new Vector3f(1f, 0f, 0f), 5f); break;

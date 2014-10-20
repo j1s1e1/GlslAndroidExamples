@@ -94,33 +94,8 @@ public class Missle {
         bottomLeftDirection = Vector3f.multiply(axis.sub(bottomLeft.GetOffset()), stepMultiple);
         bottomRightDirection = Vector3f.multiply(axis.sub(bottomRight.GetOffset()), stepMultiple);
 
-        //timer = new Timer(false);
-        //timer.schedule(timerElapsed, 50); // 10 = 0.01 second. second is repeat count
         fire = true;
         started = true;
-    }
-
-    void TimerTick()
-    {
-        if (started)
-        {
-            if (prepare_to_stop)
-            {
-                if (timerCount > 10) {
-                    fire = false;
-                    finished = true;
-                }
-                else
-                {
-                    timerCount++;
-                }
-            }
-        }
-        else
-        {
-            started = true;
-            fire = true;
-        }
     }
 
     public boolean Started()

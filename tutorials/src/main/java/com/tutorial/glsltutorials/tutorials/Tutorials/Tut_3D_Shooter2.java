@@ -33,6 +33,22 @@ public class Tut_3D_Shooter2 extends TutorialBase {
     TextClass credit2;
     boolean staticText = true;
 
+    boolean updateText = false;
+
+    TextClass axis_info;
+    TextClass up_info;
+    TextClass right_info;
+    TextClass infoEnable;
+    boolean enableInfo = false;
+    int enableInfoDebounce = 0;
+
+    double anglehorizontal = 0;
+    double anglevertical = 0;
+
+    Vector3f axis = new Vector3f(0f, 0f, 1f);
+    Vector3f up = new Vector3f(0f, 0.07f, 0f);
+    Vector3f right = new Vector3f(0.16f, 0f,0f);
+
     protected void init()
     {
         Programs.Reset();
@@ -49,15 +65,20 @@ public class Tut_3D_Shooter2 extends TutorialBase {
         credit2 = new TextClass("Angel David Guzman of PixelOz Designs", 0.4f, 0.04f, staticText);
         credit2.SetOffset(new Vector3f(-0.75f, -0.75f, 0.0f));
 
+        axis_info = new TextClass("Axis  " + axis.toString(), 0.4f, 0.03f, staticText);
+        axis_info.SetOffset(new Vector3f(-0.9f, 0.8f, 0.0f));
+
+        up_info = new TextClass("Up    " + up.toString(), 0.4f, 0.03f, staticText);
+        up_info.SetOffset(new Vector3f(-0.9f, 0.7f, 0.0f));
+
+        right_info = new TextClass("Right " + right.toString(), 0.4f, 0.03f, staticText);
+        right_info.SetOffset(new Vector3f(-0.9f, 0.6f, 0.0f));
+
+        infoEnable = new TextClass("Info" , 0.4f, 0.03f, staticText);
+        infoEnable.SetOffset(new Vector3f(-0.9f, 0.8f, 0.0f));
+
         SetupDepthAndCull();
     }
-
-    double anglehorizontal = 0;
-    double anglevertical = 0;
-
-    Vector3f axis = new Vector3f(0f, 0f, 1f);
-    Vector3f up = new Vector3f(0f, 0.125f, 0f);
-    Vector3f right = new Vector3f(0.25f, 0f, 0f);
 
     public void display()
     {
@@ -88,11 +109,38 @@ public class Tut_3D_Shooter2 extends TutorialBase {
 
         if (addMissle) {
             missles.add(new Missle(axis, up, right));
-            axis.z = -axis.z;
             addMissle = false;
         }
+
+        if (enableInfo)
+        {
+            axis_info.draw();
+            up_info.draw();
+            right_info.draw();
+        }
+        else
+        {
+            infoEnable.draw();
+        }
+        if (updateText)
+        {
+            UpdateInfoText();
+        }
+        if (enableInfoDebounce > 0)
+        {
+            enableInfoDebounce--;
+        }
+
         credit1.draw();
         credit2.draw();
+    }
+
+    private void UpdateInfoText()
+    {
+        axis_info.UpdateText("Axis " + axis.toString());
+        up_info.UpdateText("Up    " + up.toString());
+        right_info.UpdateText("Right " + right.toString());
+        updateText = false;
     }
 
     private void Rotate(Vector3f rotationAxis, float angle)
@@ -164,6 +212,23 @@ public class Tut_3D_Shooter2 extends TutorialBase {
             case 4: Rotate(Vector3f.UnitY, -5f); break;
             case 5: Rotate(Vector3f.UnitZ, 5f); break;
             case 6: Rotate(Vector3f.UnitZ, -5f); break;
+        }
+
+        if (enableInfoDebounce == 0) {
+            if (selection == 0) {
+                if (y_position / (height / 4) == 1) {
+                    enableInfoDebounce = 15;
+                    if (enableInfo) {
+                        enableInfo = false;
+                    } else {
+                        enableInfo = true;
+                    }
+                }
+            }
+        }
+        if (enableInfo)
+        {
+            updateText = true;
         }
     }
 }

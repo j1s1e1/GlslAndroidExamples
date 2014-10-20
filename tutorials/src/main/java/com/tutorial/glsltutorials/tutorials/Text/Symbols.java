@@ -1,5 +1,7 @@
 package com.tutorial.glsltutorials.tutorials.Text;
 
+import android.graphics.Rect;
+
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 
 /**
@@ -9,13 +11,34 @@ public class Symbols
 {
     public static Float[] Dash;
     public static Float[] Space;
+    public static Float[] Period;
+    public static Float[] Equals;
 
     static
     {
         AddDash();
         AddSpace();
+        AddPeriod();
+        AddEquals();
     }
 
+    private static Float[] MoveX(Float[] input, float distance)
+    {
+        for (int i = 0; i < input.length; i = i + 3)
+        {
+            input[i] = input[i] + distance;
+        }
+        return input;
+    }
+
+    private static Float[] MoveY(Float[] input, float distance)
+    {
+        for (int i = 1; i < input.length; i = i + 3)
+        {
+            input[i] = input[i] + distance;
+        }
+        return input;
+    }
 
     private static void AddVertex(Float[] symbol, int vertexNumber, Vector3f vertex)
     {
@@ -53,6 +76,27 @@ public class Symbols
 
     private static void AddSpace()
     {
-        Space = new Float[9]; // Zero Size Triangle
+        Space = new Float[9];
+        // Zero Size Triangle
+        for (int i = 0; i < Space.length; i++)
+        {
+            Space[i] = 0f;
+        }
+    }
+
+    private static void AddPeriod()
+    {
+        Period = Rectangle(2f, 2f);
+        Period = MoveY(Period, -5f);
+    }
+
+    private static void AddEquals()
+    {
+        Equals = new Float[36];
+        Float[] rectangle = Rectangle(6f, 1f);
+        rectangle = MoveY(rectangle, 3f);
+        System.arraycopy(rectangle, 0, Equals, 0, rectangle.length);
+        rectangle = MoveY(rectangle, -6f);
+        System.arraycopy(rectangle, 0, Equals, 18, rectangle.length);
     }
 }

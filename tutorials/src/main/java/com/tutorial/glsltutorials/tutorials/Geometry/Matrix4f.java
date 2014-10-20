@@ -220,6 +220,7 @@ public class Matrix4f {
 
     static public Matrix4f CreateFromAxisAngle(Vector3f axis, float angle)
     {
+        axis.normalize();
         Matrix4f matrix = new Matrix4f();
         float cos = (float)Math.cos(-angle);
         float sin = (float)Math.sin(-angle);

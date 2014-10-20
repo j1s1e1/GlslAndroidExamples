@@ -1,7 +1,5 @@
 package com.tutorial.glsltutorials.tutorials.Tutorials;
 
-import android.opengl.GLES20;
-import android.os.Looper;
 import android.view.KeyEvent;
 
 import com.tutorial.glsltutorials.tutorials.Blender.Blender;
@@ -13,6 +11,7 @@ import com.tutorial.glsltutorials.tutorials.Objects.Missle;
 import com.tutorial.glsltutorials.tutorials.ProgramData.Programs;
 import com.tutorial.glsltutorials.tutorials.R;
 import com.tutorial.glsltutorials.tutorials.Shapes.Shape;
+import com.tutorial.glsltutorials.tutorials.Text.TextClass;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -29,6 +28,24 @@ public class Tut_3D_Shooter extends TutorialBase {
     ArrayList<Missle> missles = new ArrayList<Missle>();
     boolean addMissle = false;
 
+    TextClass controls;
+    boolean staticText = true;
+    boolean updateText = false;
+
+    TextClass axis_info;
+    TextClass up_info;
+    TextClass right_info;
+    TextClass infoEnable;
+    boolean enableInfo = false;
+    int enableInfoDebounce = 0;
+
+    double anglehorizontal = 0;
+    double anglevertical = 0;
+
+    Vector3f axis = new Vector3f(0f, 0f, 1f);
+    Vector3f up = new Vector3f(0f, 0.125f, 0f);
+    Vector3f right = new Vector3f(0.125f, 0f, 0f);
+
     protected void init()
     {
         Programs.Reset();
@@ -39,24 +56,23 @@ public class Tut_3D_Shooter extends TutorialBase {
         ship.SetColor(Colors.WHITE_COLOR);
         ship.Scale(new Vector3f(0.05f, 0.05f, 0.05f));
 
-        GLES20.glEnable(GLES20.GL_CULL_FACE);
-        GLES20.glCullFace(GLES20.GL_BACK);
-        GLES20.glFrontFace(GLES20.GL_CW);
+        controls = new TextClass("X_CCW  X_CW   Y_CCW   FIRE   Y_CW   Z_CCW  Z_CW", 0.4f, 0.04f, staticText);
+        controls.SetOffset(new Vector3f(-0.9f, -0.8f, 0.0f));
 
-        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
-        GLES20.glDepthMask(true);
-        GLES20.glDepthFunc(GLES20.GL_LEQUAL);
-        GLES20.glDepthRangef(0.0f, 1.0f);
-        GLES20.glEnable(GLES20.GL_CLAMP_TO_EDGE);
+        axis_info = new TextClass("Axis  " + axis.toString(), 0.4f, 0.03f, staticText);
+        axis_info.SetOffset(new Vector3f(-0.9f, 0.8f, 0.0f));
 
+        up_info = new TextClass("Up    " + up.toString(), 0.4f, 0.03f, staticText);
+        up_info.SetOffset(new Vector3f(-0.9f, 0.7f, 0.0f));
+
+        right_info = new TextClass("Right " + right.toString(), 0.4f, 0.03f, staticText);
+        right_info.SetOffset(new Vector3f(-0.9f, 0.6f, 0.0f));
+
+        infoEnable = new TextClass("Info" , 0.4f, 0.03f, staticText);
+        infoEnable.SetOffset(new Vector3f(-0.9f, 0.8f, 0.0f));
+
+        SetupDepthAndCull();
     }
-
-    double anglehorizontal = 0;
-    double anglevertical = 0;
-
-    Vector3f axis = new Vector3f(0f, 0f, 1f);
-    Vector3f up = new Vector3f(0f, 0.125f, 0f);
-    Vector3f right = new Vector3f(0.125f, 0f, 0f);
 
     static boolean looperCreated = false;
 
@@ -68,9 +84,7 @@ public class Tut_3D_Shooter extends TutorialBase {
             //Looper.loop();
         }
         ArrayList<Integer> deadMissles = new ArrayList<Integer>();
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        GLES20.glClearDepthf(1.0f);
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT |  GLES20.GL_DEPTH_BUFFER_BIT);
+        ClearDisplay();
         ship.Draw();
         anglehorizontal = anglehorizontal + 0.02f;
         anglevertical = anglevertical + 0.01f;
@@ -96,9 +110,35 @@ public class Tut_3D_Shooter extends TutorialBase {
 
         if (addMissle) {
             missles.add(new Missle(axis, up, right));
-            axis.z = -axis.z;
             addMissle = false;
         }
+        controls.draw();
+        if (enableInfo)
+        {
+            axis_info.draw();
+            up_info.draw();
+            right_info.draw();
+        }
+        else
+        {
+            infoEnable.draw();
+        }
+        if (updateText)
+        {
+            UpdateInfoText();
+        }
+        if (enableInfoDebounce > 0)
+        {
+            enableInfoDebounce--;
+        }
+    }
+
+    private void UpdateInfoText()
+    {
+        axis_info.UpdateText("Axis " + axis.toString());
+        up_info.UpdateText("Up    " + up.toString());
+        right_info.UpdateText("Right " + right.toString());
+        updateText = false;
     }
 
     private void Rotate(Vector3f rotationAxis, float angle)
@@ -170,6 +210,22 @@ public class Tut_3D_Shooter extends TutorialBase {
             case 4: Rotate(Vector3f.UnitY, -5f); break;
             case 5: Rotate(Vector3f.UnitZ, 5f); break;
             case 6: Rotate(Vector3f.UnitZ, -5f); break;
+        }
+        if (enableInfoDebounce == 0) {
+            if (selection == 0) {
+                if (y_position / (height / 4) == 1) {
+                    enableInfoDebounce = 15;
+                    if (enableInfo) {
+                        enableInfo = false;
+                    } else {
+                        enableInfo = true;
+                    }
+                }
+            }
+        }
+        if (enableInfo)
+        {
+            updateText = true;
         }
     }
 }

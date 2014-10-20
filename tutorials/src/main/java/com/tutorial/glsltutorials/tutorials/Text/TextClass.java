@@ -30,6 +30,10 @@ public class TextClass extends Shape {
     int current_letter;
 
     boolean staticText = false;
+    boolean reverseRotation = true;
+
+    boolean updateLock = false;
+    boolean waitingForUpdate = false;
 
     private Float[] SwapX(Float[] input)
     {
@@ -145,6 +149,8 @@ public class TextClass extends Shape {
             case (char)'9': result = Numbers.Nine; break;
 
             case (char)' ': result = Symbols.Space; break;
+            case (char)'.': result = Symbols.Period; break;
+            case (char)'=': result = Symbols.Equals; break;
 
             default:  result = Symbols.Dash; break;
         }
@@ -207,9 +213,10 @@ public class TextClass extends Shape {
     }
 
     public TextClass(String text, float scaleFactorIn, float letterOffsetIn,
-                         boolean staticTextIn, boolean reverseRotation)
+                         boolean staticTextIn, boolean reverseRotationIn)
     {
         staticText = staticTextIn;
+        reverseRotation = reverseRotationIn;
         text = text.toUpperCase();
         current_letter = 0;
         scaleFactor = scaleFactorIn;
@@ -225,6 +232,23 @@ public class TextClass extends Shape {
         InitializeVertexBuffer();
 
         progarmNumber = Programs.AddProgram(VertexShader, FragmentShader);
+    }
+
+    public void UpdateText(String text)
+    {
+        updateLock = true;
+        text = text.toUpperCase();
+        current_letter = 0;
+        vertexStride = 3 * 4; // bytes per vertex, no color
+        vertexData = GetCoordsFromText(text);
+        if (reverseRotation)
+        {
+            vertexData = ReverseRotation(vertexData);
+        }
+        vertexCount = vertexData.length / COORDS_PER_VERTEX;
+        SetupSimpleIndexBuffer();
+        InitializeVertexBuffer();
+        updateLock = false;
     }
 
     float[] rotationMat;
@@ -248,7 +272,14 @@ public class TextClass extends Shape {
             wtc = Matrix4f.Identity();
         }
 
-        Programs.Draw(progarmNumber, vertexBufferObject, indexBufferObject, cameraToClip, wtc, mm,
-                indexData.length, color, COORDS_PER_VERTEX, vertexStride);
+        if (updateLock == false)
+        {
+            Programs.Draw(progarmNumber, vertexBufferObject, indexBufferObject, cameraToClip, wtc, mm,
+                    indexData.length, color, COORDS_PER_VERTEX, vertexStride);
+        }
+        else
+        {
+            waitingForUpdate = true;
+        }
     }
 }

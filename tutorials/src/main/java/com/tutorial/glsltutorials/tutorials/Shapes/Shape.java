@@ -345,7 +345,7 @@ public class Shape
         modelToWorld = Matrix4f.Mult(modelToWorld, rotation);
     }
 
-    public void Draw()
+    public void draw()
     {
 
     }
