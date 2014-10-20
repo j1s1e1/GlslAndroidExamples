@@ -8,6 +8,7 @@ import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.SimpleAdapter;
 
@@ -27,6 +28,7 @@ public class MainActivity extends ListActivity {
     private static final String ITEM_SUBTITLE = "item_subtitle";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -39,13 +41,12 @@ public class MainActivity extends ListActivity {
         int i = 0;
         {
             final Map<String, Object> item = new HashMap<String, Object>();
-            item.put(ITEM_IMAGE, R.drawable.earth);
+            item.put(ITEM_IMAGE, null);
             item.put(ITEM_TITLE, "Tutorials Title");
             item.put(ITEM_SUBTITLE, "Tutorials");
             data.add(item);
             activityMapping.put(i++, Tutorials.class);
         }
-
 
         final SimpleAdapter dataAdapter = new SimpleAdapter(this, data, R.layout.activity_main,
                 new String[] {ITEM_IMAGE, ITEM_TITLE, ITEM_SUBTITLE},
@@ -66,9 +67,10 @@ public class MainActivity extends ListActivity {
                 }
             }
         });
-
+        // skip this screen
+        final Intent launchIntent = new Intent(MainActivity.this, activityMapping.get(0));
+        startActivity(launchIntent);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

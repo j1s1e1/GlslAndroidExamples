@@ -6,19 +6,9 @@
     tools:context="com.example.app.Tests"
     tools:ignore="MergeRootFrame" >
 
-    <Spinner
+    <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/Tutorials"
-        android:layout_gravity="left|top"
-        android:focusable="false" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Unknown"
-        android:id="@+id/xPosition"
-        android:layout_gravity="left|top"
-        android:layout_marginTop="50dp" />
+        android:id="@+id/listView"
+        android:layout_gravity="center" />
 </FrameLayout>

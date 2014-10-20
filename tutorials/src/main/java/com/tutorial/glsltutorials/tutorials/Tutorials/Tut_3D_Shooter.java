@@ -213,7 +213,7 @@ public class Tut_3D_Shooter extends TutorialBase {
         }
         if (enableInfoDebounce == 0) {
             if (selection == 0) {
-                if (y_position / (height / 4) == 1) {
+                if (y_position / (height / 4) == 0) {
                     enableInfoDebounce = 15;
                     if (enableInfo) {
                         enableInfo = false;

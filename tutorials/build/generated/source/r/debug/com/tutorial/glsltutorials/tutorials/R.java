@@ -935,12 +935,12 @@ containing a value of this type.
         public static final int green_earth=0x7f020058;
         public static final int green_jupiter=0x7f020059;
         public static final int jupiter=0x7f02005a;
+        public static final int tutorials=0x7f02005b;
     }
     public static final class id {
         public static final int Image=0x7f09003e;
         public static final int SubTitle=0x7f09003d;
         public static final int Title=0x7f09003c;
-        public static final int Tutorials=0x7f090040;
         public static final int action_bar=0x7f09001c;
         public static final int action_bar_activity_content=0x7f090014;
         public static final int action_bar_container=0x7f09001b;
@@ -952,7 +952,7 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f090015;
         public static final int action_menu_presenter=0x7f090016;
         public static final int action_mode_close_button=0x7f090024;
-        public static final int action_settings=0x7f090042;
+        public static final int action_settings=0x7f090041;
         public static final int activity_chooser_view_content=0x7f090025;
         public static final int always=0x7f09000f;
         public static final int beginning=0x7f09000a;
@@ -973,6 +973,7 @@ containing a value of this type.
         public static final int ifRoom=0x7f09000e;
         public static final int image=0x7f090027;
         public static final int listMode=0x7f090001;
+        public static final int listView=0x7f090040;
         public static final int list_item=0x7f090029;
         public static final int middle=0x7f09000b;
         public static final int never=0x7f09000d;
@@ -1003,7 +1004,6 @@ containing a value of this type.
         public static final int up=0x7f090021;
         public static final int useLogo=0x7f090003;
         public static final int withText=0x7f090010;
-        public static final int xPosition=0x7f090041;
     }
     public static final class integer {
         public static final int abc_max_action_buttons=0x7f0b0000;
