@@ -11,8 +11,10 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
+import com.tutorial.glsltutorials.tutorials.Text.Symbols;
 import com.tutorial.glsltutorials.tutorials.Tutorials.Tutorials;
 
 import java.util.ArrayList;
@@ -26,12 +28,27 @@ public class MainActivity extends ListActivity {
     private static final String ITEM_IMAGE = "item_image";
     private static final String ITEM_TITLE = "item_title";
     private static final String ITEM_SUBTITLE = "item_subtitle";
+    public static boolean requestExit = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (requestExit) {
+            try {
+                android.os.SystemClock.sleep(2000);
+                //this.onBackPressed();
+                //this.onDestroy();
+                //android.os.SystemClock.sleep(2000);
+                this.finish();
+                System.exit(0);
+            }
+            catch (Exception ex)
+            {
+                // Skp silly message that says we closed the program
+            }
+        }
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Shader.context = this;
 
         // Initialize data
@@ -42,8 +59,8 @@ public class MainActivity extends ListActivity {
         {
             final Map<String, Object> item = new HashMap<String, Object>();
             item.put(ITEM_IMAGE, null);
-            item.put(ITEM_TITLE, "Tutorials Title");
-            item.put(ITEM_SUBTITLE, "Tutorials");
+            item.put(ITEM_TITLE, "GLSL Tutorials -- Press Title to Return to Tutorials, Back or Home to Exit");
+            item.put(ITEM_SUBTITLE, "");
             data.add(item);
             activityMapping.put(i++, Tutorials.class);
         }
@@ -67,6 +84,7 @@ public class MainActivity extends ListActivity {
                 }
             }
         });
+
         // skip this screen
         final Intent launchIntent = new Intent(MainActivity.this, activityMapping.get(0));
         startActivity(launchIntent);
@@ -90,5 +108,4 @@ public class MainActivity extends ListActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

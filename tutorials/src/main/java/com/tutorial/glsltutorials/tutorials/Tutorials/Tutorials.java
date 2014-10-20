@@ -9,6 +9,7 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.SyncStateContract;
 import android.view.ContextMenu;
 import android.view.MotionEvent;
 import android.view.View;
@@ -78,15 +79,14 @@ public class Tutorials extends Activity  {
         switch (pos)
         {
             case 0:
-                if (firstlaunch)
-                {
-                    TestRenderer.tutorial = new Tut_3D_Shooter();
-                    firstlaunch = false;
-                }
-                else
-                {
-                    return;
-                }
+                MainActivity.requestExit = true;
+                final Toast toast = Toast.makeText(Shader.context, "Android hates when we close our apps..." +
+                                "Please press back or home from main screen",
+                        Toast.LENGTH_SHORT);
+                toast.show();
+                this.finish();
+                Intent startIntent = new Intent(Shader.context, MainActivity.class);
+                startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 break;
             case 1: TestRenderer.tutorial = new  Tut_02_Vertex_Colors(); break;
             case 2: TestRenderer.tutorial = new Tut_Triangles(); break;
@@ -109,8 +109,8 @@ public class Tutorials extends Activity  {
             case 28: TestRenderer.tutorial = new Tut_Vectors(); break;
             case 29: TestRenderer.tutorial = new Tut_3D_Shooter(); break;
             case 30:
-                final Toast toast = Toast.makeText(Shader.context,"Slow Loading ....", Toast.LENGTH_SHORT);
-                toast.show();
+                final Toast toast1 = Toast.makeText(Shader.context,"Slow Loading ....", Toast.LENGTH_SHORT);
+                toast1.show();
                 TestRenderer.tutorial = new Tut_3D_Shooter2();
                 break;
             case 31: TestRenderer.tutorial = new SingleMeshItem(); break;
@@ -119,7 +119,7 @@ public class Tutorials extends Activity  {
                 toast2.show();
                 return;
         }
-        SetupOpenGL(version);
+        if (pos != 0) SetupOpenGL(version);
     }
 
     public void onNothingSelected(AdapterView<?> parent) {

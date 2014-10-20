@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="Tutorials">
-        <item>None</item>
+        <item>Exit</item>
         <item>Tut_02_Vertex_Colors</item>
         <item>Triangles</item>
         <item>Tut_03_CPU_Position_Offset</item>
