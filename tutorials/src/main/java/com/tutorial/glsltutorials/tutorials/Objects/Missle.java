@@ -118,6 +118,16 @@ public class Missle {
         fire = false;
     }
 
+    public Vector3f[] GetOffsets()
+    {
+        Vector3f[] offsets = new Vector3f[4];
+        offsets[0] = topLeft.GetOffset();
+        offsets[1] = topLeft.GetOffset();
+        offsets[2] = topLeft.GetOffset();
+        offsets[3] = topLeft.GetOffset();
+        return offsets;
+    }
+
     public void DrawMissle(LitMatrixSphere2 missle, Vector3f step)
     {
         missle.Draw();

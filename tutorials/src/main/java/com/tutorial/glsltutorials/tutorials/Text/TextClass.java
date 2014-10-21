@@ -276,6 +276,7 @@ public class TextClass extends Shape {
         {
             Programs.Draw(progarmNumber, vertexBufferObject, indexBufferObject, cameraToClip, wtc, mm,
                     indexData.length, color, COORDS_PER_VERTEX, vertexStride);
+            waitingForUpdate = false;
         }
         else
         {

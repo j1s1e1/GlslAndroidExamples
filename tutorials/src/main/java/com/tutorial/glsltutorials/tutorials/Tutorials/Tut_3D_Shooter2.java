@@ -5,6 +5,7 @@ import android.view.KeyEvent;
 
 import com.tutorial.glsltutorials.tutorials.Blender.Blender;
 import com.tutorial.glsltutorials.tutorials.Colors;
+import com.tutorial.glsltutorials.tutorials.Creatures.Alien;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
 import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
@@ -29,8 +30,14 @@ public class Tut_3D_Shooter2 extends TutorialBase {
     ArrayList<Missle> missles = new ArrayList<Missle>();
     boolean addMissle = false;
 
+    ArrayList<Alien> aliens;
+
     TextClass credit1;
     TextClass credit2;
+
+    int deadAliensCount = 0;
+    TextClass deadAliensText;
+
     boolean staticText = true;
 
     boolean updateText = false;
@@ -59,11 +66,22 @@ public class Tut_3D_Shooter2 extends TutorialBase {
         ship.SetColor(Colors.WHITE_COLOR);
         ship.Scale(new Vector3f(0.1f, 0.1f, 0.1f));
 
+        aliens = new ArrayList<Alien>();
+
+        for (int i = 0; i < 10; i++)
+        {
+            Alien alien = new Alien();
+            aliens.add(alien);
+        }
+
         credit1 = new TextClass("X-Wing Model based on Blender model by", 0.4f, 0.04f, staticText);
         credit1.SetOffset(new Vector3f(-0.75f, -0.65f, 0.0f));
 
         credit2 = new TextClass("Angel David Guzman of PixelOz Designs", 0.4f, 0.04f, staticText);
         credit2.SetOffset(new Vector3f(-0.75f, -0.75f, 0.0f));
+
+        deadAliensText = new TextClass("Dead Aliens = " + String.valueOf(deadAliensCount), 0.4f, 0.04f, staticText);
+        deadAliensText.SetOffset(new Vector3f(-0.75f, +0.9f, 0.0f));
 
         axis_info = new TextClass("Axis  " + axis.toString(), 0.4f, 0.03f, staticText);
         axis_info.SetOffset(new Vector3f(-0.9f, 0.8f, 0.0f));
@@ -83,6 +101,7 @@ public class Tut_3D_Shooter2 extends TutorialBase {
     public void display()
     {
         ArrayList<Integer> deadMissles = new ArrayList<Integer>();
+        ArrayList<Integer> deadAliens = new ArrayList<Integer>();
         ClearDisplay();
         ship.Draw();
         anglehorizontal = anglehorizontal + 0.02f;
@@ -130,7 +149,25 @@ public class Tut_3D_Shooter2 extends TutorialBase {
         {
             enableInfoDebounce--;
         }
-
+        int dead = 0;
+        for(int i = 0; i < aliens.size(); i++)
+        {
+            if (aliens.get(i).isDead())
+            {
+                dead++;
+            }
+            else
+            {
+                aliens.get(i).Draw();
+                aliens.get(i).FireOn(missles);
+            }
+        }
+        if (dead > deadAliensCount)
+        {
+            deadAliensCount = dead;
+            deadAliensText.UpdateText("Dead Aliens = " + String.valueOf(deadAliensCount));
+        }
+        deadAliensText.draw();
         credit1.draw();
         credit2.draw();
     }
@@ -146,7 +183,7 @@ public class Tut_3D_Shooter2 extends TutorialBase {
     private void Rotate(Vector3f rotationAxis, float angle)
     {
         ship.RotateShapes(rotationAxis, angle);
-        Matrix4f rotation = Matrix4f.CreateFromAxisAngle(rotationAxis, angle);
+        Matrix4f rotation = Matrix4f.CreateFromAxisAngle(rotationAxis, (float)Math.PI / 180.0f * angle);
         axis = Vector3f.Transform(axis, rotation);
         up = Vector3f.Transform(up, rotation);
         right = Vector3f.Transform(right, rotation);
