@@ -10,7 +10,7 @@ public class Collisions {
     {
     }
 
-    float collisionDistance = 0.1f;
+    float collisionDistance = 0.05f;
 
     private boolean DetectCollision(Vector3f position1, Vector3f position2)
     {
