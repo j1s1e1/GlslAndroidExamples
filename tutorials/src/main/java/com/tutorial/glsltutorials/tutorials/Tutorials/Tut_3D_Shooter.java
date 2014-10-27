@@ -4,9 +4,13 @@ import android.view.KeyEvent;
 
 import com.tutorial.glsltutorials.tutorials.Blender.Blender;
 import com.tutorial.glsltutorials.tutorials.Colors;
+import com.tutorial.glsltutorials.tutorials.GLES_Helpers.FragmentShaders;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
+import com.tutorial.glsltutorials.tutorials.GLES_Helpers.VertexShaders;
+import com.tutorial.glsltutorials.tutorials.Geometry.Matrix3f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
+import com.tutorial.glsltutorials.tutorials.Geometry.Vector4f;
 import com.tutorial.glsltutorials.tutorials.Objects.Missle;
 import com.tutorial.glsltutorials.tutorials.ProgramData.Programs;
 import com.tutorial.glsltutorials.tutorials.R;
@@ -46,15 +50,45 @@ public class Tut_3D_Shooter extends TutorialBase {
     Vector3f up = new Vector3f(0f, 0.125f, 0f);
     Vector3f right = new Vector3f(0.125f, 0f, 0f);
 
+    int defaultShader;
+    int shaderFragWhiteDiffuseColor;
+
+    Vector3f currentScale = new Vector3f(0.05f, 0.05f, 0.05f);
+
+    private void SetupShaders()
+    {
+        defaultShader = Programs.AddProgram(VertexShaders.lms_vertexShaderCode,
+                FragmentShaders.lms_fragmentShaderCode);
+
+        shaderFragWhiteDiffuseColor = Programs.AddProgram(VertexShaders.FragmentLighting_PN,
+                FragmentShaders.FragmentLighting);
+        Programs.SetLightIntensity(shaderFragWhiteDiffuseColor, new Vector4f(0.8f, 0.8f, 0.8f, 1.0f));
+        Programs.SetAmbientIntensity(shaderFragWhiteDiffuseColor, new Vector4f(0.2f, 0.2f, 0.2f, 1.0f));
+        Matrix4f mm = Matrix4f.Identity();
+        mm.M11 = 0.05f;
+        mm.M22 = 0.05f;
+        mm.M33 = 0.05f;
+        Programs.SetModelToCameraMatrix(shaderFragWhiteDiffuseColor, mm);
+
+
+        Vector4f worldLightPos = new Vector4f(-0.5f, -0.5f, -10f, 1.0f);
+        Vector4f lightPosCameraSpace = Vector4f.Transform(worldLightPos, mm);
+        Matrix4f invTransform = mm.inverted();
+        Vector4f lightPosModelSpace = Vector4f.Transform(lightPosCameraSpace, invTransform);
+        Vector3f lightPos = new Vector3f(lightPosModelSpace.x, lightPosModelSpace.y, lightPosModelSpace.z);
+
+        Programs.SetModelSpaceLightPosition(shaderFragWhiteDiffuseColor, lightPos);
+    }
+
     protected void init()
     {
         Programs.Reset();
         Shape.ResetWorldToCameraMatrix();
-        InputStream test1 = Shader.context.getResources().openRawResource(R.raw.test);
+        InputStream test1 = Shader.context.getResources().openRawResource(R.raw.test_with_normals);
         ship = new Blender();
         ship.ReadFile(test1);
         ship.SetColor(Colors.WHITE_COLOR);
-        ship.Scale(new Vector3f(0.05f, 0.05f, 0.05f));
+        ship.Scale(currentScale);
 
         controls = new TextClass("X_CCW  X_CW   Y_CCW   FIRE   Y_CW   Z_CCW  Z_CW", 0.4f, 0.04f, staticText);
         controls.SetOffset(new Vector3f(-0.9f, -0.8f, 0.0f));
@@ -72,6 +106,7 @@ public class Tut_3D_Shooter extends TutorialBase {
         infoEnable.SetOffset(new Vector3f(-0.9f, 0.8f, 0.0f));
 
         SetupDepthAndCull();
+        SetupShaders();
     }
 
     static boolean looperCreated = false;
@@ -199,6 +234,14 @@ public class Tut_3D_Shooter extends TutorialBase {
             case 2: Rotate(Vector3f.UnitY, 5f); break;
             // Note *** Don't add missle here, different thread
             case 3:
+                if (y_position / (height / 4) == 0) {
+                    currentScale = currentScale.mul(1.05f);
+                    ship.Scale(currentScale);
+                }
+                if (y_position / (height / 4) == 3) {
+                    currentScale = currentScale.divide(1.05f);
+                    ship.Scale(currentScale);
+                }
                 if (addMissle == false)
                 {
                     if (missles.size() < 10)
@@ -221,8 +264,15 @@ public class Tut_3D_Shooter extends TutorialBase {
                         enableInfo = true;
                     }
                 }
+                if (y_position / (height / 4) == 1) {
+                    ship.SetProgram(shaderFragWhiteDiffuseColor);
+                }
+                if (y_position / (height / 4) == 2) {
+                    ship.SetProgram(defaultShader);
+                }
             }
         }
+
         if (enableInfo)
         {
             updateText = true;

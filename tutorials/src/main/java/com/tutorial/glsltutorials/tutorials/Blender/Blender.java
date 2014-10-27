@@ -1,6 +1,9 @@
 package com.tutorial.glsltutorials.tutorials.Blender;
 
+import android.widget.Toast;
+
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
+import com.tutorial.glsltutorials.tutorials.Portability.BitConverter;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -18,6 +21,36 @@ public class Blender {
 
     ArrayList<BlenderObject> blenderObjects;
 
+    // These files were created from blender objects using C# version
+    public String ReadBinaryFile(InputStream filename)
+    {
+        byte[] binaryBlenderObjects = new byte[4];
+        blenderObjects = new ArrayList<BlenderObject>();
+        int offset = 0;
+        StringBuilder result = new StringBuilder();
+        try {
+            binaryBlenderObjects = new byte[filename.available()];
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+        int objectCount = BitConverter.ToInt32(binaryBlenderObjects, 0);
+        result.append("Found " + String.valueOf(objectCount) + " Blender Objects");
+        offset = offset + 4;
+        for (int i = 0; i < objectCount; i++)
+        {
+            BlenderObject bo = new BlenderObject("Object" + String.valueOf(i) );
+            int blenderObjectSize = bo.CreateFromBinaryData(binaryBlenderObjects, offset);
+            offset = offset + blenderObjectSize;
+            result.append("Object " + String.valueOf(i) + " size = " + String.valueOf(blenderObjectSize));
+            bo.Setup();
+            blenderObjects.add(bo);
+        }
+        return result.toString();
+    }
+
     public void ReadFile(InputStream filename)
     {
         String nextLine;
@@ -25,8 +58,10 @@ public class Blender {
         try
         {
             BufferedReader sr = new BufferedReader(new InputStreamReader(filename));
-            short vertexcount = 1;
+            short vertexCount = 1;
+            short normalCount = 1;
             short previousObjectVertexCount = 1;  // change from 1 to zero based
+            short previousObjectNormalCount = 1;  // change from 1 to zero based
             nextLine = sr.readLine();
             while (nextLine != null)
             {
@@ -41,15 +76,24 @@ public class Blender {
                         if (nextLine.substring(0, 1).equals("o")) break;
                         if (nextLine.substring(0, 1).equals("v"))
                         {
-                            bo.AddVertex(nextLine);
-                            vertexcount++;
+                            if (nextLine.substring(1, 2).equals(" "))
+                            {
+                                bo.AddVertex(nextLine);
+                                vertexCount++;
+                            }
+                            if (nextLine.substring(1, 2).equals("n"))
+                            {
+                                bo.AddNormal(nextLine);
+                                normalCount++;
+                            }
                         }
                         if (nextLine.substring(0, 1).equals("f"))
                         {
-                            bo.AddTriangle(nextLine, previousObjectVertexCount);
+                            bo.AddTriangle(nextLine, previousObjectVertexCount, previousObjectNormalCount);
                         }
                     }
-                    previousObjectVertexCount = vertexcount;
+                    previousObjectVertexCount = vertexCount;
+                    previousObjectNormalCount = normalCount;
                     bo.Setup();
                     blenderObjects.add(bo);
                 }
@@ -107,6 +151,14 @@ public class Blender {
         for (BlenderObject bo : blenderObjects)
         {
             bo.RotateShape(rotationAxis, angle);
+        }
+    }
+
+    public void SetProgram(int program)
+    {
+        for (BlenderObject bo : blenderObjects)
+        {
+            bo.SetProgram(program);
         }
     }
 }

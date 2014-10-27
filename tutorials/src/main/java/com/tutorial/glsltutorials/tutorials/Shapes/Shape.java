@@ -2,7 +2,9 @@ package com.tutorial.glsltutorials.tutorials.Shapes;
 import android.opengl.GLES20;
 
 import com.tutorial.glsltutorials.tutorials.Colors;
+import com.tutorial.glsltutorials.tutorials.GLES_Helpers.FragmentShaders;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.VBO_Tools;
+import com.tutorial.glsltutorials.tutorials.GLES_Helpers.VertexShaders;
 import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 
@@ -73,6 +75,15 @@ public class Shape
 
     protected int[] vertexBufferObject = new int[1];
     protected int[] indexBufferObject = new int[1];
+
+    protected String VertexShader = VertexShaders.PosOnlyWorldTransform_vert;
+    protected String FragmentShader = FragmentShaders.ColorUniform_frag;
+    protected int programNumber;
+
+    public void SetProgram(int newProgram)
+    {
+        programNumber = newProgram;
+    }
 
     public static void ResetWorldToCameraMatrix()
     {

@@ -11,11 +11,6 @@ import com.tutorial.glsltutorials.tutorials.ProgramData.Programs;
 public class LitMatrixSphere2 extends Shape {
     float radius;
 
-    String VertexShader = VertexShaders.PosOnlyWorldTransform_vert;
-    String FragmentShader = FragmentShaders.ColorUniform_frag;
-
-    int progarmNumber;
-
     public LitMatrixSphere2 (float radius_in)
     {
         radius = radius_in;
@@ -27,7 +22,8 @@ public class LitMatrixSphere2 extends Shape {
 
         InitializeVertexBuffer();
 
-        progarmNumber = Programs.AddProgram(VertexShader, FragmentShader);
+        programNumber = Programs.AddProgram(VertexShaders.lms_vertexShaderCode,
+                FragmentShaders.lms_fragmentShaderCode);
     }
 
     private float[] GetCircleCoords(float radius)
@@ -65,8 +61,8 @@ public class LitMatrixSphere2 extends Shape {
         mm.M42 = offset.y;
         mm.M43 = offset.z;
 
-        Programs.Draw(progarmNumber, vertexBufferObject, indexBufferObject, cameraToClip, worldToCamera, mm,
-                indexData.length, color, COORDS_PER_VERTEX, vertexStride);
+        Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, cameraToClip, worldToCamera, mm,
+                indexData.length, color);
     }
 
     public void Draw() {

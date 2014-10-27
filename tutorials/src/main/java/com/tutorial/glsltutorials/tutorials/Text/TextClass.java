@@ -20,11 +20,6 @@ import java.util.Collections;
  * Created by Jamie on 1/2/14.
  */
 public class TextClass extends Shape {
-    String VertexShader = VertexShaders.PosOnlyWorldTransform_vert;
-    String FragmentShader = FragmentShaders.ColorUniform_frag;
-
-    int progarmNumber;
-
     float scaleFactor;
     float letter_offset;
     int current_letter;
@@ -231,7 +226,7 @@ public class TextClass extends Shape {
         SetupSimpleIndexBuffer();
         InitializeVertexBuffer();
 
-        progarmNumber = Programs.AddProgram(VertexShader, FragmentShader);
+        programNumber = Programs.AddProgram(VertexShader, FragmentShader);
     }
 
     public void UpdateText(String text)
@@ -274,8 +269,8 @@ public class TextClass extends Shape {
 
         if (updateLock == false)
         {
-            Programs.Draw(progarmNumber, vertexBufferObject, indexBufferObject, cameraToClip, wtc, mm,
-                    indexData.length, color, COORDS_PER_VERTEX, vertexStride);
+            Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, cameraToClip, wtc, mm,
+                    indexData.length, color);
             waitingForUpdate = false;
         }
         else

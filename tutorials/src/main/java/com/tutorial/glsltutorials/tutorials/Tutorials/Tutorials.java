@@ -107,13 +107,14 @@ public class Tutorials extends Activity  {
             case 26: TestRenderer.tutorial = new  Tut_Camera(); break;
             case 27: TestRenderer.tutorial = new  Tut_Blocks(); break;
             case 28: TestRenderer.tutorial = new Tut_Vectors(); break;
-            case 29: TestRenderer.tutorial = new Tut_3D_Shooter(); break;
-            case 30:
+            case 29: TestRenderer.tutorial = new Tut_MultipleShaders(); break;
+            case 30: TestRenderer.tutorial = new Tut_3D_Shooter(); break;
+            case 31:
                 final Toast toast1 = Toast.makeText(Shader.context,"Slow Loading ....", Toast.LENGTH_SHORT);
                 toast1.show();
                 TestRenderer.tutorial = new Tut_3D_Shooter2();
                 break;
-            case 31: TestRenderer.tutorial = new SingleMeshItem(); break;
+            case 32: TestRenderer.tutorial = new SingleMeshItem(); break;
             default:
                 final Toast toast2 = Toast.makeText(Shader.context,"Not implemented", Toast.LENGTH_SHORT);
                 toast2.show();

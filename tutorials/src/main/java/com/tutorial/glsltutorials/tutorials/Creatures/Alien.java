@@ -71,4 +71,9 @@ public class Alien {
             }
         }
     }
+
+    public void SetProgram(int newProgram)
+    {
+        body.SetProgram(newProgram);
+    }
 }

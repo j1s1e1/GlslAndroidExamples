@@ -1,8 +1,10 @@
 package com.tutorial.glsltutorials.tutorials.ProgramData;
 
+import com.tutorial.glsltutorials.tutorials.Geometry.Matrix3f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
+import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
+import com.tutorial.glsltutorials.tutorials.Geometry.Vector4f;
 
-import java.nio.IntBuffer;
 import java.util.ArrayList;
 
 /**
@@ -43,10 +45,50 @@ public class Programs {
 
     public static void Draw(int program, int[] vertexBufferObject, int[] indexBufferObject,
                             Matrix4f cameraToClip, Matrix4f worldToCamera, Matrix4f mm,
-                            int indexDataLength, float[] color, int COORDS_PER_VERTEX, int vertexStride)
+                            int indexDataLength, float[] color)
     {
         ActivePrograms.get(program).Draw (vertexBufferObject, indexBufferObject,
                 cameraToClip, worldToCamera, mm,
-                indexDataLength, color, COORDS_PER_VERTEX, vertexStride);
+                indexDataLength, color);
+    }
+
+    public static void SetUniformColor(int program, Vector4f color)
+    {
+        ActivePrograms.get(program).SetUniformColor(color);
+    }
+
+    public static void SetLightPosition(int program, Vector3f lightPos)
+    {
+        ActivePrograms.get(program).SetLightPosition(lightPos);
+    }
+
+    public static void SetModelSpaceLightPosition(int program, Vector3f modelSpaceLightPosition)
+    {
+        ActivePrograms.get(program).SetModelSpaceLightPosition(modelSpaceLightPosition);
+    }
+
+    public static void SetDirectionToLight(int program, Vector3f dirToLight)
+    {
+        ActivePrograms.get(program).SetDirectionToLight(dirToLight);
+    }
+
+    public static void SetLightIntensity(int program, Vector4f lightIntensity)
+    {
+        ActivePrograms.get(program).SetLightIntensity(lightIntensity);
+    }
+
+    public static void SetAmbientIntensity(int program, Vector4f ambientIntensity)
+    {
+        ActivePrograms.get(program).SetAmbientIntensity(ambientIntensity);
+    }
+
+    public static void SetNormalModelToCameraMatrix(int program, Matrix3f normalModelToCameraMatrix)
+    {
+        ActivePrograms.get(program).SetNormalModelToCameraMatrix(normalModelToCameraMatrix);
+    }
+
+    public static void SetModelToCameraMatrix(int program, Matrix4f modelToCameraMatrix)
+    {
+        ActivePrograms.get(program).SetModelToCameraMatrix(modelToCameraMatrix);
     }
 }

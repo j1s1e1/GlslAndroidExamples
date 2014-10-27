@@ -9,6 +9,8 @@ import com.tutorial.glsltutorials.tutorials.Shapes.Shape;
 
 import java.util.ArrayList;
 
+import com.tutorial.glsltutorials.tutorials.Portability.*;
+
 /**
  * Created by jamie on 10/12/14.
  */
@@ -16,16 +18,19 @@ public class BlenderObject extends Shape {
     public String Name;
     ArrayList<Float> vertexes;
     ArrayList<Short> indexes;
+    ArrayList<Float> normals;
+    ArrayList<String> vertexNormalIndexes;
+    ArrayList<Float> vertexNormals;
 
-    String VertexShader = VertexShaders.PosOnlyWorldTransform_vert;
-    String FragmentShader = FragmentShaders.ColorUniform_frag;
-    int progarmNumber;
 
     public BlenderObject (String nameIn)
     {
         Name = nameIn;
         vertexes = new ArrayList<Float>();
         indexes = new ArrayList<Short>();
+        normals = new ArrayList<Float>();
+        vertexNormalIndexes = new ArrayList<String>();
+        vertexNormals = new ArrayList<Float>();
     }
 
     // v -1.458010 -3.046922 2.461986
@@ -40,13 +45,51 @@ public class BlenderObject extends Shape {
         vertexes.addAll(newVertexes);
     }
 
-    public void AddTriangle(String triangleInfo, short offset)
+    public void AddNormal(String normalInfo)
+    {
+        ArrayList<Float> newNormal =  new   ArrayList<Float>();
+        String[] normalData = normalInfo.substring(3).split(" ");
+        for (String s : normalData)
+        {
+            newNormal.add(Float.parseFloat(s));
+        }
+        normals.addAll(newNormal);
+    }
+
+    public void AddTriangle(String triangleInfo,  short vertexOffset, short normalOffset)
     {
         ArrayList<Short> newIndexes = new ArrayList<Short>();
-        String[] indexData = triangleInfo.substring(2).split(" ");
-        for (String s : indexData)
+        if (triangleInfo.contains("/"))
         {
-            newIndexes.add(((short)(Short.parseShort(s) - offset)));
+            String[] selections = triangleInfo.substring(2).split(" ");
+            for (int i = 0; i < selections.length; i++)
+            {
+                if (vertexNormalIndexes.contains(selections[i]))
+                {
+                    newIndexes.add((short) vertexNormalIndexes.indexOf(selections[i]));
+                }
+                else
+                {
+                    vertexNormalIndexes.add(selections[i]);
+                    String[] selections_parts = selections[i].split ("/");
+                    ArrayList<Float> newVertexNormal = new ArrayList<Float>();
+                    int vertexIndex = Integer.parseInt(selections_parts[0]) - vertexOffset;
+                    int normalIndex = Integer.parseInt(selections_parts[2]) - normalOffset;
+                    newVertexNormal.addAll(vertexes.subList(vertexIndex * 3, vertexIndex * 3 + 3));
+                    newVertexNormal.addAll(normals.subList(normalIndex * 3, normalIndex * 3 + 3));
+                    vertexNormals.addAll(newVertexNormal);
+                    newIndexes.add((short) vertexNormalIndexes.indexOf(selections[i]));
+                }
+            }
+        }
+        else
+        {
+            String[] indexData = triangleInfo.substring(2).split(" ");
+            for (String s : indexData)
+            {
+                newIndexes.add(((short)(Short.parseShort(s) - vertexOffset)));
+            }
+
         }
         indexes.addAll(newIndexes);
     }
@@ -54,10 +97,7 @@ public class BlenderObject extends Shape {
     public void Setup()
     {
         int i;
-        progarmNumber = Programs.AddProgram(VertexShader, FragmentShader);
-
         vertexCount = indexes.size();
-        vertexStride = 3 * 4; // no color for now
         // fill in index data
         indexData = new short[indexes.size()];
         i = 0;
@@ -65,14 +105,29 @@ public class BlenderObject extends Shape {
             indexData[i++] = (s != null ? s : 0);
         }
 
-        // fill in vertex data
-        vertexData = new float[vertexes.size()];
-        i = 0;
-        for (Float f : vertexes) {
-            vertexData[i++] = (f != null ? f :  0);
-        }
+        if (vertexNormals.size() > 0)
+        {
+            VertexShader = VertexShaders.lms_vertexShaderCode;
+            FragmentShader = FragmentShaders.lms_fragmentShaderCode;
 
+            vertexData = new float[vertexNormals.size()];
+            i = 0;
+            for (Float f : vertexNormals) {
+                vertexData[i++] = (f != null ? f :  0);
+            }
+        }
+        else
+        {
+            vertexStride = 3 * 4; // position only
+            // fill in vertex data
+            vertexData = new float[vertexes.size()];
+            i = 0;
+            for (Float f : vertexes) {
+                vertexData[i++] = (f != null ? f :  0);
+            }
+        }
         InitializeVertexBuffer();
+        programNumber = Programs.AddProgram(VertexShader, FragmentShader);
     }
 
     public void Scale(Vector3f size)
@@ -89,7 +144,86 @@ public class BlenderObject extends Shape {
         mm.M42 = offset.y;
         mm.M43 = offset.z;
 
-        Programs.Draw(progarmNumber, vertexBufferObject, indexBufferObject, cameraToClip, worldToCamera, mm,
-                indexData.length, color, COORDS_PER_VERTEX, vertexStride);
+        Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, cameraToClip, worldToCamera, mm,
+                indexData.length, color);
+    }
+
+    public ArrayList<Byte> GetBinaryBlenderObject()
+    {
+        ArrayList<Byte> binaryBlenderObjectBytes = new ArrayList<Byte>();
+        Integer vertexBytes = vertexes.size() * 4;
+        Integer indexBytes = indexes.size() * 2;
+        Integer normalBytes = normals.size() * 4;
+        Integer vertexNormalBytes = vertexNormals.size() * 4;
+
+
+        binaryBlenderObjectBytes.addAll(BitConverter.GetByteList(vertexBytes));
+        binaryBlenderObjectBytes.addAll(BitConverter.GetByteList(indexBytes));
+        binaryBlenderObjectBytes.addAll(BitConverter.GetByteList(normalBytes));
+        binaryBlenderObjectBytes.addAll(BitConverter.GetByteList(vertexNormalBytes));
+
+        if (vertexBytes > 0)
+        {
+            binaryBlenderObjectBytes.addAll(BitConverter.GetByteListFromFloatList(vertexes));
+        }
+        if (indexBytes > 0)
+        {
+            binaryBlenderObjectBytes.addAll(BitConverter.GetByteListFromShortList(indexes));
+        }
+        if (normalBytes > 0)
+        {
+            binaryBlenderObjectBytes.addAll(BitConverter.GetByteListFromFloatList(normals));
+        }
+        if (vertexNormalBytes > 0)
+        {
+            binaryBlenderObjectBytes.addAll(BitConverter.GetByteListFromFloatList(vertexNormals));
+        }
+        return binaryBlenderObjectBytes;
+    }
+
+    public int CreateFromBinaryData(byte[] binaryBlenderObjects, int offset)
+    {
+        int blenderHeaderBytes = 16;
+        int vertexBytes = BitConverter.ToInt32(binaryBlenderObjects, offset);
+        offset = offset + 4;
+        int indexBytes = BitConverter.ToInt32(binaryBlenderObjects, offset);
+        offset = offset + 4;
+        int normalBytes = BitConverter.ToInt32(binaryBlenderObjects, offset);
+        offset = offset + 4;
+        int vertexNormalBytes = BitConverter.ToInt32(binaryBlenderObjects, offset);
+        offset = offset + 4;
+        if (vertexBytes > 0)
+        {
+            for (int i = 0; i < vertexBytes; i = i + 4)
+            {
+                vertexes.add(BitConverter.ToSingle(binaryBlenderObjects, offset));
+                offset = offset + 4;
+            }
+        }
+        if (indexBytes > 0)
+        {
+            for (int i = 0; i < indexBytes; i = i + 2)
+            {
+                indexes.add(BitConverter.ToInt16(binaryBlenderObjects, offset));
+                offset = offset + 2;
+            }
+        }
+        if (normalBytes > 0)
+        {
+            for (int i = 0; i < normalBytes; i = i + 4)
+            {
+                normals.add(BitConverter.ToSingle(binaryBlenderObjects, offset));
+                offset = offset + 4;
+            }
+        }
+        if (vertexNormalBytes > 0)
+        {
+            for (int i = 0; i < vertexNormalBytes; i = i + 4)
+            {
+                vertexNormals.add(BitConverter.ToSingle(binaryBlenderObjects, offset));
+                offset = offset + 4;
+            }
+        }
+        return blenderHeaderBytes + vertexBytes + indexBytes + normalBytes + vertexNormalBytes;
     }
 }

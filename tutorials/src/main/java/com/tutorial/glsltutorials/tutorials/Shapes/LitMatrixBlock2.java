@@ -46,11 +46,6 @@ public class LitMatrixBlock2 extends Shape {
             RIGHT_EXTENT, BOTTOM_EXTENT, REAR_EXTENT,
     };
 
-    String VertexShader = VertexShaders.PosOnlyWorldTransform_vert;
-    String FragmentShader = FragmentShaders.ColorUniform_frag;
-
-    int progarmNumber;
-
     public LitMatrixBlock2 (Vector3f sizeIn, float[] colorIn)
     {
         size = sizeIn;
@@ -59,7 +54,7 @@ public class LitMatrixBlock2 extends Shape {
         modelToWorld.M22 = size.y;
         modelToWorld.M33 = size.z;
 
-        progarmNumber = Programs.AddProgram(VertexShader, FragmentShader);
+        programNumber = Programs.AddProgram(VertexShader, FragmentShader);
 
         vertexCount = 2 * 3 * 6;
         vertexStride = 3 * 4; // no color for now
@@ -91,8 +86,8 @@ public class LitMatrixBlock2 extends Shape {
         mm.M42 = offset.y;
         mm.M43 = offset.z;
 
-        Programs.Draw(progarmNumber, vertexBufferObject, indexBufferObject, cameraToClip, worldToCamera, mm,
-                indexData.length, color, COORDS_PER_VERTEX, vertexStride);
+        Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, cameraToClip, worldToCamera, mm,
+                indexData.length, color);
     }
    
 }

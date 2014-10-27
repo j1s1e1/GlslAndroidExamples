@@ -19,6 +19,16 @@ public class Matrix4f {
         setFloats();
     }
 
+    public Matrix4f(float[] data)
+    {
+        row0 = new Vector4f(data[0], data[1], data[2], data[3]);
+        row1 = new Vector4f(data[4], data[5], data[6], data[7]);
+        row2 = new Vector4f(data[8], data[9], data[10], data[11]);
+        row3 = new Vector4f(data[12], data[13], data[14], data[15]);
+        setFloats();
+    }
+
+
     public Matrix4f(Vector4f row0_in, Vector4f row1_in, Vector4f row2_in,Vector4f row3_in)
     {
         row0 = row0_in;
@@ -350,5 +360,157 @@ public class Matrix4f {
         setFloats();
     }
 
+    public Matrix4f inverted ()
+    {
+        Matrix4f result = this;
+        if (result.determinant() != 0f)
+        {
+            float[] invOut = new float[16];
+            InvertMatrix(result.toArray(),  invOut);
+            result = new Matrix4f(invOut);
+        }
 
+        return result;
+    }
+
+    public float determinant()
+    {
+       return M11 * M22 * M33 * M44 - M11 * M22 * M34 * M43 + M11 * M23 * M34 * M42 - M11 * M23 * M32 * M44
+            + M11 * M24 * M32 * M43 - M11 * M24 * M33 * M42 - M12 * M23 * M34 * M41 + M12 * M23 * M31 * M44
+            - M12 * M24 * M31 * M43 + M12 * M24 * M33 * M41 - M12 * M21 * M33 * M44 + M12 * M21 * M34 * M43
+            + M13 * M24 * M31 * M42 - M13 * M24 * M32 * M41 + M13 * M21 * M32 * M44 - M13 * M21 * M34 * M42
+            + M13 * M22 * M34 * M41 - M13 * M22 * M31 * M44 - M14 * M21 * M32 * M43 + M14 * M21 * M33 * M42
+            - M14 * M22 * M33 * M41 + M14 * M22 * M31 * M43 - M14 * M23 * M31 * M42 + M14 * M23 * M32 * M41;
+    }
+
+    static boolean InvertMatrix(float[] m, float[] invOut)
+    {
+        float[] inv = new float[16];
+        float det;
+        int i;
+
+        inv[0] = m[5]  * m[10] * m[15] -
+                m[5]  * m[11] * m[14] -
+                m[9]  * m[6]  * m[15] +
+                m[9]  * m[7]  * m[14] +
+                m[13] * m[6]  * m[11] -
+                m[13] * m[7]  * m[10];
+
+        inv[4] = -m[4]  * m[10] * m[15] +
+                m[4]  * m[11] * m[14] +
+                m[8]  * m[6]  * m[15] -
+                m[8]  * m[7]  * m[14] -
+                m[12] * m[6]  * m[11] +
+                m[12] * m[7]  * m[10];
+
+        inv[8] = m[4]  * m[9] * m[15] -
+                m[4]  * m[11] * m[13] -
+                m[8]  * m[5] * m[15] +
+                m[8]  * m[7] * m[13] +
+                m[12] * m[5] * m[11] -
+                m[12] * m[7] * m[9];
+
+        inv[12] = -m[4]  * m[9] * m[14] +
+                m[4]  * m[10] * m[13] +
+                m[8]  * m[5] * m[14] -
+                m[8]  * m[6] * m[13] -
+                m[12] * m[5] * m[10] +
+                m[12] * m[6] * m[9];
+
+        inv[1] = -m[1]  * m[10] * m[15] +
+                m[1]  * m[11] * m[14] +
+                m[9]  * m[2] * m[15] -
+                m[9]  * m[3] * m[14] -
+                m[13] * m[2] * m[11] +
+                m[13] * m[3] * m[10];
+
+        inv[5] = m[0]  * m[10] * m[15] -
+                m[0]  * m[11] * m[14] -
+                m[8]  * m[2] * m[15] +
+                m[8]  * m[3] * m[14] +
+                m[12] * m[2] * m[11] -
+                m[12] * m[3] * m[10];
+
+        inv[9] = -m[0]  * m[9] * m[15] +
+                m[0]  * m[11] * m[13] +
+                m[8]  * m[1] * m[15] -
+                m[8]  * m[3] * m[13] -
+                m[12] * m[1] * m[11] +
+                m[12] * m[3] * m[9];
+
+        inv[13] = m[0]  * m[9] * m[14] -
+                m[0]  * m[10] * m[13] -
+                m[8]  * m[1] * m[14] +
+                m[8]  * m[2] * m[13] +
+                m[12] * m[1] * m[10] -
+                m[12] * m[2] * m[9];
+
+        inv[2] = m[1]  * m[6] * m[15] -
+                m[1]  * m[7] * m[14] -
+                m[5]  * m[2] * m[15] +
+                m[5]  * m[3] * m[14] +
+                m[13] * m[2] * m[7] -
+                m[13] * m[3] * m[6];
+
+        inv[6] = -m[0]  * m[6] * m[15] +
+                m[0]  * m[7] * m[14] +
+                m[4]  * m[2] * m[15] -
+                m[4]  * m[3] * m[14] -
+                m[12] * m[2] * m[7] +
+                m[12] * m[3] * m[6];
+
+        inv[10] = m[0]  * m[5] * m[15] -
+                m[0]  * m[7] * m[13] -
+                m[4]  * m[1] * m[15] +
+                m[4]  * m[3] * m[13] +
+                m[12] * m[1] * m[7] -
+                m[12] * m[3] * m[5];
+
+        inv[14] = -m[0]  * m[5] * m[14] +
+                m[0]  * m[6] * m[13] +
+                m[4]  * m[1] * m[14] -
+                m[4]  * m[2] * m[13] -
+                m[12] * m[1] * m[6] +
+                m[12] * m[2] * m[5];
+
+        inv[3] = -m[1] * m[6] * m[11] +
+                m[1] * m[7] * m[10] +
+                m[5] * m[2] * m[11] -
+                m[5] * m[3] * m[10] -
+                m[9] * m[2] * m[7] +
+                m[9] * m[3] * m[6];
+
+        inv[7] = m[0] * m[6] * m[11] -
+                m[0] * m[7] * m[10] -
+                m[4] * m[2] * m[11] +
+                m[4] * m[3] * m[10] +
+                m[8] * m[2] * m[7] -
+                m[8] * m[3] * m[6];
+
+        inv[11] = -m[0] * m[5] * m[11] +
+                m[0] * m[7] * m[9] +
+                m[4] * m[1] * m[11] -
+                m[4] * m[3] * m[9] -
+                m[8] * m[1] * m[7] +
+                m[8] * m[3] * m[5];
+
+        inv[15] = m[0] * m[5] * m[10] -
+                m[0] * m[6] * m[9] -
+                m[4] * m[1] * m[10] +
+                m[4] * m[2] * m[9] +
+                m[8] * m[1] * m[6] -
+                m[8] * m[2] * m[5];
+
+        det = m[0] * inv[0] + m[1] * inv[4] + m[2] * inv[8] + m[3] * inv[12];
+
+        if (det == 0)
+            return false;
+
+        det = (float)(1.0 / det);
+
+        for (i = 0; i < 16; i++)
+            invOut[i] = inv[i] * det;
+
+        return true;
+    }
 }
