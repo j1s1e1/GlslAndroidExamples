@@ -130,7 +130,9 @@ public class BitConverter {
     {
         byte[] selectedBytes = new byte[4];
         System.arraycopy(byteArray, offset, selectedBytes, 0, 4);
+
         ByteBuffer buffer = ByteBuffer.wrap(selectedBytes);
+        buffer.order(ByteOrder.nativeOrder());
         return buffer.getInt();
     }
 
@@ -139,6 +141,7 @@ public class BitConverter {
         byte[] selectedBytes = new byte[4];
         System.arraycopy(byteArray, offset, selectedBytes, 0, 4);
         ByteBuffer buffer = ByteBuffer.wrap(selectedBytes);
+        buffer.order(ByteOrder.nativeOrder());
         return buffer.getFloat();
     }
 
@@ -147,6 +150,7 @@ public class BitConverter {
         byte[] selectedBytes = new byte[4];
         System.arraycopy(byteArray, offset, selectedBytes, 0, 4);
         ByteBuffer buffer = ByteBuffer.wrap(selectedBytes);
+        buffer.order(ByteOrder.nativeOrder());
         return buffer.getFloat();
     }
 
@@ -155,6 +159,7 @@ public class BitConverter {
         byte[] selectedBytes = new byte[2];
         System.arraycopy(byteArray, offset, selectedBytes, 0, 2);
         ByteBuffer buffer = ByteBuffer.wrap(selectedBytes);
+        buffer.order(ByteOrder.nativeOrder());
         return buffer.getShort();
     }
 
@@ -163,6 +168,7 @@ public class BitConverter {
         byte[] selectedBytes = new byte[2];
         System.arraycopy(byteArray, offset, selectedBytes, 0, 2);
         ByteBuffer buffer = ByteBuffer.wrap(selectedBytes);
+        buffer.order(ByteOrder.nativeOrder());
         return buffer.getShort();
     }
 }

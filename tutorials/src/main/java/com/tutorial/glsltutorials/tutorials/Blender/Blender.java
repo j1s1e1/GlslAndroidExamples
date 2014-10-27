@@ -30,6 +30,8 @@ public class Blender {
         StringBuilder result = new StringBuilder();
         try {
             binaryBlenderObjects = new byte[filename.available()];
+            filename.read(binaryBlenderObjects);
+
         }
         catch (Exception ex)
         {

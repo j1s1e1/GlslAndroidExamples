@@ -33,6 +33,7 @@
         <item>Tut_MultipleShaders</item>
         <item>Tut_3D_Shooter</item>
         <item>Tut_3D_Shooter2</item>
+        <item>Tut_3D_Shooter3</item>
         <item>SingleMeshItem</item>
     </string-array>
 </resources>

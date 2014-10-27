@@ -114,7 +114,8 @@ public class Tutorials extends Activity  {
                 toast1.show();
                 TestRenderer.tutorial = new Tut_3D_Shooter2();
                 break;
-            case 32: TestRenderer.tutorial = new SingleMeshItem(); break;
+            case 32: TestRenderer.tutorial = new Tut_3D_Shooter3(); break;
+            case 33: TestRenderer.tutorial = new SingleMeshItem(); break;
             default:
                 final Toast toast2 = Toast.makeText(Shader.context,"Not implemented", Toast.LENGTH_SHORT);
                 toast2.show();

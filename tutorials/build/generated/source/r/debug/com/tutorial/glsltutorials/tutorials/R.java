@@ -1055,7 +1055,7 @@ containing a value of this type.
         public static final int unitplane=0x7f05000b;
         public static final int x_wing=0x7f05000c;
         public static final int xwing_with_normals=0x7f05000d;
-        public static final int xwng_with_normals=0x7f05000e;
+        public static final int xwng_with_normals_binary=0x7f05000e;
     }
     public static final class string {
         public static final int abc_action_bar_home_description=0x7f0c0000;
