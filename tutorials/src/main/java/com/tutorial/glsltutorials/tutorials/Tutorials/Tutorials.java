@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.SyncStateContract;
 import android.view.ContextMenu;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -165,7 +166,7 @@ public class Tutorials extends Activity  {
 
         mGLView = new GLSurfaceView(this);
 
-        ActivityManager activityManager = (ActivityManager) this.getSystemService( ACTIVITY_SERVICE );
+        ActivityManager activityManager = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
         final ConfigurationInfo configurationInfo = activityManager.getDeviceConfigurationInfo();
 
         final boolean supportsEs2 = configurationInfo.reqGlEsVersion >= 0x20000;
@@ -176,18 +177,14 @@ public class Tutorials extends Activity  {
             // Request an OpenGL ES 2.0 compatible context.
             mGLView.setEGLContextClientVersion(version);
             String result = GLES20.glGetString(GLES20.GL_VERSION);
-            if (version == 3)
-            {
+            if (version == 3) {
                 if (supportsEs3) {
                     Renderer30 = new TestRenderer30();
                     mGLView.setRenderer(Renderer30);
-                }
-                else
-                {
+                } else {
                     return messages;
                 }
-            }
-            else {
+            } else {
                 Renderer = new TestRenderer();
                 // Set the renderer to our demo renderer, defined below.
                 mGLView.setRenderer(Renderer);
@@ -199,7 +196,6 @@ public class Tutorials extends Activity  {
         }
         setContentView(mGLView);
 
-        messages.append("Setup Complete");
         return messages;
     }
 
@@ -242,6 +238,18 @@ public class Tutorials extends Activity  {
     }
 
     boolean paused = false;
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (TestRenderer.tutorial != null) {
+            try {
+                TestRenderer.tutorial.keyboard(keyCode, 0, 0);
+            } catch (Exception ex) {
+
+            }}
+
+        return super.onKeyDown(keyCode, event);
+    }
 
     public void onBackPressed(){
         if (true)

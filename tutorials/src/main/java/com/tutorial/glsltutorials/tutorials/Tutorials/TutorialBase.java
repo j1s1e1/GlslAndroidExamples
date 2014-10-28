@@ -69,7 +69,7 @@ public abstract class TutorialBase {
         }
         reshape();
         timer = new Timer(false);
-        timer.schedule(timerElapsed, 10); // 10 = 0.01 second. second is repeat count
+        //timer.schedule(timerElapsed, 10); // 10 = 0.01 second. second is repeat count
         messages.append("Tutorial Setup Complete");
         return messages;
     }
@@ -78,7 +78,7 @@ public abstract class TutorialBase {
     {
         return System.currentTimeMillis() - startTime;
     }
-
+/*
     final Handler touchHandler = new Handler();
     TimerTask timerElapsed = new TimerTask()
     {
@@ -103,7 +103,7 @@ public abstract class TutorialBase {
             });
         }
     };
-
+*/
     protected int[] vertexBufferObject = new int[1];
     protected int[] indexBufferObject = new int[1];
 

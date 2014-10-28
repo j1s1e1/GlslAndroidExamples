@@ -257,6 +257,47 @@ public class Tut_3D_Shooter3 extends TutorialBase {
                     }
                 }
                 break;
+            case KeyEvent.KEYCODE_NUMPAD_ADD:
+                currentScale = currentScale.mul(1.05f);
+                ship.Scale(currentScale);
+                break;
+            case KeyEvent.KEYCODE_NUMPAD_SUBTRACT:
+                currentScale = currentScale.divide(1.05f);
+                ship.Scale(currentScale);
+                break;
+            case KeyEvent.KEYCODE_NUMPAD_4:
+                Rotate(Vector3f.UnitY, 5f);
+                break;
+            case KeyEvent.KEYCODE_NUMPAD_6:
+                Rotate(Vector3f.UnitY, -5f);
+                break;
+            case KeyEvent.KEYCODE_NUMPAD_8:
+                Rotate(Vector3f.UnitX, 5f);
+                break;
+            case KeyEvent.KEYCODE_NUMPAD_2:
+                Rotate(Vector3f.UnitX, -5f);
+                break;
+            case KeyEvent.KEYCODE_NUMPAD_5:
+                if (addMissle == false)
+                {
+                    if (missles.size() < 10)
+                    {
+                        addMissle = true;
+                    }
+                }
+                break;
+            case KeyEvent.KEYCODE_NUMPAD_7:
+                Rotate(Vector3f.UnitZ, 5f);
+                break;
+            case KeyEvent.KEYCODE_NUMPAD_9:
+                Rotate(Vector3f.UnitZ, 5f);
+                break;
+            case KeyEvent.KEYCODE_NUMPAD_1:
+                Rotate(Vector3f.UnitZ, -5f);
+                break;
+            case KeyEvent.KEYCODE_NUMPAD_3:
+                Rotate(Vector3f.UnitZ, -5f);
+                break;
         }
         return result.toString();
     }
