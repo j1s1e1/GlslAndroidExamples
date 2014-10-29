@@ -155,6 +155,9 @@ public abstract class TutorialBase {
         return "Default keyboard hanlder, only escape enabled.";
     }
 
+    public void SetScale(float scale) {
+    }
+
     protected static int defaults(int displayMode, int width, int height)
     {
         return displayMode;

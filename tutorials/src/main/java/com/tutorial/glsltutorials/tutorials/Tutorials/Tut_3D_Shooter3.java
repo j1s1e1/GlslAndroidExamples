@@ -61,6 +61,7 @@ public class Tut_3D_Shooter3 extends TutorialBase {
     int defaultShader;
     int shaderFragWhiteDiffuseColor;
 
+    Vector3f initialScale = new Vector3f(0.1f, 0.1f, 0.1f);
     Vector3f currentScale = new Vector3f(0.1f, 0.1f, 0.1f);
 
     private void SetupShaders()
@@ -312,14 +313,6 @@ public class Tut_3D_Shooter3 extends TutorialBase {
             case 2: Rotate(Vector3f.UnitY, 5f); break;
             // Note *** Don't add missle here, different thread
             case 3:
-                if (y_position / (height / 4) == 0) {
-                    currentScale = currentScale.mul(1.05f);
-                    ship.Scale(currentScale);
-                }
-                if (y_position / (height / 4) == 3) {
-                    currentScale = currentScale.divide(1.05f);
-                    ship.Scale(currentScale);
-                }
                 if (addMissle == false)
                 {
                     if (missles.size() < 10)
@@ -355,5 +348,11 @@ public class Tut_3D_Shooter3 extends TutorialBase {
         {
             updateText = true;
         }
+    }
+
+    public void SetScale(float scale)
+    {
+        currentScale = initialScale.mul(scale);
+        ship.Scale(currentScale);
     }
 }

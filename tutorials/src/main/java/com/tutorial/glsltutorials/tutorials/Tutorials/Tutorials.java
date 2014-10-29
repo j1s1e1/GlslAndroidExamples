@@ -10,9 +10,12 @@ import android.opengl.GLSurfaceView;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.SyncStateContract;
+import android.util.Log;
 import android.view.ContextMenu;
+import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -35,7 +38,12 @@ import javax.microedition.khronos.egl.EGLDisplay;
 /**
  * Created by Jamie on 5/26/14.
  */
-public class Tutorials extends Activity  {
+public class Tutorials extends Activity implements
+        GestureDetector.OnGestureListener {
+
+    private GestureDetector mDetector;
+    private ScaleGestureDetector scaleGestureDetector;
+    private float scaleFactor = 1.f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +77,9 @@ public class Tutorials extends Activity  {
                 }
 
             });
+
+        mDetector = new GestureDetector(this,this);
+        scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
     }
 
     static boolean firstlaunch = true;
@@ -214,6 +225,8 @@ public class Tutorials extends Activity  {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        this.mDetector.onTouchEvent(event);
+        scaleGestureDetector.onTouchEvent(event);
         super.onTouchEvent(event);
         x_position = (int)event.getX();
         y_position = (int)event.getY();
@@ -249,6 +262,56 @@ public class Tutorials extends Activity  {
             }}
 
         return super.onKeyDown(keyCode, event);
+    }
+
+
+
+
+    @Override
+    public boolean onDown(MotionEvent event) {
+        return true;
+    }
+
+    @Override
+    public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
+        return true;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        return true;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent event) {
+    }
+
+    @Override
+    public void onShowPress(MotionEvent event) {
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent event) {
+        return true;
+    }
+
+    private class ScaleListener
+            extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+            scaleFactor *= detector.getScaleFactor();
+
+            // Don't let the object get too small or too large.
+            scaleFactor = Math.max(0.1f, Math.min(scaleFactor, 5.0f));
+
+            if (TestRenderer.tutorial != null) {
+                try {
+                    TestRenderer.tutorial.SetScale(scaleFactor);
+                } catch (Exception ex) {
+
+                }}
+            return true;
+        }
     }
 
     public void onBackPressed(){
