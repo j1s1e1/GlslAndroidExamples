@@ -513,4 +513,56 @@ public class Matrix4f {
 
         return true;
     }
+
+    public static Matrix4f CreateRotationX(float angle)
+    {
+        float cos = (float)Math.cos(angle);
+        float sin = (float)Math.sin(angle);
+
+        Matrix4f result = Matrix4f.Identity();
+        result.M22 = cos;
+        result.M23 = sin;
+        result.M32 = -sin;
+        result.M33 = cos;
+        return result;
+    }
+
+    public static Matrix4f CreateRotationY(float angle)
+    {
+        float cos = (float)Math.cos(angle);
+        float sin = (float)Math.sin(angle);
+
+        Matrix4f result = Matrix4f.Identity();
+        result.M11 = cos;
+        result.M13 = -sin;
+        result.M31 = sin;
+        result.M33 = cos;
+        return result;
+    }
+
+    public static Matrix4f CreateRotationZ(float angle)
+    {
+        float cos = (float)Math.cos(angle);
+        float sin = (float)Math.sin(angle);
+
+        Matrix4f result = Matrix4f.Identity();
+        result.M11 = cos;
+        result.M12 = sin;
+        result.M21 = -sin;
+        result.M22 = cos;
+        return result;
+    }
+
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        result.append("Row 0 = " + String.valueOf(M11) + " " + String.valueOf(M12));
+        result.append(" " + String.valueOf(M13) + " " + String.valueOf(M14) + "\n");
+        result.append("Row 1 = " + String.valueOf(M21) + " " + String.valueOf(M22));
+        result.append(" " + String.valueOf(M23) + " " + String.valueOf(M24) + "\n");
+        result.append("Row 2 = " + String.valueOf(M31) + " " + String.valueOf(M32));
+        result.append(" " + String.valueOf(M33) + " " + String.valueOf(M34) + "\n");
+        result.append("Row 3 = " + String.valueOf(M41) + " " + String.valueOf(M42));
+        result.append(" " + String.valueOf(M43) + " " + String.valueOf(M44) + "\n");
+        return result.toString();
+    }
 }

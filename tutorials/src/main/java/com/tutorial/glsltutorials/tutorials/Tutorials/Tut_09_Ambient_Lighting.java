@@ -1,9 +1,11 @@
 package com.tutorial.glsltutorials.tutorials.Tutorials;
 
 import android.opengl.GLES20;
+import android.util.Log;
 import android.view.KeyEvent;
 
 import com.tutorial.glsltutorials.tutorials.Framework;
+import com.tutorial.glsltutorials.tutorials.GLES_Helpers.AnalysisTools;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.FragmentShaders;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.VertexShaders;
@@ -31,10 +33,15 @@ import java.io.InputStream;
  */
 public class Tut_09_Ambient_Lighting extends TutorialBase {
 
+    static String TUTORIAL = "Ambient Lighting";
     static float g_fzNear = 1.0f;
     static float g_fzFar = 1000.0f;
 
     static boolean useUniformBuffers = false;
+
+    // Debug registers
+    Matrix4f groundPlaneModelMatrix = Matrix4f.Identity();
+    Matrix4f coloredCylinderModelmatrix  = Matrix4f.Identity();
 
     class ProgramData
     {
@@ -251,7 +258,9 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
                 try( PushStack pushstack = new PushStack(modelMatrix))
                 {
                     GLES20.glUseProgram(whiteDiffuse.theProgram);
+                    //modelMatrix.Translate(new Vector3f(0f, 0f, 13f));
                     Matrix4f mm =  modelMatrix.Top();
+                    groundPlaneModelMatrix = mm;
                     GLES20.glUniformMatrix4fv(whiteDiffuse.modelToCameraMatrixUnif, 1, false, mm.toArray(), 0);
                     //projData.cameraToClipMatrix = Matrix4f.Identity(); // Test
                     GLES20.glUniformMatrix4fv(whiteDiffuse.cameraToClipMatrixUnif, 1, false, projData.cameraToClipMatrix.toArray(), 0);
@@ -267,16 +276,16 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
                 try(PushStack pushstack = new PushStack(modelMatrix))
                 {
                     modelMatrix.ApplyMatrix(g_objtPole.CalcMatrix());
-
+                    //modelMatrix.Translate(new Vector3f(0f, 0f, 12.5f));
+                    coloredCylinderModelmatrix = modelMatrix.Top ();
                     if(g_bDrawColoredCyl)
                     {
                         GLES20.glUseProgram(vertexDiffuse.theProgram);
                         Matrix4f mm = modelMatrix.Top();
-                        mm = Matrix4f.Identity(); // TEST
+                        //mm.M33 = -1;
                         GLES20.glUniformMatrix4fv(vertexDiffuse.modelToCameraMatrixUnif, 1, false, mm.toArray(), 0);
                         GLES20.glUniformMatrix4fv(whiteDiffuse.cameraToClipMatrixUnif, 1, false, projData.cameraToClipMatrix.toArray(), 0);
                         Matrix3f normMatrix = new Matrix3f(modelMatrix.Top());
-                        normMatrix = Matrix3f.Identity(); // TEST
                         GLES20.glUniformMatrix3fv(vertexDiffuse.normalModelToCameraMatrixUnif, 1, false, normMatrix.toArray(), 0);
                         g_pCylinderMesh.Render("lit-color");
                     }
@@ -333,7 +342,6 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
                 else
                     result.append("Colored Cylinder Off.\n");
                 break;
-
             case KeyEvent.KEYCODE_T:
                 g_bShowAmbient = !g_bShowAmbient;
                 if(g_bShowAmbient)
@@ -341,6 +349,15 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
                 else
                     result.append("Ambient Lighting Off.\n");
 
+                break;
+            case KeyEvent.KEYCODE_INFO:
+                Log.e(TUTORIAL, "cameraToClipMatrix = " + projData.cameraToClipMatrix.toString());
+                Log.e(TUTORIAL, "coloredCylinderModelmatrix = " + coloredCylinderModelmatrix.toString());
+                Matrix4f multiply = Matrix4f.Mult(projData.cameraToClipMatrix, coloredCylinderModelmatrix);
+                Log.e(TUTORIAL, AnalysisTools.CalculateMatrixEffects(multiply));
+
+
+                Log.e(TUTORIAL, "Ground Plane Model Matrix = " + groundPlaneModelMatrix.toString());
                 break;
         }
         result.append(keyCode);

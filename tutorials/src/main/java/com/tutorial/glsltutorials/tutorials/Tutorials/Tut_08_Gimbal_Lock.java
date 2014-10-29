@@ -20,6 +20,7 @@ import java.io.InputStream;
  * Created by Jamie on 6/8/14.
  */
 public class Tut_08_Gimbal_Lock extends TutorialBase {
+    float currentScale = 1.0f;
     void InitializeProgram()
     {
         fFrustumScale = CalcFrustumScale(45.0f);
@@ -154,7 +155,7 @@ public class Tut_08_Gimbal_Lock extends TutorialBase {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
         MatrixStack currMatrix = new MatrixStack();
-        currMatrix.Translate(new Vector3f(0.0f, 0.0f, -200.0f));
+        currMatrix.Translate(new Vector3f(0.0f, 0.0f, -200.0f / currentScale));
         currMatrix.RotateX(g_angles.fAngleX);
         DrawGimbal(currMatrix, GimbalAxis.GIMBAL_X_AXIS, new Vector4f(0.4f, 0.4f, 1.0f, 1.0f));
         currMatrix.RotateY(g_angles.fAngleY);
@@ -222,5 +223,24 @@ public class Tut_08_Gimbal_Lock extends TutorialBase {
 
         display();
         return result;
+    }
+
+    public void TouchEvent(int x_position, int y_position) throws Exception
+    {
+        int selection = x_position / (width / 6);
+        switch (selection)
+        {
+            case 0: g_angles.fAngleX += SMALL_ANGLE_INCREMENT; break;
+            case 1: g_angles.fAngleX -= SMALL_ANGLE_INCREMENT; break;
+            case 2: g_angles.fAngleY += SMALL_ANGLE_INCREMENT; break;
+            case 3: g_angles.fAngleY -= SMALL_ANGLE_INCREMENT; break;
+            case 4: g_angles.fAngleY += SMALL_ANGLE_INCREMENT; break;
+            case 5: g_angles.fAngleY += SMALL_ANGLE_INCREMENT; break;
+        }
+    }
+
+    public void SetScale(float scale)
+    {
+        currentScale = scale;
     }
 }

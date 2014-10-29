@@ -20,6 +20,8 @@ import java.util.TimerTask;
  */
 public abstract class TutorialBase {
 
+    boolean tutorialLog = true;
+
     protected int COORDS_PER_VERTEX = 4;
     protected int POSITION_DATA_SIZE_IN_ELEMENTS = 4;
     protected int COLOR_DATA_SIZE_IN_ELEMENTS = 4;

@@ -34,7 +34,10 @@ public class Vector4f {
     public static Vector4f Transform(Vector4f vin, Matrix4f m)
     {
         Vector4f v = new Vector4f();
-        //Fixthis
+        v.x = Vector4f.Dot(vin, m.GetCol0());
+        v.y = Vector4f.Dot(vin, m.GetCol1());
+        v.z = Vector4f.Dot(vin, m.GetCol2());
+        v.z = Vector4f.Dot(vin, m.GetCol3());
         return v;
     }
 
