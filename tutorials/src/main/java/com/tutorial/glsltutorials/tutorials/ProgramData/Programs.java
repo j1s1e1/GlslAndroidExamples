@@ -91,4 +91,27 @@ public class Programs {
     {
         ActivePrograms.get(program).SetModelToCameraMatrix(modelToCameraMatrix);
     }
+
+    public static void SetCameraToClipMatrixUnif(int program, Matrix4f cameraToClipMatrix)
+    {
+        ActivePrograms.get(program).SetCameraToClipMatrixUnif(cameraToClipMatrix);
+    }
+
+
+    public static void SetWorldToCameraMatrixUnif(int program, Matrix4f worldToCameraMatrix)
+    {
+        ActivePrograms.get(program).SetWorldToCameraMatrixUnif(worldToCameraMatrix);
+    }
+
+    public static void SetModelToWorldMatrix(int program, Matrix4f modelToWorldMatrix)
+    {
+        ActivePrograms.get(program).SetModelToWorldMatrix(modelToWorldMatrix);
+    }
+
+
+
+    public static void Use(int program)
+    {
+        ActivePrograms.get(program).Use();
+    }
 }

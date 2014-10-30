@@ -47,8 +47,8 @@ public abstract class TutorialBase {
     protected static final int BYTES_PER_FLOAT = 4;
     protected static final int BYTES_PER_SHORT = 2;
 
-    public int width = 0;
-    public int height = 0;
+    public int width = 512;
+    public int height = 512;
 
     public TutorialBase()
     {
@@ -60,7 +60,6 @@ public abstract class TutorialBase {
         //stopwatch = new Stopwatch();
         //stopwatch.Start();
         startTime = System.currentTimeMillis();
-
         try {
             init();
         }

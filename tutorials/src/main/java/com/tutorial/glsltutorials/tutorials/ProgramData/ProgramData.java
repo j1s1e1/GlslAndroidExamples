@@ -219,4 +219,31 @@ public class ProgramData {
         GLES20.glUniformMatrix4fv(modelToCameraMatrixUnif, 1, false, modelToCameraMatrix.toArray(), 0);
         GLES20.glUseProgram(0);
     }
+
+    public void SetModelToWorldMatrix(Matrix4f modelToWorldMatrix)
+    {
+        GLES20.glUseProgram(theProgram);
+        GLES20.glUniformMatrix4fv(modelToWorldMatrixUnif, 1, false, modelToWorldMatrix.toArray(), 0);
+        GLES20.glUseProgram(0);
+    }
+
+    public void SetCameraToClipMatrixUnif(Matrix4f cameraToClipMatrix)
+    {
+        GLES20.glUseProgram(theProgram);
+        GLES20.glUniformMatrix4fv(cameraToClipMatrixUnif, 1, false, cameraToClipMatrix.toArray(), 0);
+        GLES20.glUseProgram(0);
+    }
+
+
+    public void SetWorldToCameraMatrixUnif( Matrix4f worldToCameraMatrix)
+    {
+        GLES20.glUseProgram(theProgram);
+        GLES20.glUniformMatrix4fv(worldToCameraMatrixUnif, 1, false, worldToCameraMatrix.toArray(), 0);
+        GLES20.glUseProgram(0);
+    }
+
+    public void Use()
+    {
+        GLES20.glUseProgram(theProgram);
+    }
 }
