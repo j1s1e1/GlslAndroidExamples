@@ -11,6 +11,7 @@ import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector4f;
 import com.tutorial.glsltutorials.tutorials.Mesh.Mesh;
+import com.tutorial.glsltutorials.tutorials.Text.TextClass;
 import com.tutorial.glsltutorials.tutorials.Tutorials.TutorialBase;
 
 import java.io.InputStream;
@@ -49,8 +50,11 @@ public class SingleMeshItem extends TutorialBase {
     static ProgramData g_WhiteAmbDiffuseColor;
     static ProgramData g_VertexAmbDiffuseColor;
 
-
     static ProgramData currentProgram;
+
+    String touchTextString = " ";
+    TextClass touchText;
+    boolean updateTouchText = false;
 
     ProgramData LoadProgram(String strVertexShader, String strFragmentShader) throws Exception
     {
@@ -150,6 +154,8 @@ public class SingleMeshItem extends TutorialBase {
         GLES20.glDepthRangef(0.0f, 1.0f);
         reshape();
         current_mesh = g_pCubeColorMesh;
+        touchText = new TextClass(" ", 0.5f, 0.05f);
+        touchText.SetOffset(-0.5f, 0.5f, 0.0f);
     }
 
     float g_fColumnBaseHeight = 0.25f;
@@ -199,6 +205,12 @@ public class SingleMeshItem extends TutorialBase {
                 GLES20.glUseProgram(0);
                 GLES20.glEnable(GLES20.GL_DEPTH_TEST);
             }
+        }
+        touchText.draw();
+        if (updateTouchText)
+        {
+            touchText.UpdateText(touchTextString);
+            updateTouchText = false;
         }
     }
 
@@ -286,4 +298,61 @@ public class SingleMeshItem extends TutorialBase {
         return result.toString();
     }
 
+    public void TouchEvent(int x_position, int y_position) throws Exception {
+        int selectionX = x_position / (width / 7);
+        int selectoinY = y_position / (height / 4);
+        String lastTouchTextString = touchTextString;
+        switch (selectoinY) {
+            case 0:
+                switch (selectionX) {
+                    case 0:
+                        currentProgram = g_WhiteDiffuseColor;
+                        noWorldMatrix = true;
+                        touchTextString = "g_WhiteDiffuseColor";
+                        break;
+                    case 1:
+                        currentProgram = ObjectColor;
+                        noWorldMatrix = false;
+                        touchTextString = "ObjectColor";
+                        break;
+                    case 2:
+                        currentProgram = UniformColor;
+                        noWorldMatrix = false;
+                        touchTextString = "UniformColor";
+                        break;
+                    case 3:
+                        currentProgram = UniformColorTint;
+                        noWorldMatrix = false;
+                        touchTextString = "UniformColorTint";
+                        break;
+                    case 4:
+                        currentProgram = g_WhiteDiffuseColor;
+                        noWorldMatrix = true;
+                        touchTextString = "g_WhiteDiffuseColor";
+                        break;
+                    case 5:
+                        currentProgram = g_WhiteAmbDiffuseColor;
+                        noWorldMatrix = true;
+                        touchTextString = "g_WhiteAmbDiffuseColor";
+                        break;
+                }
+                break;
+            case 3: {
+                switch (selectionX) {
+                    case 0:
+                        current_mesh = g_pCylinderMesh;
+                        break;
+                    case 1:
+                        current_mesh = g_pCubeColorMesh;
+                        break;
+                }
+                break;
+            }
+            default:
+                break;
+        }
+        if (!touchTextString.equals(lastTouchTextString)) {
+            updateTouchText = true;
+        }
+    }
 }

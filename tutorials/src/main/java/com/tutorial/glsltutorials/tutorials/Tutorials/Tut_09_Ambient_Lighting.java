@@ -22,6 +22,7 @@ import com.tutorial.glsltutorials.tutorials.ObjectPole;
 import com.tutorial.glsltutorials.tutorials.ProjectionBlock;
 import com.tutorial.glsltutorials.tutorials.PushStack;
 import com.tutorial.glsltutorials.tutorials.R;
+import com.tutorial.glsltutorials.tutorials.Shapes.LitMatrixSphere2;
 import com.tutorial.glsltutorials.tutorials.ViewData;
 import com.tutorial.glsltutorials.tutorials.ViewProvider;
 import com.tutorial.glsltutorials.tutorials.ViewScale;
@@ -38,10 +39,13 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
     static float g_fzFar = 1000.0f;
 
     static boolean useUniformBuffers = false;
+    boolean zeroAllMatrixes = false;
 
     // Debug registers
     Matrix4f groundPlaneModelMatrix = Matrix4f.Identity();
     Matrix4f coloredCylinderModelmatrix  = Matrix4f.Identity();
+    Vector3f cylinderTraslation = new Vector3f();
+    LitMatrixSphere2 lms2;
 
     class ProgramData
     {
@@ -76,7 +80,22 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
         data.theProgram = Shader.createAndLinkProgram30(vertexShaderInt, fragmentShaderInt);
 
         data.positionAttribute = GLES20.glGetAttribLocation(data.theProgram, "position");
+
+        if (data.positionAttribute != -1)
+        {
+            if (data.positionAttribute != 0)
+            {
+                Log.e(TUTORIAL, "These meshes only work with position at location 0 " + vertexShader);
+            }
+        }
         data.colorAttribute = GLES20.glGetAttribLocation(data.theProgram, "color");
+        if (data.colorAttribute != -1)
+        {
+            if (data.colorAttribute != 1)
+            {
+                Log.e(TUTORIAL, "These meshes only work with color at location 1" + vertexShader);
+            }
+        }
         data.normalAttribute = GLES20.glGetAttribLocation(data.theProgram, "normal");
 
 
@@ -89,7 +108,7 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
         //FIX_THIS  int projectionBlock = GLES20.glGetUniformBlockIndex(data.theProgram, "Projection");
         //FIX_THIS  GLES20.glUniformBlockBinding(data.theProgram, projectionBlock, g_projectionBlockIndex);
         // to avoid uniform block
-        data.cameraToClipMatrixUnif = GLES20.glGetUniformLocation(data.theProgram, "Projection.cameraToClipMatrix");
+        data.cameraToClipMatrixUnif = GLES20.glGetUniformLocation(data.theProgram, "cameraToClipMatrix");
         return data;
     }
 
@@ -98,7 +117,8 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
         g_WhiteDiffuseColor = LoadProgram(VertexShaders.DirVertexLighting_PN_vert, FragmentShaders.ColorPassthrough_frag);
         g_VertexDiffuseColor = LoadProgram(VertexShaders.DirVertexLighting_PCN_vert, FragmentShaders.ColorPassthrough_frag);
         g_WhiteAmbDiffuseColor = LoadProgram(VertexShaders.DirAmbVertexLighting_PN_vert, FragmentShaders.ColorPassthrough_frag);
-        g_VertexAmbDiffuseColor = LoadProgram(VertexShaders.DirAmbVertexLighting_PCN_vert, FragmentShaders.ColorPassthrough_frag);
+        g_VertexAmbDiffuseColor = g_WhiteAmbDiffuseColor;
+        //g_VertexAmbDiffuseColor = LoadProgram(VertexShaders.DirAmbVertexLighting_PCN_vert, FragmentShaders.ColorPassthrough_frag);
     }
 
     static Mesh g_pCylinderMesh = null;
@@ -157,6 +177,7 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
     //Called after the window and OpenGL are initialized. Called exactly once, before the main loop.
     protected void init() throws Exception
     {
+        lms2 = new LitMatrixSphere2(0.2f);
         InitializeGInitialViewData();
         InitializeGViewScale();
         g_viewPole = new ViewProvider(g_initialViewData, g_viewScale, MouseButtons.MB_LEFT_BTN);
@@ -177,12 +198,6 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
         {
             throw new Exception("Error:" + ex.toString());
         }
-			
-			/*
-			Tao.FreeGlut.Glut.glutMouseFunc(MouseButton);
-		 	glutMotionFunc(MouseMotion);
-			glutMouseWheelFunc(MouseWheel);
-			*/
 
         GLES20.glEnable(GLES20.GL_CULL_FACE);
         GLES20.glCullFace(GLES20.GL_BACK);
@@ -193,15 +208,6 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
         GLES20.glDepthFunc(GLES20.GL_LEQUAL);
         GLES20.glDepthRangef(0.0f, 1.0f);
 
-        GLES20.glGenBuffers(1, g_projectionUniformBuffer, 0);
-        //FIX_THIS  GLES20.glBindBuffer(GLES20.GL_UNIFORM_BUFFER, g_projectionUniformBuffer[0]);
-        //FIX_THIS  GLES20.glBufferData(GLES20.GL_UNIFORM_BUFFER, ProjectionBlock.byteLength(), null, GLES20.GL_DYNAMIC_DRAW);
-
-        //Bind the static buffers.
-        //FIX_THIS  GLES20.glBindBufferRange(GLES20.GL_UNIFORM_BUFFER, g_projectionBlockIndex, g_projectionUniformBuffer[0],
-        //FIX_THIS          0, ProjectionBlock.byteLength());
-
-        //FIX_THIS  GLES20.glBindBuffer(GLES20.GL_UNIFORM_BUFFER , 0);
         reshape();
     }
 
@@ -258,7 +264,7 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
                 try( PushStack pushstack = new PushStack(modelMatrix))
                 {
                     GLES20.glUseProgram(whiteDiffuse.theProgram);
-                    //modelMatrix.Translate(new Vector3f(0f, 0f, 13f));
+                    modelMatrix.Translate(cylinderTraslation);
                     Matrix4f mm =  modelMatrix.Top();
                     groundPlaneModelMatrix = mm;
                     GLES20.glUniformMatrix4fv(whiteDiffuse.modelToCameraMatrixUnif, 1, false, mm.toArray(), 0);
@@ -282,10 +288,11 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
                     {
                         GLES20.glUseProgram(vertexDiffuse.theProgram);
                         Matrix4f mm = modelMatrix.Top();
-                        //mm.M33 = -1;
+                        if (zeroAllMatrixes) mm = Matrix4f.Identity();
                         GLES20.glUniformMatrix4fv(vertexDiffuse.modelToCameraMatrixUnif, 1, false, mm.toArray(), 0);
                         GLES20.glUniformMatrix4fv(whiteDiffuse.cameraToClipMatrixUnif, 1, false, projData.cameraToClipMatrix.toArray(), 0);
                         Matrix3f normMatrix = new Matrix3f(modelMatrix.Top());
+                        if (zeroAllMatrixes) normMatrix = Matrix3f.Identity();
                         GLES20.glUniformMatrix3fv(vertexDiffuse.normalModelToCameraMatrixUnif, 1, false, normMatrix.toArray(), 0);
                         g_pCylinderMesh.Render("lit-color");
                     }
@@ -303,6 +310,8 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
                 }
             }
         }
+        lms2.SetOffset(cylinderTraslation);
+        lms2.draw();
     }
 
     static ProjectionBlock projData = new ProjectionBlock();
@@ -313,21 +322,15 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
     {
         MatrixStack persMatrix = new MatrixStack();
         persMatrix.Perspective(45.0f, (width / (float)height), g_fzNear, g_fzFar);
-
         projData.cameraToClipMatrix = persMatrix.Top();
-
-        //FIX_THIS  GLES20.glBindBuffer(GLES20.GL_UNIFORM_BUFFER, g_projectionUniformBuffer[0]);
-        //FIX_THIS  GLES20.glBufferSubData(GLES20.GL_UNIFORM_BUFFER, 0, ProjectionBlock.byteLength(), projData.ToFloatBuffer());
-        //FIX_THIS  GLES20.glBindBuffer(GLES20.GL_UNIFORM_BUFFER, 0);
         GLES20.glViewport(0, 0, width, height);
-        //glutPostRedisplay();
     }
 
     //Called whenever a key on the keyboard was pressed.
     //The key is given by the ''key'' parameter, which is in ASCII.
     //It's often a good idea to have the escape key (ASCII value 27) call glutLeaveMainLoop() to 
     //exit the program.
-    public String keyboard(int keyCode, int x, int y) throws Exception
+    public String keyboard(int keyCode, int x, int y)
     {
         StringBuilder result = new StringBuilder();
         switch (keyCode)
@@ -359,10 +362,83 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
 
                 Log.e(TUTORIAL, "Ground Plane Model Matrix = " + groundPlaneModelMatrix.toString());
                 break;
+            case KeyEvent.KEYCODE_NUMPAD_7:
+                cylinderTraslation.addNoCopy(new Vector3f(0.0f, 0.0f, 0.1f));
+                break;
+            case KeyEvent.KEYCODE_NUMPAD_8:
+                cylinderTraslation.addNoCopy(new Vector3f(0.0f, 0.1f, 0.0f));
+                break;
+            case KeyEvent.KEYCODE_NUMPAD_9:
+                cylinderTraslation.addNoCopy(new Vector3f(0.0f, 0.0f, 0.1f));
+                break;
+            case KeyEvent.KEYCODE_NUMPAD_4:
+                cylinderTraslation.addNoCopy(new Vector3f(-0.1f, 0.0f, 0.0f));
+                break;
+            case KeyEvent.KEYCODE_NUMPAD_5:
+
+                break;
+            case KeyEvent.KEYCODE_NUMPAD_6:
+                cylinderTraslation.addNoCopy(new Vector3f(0.1f, 0.0f, 0.0f));
+                break;
+            case KeyEvent.KEYCODE_NUMPAD_1:
+                cylinderTraslation.addNoCopy(new Vector3f(0.0f, 0.0f, -0.1f));
+                break;
+            case KeyEvent.KEYCODE_NUMPAD_2:
+                cylinderTraslation.addNoCopy(new Vector3f(0.0f, -0.1f, 0.0f));
+                break;
+            case KeyEvent.KEYCODE_NUMPAD_3:
+                cylinderTraslation.addNoCopy(new Vector3f(0.0f, 0.0f, -0.1f));
+                break;
         }
         result.append(keyCode);
         reshape();
-        display();
         return result.toString();
     }
+
+    public void TouchEvent(int x_position, int y_position) throws Exception
+    {
+        int selectionX = x_position / (width / 7);
+        int selectoinY = y_position / (height / 4);
+        switch (selectoinY) {
+            case 0:
+                switch (selectionX) {
+                    case 0:
+                        cylinderTraslation.addNoCopy(new Vector3f(0.1f, 0.0f, 0.0f));
+                        break;
+                    case 1:
+                        cylinderTraslation.addNoCopy(new Vector3f(-0.1f, 0.0f, 0.0f));
+                        break;
+                    case 2:
+                        cylinderTraslation.addNoCopy(new Vector3f(0.0f, 0.1f, 0.0f));
+                        break;
+                    case 3:
+                        cylinderTraslation.addNoCopy(new Vector3f(0.0f, -0.1f, 0.0f));
+                        break;
+                    case 4:
+                        cylinderTraslation.addNoCopy(new Vector3f(0.0f, 0.0f, 0.1f));
+                        break;
+                    case 5:
+                        cylinderTraslation.addNoCopy(new Vector3f(0.0f, 0.0f, -0.1f));
+                        break;
+                    case 6:
+                        cylinderTraslation = new Vector3f(0.0f, 0.0f, 0.0f);
+                        break;
+                }
+                break;
+            case 3: {
+                if (zeroAllMatrixes)
+                {
+                    zeroAllMatrixes = false;
+                }
+                else
+                {
+                    zeroAllMatrixes = true;
+                }
+                break;
+            }
+            default:
+                break;
+        }
+    }
+
 }

@@ -134,32 +134,35 @@ public class Tut_Text extends TutorialBase {
             case KeyEvent.KEYCODE_NUMPAD_SUBTRACT:
                 keyTextString = "NUMPAD_SUBTRACT";
                 break;
-            case KeyEvent.KEYCODE_NUMPAD_4:
-                keyTextString = "NUMPAD_4";
+            case KeyEvent.KEYCODE_NUMPAD_0:
+                keyTextString = "NUMPAD_0";
                 break;
-            case KeyEvent.KEYCODE_NUMPAD_6:
-                keyTextString = "NUMPAD_6";
-                break;
-            case KeyEvent.KEYCODE_NUMPAD_8:
-                keyTextString = "NUMPAD_8";
+            case KeyEvent.KEYCODE_NUMPAD_1:
+                keyTextString = "NUMPAD_1";
                 break;
             case KeyEvent.KEYCODE_NUMPAD_2:
                 keyTextString = "NUMPAD_2";
                 break;
+            case KeyEvent.KEYCODE_NUMPAD_3:
+                keyTextString = "NUMPAD_3";
+                break;
+            case KeyEvent.KEYCODE_NUMPAD_4:
+                keyTextString = "NUMPAD_4";
+                break;
             case KeyEvent.KEYCODE_NUMPAD_5:
                 keyTextString = "NUMPAD_5";
+                break;
+            case KeyEvent.KEYCODE_NUMPAD_6:
+                keyTextString = "NUMPAD_6";
                 break;
             case KeyEvent.KEYCODE_NUMPAD_7:
                 keyTextString = "NUMPAD_7";
                 break;
+            case KeyEvent.KEYCODE_NUMPAD_8:
+                keyTextString = "NUMPAD_8";
+                break;
             case KeyEvent.KEYCODE_NUMPAD_9:
                 keyTextString = "NUMPAD_9";
-                break;
-            case KeyEvent.KEYCODE_NUMPAD_1:
-                keyTextString = "NUMPAD_2";
-                break;
-            case KeyEvent.KEYCODE_NUMPAD_3:
-                keyTextString = "NUMPAD_3";
                 break;
         }
         if (keyTextString !=  "Unknown")

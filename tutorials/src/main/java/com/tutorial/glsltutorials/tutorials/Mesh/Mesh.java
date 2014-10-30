@@ -337,7 +337,7 @@ public class Mesh {
                     //GLES20.glBindVertexArray(0);
                     GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, 0);
                 } else {
-                    //throw new Exception("Empty Index Buffer for VAO");
+                    throw new Exception("Empty Index Buffer for VAO");
                 }
             }
         }

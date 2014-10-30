@@ -65,7 +65,7 @@ public class LitMatrixSphere2 extends Shape {
                 indexData.length, color);
     }
 
-    public void Draw() {
+    public void draw() {
         DrawSub(0, 19);
     }
 

@@ -55,6 +55,7 @@ public class VertexShaders {
 
     public static final String DirVertexLighting_PN_vert =
     "attribute vec3 normal;" +
+    "attribute vec4 color;" + // dummy to hold positions
     "attribute vec3 position;" +
 
     "uniform vec3 dirToLight;" +
@@ -75,13 +76,14 @@ public class VertexShaders {
     "void main()" +
     "{" +
         "gl_Position = Projection.cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
-
+        "theColor = 0.001 * color;" + //"theColor = lightIntensity * cosAngIncidence;" +
         "vec3 normCamSpace = normalize(normalModelToCameraMatrix * normal);" +
 
         "float cosAngIncidence = dot(normCamSpace, dirToLight);" +
         "cosAngIncidence = clamp(cosAngIncidence, 0.0, 1.0);" +
 
-        "theColor = vec4(normal, 1.0);" + //"theColor = lightIntensity * cosAngIncidence;" +
+
+        "theColor = vec4(1.0, 0.0, 0.0, 1.0) + 0.001 * color;" + //"theColor = lightIntensity * cosAngIncidence;" +
     "}";
 
     public static final String DirVertexLighting_PCN_vert =
@@ -159,10 +161,7 @@ public class VertexShaders {
     "uniform mat4 modelToCameraMatrix;" +
     "uniform mat3 normalModelToCameraMatrix;" +
 
-    "struct UniformBlock" +
-    "{" +
-        "mat4 cameraToClipMatrix;" +
-    "};" +
+    "uniform mat4 cameraToClipMatrix;" +
 
     "uniform UniformBlock Projection;" +
 
@@ -170,7 +169,8 @@ public class VertexShaders {
 
     "void main()" +
     "{" +
-        "gl_Position = Projection.cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
+        "gl_Position = cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
+        "gl_Position = vec4(position, 1.0));" +
 
         "vec3 normCamSpace = normalize(normalModelToCameraMatrix * normal);" +
 
@@ -178,6 +178,7 @@ public class VertexShaders {
         "cosAngIncidence = clamp(cosAngIncidence, 0.0, 1.0);" +
 
         "theColor = lightIntensity * diffuseColor * cosAngIncidence;" +
+        "theColor = vec4(0.0, 1.0, 0.0, 1.0);" +
     "}";
 
     public static final String lms_vertexShaderCode =
