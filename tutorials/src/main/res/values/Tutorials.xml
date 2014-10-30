@@ -2,8 +2,8 @@
 <resources>
     <string-array name="Tutorials">
         <item>Exit</item>
+        <item>Tut_3D_Shooter3</item>
         <item>Tut_02_Vertex_Colors</item>
-        <item>Triangles</item>
         <item>Tut_03_CPU_Position_Offset</item>
         <item>Tut_03_Shader_Position_Offset</item>
         <item>Tut_03_Shader_Calc_Offset</item>
@@ -33,7 +33,7 @@
         <item>Tut_MultipleShaders</item>
         <item>Tut_3D_Shooter</item>
         <item>Tut_3D_Shooter2</item>
-        <item>Tut_3D_Shooter3</item>
+        <item>Triangles</item>
         <item>SingleMeshItem</item>
     </string-array>
 </resources>

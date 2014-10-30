@@ -7,7 +7,6 @@ import com.tutorial.glsltutorials.tutorials.Colors;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.FragmentShaders;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.VertexShaders;
-import com.tutorial.glsltutorials.tutorials.Geometry.Matrix3f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector4f;
@@ -85,7 +84,7 @@ public class Tut_3D_Shooter extends TutorialBase {
     {
         Programs.Reset();
         Shape.ResetWorldToCameraMatrix();
-        InputStream test1 = Shader.context.getResources().openRawResource(R.raw.test_with_normals);
+        InputStream test1 = Shader.context.getResources().openRawResource(R.raw.test_with_normals_binary);
         ship = new Blender();
         ship.ReadFile(test1);
         ship.SetColor(Colors.WHITE_COLOR);

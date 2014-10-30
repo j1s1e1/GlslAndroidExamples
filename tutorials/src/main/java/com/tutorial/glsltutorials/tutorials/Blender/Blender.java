@@ -20,6 +20,7 @@ public class Blender {
     }
 
     ArrayList<BlenderObject> blenderObjects;
+    Vector3f currentOffset = new Vector3f();
 
     // These files were created from blender objects using C# version
     public String ReadBinaryFile(InputStream filename)
@@ -140,6 +141,11 @@ public class Blender {
         }
     }
 
+    public Vector3f GetOffset()
+    {
+        return currentOffset;
+    }
+
     public void SetColor(float[] color)
     {
         for (BlenderObject bo : blenderObjects)
@@ -162,5 +168,12 @@ public class Blender {
         {
             bo.SetProgram(program);
         }
+    }
+
+    public void Face(Vector3f direction)
+    {
+        Vector3f axis = new Vector3f();
+        float angle = 0;
+        RotateShapes(direction, 10f);
     }
 }

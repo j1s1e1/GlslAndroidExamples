@@ -4,7 +4,7 @@ import android.view.KeyEvent;
 
 import com.tutorial.glsltutorials.tutorials.Blender.Blender;
 import com.tutorial.glsltutorials.tutorials.Colors;
-import com.tutorial.glsltutorials.tutorials.Creatures.Alien;
+import com.tutorial.glsltutorials.tutorials.Creatures.Enemy;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.FragmentShaders;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.VertexShaders;
@@ -32,13 +32,13 @@ public class Tut_3D_Shooter3 extends TutorialBase {
     ArrayList<Missle> missles = new ArrayList<Missle>();
     boolean addMissle = false;
 
-    ArrayList<Alien> aliens;
+    ArrayList<Enemy> enemies;
 
     TextClass credit1;
     TextClass credit2;
 
-    int deadAliensCount = 0;
-    TextClass deadAliensText;
+    int deadEnemysCount = 0;
+    TextClass deadEnemysText;
 
     boolean staticText = true;
 
@@ -63,6 +63,9 @@ public class Tut_3D_Shooter3 extends TutorialBase {
 
     Vector3f initialScale = new Vector3f(0.1f, 0.1f, 0.1f);
     Vector3f currentScale = new Vector3f(0.1f, 0.1f, 0.1f);
+    float totalScale = 1.0f;
+    float minScale = 0.1f;
+    float maxScale = 10f;
 
     private void SetupShaders()
     {
@@ -99,12 +102,12 @@ public class Tut_3D_Shooter3 extends TutorialBase {
         ship.SetColor(Colors.WHITE_COLOR);
         ship.Scale(currentScale);
 
-        aliens = new ArrayList<Alien>();
+        enemies = new ArrayList<Enemy>();
 
         for (int i = 0; i < 10; i++)
         {
-            Alien alien = new Alien();
-            aliens.add(alien);
+            Enemy enemy = new Enemy();
+            enemies.add(enemy);
         }
 
         credit1 = new TextClass("X-Wing Model based on Blender model by", 0.4f, 0.04f, staticText);
@@ -113,8 +116,8 @@ public class Tut_3D_Shooter3 extends TutorialBase {
         credit2 = new TextClass("Angel David Guzman of PixelOz Designs", 0.4f, 0.04f, staticText);
         credit2.SetOffset(new Vector3f(-0.75f, -0.75f, 0.0f));
 
-        deadAliensText = new TextClass("Dead Aliens = " + String.valueOf(deadAliensCount), 0.4f, 0.04f, staticText);
-        deadAliensText.SetOffset(new Vector3f(-0.75f, +0.9f, 0.0f));
+        deadEnemysText = new TextClass("Dead Enemys = " + String.valueOf(deadEnemysCount), 0.4f, 0.04f, staticText);
+        deadEnemysText.SetOffset(new Vector3f(-0.75f, +0.9f, 0.0f));
 
         axis_info = new TextClass("Axis  " + axis.toString(), 0.4f, 0.03f, staticText);
         axis_info.SetOffset(new Vector3f(-0.9f, 0.8f, 0.0f));
@@ -135,7 +138,7 @@ public class Tut_3D_Shooter3 extends TutorialBase {
     public void display()
     {
         ArrayList<Integer> deadMissles = new ArrayList<Integer>();
-        ArrayList<Integer> deadAliens = new ArrayList<Integer>();
+        ArrayList<Integer> deadEnemys = new ArrayList<Integer>();
         ClearDisplay();
         ship.Draw();
         anglehorizontal = anglehorizontal + 0.02f;
@@ -184,24 +187,24 @@ public class Tut_3D_Shooter3 extends TutorialBase {
             enableInfoDebounce--;
         }
         int dead = 0;
-        for(int i = 0; i < aliens.size(); i++)
+        for(int i = 0; i < enemies.size(); i++)
         {
-            if (aliens.get(i).isDead())
+            if (enemies.get(i).isDead())
             {
                 dead++;
             }
             else
             {
-                aliens.get(i).Draw();
-                aliens.get(i).FireOn(missles);
+                enemies.get(i).Draw();
+                enemies.get(i).FireOn(missles);
             }
         }
-        if (dead > deadAliensCount)
+        if (dead > deadEnemysCount)
         {
-            deadAliensCount = dead;
-            deadAliensText.UpdateText("Dead Aliens = " + String.valueOf(deadAliensCount));
+            deadEnemysCount = dead;
+            deadEnemysText.UpdateText("Dead Enemys = " + String.valueOf(deadEnemysCount));
         }
-        deadAliensText.draw();
+        deadEnemysText.draw();
         credit1.draw();
         credit2.draw();
     }
@@ -259,12 +262,10 @@ public class Tut_3D_Shooter3 extends TutorialBase {
                 }
                 break;
             case KeyEvent.KEYCODE_NUMPAD_ADD:
-                currentScale = currentScale.mul(1.05f);
-                ship.Scale(currentScale);
+                SetScale(1.05f);
                 break;
             case KeyEvent.KEYCODE_NUMPAD_SUBTRACT:
-                currentScale = currentScale.divide(1.05f);
-                ship.Scale(currentScale);
+                SetScale(1f/1.05f);
                 break;
             case KeyEvent.KEYCODE_NUMPAD_4:
                 Rotate(Vector3f.UnitY, 5f);
@@ -320,6 +321,12 @@ public class Tut_3D_Shooter3 extends TutorialBase {
                         addMissle = true;
                     }
                 }
+                if (y_position / (height / 8) == 0) {
+                    SetScale(1.05f);
+                }
+                if (y_position / (height / 8) == 7) {
+                    SetScale(1f/1.05f);
+                }
                 break;
             case 4: Rotate(Vector3f.UnitY, -5f); break;
             case 5: Rotate(Vector3f.UnitZ, 5f); break;
@@ -350,9 +357,14 @@ public class Tut_3D_Shooter3 extends TutorialBase {
         }
     }
 
-    public void SetScale(float scale)
-    {
-        currentScale = initialScale.mul(scale);
-        ship.Scale(currentScale);
+    public void SetScale(float scale) {
+        if ((totalScale * scale) > minScale)
+        {
+            if ((totalScale * scale) < maxScale) {
+                totalScale = totalScale * scale;
+                Shape.ScaleWorldToCameraMatrix(scale);
+            }
+        }
+        //ship.Scale(currentScale);
     }
 }

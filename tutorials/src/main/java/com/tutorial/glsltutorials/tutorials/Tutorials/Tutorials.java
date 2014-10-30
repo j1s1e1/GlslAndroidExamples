@@ -100,8 +100,8 @@ public class Tutorials extends Activity implements
                 Intent startIntent = new Intent(Shader.context, MainActivity.class);
                 startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 break;
-            case 1: TestRenderer.tutorial = new  Tut_02_Vertex_Colors(); break;
-            case 2: TestRenderer.tutorial = new Tut_Triangles(); break;
+            case 1: TestRenderer.tutorial = new  Tut_3D_Shooter3(); break;
+            case 2: TestRenderer.tutorial = new  Tut_02_Vertex_Colors(); break;
             case 3: TestRenderer.tutorial = new Tut_03_CPU_Position_Offset(); break;
             case 5: TestRenderer.tutorial = new Tut_03_Shader_Calc_Offset(); break;
             case 7: TestRenderer.tutorial = new Tut_04_MatrixPerspective(); break;
@@ -126,7 +126,7 @@ public class Tutorials extends Activity implements
                 toast1.show();
                 TestRenderer.tutorial = new Tut_3D_Shooter2();
                 break;
-            case 32: TestRenderer.tutorial = new Tut_3D_Shooter3(); break;
+            case 32: TestRenderer.tutorial = new Tut_Triangles(); break;
             case 33: TestRenderer.tutorial = new SingleMeshItem(); break;
             default:
                 final Toast toast2 = Toast.makeText(Shader.context,"Not implemented", Toast.LENGTH_SHORT);

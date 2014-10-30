@@ -90,6 +90,11 @@ public class Shape
         worldToCamera = Matrix4f.Identity();
     }
 
+    public static void ScaleWorldToCameraMatrix(float scaleFactor)
+    {
+        worldToCamera.Scale(new Vector3f(scaleFactor, scaleFactor, scaleFactor));
+    }
+
     protected void SetupSimpleIndexBuffer()
     {
         indexData = new short[vertexData.length/COORDS_PER_VERTEX];
