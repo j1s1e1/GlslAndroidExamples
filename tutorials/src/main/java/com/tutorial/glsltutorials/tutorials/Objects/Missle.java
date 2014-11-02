@@ -24,7 +24,7 @@ public class Missle {
     LitMatrixSphere2 bottomLeft;
     LitMatrixSphere2 bottomRight;
 
-    float radius = 0.01f;
+    float radius = 0.02f;
     boolean started = false;
     boolean prepare_to_stop = false;
     boolean finished = false;
@@ -40,34 +40,6 @@ public class Missle {
     float stepMultiple = 0.04f;
 
     Vector3f axis;
-/*
-    final Handler timerHandler = new Handler();
-    TimerTask timerElapsed = new TimerTask()
-    {
-        @Override
-        public void run()
-        {
-            timerHandler.post(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    try
-                    {
-                        TimerTick();
-                    }
-                    catch (Exception ex)
-                    {
-                        int debug = 0;
-                        debug++;
-                    }
-                }
-            });
-        }
-    };
-    */
-    Timer timer;
-    int timerCount = 0;
     int startFrameCount = 10;
     int finishedFrameCount = 10;
 

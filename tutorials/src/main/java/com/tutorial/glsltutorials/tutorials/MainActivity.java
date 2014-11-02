@@ -35,15 +35,12 @@ public class MainActivity extends ListActivity {
         if (requestExit) {
             try {
                 android.os.SystemClock.sleep(2000);
-                //this.onBackPressed();
-                //this.onDestroy();
-                //android.os.SystemClock.sleep(2000);
                 this.finish();
                 System.exit(0);
             }
             catch (Exception ex)
             {
-                // Skp silly message that says we closed the program
+                // Skip silly message that says we closed the program
             }
         }
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -59,7 +56,7 @@ public class MainActivity extends ListActivity {
         {
             final Map<String, Object> item = new HashMap<String, Object>();
             item.put(ITEM_IMAGE, null);
-            item.put(ITEM_TITLE, "GLSL Tutorials -- Press Title to Return to Tutorials, Back or Home to Exit");
+            item.put(ITEM_TITLE, "GLSL Tutorials -- Press Title to Return to Tutorials, Back Back Back to Exit");
             item.put(ITEM_SUBTITLE, "");
             data.add(item);
             activityMapping.put(i++, Tutorials.class);

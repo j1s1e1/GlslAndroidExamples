@@ -140,6 +140,7 @@ public abstract class TutorialBase {
 
     public void display() throws Exception
     {
+
     }
 
     //Called whenever a key on the keyboard was pressed.

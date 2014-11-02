@@ -1,8 +1,9 @@
-package com.tutorial.glsltutorials.tutorials;
+package com.tutorial.glsltutorials.tutorials.Tutorials;
 
 import android.opengl.GLES20;
 import android.view.KeyEvent;
 
+import com.tutorial.glsltutorials.tutorials.Camera;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.FragmentShaders;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.VertexShaders;
@@ -10,8 +11,11 @@ import com.tutorial.glsltutorials.tutorials.Geometry.Matrix3f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector4f;
+import com.tutorial.glsltutorials.tutorials.MatrixStack;
 import com.tutorial.glsltutorials.tutorials.Mesh.Mesh;
 import com.tutorial.glsltutorials.tutorials.ProgramData.Programs;
+import com.tutorial.glsltutorials.tutorials.PushStack;
+import com.tutorial.glsltutorials.tutorials.R;
 import com.tutorial.glsltutorials.tutorials.Shapes.Shape;
 import com.tutorial.glsltutorials.tutorials.Text.TextClass;
 import com.tutorial.glsltutorials.tutorials.Tutorials.TutorialBase;
@@ -21,7 +25,7 @@ import java.io.InputStream;
 /**
  * Created by Jamie on 6/8/14.
  */
-public class SingleMeshItem extends TutorialBase {
+public class Tut_SingleMeshItem extends TutorialBase {
 
     static float g_fzNear = 1.0f;
     static float g_fzFar = 1000.0f;
@@ -42,7 +46,7 @@ public class SingleMeshItem extends TutorialBase {
     boolean updateTouchText = false;
 
 
-    void InitializeProgram() throws Exception
+    void InitializeProgram()
     {
         UniformColor = Programs.AddProgram(VertexShaders.PosOnlyWorldTransform_vert, FragmentShaders.ColorUniform_frag);
         Programs.SetUniformColor(UniformColor, new Vector4f(0.694f, 0.4f, 0.106f, 1.0f));
@@ -83,7 +87,7 @@ public class SingleMeshItem extends TutorialBase {
             throw new Exception("Error " + ex.toString());
         }
 
-       SetupDepthAndCull();
+        SetupDepthAndCull();
         reshape();
         current_mesh = g_pCubeColorMesh;
         touchText = new TextClass(" ", 0.5f, 0.05f);
@@ -212,7 +216,6 @@ public class SingleMeshItem extends TutorialBase {
         }
         result.append(keyCode);
         reshape();
-        display();
         return result.toString();
     }
 
@@ -269,7 +272,6 @@ public class SingleMeshItem extends TutorialBase {
             default:
                 break;
         }
-        reshape();
         if (!touchTextString.equals(lastTouchTextString)) {
             updateTouchText = true;
         }

@@ -9,8 +9,6 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.SyncStateContract;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -20,13 +18,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
 import com.tutorial.glsltutorials.tutorials.MainActivity;
 import com.tutorial.glsltutorials.tutorials.R;
-import com.tutorial.glsltutorials.tutorials.SingleMeshItem;
 import com.tutorial.glsltutorials.tutorials.TestRenderer;
 import com.tutorial.glsltutorials.tutorials.TestRenderer30;
 
@@ -49,9 +45,8 @@ public class Tutorials extends Activity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutorials);
-
         ListView listview = (ListView) findViewById(R.id.listView);
-        // Create an ArrayAdapter using the string array and a default spinner layout
+
         ArrayAdapter<CharSequence> adapter;
         adapter = ArrayAdapter.createFromResource(this,
                 R.array.Tutorials, android.R.layout.simple_list_item_1);
@@ -63,7 +58,6 @@ public class Tutorials extends Activity implements
                 @Override
                 public void onItemClick(AdapterView adapterView, View view,
                                         int pos, long arg3) {
-                    int selectedPosition = adapterView.getSelectedItemPosition();
                     chooseTutorial(pos);
                 }
             });
@@ -93,12 +87,11 @@ public class Tutorials extends Activity implements
             case 0:
                 MainActivity.requestExit = true;
                 final Toast toast = Toast.makeText(Shader.context, "Android hates when we close our apps..." +
-                                "Please press back or home from main screen",
+                                "Please press back a few times to release all resources.",
                         Toast.LENGTH_SHORT);
                 toast.show();
                 this.finish();
-                Intent startIntent = new Intent(Shader.context, MainActivity.class);
-                startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                super.onBackPressed();
                 break;
             case 1: TestRenderer.tutorial = new  Tut_3D_Shooter3(); break;
             case 2: TestRenderer.tutorial = new  Tut_02_Vertex_Colors(); break;
@@ -127,13 +120,17 @@ public class Tutorials extends Activity implements
                 TestRenderer.tutorial = new Tut_3D_Shooter2();
                 break;
             case 32: TestRenderer.tutorial = new Tut_Triangles(); break;
-            case 33: TestRenderer.tutorial = new SingleMeshItem(); break;
+            case 33: TestRenderer.tutorial = new Tut_SingleMeshItem(); break;
             default:
                 final Toast toast2 = Toast.makeText(Shader.context,"Not implemented", Toast.LENGTH_SHORT);
                 toast2.show();
                 return;
         }
-        if (pos != 0) SetupOpenGL(version);
+        if (pos != 0)
+        {
+            paused = false;
+            SetupOpenGL(version);
+        }
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
@@ -199,6 +196,7 @@ public class Tutorials extends Activity implements
                 Renderer = new TestRenderer();
                 // Set the renderer to our demo renderer, defined below.
                 mGLView.setRenderer(Renderer);
+                Renderer.EnableGlesDisplay();
             }
         } else {
             // This is where you could create an OpenGL ES 1.x compatible
@@ -250,7 +248,7 @@ public class Tutorials extends Activity implements
         return false;
     }
 
-    boolean paused = false;
+    static boolean paused = false;
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)  {
@@ -315,24 +313,19 @@ public class Tutorials extends Activity implements
     }
 
     public void onBackPressed(){
-        if (true)
+        if (paused)
         {
-            mGLView.setVisibility(View.INVISIBLE);
-            if (paused)
-            {
-                mGLView.onResume();
-                paused = false;
-            }
-            else {
-                mGLView.onPause();
-                Intent startIntent = new Intent(Shader.context, MainActivity.class);
-                startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                Shader.context.startActivity(startIntent);
-            }
-        }
-        else
-        {
+            paused = false;
+            // wait for any more intents
+            android.os.SystemClock.sleep(1000);
             super.onBackPressed();
+        }
+        else {
+            Renderer.DisableGlesDisplay();
+            paused = true;
+            Intent startIntent = new Intent(Shader.context, MainActivity.class);
+            startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            Shader.context.startActivity(startIntent);
         }
     }
 }

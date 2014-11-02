@@ -86,7 +86,7 @@ public class Tut_3D_Shooter extends TutorialBase {
         Shape.ResetWorldToCameraMatrix();
         InputStream test1 = Shader.context.getResources().openRawResource(R.raw.test_with_normals_binary);
         ship = new Blender();
-        ship.ReadFile(test1);
+        ship.ReadBinaryFile(test1);
         ship.SetColor(Colors.WHITE_COLOR);
         ship.Scale(currentScale);
 

@@ -20,9 +20,21 @@ public class TestRenderer implements GLSurfaceView.Renderer {
     int frame_count = 0;
     public static TutorialBase tutorial;
 
+    private boolean displayGLES = false;
+
     private void SetupTutorial()
     {
         tutorial.Setup();
+    }
+
+    public void EnableGlesDisplay()
+    {
+        displayGLES = true;
+    }
+
+    public void DisableGlesDisplay()
+    {
+        displayGLES = false;
     }
 
     @Override
@@ -30,7 +42,9 @@ public class TestRenderer implements GLSurfaceView.Renderer {
 
         try
         {
-            tutorial.display();
+            if (displayGLES) {
+                tutorial.display();
+            }
         }
         catch (Exception ex)
         {
