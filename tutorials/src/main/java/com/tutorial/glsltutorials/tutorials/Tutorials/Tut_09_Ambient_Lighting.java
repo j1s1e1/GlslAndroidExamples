@@ -310,7 +310,7 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
                 }
             }
         }
-        lms2.SetOffset(cylinderTraslation);
+        lms2.setOffset(cylinderTraslation);
         lms2.draw();
     }
 

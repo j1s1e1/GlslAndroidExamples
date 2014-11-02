@@ -30,15 +30,15 @@ public class Alien {
         int colorSelection = random.nextInt(3);
         switch (colorSelection)
         {
-            case 0:	body.SetColor(Colors.RED_COLOR); break;
-            case 1: body.SetColor(Colors.GREEN_COLOR); break;
-            case 2: body.SetColor(Colors.BLUE_COLOR); break;
-            default: body.SetColor(Colors.YELLOW_COLOR); break;
+            case 0:	body.setColor(Colors.RED_COLOR); break;
+            case 1: body.setColor(Colors.GREEN_COLOR); break;
+            case 2: body.setColor(Colors.BLUE_COLOR); break;
+            default: body.setColor(Colors.YELLOW_COLOR); break;
         }
         xOffset = xOffset * scale;
         yOffset = yOffset * scale;
         zOffset = zOffset * scale;
-        body.SetOffset(new Vector3f(xOffset, yOffset, zOffset));
+        body.setOffset(new Vector3f(xOffset, yOffset, zOffset));
     }
 
     public boolean isDead()
@@ -46,9 +46,9 @@ public class Alien {
         return dead;
     }
 
-    public void Draw()
+    public void draw()
     {
-        body.Draw();
+        body.draw();
         if (frameCount < framesPerMove)
         {
             frameCount++;
@@ -56,15 +56,15 @@ public class Alien {
         else
         {
             frameCount = 0;
-            body.SetOffset(movement.NewOffset(body.GetOffset()));
+            body.setOffset(movement.newOffset(body.GetOffset()));
         }
     }
 
-    public void FireOn(ArrayList<Missle> missles)
+    public void fireOn(ArrayList<Missle> missles)
     {
         for (Missle m : missles)
         {
-            if (collision.DetectColisions(body.GetOffset(), m.GetOffsets()))
+            if (collision.detectColisions(body.GetOffset(), m.GetOffsets()))
             {
                 dead = true;
                 break;
@@ -72,8 +72,8 @@ public class Alien {
         }
     }
 
-    public void SetProgram(int newProgram)
+    public void setProgram(int newProgram)
     {
-        body.SetProgram(newProgram);
+        body.setProgram(newProgram);
     }
 }

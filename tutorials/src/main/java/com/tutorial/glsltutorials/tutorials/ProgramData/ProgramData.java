@@ -94,12 +94,12 @@ public class ProgramData {
         }
     }
 
-    public boolean CompareShaders(String vertexShaderIn, String fragmentShaderIn)
+    public boolean compareShaders(String vertexShaderIn, String fragmentShaderIn)
     {
         return ((vertexShaderIn == vertexShader) & (fragmentShader == fragmentShaderIn));
     }
 
-    public void Draw(int[] vertexBufferObject, int[] indexBufferObject,
+    public void draw(int[] vertexBufferObject, int[] indexBufferObject,
                      Matrix4f cameraToClip, Matrix4f worldToCamera, Matrix4f mm,
                      int indexDataLength, float[] color)
     {
@@ -164,70 +164,70 @@ public class ProgramData {
         return result.toString();
     }
 
-    public void SetUniformColor(Vector4f color)
+    public void setUniformColor(Vector4f color)
     {
         GLES20.glUseProgram(theProgram);
         GLES20.glUniform4fv(baseColorUnif, 1, color.toArray(), 0);
         GLES20.glUseProgram(0);
     }
 
-    public void SetLightPosition(Vector3f lightPosition)
+    public void setLightPosition(Vector3f lightPosition)
     {
         GLES20.glUseProgram(theProgram);
         GLES20.glUniform3fv(lightPosUnif, 1, lightPosition.toArray(), 0);
         GLES20.glUseProgram(0);
     }
 
-    public void SetModelSpaceLightPosition(Vector3f modelSpaceLightPos)
+    public void setModelSpaceLightPosition(Vector3f modelSpaceLightPos)
     {
         GLES20.glUseProgram(theProgram);
         GLES20.glUniform3fv(modelSpaceLightPosUnif, 1, modelSpaceLightPos.toArray(), 0);
         GLES20.glUseProgram(0);
     }
 
-    public void SetDirectionToLight(Vector3f dirToLight)
+    public void setDirectionToLight(Vector3f dirToLight)
     {
         GLES20.glUseProgram(theProgram);
         GLES20.glUniform3fv(dirToLightUnif, 1, dirToLight.toArray(), 0);
         GLES20.glUseProgram(0);
     }
 
-    public void SetLightIntensity(Vector4f lightIntensity)
+    public void setLightIntensity(Vector4f lightIntensity)
     {
         GLES20.glUseProgram(theProgram);
         GLES20.glUniform4fv(lightIntensityUnif, 1, lightIntensity.toArray(), 0);
         GLES20.glUseProgram(0);
     }
 
-    public void SetAmbientIntensity(Vector4f ambientIntensity)
+    public void setAmbientIntensity(Vector4f ambientIntensity)
     {
         GLES20.glUseProgram(theProgram);
         GLES20.glUniform4fv(ambientIntensityUnif, 1, ambientIntensity.toArray(), 0);
         GLES20.glUseProgram(0);
     }
 
-    public void SetNormalModelToCameraMatrix(Matrix3f normalModelToCameraMatrix)
+    public void setNormalModelToCameraMatrix(Matrix3f normalModelToCameraMatrix)
     {
         GLES20.glUseProgram(theProgram);
         GLES20.glUniformMatrix3fv(normalModelToCameraMatrixUnif, 1, false, normalModelToCameraMatrix.toArray(), 0);
         GLES20.glUseProgram(0);
     }
 
-    public void SetModelToCameraMatrix(Matrix4f modelToCameraMatrix)
+    public void setModelToCameraMatrix(Matrix4f modelToCameraMatrix)
     {
         GLES20.glUseProgram(theProgram);
         GLES20.glUniformMatrix4fv(modelToCameraMatrixUnif, 1, false, modelToCameraMatrix.toArray(), 0);
         GLES20.glUseProgram(0);
     }
 
-    public void SetModelToWorldMatrix(Matrix4f modelToWorldMatrix)
+    public void setModelToWorldMatrix(Matrix4f modelToWorldMatrix)
     {
         GLES20.glUseProgram(theProgram);
         GLES20.glUniformMatrix4fv(modelToWorldMatrixUnif, 1, false, modelToWorldMatrix.toArray(), 0);
         GLES20.glUseProgram(0);
     }
 
-    public void SetCameraToClipMatrixUnif(Matrix4f cameraToClipMatrix)
+    public void setCameraToClipMatrixUnif(Matrix4f cameraToClipMatrix)
     {
         GLES20.glUseProgram(theProgram);
         GLES20.glUniformMatrix4fv(cameraToClipMatrixUnif, 1, false, cameraToClipMatrix.toArray(), 0);
@@ -235,14 +235,14 @@ public class ProgramData {
     }
 
 
-    public void SetWorldToCameraMatrixUnif( Matrix4f worldToCameraMatrix)
+    public void setWorldToCameraMatrixUnif(Matrix4f worldToCameraMatrix)
     {
         GLES20.glUseProgram(theProgram);
         GLES20.glUniformMatrix4fv(worldToCameraMatrixUnif, 1, false, worldToCameraMatrix.toArray(), 0);
         GLES20.glUseProgram(0);
     }
 
-    public void Use()
+    public void use()
     {
         GLES20.glUseProgram(theProgram);
     }

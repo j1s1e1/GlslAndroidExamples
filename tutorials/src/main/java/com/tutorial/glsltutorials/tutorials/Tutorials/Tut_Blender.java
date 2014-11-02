@@ -1,6 +1,5 @@
 package com.tutorial.glsltutorials.tutorials.Tutorials;
 
-import android.opengl.GLES20;
 import android.view.KeyEvent;
 
 import com.tutorial.glsltutorials.tutorials.Blender.Blender;
@@ -30,20 +29,20 @@ public class Tut_Blender extends TutorialBase {
 
     protected void init()
     {
-        Programs.Reset();
-        Shape.ResetWorldToCameraMatrix();
+        Programs.reset();
+        Shape.resetWorldToCameraMatrix();
         InputStream test1 = Shader.context.getResources().openRawResource(R.raw.test);
         blender = new Blender();
-        blender.ReadFile(test1);
-        blender.Scale(new Vector3f(0.05f, 0.05f, 0.05f));
+        blender.readFile(test1);
+        blender.scale(new Vector3f(0.05f, 0.05f, 0.05f));
         blender2 = new Blender();
         test1 = Shader.context.getResources().openRawResource(R.raw.test);
-        blender2.ReadFile(test1);
-        blender2.Scale(new Vector3f(0.07f, 0.05f, 0.05f));
-        blender2.SetColor(Colors.BLUE_COLOR);
+        blender2.readFile(test1);
+        blender2.scale(new Vector3f(0.07f, 0.05f, 0.05f));
+        blender2.setColor(Colors.BLUE_COLOR);
 
         controls = new TextClass("X_CCW   X_CW    Y_CCW   Y_CW    Z_CCW   Z_CW", 0.4f, 0.04f, staticText);
-        controls.SetOffset(new Vector3f(-0.9f, -0.8f, 0.0f));
+        controls.setOffset(new Vector3f(-0.9f, -0.8f, 0.0f));
 
         SetupDepthAndCull();
     }
@@ -58,13 +57,13 @@ public class Tut_Blender extends TutorialBase {
     public void display()
     {
         ClearDisplay();
-        blender.Draw();
-        blender2.Draw();
+        blender.draw();
+        blender2.draw();
         xoffset = (float) (Math.cos(anglevertical) * Math.cos(anglehorizontal));
         yoffset = (float) (Math.cos(anglevertical) * Math.sin(anglehorizontal));
         zoffset = (float) (Math.sin(anglevertical)) / 10f;
-        blender.SetOffset(new Vector3f(xoffset, yoffset, zoffset));
-        blender2.SetOffset(new Vector3f(-xoffset, yoffset, -zoffset));
+        blender.setOffset(new Vector3f(xoffset, yoffset, zoffset));
+        blender2.setOffset(new Vector3f(-xoffset, yoffset, -zoffset));
         anglehorizontal = anglehorizontal + 0.02f;
         anglevertical = anglevertical + 0.01f;
 
@@ -77,25 +76,25 @@ public class Tut_Blender extends TutorialBase {
         switch (keyCode)
         {
             case KeyEvent.KEYCODE_1:
-                Shape.RotateWorld(new Vector3f(1f, 0f, 0f), 5f);
+                Shape.rotateWorld(new Vector3f(1f, 0f, 0f), 5f);
                 break;
             case KeyEvent.KEYCODE_2:
-                Shape.RotateWorld(new Vector3f(1f, 0f, 0f), -5f);
+                Shape.rotateWorld(new Vector3f(1f, 0f, 0f), -5f);
                 break;
             case KeyEvent.KEYCODE_3:
-                Shape.RotateWorld(new Vector3f(0f, 1f, 0f), 5f);
+                Shape.rotateWorld(new Vector3f(0f, 1f, 0f), 5f);
                 break;
             case KeyEvent.KEYCODE_4:
-                Shape.RotateWorld(new Vector3f(0f, 1f, 0f), -5f);
+                Shape.rotateWorld(new Vector3f(0f, 1f, 0f), -5f);
                 break;
             case KeyEvent.KEYCODE_5:
-                Shape.RotateWorld(new Vector3f(0f, 0f, 1f), 5f);
+                Shape.rotateWorld(new Vector3f(0f, 0f, 1f), 5f);
                 break;
             case KeyEvent.KEYCODE_6:
-                Shape.RotateWorld(new Vector3f(0f, 0f, 1f), -5f);
+                Shape.rotateWorld(new Vector3f(0f, 0f, 1f), -5f);
                 break;
             case KeyEvent.KEYCODE_I:
-                result.append("Found " + String.valueOf(blender.ObjectCount()) + " objects in Blender file.");
+                result.append("Found " + String.valueOf(blender.objectCount()) + " objects in Blender file.");
                 break;
         }
         return result.toString();
@@ -106,12 +105,12 @@ public class Tut_Blender extends TutorialBase {
         int selection = x_position / (width/6);
         switch (selection)
         {
-            case 0: Shape.RotateWorld(new Vector3f(1f, 0f, 0f), 5f); break;
-            case 1: Shape.RotateWorld(new Vector3f(1f, 0f, 0f), -5f); break;
-            case 2: Shape.RotateWorld(new Vector3f(0f, 1f, 0f), 5f); break;
-            case 3: Shape.RotateWorld(new Vector3f(0f, 1f, 0f), -5f); break;
-            case 4: Shape.RotateWorld(new Vector3f(0f, 0f, 1f), 5f); break;
-            case 5: Shape.RotateWorld(new Vector3f(0f, 0f, 1f), -5f); break;
+            case 0: Shape.rotateWorld(new Vector3f(1f, 0f, 0f), 5f); break;
+            case 1: Shape.rotateWorld(new Vector3f(1f, 0f, 0f), -5f); break;
+            case 2: Shape.rotateWorld(new Vector3f(0f, 1f, 0f), 5f); break;
+            case 3: Shape.rotateWorld(new Vector3f(0f, 1f, 0f), -5f); break;
+            case 4: Shape.rotateWorld(new Vector3f(0f, 0f, 1f), 5f); break;
+            case 5: Shape.rotateWorld(new Vector3f(0f, 0f, 1f), -5f); break;
         }
         //QuickToast("Touch Event.  X = " + String.valueOf(x_position) + " Y = " + String.valueOf(y_position)
         //        + " selection " + String.valueOf(selection));

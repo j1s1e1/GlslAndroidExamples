@@ -27,28 +27,28 @@ public class Tut_Camera extends TutorialBase {
 
     protected void init()
     {
-        Programs.Reset();
-        Shape.ResetWorldToCameraMatrix();
+        Programs.reset();
+        Shape.resetWorldToCameraMatrix();
         lms1 = new LitMatrixSphere2(0.2f);
         lms2 = new LitMatrixSphere2(0.2f);
-        lms2.SetOffset(new Vector3f(-0.5f, 0f, 0f));
-        lms2.SetColor(0f, 1f, 0f);
+        lms2.setOffset(new Vector3f(-0.5f, 0f, 0f));
+        lms2.setColor(0f, 1f, 0f);
 
         Vector3f size = new Vector3f(0.01f, 0.05f, 0.05f);
         Vector3f offset = new Vector3f(0.0f, 0.0f, 0.0f);
         Vector3f axis = new Vector3f(0f, 0f, 1f);
 
         lmb1 = new LitMatrixBlock2(size, Colors.BLUE_COLOR);
-        lmb1.SetOffset(offset);
-        lmb1.SetAxis(axis);
+        lmb1.setOffset(offset);
+        lmb1.setAxis(axis);
 
         Vector3f size2 = new Vector3f(0.005f, 0.005f, 0.005f);
         Vector3f offset2 = new Vector3f(0.0f, 0.0f, 0.1f);
         Vector3f axis2 = new Vector3f(0f, 0f, 1f);
 
         lmb2 = new LitMatrixBlock2(size2, Colors.RED_COLOR);
-        lmb2.SetOffset(offset2);
-        lmb2.SetAxis(axis2);
+        lmb2.setOffset(offset2);
+        lmb2.setAxis(axis2);
 
         GLES20.glEnable(GLES20.GL_CULL_FACE);
         GLES20.glCullFace(GLES20.GL_BACK);
@@ -67,11 +67,11 @@ public class Tut_Camera extends TutorialBase {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         GLES20.glClearDepthf(1.0f);
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
-        lms1.Draw();
-        lms2.Draw();
-        lmb1.Draw();
-        lmb2.Draw();
-        lmb2.UpdateAngle(lmb2_angle++);
+        lms1.draw();
+        lms2.draw();
+        lmb1.draw();
+        lmb2.draw();
+        lmb2.updateAngle(lmb2_angle++);
     }
 
     public String keyboard(int keyCode, int x, int y)
@@ -80,22 +80,22 @@ public class Tut_Camera extends TutorialBase {
         switch (keyCode)
         {
             case KeyEvent.KEYCODE_1:
-                Shape.RotateWorld(new Vector3f(1f, 0f, 0f), 5f);
+                Shape.rotateWorld(new Vector3f(1f, 0f, 0f), 5f);
                 break;
             case KeyEvent.KEYCODE_2:
-                Shape.RotateWorld(new Vector3f(1f, 0f, 0f), -5f);
+                Shape.rotateWorld(new Vector3f(1f, 0f, 0f), -5f);
                 break;
             case KeyEvent.KEYCODE_3:
-                Shape.RotateWorld(new Vector3f(0f, 1f, 0f), 5f);
+                Shape.rotateWorld(new Vector3f(0f, 1f, 0f), 5f);
                 break;
             case KeyEvent.KEYCODE_4:
-                Shape.RotateWorld(new Vector3f(0f, 1f, 0f), -5f);
+                Shape.rotateWorld(new Vector3f(0f, 1f, 0f), -5f);
                 break;
             case KeyEvent.KEYCODE_5:
-                Shape.RotateWorld(new Vector3f(0f, 0f, 1f), 5f);
+                Shape.rotateWorld(new Vector3f(0f, 0f, 1f), 5f);
                 break;
             case KeyEvent.KEYCODE_6:
-                Shape.RotateWorld(new Vector3f(0f, 0f, 1f), -5f);
+                Shape.rotateWorld(new Vector3f(0f, 0f, 1f), -5f);
                 break;
             case KeyEvent.KEYCODE_N:
                 Shape.worldToCamera.M42 = Shape.worldToCamera.M42 + 0.01f;
@@ -123,12 +123,12 @@ public class Tut_Camera extends TutorialBase {
         int selection = x_position / 200;
         switch (selection)
         {
-            case 0: Shape.RotateWorld(new Vector3f(1f, 0f, 0f), 5f); break;
-            case 1: Shape.RotateWorld(new Vector3f(1f, 0f, 0f), -5f); break;
-            case 2: Shape.RotateWorld(new Vector3f(0f, 1f, 0f), 5f); break;
-            case 3: Shape.RotateWorld(new Vector3f(0f, 1f, 0f), -5f); break;
-            case 4: Shape.RotateWorld(new Vector3f(0f, 0f, 1f), 5f); break;
-            case 5: Shape.RotateWorld(new Vector3f(0f, 0f, 1f), -5f); break;
+            case 0: Shape.rotateWorld(new Vector3f(1f, 0f, 0f), 5f); break;
+            case 1: Shape.rotateWorld(new Vector3f(1f, 0f, 0f), -5f); break;
+            case 2: Shape.rotateWorld(new Vector3f(0f, 1f, 0f), 5f); break;
+            case 3: Shape.rotateWorld(new Vector3f(0f, 1f, 0f), -5f); break;
+            case 4: Shape.rotateWorld(new Vector3f(0f, 0f, 1f), 5f); break;
+            case 5: Shape.rotateWorld(new Vector3f(0f, 0f, 1f), -5f); break;
         }
         //QuickToast("Touch Event.  X = " + String.valueOf(x_position) + " Y = " + String.valueOf(y_position)
         //        + " selection " + String.valueOf(selection));

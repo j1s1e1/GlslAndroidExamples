@@ -1,6 +1,5 @@
 package com.tutorial.glsltutorials.tutorials.Tutorials;
 
-import android.opengl.GLES20;
 import android.view.KeyEvent;
 
 import com.tutorial.glsltutorials.tutorials.Blender.Blender;
@@ -67,18 +66,18 @@ public class Tut_3D_Shooter2 extends TutorialBase {
 
     private void SetupShaders()
     {
-        defaultShader = Programs.AddProgram(VertexShaders.lms_vertexShaderCode,
+        defaultShader = Programs.addProgram(VertexShaders.lms_vertexShaderCode,
                 FragmentShaders.lms_fragmentShaderCode);
 
-        shaderFragWhiteDiffuseColor = Programs.AddProgram(VertexShaders.FragmentLighting_PN,
+        shaderFragWhiteDiffuseColor = Programs.addProgram(VertexShaders.FragmentLighting_PN,
                 FragmentShaders.FragmentLighting);
-        Programs.SetLightIntensity(shaderFragWhiteDiffuseColor, new Vector4f(0.8f, 0.8f, 0.8f, 1.0f));
-        Programs.SetAmbientIntensity(shaderFragWhiteDiffuseColor, new Vector4f(0.2f, 0.2f, 0.2f, 1.0f));
+        Programs.setLightIntensity(shaderFragWhiteDiffuseColor, new Vector4f(0.8f, 0.8f, 0.8f, 1.0f));
+        Programs.setAmbientIntensity(shaderFragWhiteDiffuseColor, new Vector4f(0.2f, 0.2f, 0.2f, 1.0f));
         Matrix4f mm = Matrix4f.Identity();
         mm.M11 = 0.05f;
         mm.M22 = 0.05f;
         mm.M33 = 0.05f;
-        Programs.SetModelToCameraMatrix(shaderFragWhiteDiffuseColor, mm);
+        Programs.setModelToCameraMatrix(shaderFragWhiteDiffuseColor, mm);
 
 
         Vector4f worldLightPos = new Vector4f(-0.5f, -0.5f, -10f, 1.0f);
@@ -87,18 +86,18 @@ public class Tut_3D_Shooter2 extends TutorialBase {
         Vector4f lightPosModelSpace = Vector4f.Transform(lightPosCameraSpace, invTransform);
         Vector3f lightPos = new Vector3f(lightPosModelSpace.x, lightPosModelSpace.y, lightPosModelSpace.z);
 
-        Programs.SetModelSpaceLightPosition(shaderFragWhiteDiffuseColor, lightPos);
+        Programs.setModelSpaceLightPosition(shaderFragWhiteDiffuseColor, lightPos);
     }
 
     protected void init()
     {
-        Programs.Reset();
-        Shape.ResetWorldToCameraMatrix();
+        Programs.reset();
+        Shape.resetWorldToCameraMatrix();
         InputStream test1 = Shader.context.getResources().openRawResource(R.raw.xwing_with_normals);
         ship = new Blender();
-        ship.ReadFile(test1);
-        ship.SetColor(Colors.WHITE_COLOR);
-        ship.Scale(currentScale);
+        ship.readFile(test1);
+        ship.setColor(Colors.WHITE_COLOR);
+        ship.scale(currentScale);
 
         aliens = new ArrayList<Alien>();
 
@@ -109,25 +108,25 @@ public class Tut_3D_Shooter2 extends TutorialBase {
         }
 
         credit1 = new TextClass("X-Wing Model based on Blender model by", 0.4f, 0.04f, staticText);
-        credit1.SetOffset(new Vector3f(-0.75f, -0.65f, 0.0f));
+        credit1.setOffset(new Vector3f(-0.75f, -0.65f, 0.0f));
 
         credit2 = new TextClass("Angel David Guzman of PixelOz Designs", 0.4f, 0.04f, staticText);
-        credit2.SetOffset(new Vector3f(-0.75f, -0.75f, 0.0f));
+        credit2.setOffset(new Vector3f(-0.75f, -0.75f, 0.0f));
 
         deadAliensText = new TextClass("Dead Aliens = " + String.valueOf(deadAliensCount), 0.4f, 0.04f, staticText);
-        deadAliensText.SetOffset(new Vector3f(-0.75f, +0.9f, 0.0f));
+        deadAliensText.setOffset(new Vector3f(-0.75f, +0.9f, 0.0f));
 
         axis_info = new TextClass("Axis  " + axis.toString(), 0.4f, 0.03f, staticText);
-        axis_info.SetOffset(new Vector3f(-0.9f, 0.8f, 0.0f));
+        axis_info.setOffset(new Vector3f(-0.9f, 0.8f, 0.0f));
 
         up_info = new TextClass("Up    " + up.toString(), 0.4f, 0.03f, staticText);
-        up_info.SetOffset(new Vector3f(-0.9f, 0.7f, 0.0f));
+        up_info.setOffset(new Vector3f(-0.9f, 0.7f, 0.0f));
 
         right_info = new TextClass("Right " + right.toString(), 0.4f, 0.03f, staticText);
-        right_info.SetOffset(new Vector3f(-0.9f, 0.6f, 0.0f));
+        right_info.setOffset(new Vector3f(-0.9f, 0.6f, 0.0f));
 
         infoEnable = new TextClass("Info" , 0.4f, 0.03f, staticText);
-        infoEnable.SetOffset(new Vector3f(-0.9f, 0.8f, 0.0f));
+        infoEnable.setOffset(new Vector3f(-0.9f, 0.8f, 0.0f));
 
         SetupDepthAndCull();
         SetupShaders();
@@ -138,12 +137,12 @@ public class Tut_3D_Shooter2 extends TutorialBase {
         ArrayList<Integer> deadMissles = new ArrayList<Integer>();
         ArrayList<Integer> deadAliens = new ArrayList<Integer>();
         ClearDisplay();
-        ship.Draw();
+        ship.draw();
         anglehorizontal = anglehorizontal + 0.02f;
         anglevertical = anglevertical + 0.01f;
         for (int i = 0; i < missles.size(); i++)
         {
-            if (missles.get(i).Firing())
+            if (missles.get(i).firing())
             {
                 missles.get(i).Draw();
             }
@@ -193,8 +192,8 @@ public class Tut_3D_Shooter2 extends TutorialBase {
             }
             else
             {
-                aliens.get(i).Draw();
-                aliens.get(i).FireOn(missles);
+                aliens.get(i).draw();
+                aliens.get(i).fireOn(missles);
             }
         }
         if (dead > deadAliensCount)
@@ -217,7 +216,7 @@ public class Tut_3D_Shooter2 extends TutorialBase {
 
     private void Rotate(Vector3f rotationAxis, float angle)
     {
-        ship.RotateShapes(rotationAxis, angle);
+        ship.rotateShapes(rotationAxis, angle);
         Matrix4f rotation = Matrix4f.CreateFromAxisAngle(rotationAxis, (float)Math.PI / 180.0f * angle);
         axis = Vector3f.Transform(axis, rotation);
         up = Vector3f.Transform(up, rotation);
@@ -248,7 +247,7 @@ public class Tut_3D_Shooter2 extends TutorialBase {
                 Rotate(Vector3f.UnitZ, -5f);
                 break;
             case KeyEvent.KEYCODE_I:
-                result.append("Found " + String.valueOf(ship.ObjectCount()) + " objects in ship file.");
+                result.append("Found " + String.valueOf(ship.objectCount()) + " objects in ship file.");
                 break;
             case KeyEvent.KEYCODE_SPACE:
                 if (addMissle == false)
@@ -261,11 +260,11 @@ public class Tut_3D_Shooter2 extends TutorialBase {
                 break;
             case KeyEvent.KEYCODE_NUMPAD_ADD:
                 currentScale = currentScale.mul(1.05f);
-                ship.Scale(currentScale);
+                ship.scale(currentScale);
                 break;
             case KeyEvent.KEYCODE_NUMPAD_SUBTRACT:
                 currentScale = currentScale.divide(1.05f);
-                ship.Scale(currentScale);
+                ship.scale(currentScale);
                 break;
             case KeyEvent.KEYCODE_NUMPAD_4:
                 Rotate(Vector3f.UnitY, 5f);
@@ -338,10 +337,10 @@ public class Tut_3D_Shooter2 extends TutorialBase {
                     }
                 }
                 if (y_position / (height / 4) == 1) {
-                    ship.SetProgram(shaderFragWhiteDiffuseColor);
+                    ship.setProgram(shaderFragWhiteDiffuseColor);
                 }
                 if (y_position / (height / 4) == 2) {
-                    ship.SetProgram(defaultShader);
+                    ship.setProgram(defaultShader);
                 }
             }
         }
@@ -354,6 +353,6 @@ public class Tut_3D_Shooter2 extends TutorialBase {
     public void SetScale(float scale)
     {
         currentScale = initialScale.mul(scale);
-        ship.Scale(currentScale);
+        ship.scale(currentScale);
     }
 }

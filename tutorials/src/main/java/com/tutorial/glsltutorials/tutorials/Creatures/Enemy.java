@@ -6,7 +6,6 @@ import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 import com.tutorial.glsltutorials.tutorials.Objects.Missle;
 import com.tutorial.glsltutorials.tutorials.R;
-import com.tutorial.glsltutorials.tutorials.Shapes.LitMatrixSphere2;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -30,23 +29,23 @@ public class Enemy {
 
         InputStream binaryBlenderData = Shader.context.getResources().openRawResource(R.raw.test_with_normals_binary);
         tieFighter = new Blender();
-        tieFighter.ReadBinaryFile(binaryBlenderData);
-        tieFighter.Scale(new Vector3f(0.02f, 0.02f, 0.02f));
+        tieFighter.readBinaryFile(binaryBlenderData);
+        tieFighter.scale(new Vector3f(0.02f, 0.02f, 0.02f));
         float xOffset = random.nextInt(20)/10f - 1f;
         float yOffset = random.nextInt(20)/10f - 1f;
         float zOffset = random.nextInt(10)/10f - 0.5f;
         int colorSelection = random.nextInt(3);
         switch (colorSelection)
         {
-            case 0:	tieFighter.SetColor(Colors.RED_COLOR); break;
-            case 1: tieFighter.SetColor(Colors.GREEN_COLOR); break;
-            case 2: tieFighter.SetColor(Colors.BLUE_COLOR); break;
-            default: tieFighter.SetColor(Colors.YELLOW_COLOR); break;
+            case 0:	tieFighter.setColor(Colors.RED_COLOR); break;
+            case 1: tieFighter.setColor(Colors.GREEN_COLOR); break;
+            case 2: tieFighter.setColor(Colors.BLUE_COLOR); break;
+            default: tieFighter.setColor(Colors.YELLOW_COLOR); break;
         }
         xOffset = xOffset * scale;
         yOffset = yOffset * scale;
         zOffset = zOffset * scale;
-        tieFighter.SetOffset(new Vector3f(xOffset, yOffset, zOffset));
+        tieFighter.setOffset(new Vector3f(xOffset, yOffset, zOffset));
     }
 
     public boolean isDead()
@@ -54,9 +53,9 @@ public class Enemy {
         return dead;
     }
 
-    public void Draw()
+    public void draw()
     {
-        tieFighter.Draw();
+        tieFighter.draw();
         if (frameCount < framesPerMove)
         {
             frameCount++;
@@ -64,19 +63,19 @@ public class Enemy {
         else
         {
             frameCount = 0;
-            Vector3f oldOffset = tieFighter.GetOffset();
-            tieFighter.SetOffset(movement.NewOffset(tieFighter.GetOffset()));
-            Vector3f newOffset = tieFighter.GetOffset();
+            Vector3f oldOffset = tieFighter.getOffset();
+            tieFighter.setOffset(movement.newOffset(tieFighter.getOffset()));
+            Vector3f newOffset = tieFighter.getOffset();
             Vector3f direction = newOffset.sub(oldOffset);
-            tieFighter.Face(direction);
+            tieFighter.face(direction);
         }
     }
 
-    public void FireOn(ArrayList<Missle> missles)
+    public void fireOn(ArrayList<Missle> missles)
     {
         for (Missle m : missles)
         {
-            if (collision.DetectColisions(tieFighter.GetOffset(), m.GetOffsets()))
+            if (collision.detectColisions(tieFighter.getOffset(), m.GetOffsets()))
             {
                 dead = true;
                 break;
@@ -84,8 +83,8 @@ public class Enemy {
         }
     }
 
-    public void SetProgram(int newProgram)
+    public void setProgram(int newProgram)
     {
-        tieFighter.SetProgram(newProgram);
+        tieFighter.setProgram(newProgram);
     }
 }

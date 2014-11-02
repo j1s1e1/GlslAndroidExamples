@@ -69,18 +69,18 @@ public class Tut_3D_Shooter3 extends TutorialBase {
 
     private void SetupShaders()
     {
-        defaultShader = Programs.AddProgram(VertexShaders.lms_vertexShaderCode,
+        defaultShader = Programs.addProgram(VertexShaders.lms_vertexShaderCode,
                 FragmentShaders.lms_fragmentShaderCode);
 
-        shaderFragWhiteDiffuseColor = Programs.AddProgram(VertexShaders.FragmentLighting_PN,
+        shaderFragWhiteDiffuseColor = Programs.addProgram(VertexShaders.FragmentLighting_PN,
                 FragmentShaders.FragmentLighting);
-        Programs.SetLightIntensity(shaderFragWhiteDiffuseColor, new Vector4f(0.8f, 0.8f, 0.8f, 1.0f));
-        Programs.SetAmbientIntensity(shaderFragWhiteDiffuseColor, new Vector4f(0.2f, 0.2f, 0.2f, 1.0f));
+        Programs.setLightIntensity(shaderFragWhiteDiffuseColor, new Vector4f(0.8f, 0.8f, 0.8f, 1.0f));
+        Programs.setAmbientIntensity(shaderFragWhiteDiffuseColor, new Vector4f(0.2f, 0.2f, 0.2f, 1.0f));
         Matrix4f mm = Matrix4f.Identity();
         mm.M11 = 0.05f;
         mm.M22 = 0.05f;
         mm.M33 = 0.05f;
-        Programs.SetModelToCameraMatrix(shaderFragWhiteDiffuseColor, mm);
+        Programs.setModelToCameraMatrix(shaderFragWhiteDiffuseColor, mm);
 
 
         Vector4f worldLightPos = new Vector4f(-0.5f, -0.5f, -10f, 1.0f);
@@ -89,18 +89,18 @@ public class Tut_3D_Shooter3 extends TutorialBase {
         Vector4f lightPosModelSpace = Vector4f.Transform(lightPosCameraSpace, invTransform);
         Vector3f lightPos = new Vector3f(lightPosModelSpace.x, lightPosModelSpace.y, lightPosModelSpace.z);
 
-        Programs.SetModelSpaceLightPosition(shaderFragWhiteDiffuseColor, lightPos);
+        Programs.setModelSpaceLightPosition(shaderFragWhiteDiffuseColor, lightPos);
     }
 
     protected void init()
     {
-        Programs.Reset();
-        Shape.ResetWorldToCameraMatrix();
+        Programs.reset();
+        Shape.resetWorldToCameraMatrix();
         InputStream binaryBlenderData = Shader.context.getResources().openRawResource(R.raw.xwng_with_normals_binary);
         ship = new Blender();
-        ship.ReadBinaryFile(binaryBlenderData);
-        ship.SetColor(Colors.WHITE_COLOR);
-        ship.Scale(currentScale);
+        ship.readBinaryFile(binaryBlenderData);
+        ship.setColor(Colors.WHITE_COLOR);
+        ship.scale(currentScale);
 
         enemies = new ArrayList<Enemy>();
 
@@ -111,25 +111,25 @@ public class Tut_3D_Shooter3 extends TutorialBase {
         }
 
         credit1 = new TextClass("X-Wing Model based on Blender model by", 0.4f, 0.04f, staticText);
-        credit1.SetOffset(new Vector3f(-0.75f, -0.65f, 0.0f));
+        credit1.setOffset(new Vector3f(-0.75f, -0.65f, 0.0f));
 
         credit2 = new TextClass("Angel David Guzman of PixelOz Designs", 0.4f, 0.04f, staticText);
-        credit2.SetOffset(new Vector3f(-0.75f, -0.75f, 0.0f));
+        credit2.setOffset(new Vector3f(-0.75f, -0.75f, 0.0f));
 
         deadEnemysText = new TextClass("Dead Enemys = " + String.valueOf(deadEnemysCount), 0.4f, 0.04f, staticText);
-        deadEnemysText.SetOffset(new Vector3f(-0.75f, +0.9f, 0.0f));
+        deadEnemysText.setOffset(new Vector3f(-0.75f, +0.9f, 0.0f));
 
         axis_info = new TextClass("Axis  " + axis.toString(), 0.4f, 0.03f, staticText);
-        axis_info.SetOffset(new Vector3f(-0.9f, 0.8f, 0.0f));
+        axis_info.setOffset(new Vector3f(-0.9f, 0.8f, 0.0f));
 
         up_info = new TextClass("Up    " + up.toString(), 0.4f, 0.03f, staticText);
-        up_info.SetOffset(new Vector3f(-0.9f, 0.7f, 0.0f));
+        up_info.setOffset(new Vector3f(-0.9f, 0.7f, 0.0f));
 
         right_info = new TextClass("Right " + right.toString(), 0.4f, 0.03f, staticText);
-        right_info.SetOffset(new Vector3f(-0.9f, 0.6f, 0.0f));
+        right_info.setOffset(new Vector3f(-0.9f, 0.6f, 0.0f));
 
         infoEnable = new TextClass("Info" , 0.4f, 0.03f, staticText);
-        infoEnable.SetOffset(new Vector3f(-0.9f, 0.8f, 0.0f));
+        infoEnable.setOffset(new Vector3f(-0.9f, 0.8f, 0.0f));
 
         SetupDepthAndCull();
         SetupShaders();
@@ -140,12 +140,12 @@ public class Tut_3D_Shooter3 extends TutorialBase {
         ArrayList<Integer> deadMissles = new ArrayList<Integer>();
         ArrayList<Integer> deadEnemys = new ArrayList<Integer>();
         ClearDisplay();
-        ship.Draw();
+        ship.draw();
         anglehorizontal = anglehorizontal + 0.02f;
         anglevertical = anglevertical + 0.01f;
         for (int i = 0; i < missles.size(); i++)
         {
-            if (missles.get(i).Firing())
+            if (missles.get(i).firing())
             {
                 missles.get(i).Draw();
             }
@@ -195,8 +195,8 @@ public class Tut_3D_Shooter3 extends TutorialBase {
             }
             else
             {
-                enemies.get(i).Draw();
-                enemies.get(i).FireOn(missles);
+                enemies.get(i).draw();
+                enemies.get(i).fireOn(missles);
             }
         }
         if (dead > deadEnemysCount)
@@ -219,7 +219,7 @@ public class Tut_3D_Shooter3 extends TutorialBase {
 
     private void Rotate(Vector3f rotationAxis, float angle)
     {
-        ship.RotateShapes(rotationAxis, angle);
+        ship.rotateShapes(rotationAxis, angle);
         Matrix4f rotation = Matrix4f.CreateFromAxisAngle(rotationAxis, (float)Math.PI / 180.0f * angle);
         axis = Vector3f.Transform(axis, rotation);
         up = Vector3f.Transform(up, rotation);
@@ -250,7 +250,7 @@ public class Tut_3D_Shooter3 extends TutorialBase {
                 Rotate(Vector3f.UnitZ, -5f);
                 break;
             case KeyEvent.KEYCODE_I:
-                result.append("Found " + String.valueOf(ship.ObjectCount()) + " objects in ship file.");
+                result.append("Found " + String.valueOf(ship.objectCount()) + " objects in ship file.");
                 break;
             case KeyEvent.KEYCODE_SPACE:
                 if (addMissle == false)
@@ -344,10 +344,10 @@ public class Tut_3D_Shooter3 extends TutorialBase {
                     }
                 }
                 if (y_position / (height / 4) == 1) {
-                    ship.SetProgram(shaderFragWhiteDiffuseColor);
+                    ship.setProgram(shaderFragWhiteDiffuseColor);
                 }
                 if (y_position / (height / 4) == 2) {
-                    ship.SetProgram(defaultShader);
+                    ship.setProgram(defaultShader);
                 }
             }
         }
@@ -362,7 +362,7 @@ public class Tut_3D_Shooter3 extends TutorialBase {
         {
             if ((totalScale * scale) < maxScale) {
                 totalScale = totalScale * scale;
-                Shape.ScaleWorldToCameraMatrix(scale);
+                Shape.scaleWorldToCameraMatrix(scale);
             }
         }
         //ship.Scale(currentScale);

@@ -14,19 +14,19 @@ public class LitMatrixSphere2 extends Shape {
     public LitMatrixSphere2 (float radius_in)
     {
         radius = radius_in;
-        vertexCoords = GetCircleCoords(radius);
+        vertexCoords = getCircleCoords(radius);
         vertexCount = vertexCoords.length / COORDS_PER_VERTEX / 2;
 
         vertexData = vertexCoords;
-        SetupSimpleIndexBuffer();
+        setupSimpleIndexBuffer();
 
-        InitializeVertexBuffer();
+        initializeVertexBuffer();
 
-        programNumber = Programs.AddProgram(VertexShaders.lms_vertexShaderCode,
+        programNumber = Programs.addProgram(VertexShaders.lms_vertexShaderCode,
                 FragmentShaders.lms_fragmentShaderCode);
     }
 
-    private float[] GetCircleCoords(float radius)
+    private float[] getCircleCoords(float radius)
     {
         float[] coords = Icosahedron.triangles.clone();
         float[] coords_with_normals = new float[2*coords.length];
@@ -51,26 +51,26 @@ public class LitMatrixSphere2 extends Shape {
         return coords_with_normals;
     }
 
-    private void DrawSub(int first_triangle, int last_triangle)
+    private void drawSub(int first_triangle, int last_triangle)
     {
         int newVertexCount = (last_triangle - first_triangle + 1) * 3 * 3 / COORDS_PER_VERTEX;
         // Add program to OpenGL environment
 
-        Matrix4f mm = Rotate(modelToWorld, axis, angle);
+        Matrix4f mm = rotate(modelToWorld, axis, angle);
         mm.M41 = offset.x;
         mm.M42 = offset.y;
         mm.M43 = offset.z;
 
-        Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, cameraToClip, worldToCamera, mm,
+        Programs.draw(programNumber, vertexBufferObject, indexBufferObject, cameraToClip, worldToCamera, mm,
                 indexData.length, color);
     }
 
     public void draw() {
-        DrawSub(0, 19);
+        drawSub(0, 19);
     }
 
     public void DrawSemi(int first_triangle, int last_triangle)
     {
-        DrawSub(first_triangle, last_triangle);
+        drawSub(first_triangle, last_triangle);
     }
 }

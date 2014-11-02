@@ -26,7 +26,7 @@ public class RandomMovement {
     float maxYmovement = 0.1f;
     float maxZmovement = 0.1f;
 
-    private float NewValue(float oldValue, float maxMovement, float lowLimit, float highLimit)
+    private float newValue(float oldValue, float maxMovement, float lowLimit, float highLimit)
     {
         oldValue = oldValue + random.nextInt(100)/100f * 2f * maxMovement - maxMovement;
         if (oldValue < lowLimit) oldValue = lowLimit;
@@ -34,11 +34,11 @@ public class RandomMovement {
         return oldValue;
     }
 
-    public Vector3f NewOffset(Vector3f oldOffset)
+    public Vector3f newOffset(Vector3f oldOffset)
     {
-        oldOffset.x = NewValue(oldOffset.x, maxXmovement, xLimitLow, xLimitHigh);
-        oldOffset.y = NewValue(oldOffset.y, maxYmovement, yLimitLow, yLimitHigh);
-        oldOffset.z = NewValue(oldOffset.z, maxZmovement, zLimitLow, zLimitHigh);
+        oldOffset.x = newValue(oldOffset.x, maxXmovement, xLimitLow, xLimitHigh);
+        oldOffset.y = newValue(oldOffset.y, maxYmovement, yLimitLow, yLimitHigh);
+        oldOffset.z = newValue(oldOffset.z, maxZmovement, zLimitLow, zLimitHigh);
         return oldOffset;
     }
 }

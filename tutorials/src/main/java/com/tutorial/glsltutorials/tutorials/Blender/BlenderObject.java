@@ -34,7 +34,7 @@ public class BlenderObject extends Shape {
     }
 
     // v -1.458010 -3.046922 2.461986
-    public void AddVertex(String vertexInfo)
+    public void addVertex(String vertexInfo)
     {
         ArrayList<Float> newVertexes = new ArrayList<Float>();
         String[] vertexData = vertexInfo.substring(2).split(" ");
@@ -45,7 +45,7 @@ public class BlenderObject extends Shape {
         vertexes.addAll(newVertexes);
     }
 
-    public void AddNormal(String normalInfo)
+    public void addNormal(String normalInfo)
     {
         ArrayList<Float> newNormal =  new   ArrayList<Float>();
         String[] normalData = normalInfo.substring(3).split(" ");
@@ -56,7 +56,7 @@ public class BlenderObject extends Shape {
         normals.addAll(newNormal);
     }
 
-    public void AddTriangle(String triangleInfo,  short vertexOffset, short normalOffset)
+    public void addTriangle(String triangleInfo,  short vertexOffset, short normalOffset)
     {
         ArrayList<Short> newIndexes = new ArrayList<Short>();
         if (triangleInfo.contains("/"))
@@ -94,7 +94,7 @@ public class BlenderObject extends Shape {
         indexes.addAll(newIndexes);
     }
 
-    public void Setup()
+    public void setup()
     {
         int i;
         vertexCount = indexes.size();
@@ -126,29 +126,29 @@ public class BlenderObject extends Shape {
                 vertexData[i++] = (f != null ? f :  0);
             }
         }
-        InitializeVertexBuffer();
-        programNumber = Programs.AddProgram(VertexShader, FragmentShader);
+        initializeVertexBuffer();
+        programNumber = Programs.addProgram(VertexShader, FragmentShader);
     }
 
-    public void Scale(Vector3f size)
+    public void scale(Vector3f size)
     {
         modelToWorld.M11 = size.x;
         modelToWorld.M22 = size.y;
         modelToWorld.M33 = size.z;
     }
 
-    public void Draw()
+    public void draw()
     {
-        Matrix4f mm = Rotate(modelToWorld, axis, angle);
+        Matrix4f mm = rotate(modelToWorld, axis, angle);
         mm.M41 = offset.x;
         mm.M42 = offset.y;
         mm.M43 = offset.z;
 
-        Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, cameraToClip, worldToCamera, mm,
+        Programs.draw(programNumber, vertexBufferObject, indexBufferObject, cameraToClip, worldToCamera, mm,
                 indexData.length, color);
     }
 
-    public ArrayList<Byte> GetBinaryBlenderObject()
+    public ArrayList<Byte> getBinaryBlenderObject()
     {
         ArrayList<Byte> binaryBlenderObjectBytes = new ArrayList<Byte>();
         Integer vertexBytes = vertexes.size() * 4;
@@ -181,7 +181,7 @@ public class BlenderObject extends Shape {
         return binaryBlenderObjectBytes;
     }
 
-    public int CreateFromBinaryData(byte[] binaryBlenderObjects, int offset)
+    public int createFromBinaryData(byte[] binaryBlenderObjects, int offset)
     {
         int blenderHeaderBytes = 16;
         int vertexBytes = BitConverter.ToInt32(binaryBlenderObjects, offset);

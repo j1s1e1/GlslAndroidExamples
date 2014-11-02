@@ -80,22 +80,22 @@ public class Shape
     protected String FragmentShader = FragmentShaders.ColorUniform_frag;
     protected int programNumber;
 
-    public void SetProgram(int newProgram)
+    public void setProgram(int newProgram)
     {
         programNumber = newProgram;
     }
 
-    public static void ResetWorldToCameraMatrix()
+    public static void resetWorldToCameraMatrix()
     {
         worldToCamera = Matrix4f.Identity();
     }
 
-    public static void ScaleWorldToCameraMatrix(float scaleFactor)
+    public static void scaleWorldToCameraMatrix(float scaleFactor)
     {
         worldToCamera.Scale(new Vector3f(scaleFactor, scaleFactor, scaleFactor));
     }
 
-    protected void SetupSimpleIndexBuffer()
+    protected void setupSimpleIndexBuffer()
     {
         indexData = new short[vertexData.length/COORDS_PER_VERTEX];
         for (short i = 0; i < indexData.length; i++)
@@ -104,7 +104,7 @@ public class Shape
         }
     }
 
-    protected void SetupVertexBuffer()
+    protected void setupVertexBuffer()
     {
         // initialize vertex byte buffer for shape coordinates
         ByteBuffer bb = ByteBuffer.allocateDirect(
@@ -121,7 +121,7 @@ public class Shape
         vertexBuffer.position(0);
     }
 
-    protected void InitializeVertexBuffer()
+    protected void initializeVertexBuffer()
     {
         // initialize vertex byte buffer for shape coordinates
         ByteBuffer vb = ByteBuffer.allocateDirect(
@@ -165,37 +165,33 @@ public class Shape
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
     }
 
-    public Shape()
-    {
-    }
-
-    public void Move (float x_add, float y_add, float z_add)
+    public void move(float x_add, float y_add, float z_add)
     {
         x = x + x_add;
         y = y + y_add;
         z = z + z_add;
     }
 
-    public void SetOffset (float x_in, float y_in, float z_in)
+    public void setOffset(float x_in, float y_in, float z_in)
     {
         offset.x = x_in;
         offset.y = y_in;
         offset.z = z_in;
     }
-    public void SetXOffset(float x_in)
+    public void setXOffset(float x_in)
     {
         offset.x = x_in;
     }
-    public void SetYOffset(float y_in)
+    public void setYOffset(float y_in)
     {
         offset.y = y_in;
     }
-    public void SetZOffset(float z_in)
+    public void setZOffset(float z_in)
     {
         offset.z = z_in;
     }
 
-    public void SetOffset(Vector3f offsetIn)
+    public void setOffset(Vector3f offsetIn)
     {
         offset = offsetIn;
     }
@@ -205,7 +201,7 @@ public class Shape
         return offset;
     }
 
-    protected void SetupIndexBuffer()
+    protected void setupIndexBuffer()
     {
         indicesVboData = new int[vertexCount];
         for (int i = 0; i < indicesVboData.length; i++) {
@@ -215,29 +211,29 @@ public class Shape
         indiciesBufferID = VBO_Tools.SetupIntBuffer(indicesVboData);
     }
 
-    public void SetAxis(Vector3f axisIn)
+    public void setAxis(Vector3f axisIn)
     {
         axis = axisIn;
     }
 
-    public void UpdateAngle(float degrees)
+    public void updateAngle(float degrees)
     {
         angle = degrees;
     }
 
     // Set color with red, green, blue and alpha (opacity) values
-    public void SetColor(float red, float green, float blue) {
+    public void setColor(float red, float green, float blue) {
         color[0] = red;
         color[1] = green;
         color[2] = blue;
     }
 
-    public void SetColor(float[] new_color)
+    public void setColor(float[] new_color)
     {
         color = new_color;
     }
 
-    public void SolidColor(int color)
+    public void solidColor(int color)
     {
         colorData = new int[vertexCount];
         for (int i = 0; i < colorData.length; i++) {
@@ -247,7 +243,7 @@ public class Shape
         colorBufferID = VBO_Tools.SetupIntBuffer(colorData);
     }
 
-    public void MultiColor(int[] colors)
+    public void multiColor(int[] colors)
     {
         colorData = new int[vertexCount];
         for (int i = 0; i < colorData.length; i++) {
@@ -257,7 +253,7 @@ public class Shape
         colorBufferID = VBO_Tools.SetupIntBuffer(colorData);
     }
 
-    public void SetRainbowColors()
+    public void setRainbowColors()
     {
         // Color Data for the Verticies
         colorData = new int[vertexCount];
@@ -323,19 +319,19 @@ public class Shape
         colorBufferID = VBO_Tools.SetupIntBuffer(colorData);
     }
 
-    public void SetAngles(float a1, float a2, float a3)
+    public void setAngles(float a1, float a2, float a3)
     {
         angle1 = a1;
         angle2 = a2;
         angle3 = a3;
     }
 
-    public Vector3f GetAngles()
+    public Vector3f getAngles()
     {
         return new Vector3f(angle1, angle2, angle3);
     }
 
-    public void SetRotations(float r1, float r2, float r3)
+    public void setRotations(float r1, float r2, float r3)
     {
         rotation1 = r1;
         rotation2 = r2;
@@ -343,25 +339,25 @@ public class Shape
     }
 
     ///Applies a rotation matrix about the given axis, with the given angle in degrees.
-    public Matrix4f Rotate(Matrix4f input, Vector3f axis, float angDegCCW)
+    public Matrix4f rotate(Matrix4f input, Vector3f axis, float angDegCCW)
     {
         Matrix4f rotation = Matrix4f.CreateFromAxisAngle(axis, (float) Math.PI / 180.0f * angDegCCW);
         return Matrix4f.Mult(rotation, input);
     }
 
-    public static void RotateWorld(Vector3f axis, float angDegCCW)
+    public static void rotateWorld(Vector3f axis, float angDegCCW)
     {
         Matrix4f rotation = Matrix4f.CreateFromAxisAngle(axis, (float) Math.PI / 180.0f * angDegCCW);
         worldToCamera = Matrix4f.Mult(worldToCamera, rotation);
     }
 
-    public void RotateShape(Vector3f rotationAxis, float angleDeg)
+    public void rotateShape(Vector3f rotationAxis, float angleDeg)
     {
         Matrix4f rotation = Matrix4f.CreateFromAxisAngle(rotationAxis, (float)Math.PI / 180.0f * angleDeg);
         modelToWorld = Matrix4f.Mult(modelToWorld, rotation);
     }
 
-    public void Draw()
+    public void draw()
     {
 
     }

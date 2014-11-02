@@ -12,7 +12,7 @@ public class Collisions {
 
     float collisionDistance = 0.05f;
 
-    private boolean DetectCollision(Vector3f position1, Vector3f position2)
+    private boolean detectCollision(Vector3f position1, Vector3f position2)
     {
         if (position1.sub(position2).length() < collisionDistance)
             return true;
@@ -20,11 +20,11 @@ public class Collisions {
             return false;
     }
 
-    public boolean DetectColisions(Vector3f position, Vector3f[] otherPositions)
+    public boolean detectColisions(Vector3f position, Vector3f[] otherPositions)
     {
         for (Vector3f v : otherPositions)
         {
-            if (DetectCollision(position, v))
+            if (detectCollision(position, v))
                 return true;
         }
         return false;

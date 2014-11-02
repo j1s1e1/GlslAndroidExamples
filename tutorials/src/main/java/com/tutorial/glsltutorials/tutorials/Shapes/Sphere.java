@@ -83,22 +83,22 @@ public class Sphere extends Shape {
             }
 
         }
-        SetupVertexBuffer();
+        setupVertexBuffer();
     }
 
     @Override
-    public void SetOffset (float x_in, float y_in, float z_in)
+    public void setOffset(float x_in, float y_in, float z_in)
     {
-        Move(x_in - offset.x, offset.y - y_in, offset.z - z_in );
+        move(x_in - offset.x, offset.y - y_in, offset.z - z_in);
         offset = new Vector3f(x_in, y_in, z_in);
     }
 
     public void Move(float[] coords)
     {
-        Move(coords[0], coords[1], coords[2]);
+        move(coords[0], coords[1], coords[2]);
     }
 
-    public void Move(float x_move, float y_move, float z_move) {
+    public void move(float x_move, float y_move, float z_move) {
         for (int i = 0; i < vertexCoords.length; i++) {
             switch (i % 3) {
                 case 0:
@@ -116,7 +116,7 @@ public class Sphere extends Shape {
         center_x = center_x + x_move;
         center_y = center_y + y_move;
         center_z = center_z + y_move;
-        SetupVertexBuffer();
+        setupVertexBuffer();
     }
 
     float radius;
@@ -155,7 +155,7 @@ public class Sphere extends Shape {
         radius = radius_in;
         vertexCoords = GetCircleCoords(radius);
         vertexCount = vertexCoords.length / COORDS_PER_VERTEX / 2;
-        SetupVertexBuffer();
+        setupVertexBuffer();
 
         if (mProgram < 0)
         {

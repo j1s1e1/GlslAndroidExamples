@@ -1,18 +1,11 @@
 package com.tutorial.glsltutorials.tutorials.Text;
 
-import android.opengl.GLES20;
 import android.opengl.Matrix;
 
-import com.tutorial.glsltutorials.tutorials.GLES_Helpers.FragmentShaders;
-import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
-import com.tutorial.glsltutorials.tutorials.GLES_Helpers.VertexShaders;
 import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 import com.tutorial.glsltutorials.tutorials.ProgramData.Programs;
 import com.tutorial.glsltutorials.tutorials.Shapes.Shape;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -223,10 +216,10 @@ public class TextClass extends Shape {
             vertexData = ReverseRotation(vertexData);
         }
         vertexCount = vertexData.length / COORDS_PER_VERTEX;
-        SetupSimpleIndexBuffer();
-        InitializeVertexBuffer();
+        setupSimpleIndexBuffer();
+        initializeVertexBuffer();
 
-        programNumber = Programs.AddProgram(VertexShader, FragmentShader);
+        programNumber = Programs.addProgram(VertexShader, FragmentShader);
     }
 
     public void UpdateText(String text)
@@ -241,8 +234,8 @@ public class TextClass extends Shape {
             vertexData = ReverseRotation(vertexData);
         }
         vertexCount = vertexData.length / COORDS_PER_VERTEX;
-        SetupSimpleIndexBuffer();
-        InitializeVertexBuffer();
+        setupSimpleIndexBuffer();
+        initializeVertexBuffer();
         updateLock = false;
     }
 
@@ -256,7 +249,7 @@ public class TextClass extends Shape {
     }
 
     public void draw() {
-        Matrix4f mm = Rotate(modelToWorld, axis, angle);
+        Matrix4f mm = rotate(modelToWorld, axis, angle);
         mm.M41 = offset.x;
         mm.M42 = offset.y;
         mm.M43 = offset.z;
@@ -269,7 +262,7 @@ public class TextClass extends Shape {
 
         if (updateLock == false)
         {
-            Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, cameraToClip, wtc, mm,
+            Programs.draw(programNumber, vertexBufferObject, indexBufferObject, cameraToClip, wtc, mm,
                     indexData.length, color);
             waitingForUpdate = false;
         }

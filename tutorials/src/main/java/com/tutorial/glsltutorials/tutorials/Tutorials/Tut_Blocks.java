@@ -20,8 +20,8 @@ public class Tut_Blocks extends TutorialBase {
 
     private void AddBlock(Vector3f size, Vector3f offset, Vector3f axis, float[] color) {
         LitMatrixBlock2 lmb1 = new LitMatrixBlock2(size, color);
-        lmb1.SetOffset(offset);
-        lmb1.SetAxis(axis);
+        lmb1.setOffset(offset);
+        lmb1.setAxis(axis);
         lmbs.add(lmb1);
     }
 
@@ -61,8 +61,8 @@ public class Tut_Blocks extends TutorialBase {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
         for (LitMatrixBlock2 lmb : lmbs) {
-            lmb.Draw();
-            lmb.UpdateAngle(angle);
+            lmb.draw();
+            lmb.updateAngle(angle);
         }
         angle++;
         //angle = angle + (float)Math.PI / 180f;
@@ -74,12 +74,12 @@ public class Tut_Blocks extends TutorialBase {
         int selection = x_position / 200;
         switch (selection)
         {
-            case 0: Shape.RotateWorld(new Vector3f(1f, 0f, 0f), 5f); break;
-            case 1: Shape.RotateWorld(new Vector3f(1f, 0f, 0f), -5f); break;
-            case 2: Shape.RotateWorld(new Vector3f(0f, 1f, 0f), 5f); break;
-            case 3: Shape.RotateWorld(new Vector3f(0f, 1f, 0f), -5f); break;
-            case 4: Shape.RotateWorld(new Vector3f(0f, 0f, 1f), 5f); break;
-            case 5: Shape.RotateWorld(new Vector3f(0f, 0f, 1f), -5f); break;
+            case 0: Shape.rotateWorld(new Vector3f(1f, 0f, 0f), 5f); break;
+            case 1: Shape.rotateWorld(new Vector3f(1f, 0f, 0f), -5f); break;
+            case 2: Shape.rotateWorld(new Vector3f(0f, 1f, 0f), 5f); break;
+            case 3: Shape.rotateWorld(new Vector3f(0f, 1f, 0f), -5f); break;
+            case 4: Shape.rotateWorld(new Vector3f(0f, 0f, 1f), 5f); break;
+            case 5: Shape.rotateWorld(new Vector3f(0f, 0f, 1f), -5f); break;
         }
         //QuickToast("Touch Event.  X = " + String.valueOf(x_position) + " Y = " + String.valueOf(y_position)
         //        + " selection " + String.valueOf(selection));

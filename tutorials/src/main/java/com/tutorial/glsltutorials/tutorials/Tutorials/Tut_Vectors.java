@@ -24,11 +24,11 @@ public class Tut_Vectors extends TutorialBase {
 
     protected void init()
     {
-        Programs.Reset();
-        Shape.ResetWorldToCameraMatrix();
+        Programs.reset();
+        Shape.resetWorldToCameraMatrix();
         lmb2 = new LitMatrixBlock2(new Vector3f (0.05f, 1f, 0.05f), Colors.GREEN_COLOR);
         axis = new Vector3f(0f, 1f, 0f);
-        lmb2.SetAxis(axis);
+        lmb2.setAxis(axis);
     }
 
     public void display()
@@ -36,12 +36,12 @@ public class Tut_Vectors extends TutorialBase {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         GLES20.glClearDepthf(1.0f);
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
-        lmb2.Draw();
+        lmb2.draw();
     }
 
     public void Rotate(Vector3f rotationAxis, float angle)
     {
-        lmb2.RotateShape(rotationAxis, angle);
+        lmb2.rotateShape(rotationAxis, angle);
     }
 
     public String keyboard(int keyCode, int x, int y)

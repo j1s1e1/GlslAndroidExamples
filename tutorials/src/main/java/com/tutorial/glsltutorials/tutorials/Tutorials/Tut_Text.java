@@ -1,9 +1,7 @@
 package com.tutorial.glsltutorials.tutorials.Tutorials;
 
-import android.opengl.GLES20;
 import android.view.KeyEvent;
 
-import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 import com.tutorial.glsltutorials.tutorials.ProgramData.Programs;
 import com.tutorial.glsltutorials.tutorials.Shapes.Shape;
@@ -38,7 +36,7 @@ public class Tut_Text extends TutorialBase {
                 new_text = new TextClass("56789", 0.5f, 0.2f);
             }
 
-            new_text.SetOffset(-0.5f, -0.5f+ i * 0.4f, 0.5f - i);
+            new_text.setOffset(-0.5f, -0.5f + i * 0.4f, 0.5f - i);
             text.add(new_text);
         }
         for (int i = 0; i < 2; i++)
@@ -52,27 +50,27 @@ public class Tut_Text extends TutorialBase {
                 new_text = new TextClass("5309", 1f, 0.06f);
             }
 
-            new_text.SetOffset(0f, -0.25f + i * 0.3f, 0.0f);
+            new_text.setOffset(0f, -0.25f + i * 0.3f, 0.0f);
             text.add(new_text);
         }
         new_text = new TextClass("ABCDEFGHIJKLM", 0.5f, 0.05f, staticText, reverseRotation);
-        new_text.SetOffset(new Vector3f(0f, 0.5f, 0.0f));
+        new_text.setOffset(new Vector3f(0f, 0.5f, 0.0f));
         text.add(new_text);
 
         new_text = new TextClass("NOPQRSTUVWXYZ", 0.5f, 0.05f, staticText, reverseRotation);
-        new_text.SetOffset(new Vector3f(0f, 0.4f, 0.0f));
+        new_text.setOffset(new Vector3f(0f, 0.4f, 0.0f));
         text.add(new_text);
 
         keyText = new TextClass("1234", 0.5f, 0.05f, staticText, reverseRotation);
-        keyText.SetOffset(new Vector3f(-0.8f, -0.8f, 0.0f));
+        keyText.setOffset(new Vector3f(-0.8f, -0.8f, 0.0f));
     }
 
 
     //Called after the window and OpenGL are initialized. Called exactly once, before the main loop.
     protected void init()
     {
-        Programs.Reset();
-        Shape.ResetWorldToCameraMatrix();
+        Programs.reset();
+        Shape.resetWorldToCameraMatrix();
         SetupText();
         SetupDepthAndCull();
     }

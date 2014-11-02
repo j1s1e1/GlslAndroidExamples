@@ -19,7 +19,7 @@ public class Tut_Spheres extends TutorialBase {
             float y_offset = (0.05f * i);
             float z_offset = (-0.1f * i);
             spheres[i] = new Sphere(0.05f);
-            spheres[i].Move(x_offset, y_offset, z_offset);
+            spheres[i].move(x_offset, y_offset, z_offset);
         }
 
         mSphreres = new MatrixSphere[5];
@@ -28,8 +28,8 @@ public class Tut_Spheres extends TutorialBase {
             float y_offset = (-0.05f * i);
             float z_offset = (-0.1f * i);
             mSphreres[i] = new MatrixSphere(0.07f);
-            mSphreres[i].Move(x_offset, y_offset, z_offset);
-            mSphreres[i].SetColor(1f, 0f, 0f);
+            mSphreres[i].move(x_offset, y_offset, z_offset);
+            mSphreres[i].setColor(1f, 0f, 0f);
         }
     }
 

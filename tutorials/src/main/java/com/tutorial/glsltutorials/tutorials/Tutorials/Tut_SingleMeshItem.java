@@ -18,7 +18,6 @@ import com.tutorial.glsltutorials.tutorials.PushStack;
 import com.tutorial.glsltutorials.tutorials.R;
 import com.tutorial.glsltutorials.tutorials.Shapes.Shape;
 import com.tutorial.glsltutorials.tutorials.Text.TextClass;
-import com.tutorial.glsltutorials.tutorials.Tutorials.TutorialBase;
 
 import java.io.InputStream;
 
@@ -48,23 +47,23 @@ public class Tut_SingleMeshItem extends TutorialBase {
 
     void InitializeProgram()
     {
-        UniformColor = Programs.AddProgram(VertexShaders.PosOnlyWorldTransform_vert, FragmentShaders.ColorUniform_frag);
-        Programs.SetUniformColor(UniformColor, new Vector4f(0.694f, 0.4f, 0.106f, 1.0f));
+        UniformColor = Programs.addProgram(VertexShaders.PosOnlyWorldTransform_vert, FragmentShaders.ColorUniform_frag);
+        Programs.setUniformColor(UniformColor, new Vector4f(0.694f, 0.4f, 0.106f, 1.0f));
 
-        UniformColorTint = Programs.AddProgram(VertexShaders.PosColorWorldTransform_vert, FragmentShaders.ColorMultUniform_frag);
-        Programs.SetUniformColor(UniformColorTint, new Vector4f(0.5f, 0.5f, 0f, 1.0f));
+        UniformColorTint = Programs.addProgram(VertexShaders.PosColorWorldTransform_vert, FragmentShaders.ColorMultUniform_frag);
+        Programs.setUniformColor(UniformColorTint, new Vector4f(0.5f, 0.5f, 0f, 1.0f));
 
-        g_WhiteDiffuseColor = Programs.AddProgram(VertexShaders.PosColorLocalTransform_vert, FragmentShaders.ColorPassthrough_frag);
+        g_WhiteDiffuseColor = Programs.addProgram(VertexShaders.PosColorLocalTransform_vert, FragmentShaders.ColorPassthrough_frag);
 
-        g_WhiteAmbDiffuseColor = Programs.AddProgram(VertexShaders.DirAmbVertexLighting_PN_vert, FragmentShaders.ColorPassthrough_frag);
-        Programs.SetDirectionToLight(g_WhiteAmbDiffuseColor, new Vector3f(10f, 10f, 0f));
-        Programs.SetLightIntensity(g_WhiteAmbDiffuseColor, new Vector4f(0.5f, 0.5f, 0.5f, 0.5f));
-        Programs.SetAmbientIntensity(g_WhiteAmbDiffuseColor, new Vector4f(0.3f, 0.0f, 0.3f, 0.6f));
+        g_WhiteAmbDiffuseColor = Programs.addProgram(VertexShaders.DirAmbVertexLighting_PN_vert, FragmentShaders.ColorPassthrough_frag);
+        Programs.setDirectionToLight(g_WhiteAmbDiffuseColor, new Vector3f(10f, 10f, 0f));
+        Programs.setLightIntensity(g_WhiteAmbDiffuseColor, new Vector4f(0.5f, 0.5f, 0.5f, 0.5f));
+        Programs.setAmbientIntensity(g_WhiteAmbDiffuseColor, new Vector4f(0.3f, 0.0f, 0.3f, 0.6f));
 
         Matrix3f m = Matrix3f.Identity();
-        Programs.SetNormalModelToCameraMatrix(g_WhiteAmbDiffuseColor, m);
+        Programs.setNormalModelToCameraMatrix(g_WhiteAmbDiffuseColor, m);
 
-        ObjectColor = Programs.AddProgram(VertexShaders.PosColorWorldTransform_vert, FragmentShaders.ColorPassthrough_frag);
+        ObjectColor = Programs.addProgram(VertexShaders.PosColorWorldTransform_vert, FragmentShaders.ColorPassthrough_frag);
         currentProgram = ObjectColor;
     }
     static Mesh current_mesh;
@@ -74,8 +73,8 @@ public class Tut_SingleMeshItem extends TutorialBase {
     //Called after the window and OpenGL are initialized. Called exactly once, before the main loop.
     protected void init() throws Exception
     {
-        Programs.Reset();
-        Shape.ResetWorldToCameraMatrix();
+        Programs.reset();
+        Shape.resetWorldToCameraMatrix();
         InitializeProgram();
         try 
         {
@@ -91,7 +90,7 @@ public class Tut_SingleMeshItem extends TutorialBase {
         reshape();
         current_mesh = g_pCubeColorMesh;
         touchText = new TextClass(" ", 0.5f, 0.05f);
-        touchText.SetOffset(-0.5f, 0.5f, 0.0f);
+        touchText.setOffset(-0.5f, 0.5f, 0.0f);
     }
 
     public void display() throws Exception
@@ -116,15 +115,15 @@ public class Tut_SingleMeshItem extends TutorialBase {
 
                     if (noWorldMatrix) {
                         Matrix4f cm2 = Matrix4f.Mult(mm, cm);
-                        Programs.SetModelToCameraMatrix(currentProgram, cm2);
+                        Programs.setModelToCameraMatrix(currentProgram, cm2);
                     } else {
                         //mm = Matrix4f.Identity();
                         //mm.Scale(new Vector3f(0.02f, 0.02f, 0.02f));
-                        Programs.SetModelToWorldMatrix(currentProgram, mm);
+                        Programs.setModelToWorldMatrix(currentProgram, mm);
 
                     }
                 }
-                Programs.Use(currentProgram);
+                Programs.use(currentProgram);
                 current_mesh.Render();
                 GLES20.glUseProgram(0);
                 GLES20.glEnable(GLES20.GL_DEPTH_TEST);
@@ -146,8 +145,8 @@ public class Tut_SingleMeshItem extends TutorialBase {
 
     static private void SetGlobalMatrices(int program)
     {
-        Programs.SetCameraToClipMatrixUnif(program, pm);
-        Programs.SetWorldToCameraMatrixUnif(program, cm);
+        Programs.setCameraToClipMatrixUnif(program, pm);
+        Programs.setWorldToCameraMatrixUnif(program, cm);
     }
 
     //Called whenever the window is resized. The new window size is given, in pixels.

@@ -13,12 +13,12 @@ import java.util.ArrayList;
 public class Programs {
     static ArrayList<ProgramData> ActivePrograms = new ArrayList<ProgramData>();
 
-    public static void Reset()
+    public static void reset()
     {
         ActivePrograms = new ArrayList<ProgramData>();
     }
 
-    public static int AddProgram(String vertexShader, String fragmentShader)
+    public static int addProgram(String vertexShader, String fragmentShader)
     {
         int program_number = -1;
         boolean new_program = true;
@@ -26,7 +26,7 @@ public class Programs {
         {
             ProgramData pd = ActivePrograms.get(i);
 
-            if (pd.CompareShaders(vertexShader, fragmentShader))
+            if (pd.compareShaders(vertexShader, fragmentShader))
             {
                 new_program = false;
                 program_number = i;
@@ -43,75 +43,73 @@ public class Programs {
         return program_number;
     }
 
-    public static void Draw(int program, int[] vertexBufferObject, int[] indexBufferObject,
+    public static void draw(int program, int[] vertexBufferObject, int[] indexBufferObject,
                             Matrix4f cameraToClip, Matrix4f worldToCamera, Matrix4f mm,
                             int indexDataLength, float[] color)
     {
-        ActivePrograms.get(program).Draw (vertexBufferObject, indexBufferObject,
+        ActivePrograms.get(program).draw(vertexBufferObject, indexBufferObject,
                 cameraToClip, worldToCamera, mm,
                 indexDataLength, color);
     }
 
-    public static void SetUniformColor(int program, Vector4f color)
+    public static void setUniformColor(int program, Vector4f color)
     {
-        ActivePrograms.get(program).SetUniformColor(color);
+        ActivePrograms.get(program).setUniformColor(color);
     }
 
-    public static void SetLightPosition(int program, Vector3f lightPos)
+    public static void setLightPosition(int program, Vector3f lightPos)
     {
-        ActivePrograms.get(program).SetLightPosition(lightPos);
+        ActivePrograms.get(program).setLightPosition(lightPos);
     }
 
-    public static void SetModelSpaceLightPosition(int program, Vector3f modelSpaceLightPosition)
+    public static void setModelSpaceLightPosition(int program, Vector3f modelSpaceLightPosition)
     {
-        ActivePrograms.get(program).SetModelSpaceLightPosition(modelSpaceLightPosition);
+        ActivePrograms.get(program).setModelSpaceLightPosition(modelSpaceLightPosition);
     }
 
-    public static void SetDirectionToLight(int program, Vector3f dirToLight)
+    public static void setDirectionToLight(int program, Vector3f dirToLight)
     {
-        ActivePrograms.get(program).SetDirectionToLight(dirToLight);
+        ActivePrograms.get(program).setDirectionToLight(dirToLight);
     }
 
-    public static void SetLightIntensity(int program, Vector4f lightIntensity)
+    public static void setLightIntensity(int program, Vector4f lightIntensity)
     {
-        ActivePrograms.get(program).SetLightIntensity(lightIntensity);
+        ActivePrograms.get(program).setLightIntensity(lightIntensity);
     }
 
-    public static void SetAmbientIntensity(int program, Vector4f ambientIntensity)
+    public static void setAmbientIntensity(int program, Vector4f ambientIntensity)
     {
-        ActivePrograms.get(program).SetAmbientIntensity(ambientIntensity);
+        ActivePrograms.get(program).setAmbientIntensity(ambientIntensity);
     }
 
-    public static void SetNormalModelToCameraMatrix(int program, Matrix3f normalModelToCameraMatrix)
+    public static void setNormalModelToCameraMatrix(int program, Matrix3f normalModelToCameraMatrix)
     {
-        ActivePrograms.get(program).SetNormalModelToCameraMatrix(normalModelToCameraMatrix);
+        ActivePrograms.get(program).setNormalModelToCameraMatrix(normalModelToCameraMatrix);
     }
 
-    public static void SetModelToCameraMatrix(int program, Matrix4f modelToCameraMatrix)
+    public static void setModelToCameraMatrix(int program, Matrix4f modelToCameraMatrix)
     {
-        ActivePrograms.get(program).SetModelToCameraMatrix(modelToCameraMatrix);
+        ActivePrograms.get(program).setModelToCameraMatrix(modelToCameraMatrix);
     }
 
-    public static void SetCameraToClipMatrixUnif(int program, Matrix4f cameraToClipMatrix)
+    public static void setCameraToClipMatrixUnif(int program, Matrix4f cameraToClipMatrix)
     {
-        ActivePrograms.get(program).SetCameraToClipMatrixUnif(cameraToClipMatrix);
-    }
-
-
-    public static void SetWorldToCameraMatrixUnif(int program, Matrix4f worldToCameraMatrix)
-    {
-        ActivePrograms.get(program).SetWorldToCameraMatrixUnif(worldToCameraMatrix);
-    }
-
-    public static void SetModelToWorldMatrix(int program, Matrix4f modelToWorldMatrix)
-    {
-        ActivePrograms.get(program).SetModelToWorldMatrix(modelToWorldMatrix);
+        ActivePrograms.get(program).setCameraToClipMatrixUnif(cameraToClipMatrix);
     }
 
 
-
-    public static void Use(int program)
+    public static void setWorldToCameraMatrixUnif(int program, Matrix4f worldToCameraMatrix)
     {
-        ActivePrograms.get(program).Use();
+        ActivePrograms.get(program).setWorldToCameraMatrixUnif(worldToCameraMatrix);
+    }
+
+    public static void setModelToWorldMatrix(int program, Matrix4f modelToWorldMatrix)
+    {
+        ActivePrograms.get(program).setModelToWorldMatrix(modelToWorldMatrix);
+    }
+
+    public static void use(int program)
+    {
+        ActivePrograms.get(program).use();
     }
 }

@@ -1,7 +1,5 @@
 package com.tutorial.glsltutorials.tutorials.Shapes;
 
-import com.tutorial.glsltutorials.tutorials.GLES_Helpers.FragmentShaders;
-import com.tutorial.glsltutorials.tutorials.GLES_Helpers.VertexShaders;
 import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 import com.tutorial.glsltutorials.tutorials.ProgramData.Programs;
@@ -54,7 +52,7 @@ public class LitMatrixBlock2 extends Shape {
         modelToWorld.M22 = size.y;
         modelToWorld.M33 = size.z;
 
-        programNumber = Programs.AddProgram(VertexShader, FragmentShader);
+        programNumber = Programs.addProgram(VertexShader, FragmentShader);
 
         vertexCount = 2 * 3 * 6;
         vertexStride = 3 * 4; // no color for now
@@ -64,10 +62,10 @@ public class LitMatrixBlock2 extends Shape {
         // fill in vertex data
         vertexData = lmbVertexData; //  GetVertexData();
 
-        InitializeVertexBuffer();
+        initializeVertexBuffer();
     }
 
-    private float[] GetVertexData()
+    private float[] getVertexData()
     {
         float[] vertexData = new float[lmbVertexData.length];
         for (int i = 0; i < vertexData.length; i = i + 3)
@@ -79,14 +77,14 @@ public class LitMatrixBlock2 extends Shape {
         return vertexData;
     }
 
-    public void Draw()
+    public void draw()
     {
-        Matrix4f mm = Rotate(modelToWorld, axis, angle);
+        Matrix4f mm = rotate(modelToWorld, axis, angle);
         mm.M41 = offset.x;
         mm.M42 = offset.y;
         mm.M43 = offset.z;
 
-        Programs.Draw(programNumber, vertexBufferObject, indexBufferObject, cameraToClip, worldToCamera, mm,
+        Programs.draw(programNumber, vertexBufferObject, indexBufferObject, cameraToClip, worldToCamera, mm,
                 indexData.length, color);
     }
    

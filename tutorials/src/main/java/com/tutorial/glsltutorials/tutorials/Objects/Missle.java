@@ -1,19 +1,8 @@
 package com.tutorial.glsltutorials.tutorials.Objects;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.widget.Toast;
-
 import com.tutorial.glsltutorials.tutorials.Colors;
-import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
-import com.tutorial.glsltutorials.tutorials.Shapes.LitMatrixBlock2;
 import com.tutorial.glsltutorials.tutorials.Shapes.LitMatrixSphere2;
-import com.tutorial.glsltutorials.tutorials.Shapes.Shape;
-import com.tutorial.glsltutorials.tutorials.Tutorials.TutorialBase;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Created by jamie on 10/18/14.
@@ -24,7 +13,7 @@ public class Missle {
     LitMatrixSphere2 bottomLeft;
     LitMatrixSphere2 bottomRight;
 
-    float radius = 0.02f;
+    float radius = 0.01f;
     boolean started = false;
     boolean prepare_to_stop = false;
     boolean finished = false;
@@ -51,15 +40,15 @@ public class Missle {
         bottomLeft = new LitMatrixSphere2(radius);
         bottomRight = new LitMatrixSphere2(radius);
 
-        topLeft.SetColor(color);
-        topRight.SetColor(color);
-        bottomLeft.SetColor(color);
-        bottomRight.SetColor(color);
+        topLeft.setColor(color);
+        topRight.setColor(color);
+        bottomLeft.setColor(color);
+        bottomRight.setColor(color);
 
-        topLeft.SetOffset(right.mul(-1f).add(up));
-        topRight.SetOffset(right.add(up));
-        bottomLeft.SetOffset(right.mul(-1).sub(up));
-        bottomRight.SetOffset(right.sub(up));
+        topLeft.setOffset(right.mul(-1f).add(up));
+        topRight.setOffset(right.add(up));
+        bottomLeft.setOffset(right.mul(-1).sub(up));
+        bottomRight.setOffset(right.sub(up));
 
         topLeftDirection = Vector3f.multiply(axis.sub(topLeft.GetOffset()), stepMultiple);
         topRightDirection = Vector3f.multiply(axis.sub(topRight.GetOffset()), stepMultiple);
@@ -75,7 +64,7 @@ public class Missle {
         return started;
     }
 
-    public boolean Firing()
+    public boolean firing()
     {
         return fire;
     }
@@ -102,9 +91,9 @@ public class Missle {
 
     public void DrawMissle(LitMatrixSphere2 missle, Vector3f step)
     {
-        missle.Draw();
+        missle.draw();
         Vector3f offset = missle.GetOffset();
-        missle.SetOffset(offset.add(step));
+        missle.setOffset(offset.add(step));
     }
 
     public void Draw()
