@@ -169,4 +169,10 @@ public class Tut_Text extends TutorialBase {
         }
         return result.toString();
     }
+
+    public void ReceiveMessage(String message)
+    {
+        keyTextString = message;
+        updateText = true;
+    }
 }

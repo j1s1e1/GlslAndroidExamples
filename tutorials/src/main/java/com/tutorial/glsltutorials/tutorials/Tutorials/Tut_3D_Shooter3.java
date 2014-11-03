@@ -367,4 +367,32 @@ public class Tut_3D_Shooter3 extends TutorialBase {
         }
         //ship.Scale(currentScale);
     }
+
+    public void ReceiveMessage(String message)
+    {
+        if (message.endsWith("\n"))
+        {
+            message = message.substring(0, message.length() - 2);
+        }
+        switch (message)
+        {
+            case "ZoomIn": SetScale(1.05f); break;
+            case "ZoomOut": SetScale(1f/1.05f); break;
+            case "RotateX+": Rotate(Vector3f.UnitX, 5f); break;
+            case "RotateX-": Rotate(Vector3f.UnitX, -5f); break;
+            case "RotateY+": Rotate(Vector3f.UnitY, 5f); break;
+            case "RotateY-": Rotate(Vector3f.UnitY, -5f); break;
+            case "RotateZ+": Rotate(Vector3f.UnitZ, 5f); break;
+            case "RotateZ-": Rotate(Vector3f.UnitZ, -5f); break;
+            case "Shoot":
+                if (addMissle == false)
+                {
+                    if (missles.size() < 10)
+                    {
+                        addMissle = true;
+                    }
+                }
+                break;
+        }
+    }
 }

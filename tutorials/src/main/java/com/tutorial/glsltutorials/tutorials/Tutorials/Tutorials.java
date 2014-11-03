@@ -3,12 +3,20 @@ package com.tutorial.glsltutorials.tutorials.Tutorials;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.pm.ConfigurationInfo;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
 import android.view.ContextMenu;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -18,11 +26,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
 import com.tutorial.glsltutorials.tutorials.MainActivity;
 import com.tutorial.glsltutorials.tutorials.R;
+import com.tutorial.glsltutorials.tutorials.SocketServerService;
 import com.tutorial.glsltutorials.tutorials.TestRenderer;
 import com.tutorial.glsltutorials.tutorials.TestRenderer30;
 
@@ -40,6 +50,11 @@ public class Tutorials extends Activity implements
     private GestureDetector mDetector;
     private ScaleGestureDetector scaleGestureDetector;
     private float scaleFactor = 1.f;
+
+    ServiceConnection serviceConnection;
+    boolean isBound = false;
+    SocketServerService.SocketServerServiceBinder socketServerServiceBinder;
+    IntentFilter intentFilter=new IntentFilter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +89,7 @@ public class Tutorials extends Activity implements
 
         mDetector = new GestureDetector(this,this);
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
+        SetupSocketServerService();
     }
 
     static boolean firstlaunch = true;
@@ -161,8 +177,6 @@ public class Tutorials extends Activity implements
         {
 
         }
-
-
     }
 
     @TargetApi(Build.VERSION_CODES.FROYO)
@@ -326,6 +340,70 @@ public class Tutorials extends Activity implements
             Intent startIntent = new Intent(Shader.context, MainActivity.class);
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             Shader.context.startActivity(startIntent);
+        }
+    }
+
+
+
+    private void SetupSocketServerService()
+    {
+        intentFilter.addAction("SOCKET_SERVER_SERVICE");
+        BindSocketServerService();
+    }
+
+    private void BindSocketServerService() {
+        serviceConnection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+                socketServerServiceBinder = (SocketServerService.SocketServerServiceBinder) iBinder;
+                //dataConsumerServerStatus.append(socketServerServiceBinder.test() + "\n");
+                //dataConsumerServerStatus.append(socketServerServiceBinder.getIpAddress() + "\n");
+                //dataConsumerServerStatus.append(socketServerServiceBinder.getPort() + "\n");
+                isBound = true;
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName componentName) {
+                isBound = false;
+            }
+        };
+        Intent intent = null;
+        intent = new Intent(this, SocketServerService.class);
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        /** Receives the broadcast that has been fired */
+        @Override
+        public void onReceive(Context context, Intent intent) {
+        if(intent.getAction()=="SOCKET_SERVER_SERVICE"){
+            if (TestRenderer.tutorial != null) {
+                try {
+                    TestRenderer.tutorial.ReceiveMessage(intent.getStringExtra("Message"));
+                } catch (Exception ex) {
+
+                }}
+        }
+        }
+    };
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        registerReceiver(broadcastReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        if (serviceConnection != null) {
+            socketServerServiceBinder.cleanup();
+        }
+        unregisterReceiver(broadcastReceiver);
+        if (serviceConnection != null) {
+            unbindService(serviceConnection);
         }
     }
 }

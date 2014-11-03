@@ -198,6 +198,11 @@ public abstract class TutorialBase {
 
     }
 
+    public void ReceiveMessage(String message)
+    {
+
+    }
+
     protected void SetupDepthAndCull()
     {
         GLES20.glEnable(GLES20.GL_CULL_FACE);
