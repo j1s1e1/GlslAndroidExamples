@@ -29,13 +29,12 @@ public class Tut_Vectors extends TutorialBase {
         lmb2 = new LitMatrixBlock2(new Vector3f (0.05f, 1f, 0.05f), Colors.GREEN_COLOR);
         axis = new Vector3f(0f, 1f, 0f);
         lmb2.setAxis(axis);
+        setupDepthAndCull();
     }
 
     public void display()
     {
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        GLES20.glClearDepthf(1.0f);
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+        clearDisplay();
         lmb2.draw();
     }
 
@@ -88,7 +87,7 @@ public class Tut_Vectors extends TutorialBase {
         return result.toString();
     }
 
-    public void TouchEvent(int x_position, int y_position) throws Exception
+    public void touchEvent(int x_position, int y_position) throws Exception
     {
         int selection = x_position / 200;
         switch (selection)

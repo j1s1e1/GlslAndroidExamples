@@ -59,7 +59,7 @@ public class Tut_03_CPU_Position_Offset extends TutorialBase {
     protected void init()
     {
         InitializeProgram();
-        InitializeVertexBuffer(vertexData, indexData);
+        initializeVertexBuffer(vertexData, indexData);
     }
 
     static float fXOffset;
@@ -71,7 +71,7 @@ public class Tut_03_CPU_Position_Offset extends TutorialBase {
     {
         float fLoopDuration = 5.0f;
         float fScale = 3.14159f * 2.0f / fLoopDuration;
-        float fElapsedTime = GetElapsedTime() / 1000f;
+        float fElapsedTime = getElapsedTime() / 1000f;
         float fCurrTimeThroughLoop = fElapsedTime % fLoopDuration;
         fXOffset = (float)Math.cos(fCurrTimeThroughLoop * fScale) * 0.5f;
         fYOffset = (float)Math.sin(fCurrTimeThroughLoop * fScale) * 0.5f;

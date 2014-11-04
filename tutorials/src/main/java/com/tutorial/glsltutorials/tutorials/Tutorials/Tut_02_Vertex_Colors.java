@@ -58,7 +58,7 @@ public class Tut_02_Vertex_Colors extends TutorialBase {
     protected void init()
     {
         InitializeProgram();
-        InitializeVertexBuffer(vertexData, indexData);
+        initializeVertexBuffer(vertexData, indexData);
     }
 
     //Called to update the display.

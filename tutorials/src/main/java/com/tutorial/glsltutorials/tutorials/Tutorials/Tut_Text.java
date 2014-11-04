@@ -72,7 +72,7 @@ public class Tut_Text extends TutorialBase {
         Programs.reset();
         Shape.resetWorldToCameraMatrix();
         SetupText();
-        SetupDepthAndCull();
+        setupDepthAndCull();
     }
 
     //Called to update the display.
@@ -80,7 +80,7 @@ public class Tut_Text extends TutorialBase {
     //If you need continuous updates of the screen, call glutPostRedisplay() at the end of the function.
     public void display()
     {
-        ClearDisplay();
+        clearDisplay();
         for (TextClass t : text )
         {
             t.draw();
@@ -170,7 +170,7 @@ public class Tut_Text extends TutorialBase {
         return result.toString();
     }
 
-    public void ReceiveMessage(String message)
+    public void receiveMessage(String message)
     {
         keyTextString = message;
         updateText = true;

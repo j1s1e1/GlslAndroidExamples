@@ -94,15 +94,7 @@ public class Tut_07_World_Scene extends TutorialBase {
             throw new Exception("Error " + ex.toString());
         }
 
-        GLES20.glEnable(GLES20.GL_CULL_FACE);
-        GLES20.glCullFace(GLES20.GL_BACK);
-        GLES20.glFrontFace(GLES20.GL_CW);
-
-        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
-        GLES20.glDepthMask(true);
-        GLES20.glDepthFunc(GLES20.GL_LEQUAL);
-        GLES20.glDepthRangef(0.0f, 1.0f);
-        GLES20.glEnable(GLES20.GL_CLAMP_TO_EDGE);
+        setupDepthAndCull();
     }
 
     //Trees are 3x3 in X/Z, and fTrunkHeight+fConeHeight in the Y.
@@ -331,9 +323,7 @@ public class Tut_07_World_Scene extends TutorialBase {
     //If you need continuous updates of the screen, call glutPostRedisplay() at the end of the function.
     public void display() throws Exception
     {
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        GLES20.glClearDepthf(1.0f);
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+        clearDisplay();
 
         if ((g_pConeMesh != null) && (g_pCylinderMesh != null) && (g_pCubeTintMesh != null) &&
                 (g_pCubeColorMesh != null) && (g_pPlaneMesh != null)) {
@@ -493,7 +483,7 @@ public class Tut_07_World_Scene extends TutorialBase {
         return result;
     }
 
-    public void TouchEvent(int x_position, int y_position) throws Exception
+    public void touchEvent(int x_position, int y_position) throws Exception
     {
         if (x_position > width * 3/4)
         {

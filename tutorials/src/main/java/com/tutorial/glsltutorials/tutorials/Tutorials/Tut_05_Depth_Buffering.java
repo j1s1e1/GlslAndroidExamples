@@ -206,7 +206,7 @@ public class Tut_05_Depth_Buffering extends TutorialBase {
     protected void init()
     {
         InitializeProgram();
-        InitializeVertexBuffer(vertexData, indexData);
+        initializeVertexBuffer(vertexData, indexData);
 
         GLES20.glEnable(GLES20.GL_CULL_FACE);
         GLES20.glCullFace(GLES20.GL_BACK);

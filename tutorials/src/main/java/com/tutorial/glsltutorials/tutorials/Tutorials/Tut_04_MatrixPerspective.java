@@ -192,7 +192,7 @@ public class Tut_04_MatrixPerspective extends TutorialBase  {
     protected void init()
     {
         InitializeProgram();
-        InitializeVertexBuffer(vertexData, indexData);
+        initializeVertexBuffer(vertexData, indexData);
         GLES20.glEnable(GLES20.GL_CULL_FACE);
         GLES20.glCullFace(GLES20.GL_FRONT);
         GLES20.glFrontFace(GLES20.GL_CW);

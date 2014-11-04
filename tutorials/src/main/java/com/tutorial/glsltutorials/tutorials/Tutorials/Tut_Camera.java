@@ -50,23 +50,13 @@ public class Tut_Camera extends TutorialBase {
         lmb2.setOffset(offset2);
         lmb2.setAxis(axis2);
 
-        GLES20.glEnable(GLES20.GL_CULL_FACE);
-        GLES20.glCullFace(GLES20.GL_BACK);
-        GLES20.glFrontFace(GLES20.GL_CW);
-
-        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
-        GLES20.glDepthMask(true);
-        GLES20.glDepthFunc(GLES20.GL_LEQUAL);
-        GLES20.glDepthRangef(0.0f, 1.0f);
-        GLES20.glEnable(GLES20.GL_CLAMP_TO_EDGE);
+        setupDepthAndCull();
         reshape();
     }
 
     public void display()
     {
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        GLES20.glClearDepthf(1.0f);
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+        clearDisplay();
         lms1.draw();
         lms2.draw();
         lmb1.draw();
@@ -118,7 +108,7 @@ public class Tut_Camera extends TutorialBase {
         return result.toString();
     }
 
-    public void TouchEvent(int x_position, int y_position) throws Exception
+    public void touchEvent(int x_position, int y_position) throws Exception
     {
         int selection = x_position / 200;
         switch (selection)

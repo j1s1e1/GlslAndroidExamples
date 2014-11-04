@@ -22,7 +22,7 @@ public class TestRenderer30 implements GLSurfaceView.Renderer {
 
     private void SetupTutorial()
     {
-        tutorial.Setup();
+        tutorial.setup();
     }
 
     @Override

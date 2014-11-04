@@ -72,12 +72,12 @@ public class Tut_MultipleShaders extends TutorialBase {
         aliens.add(alien);
 
 
-        SetupDepthAndCull();
+        setupDepthAndCull();
     }
 
     public  void display()
     {
-        ClearDisplay();
+        clearDisplay();
         for (LitMatrixSphere2 sphere : spheres)
         {
             sphere.draw();

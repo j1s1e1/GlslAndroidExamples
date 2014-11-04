@@ -86,7 +86,7 @@ public class Tut_SingleMeshItem extends TutorialBase {
             throw new Exception("Error " + ex.toString());
         }
 
-        SetupDepthAndCull();
+        setupDepthAndCull();
         reshape();
         current_mesh = g_pCubeColorMesh;
         touchText = new TextClass(" ", 0.5f, 0.05f);
@@ -95,7 +95,7 @@ public class Tut_SingleMeshItem extends TutorialBase {
 
     public void display() throws Exception
     {
-        ClearDisplay();
+        clearDisplay();
 
         if (current_mesh != null)
         {
@@ -218,7 +218,7 @@ public class Tut_SingleMeshItem extends TutorialBase {
         return result.toString();
     }
 
-    public void TouchEvent(int x_position, int y_position) throws Exception {
+    public void touchEvent(int x_position, int y_position) throws Exception {
         int selectionX = x_position / (width / 7);
         int selectoinY = y_position / (height / 4);
         String lastTouchTextString = touchTextString;

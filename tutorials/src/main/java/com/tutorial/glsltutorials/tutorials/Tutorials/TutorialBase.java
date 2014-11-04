@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.VBO_Tools;
 import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
+import com.tutorial.glsltutorials.tutorials.Geometry.Vector4f;
 
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
@@ -44,21 +45,25 @@ public abstract class TutorialBase {
     protected ShortBuffer elementSB;
     protected FloatBuffer vertexDataFB;
 
+    protected int[] vertexBufferObject = new int[1];
+    protected int[] indexBufferObject = new int[1];
+
     protected static final int BYTES_PER_FLOAT = 4;
     protected static final int BYTES_PER_SHORT = 2;
 
     public int width = 512;
     public int height = 512;
+    protected static float fFrustumScale;
+
+    public static Vector4f clearColor = new Vector4f(0.0f, 0.0f, 0.0f, 1.0f);
 
     public TutorialBase()
     {
     }
 
-    public StringBuilder Setup()
+    public StringBuilder setup()
     {
         StringBuilder messages = new StringBuilder();
-        //stopwatch = new Stopwatch();
-        //stopwatch.Start();
         startTime = System.currentTimeMillis();
         try {
             init();
@@ -70,45 +75,16 @@ public abstract class TutorialBase {
         }
         reshape();
         timer = new Timer(false);
-        //timer.schedule(timerElapsed, 10); // 10 = 0.01 second. second is repeat count
         messages.append("Tutorial Setup Complete");
         return messages;
     }
 
-    protected static float GetElapsedTime()
+    protected static float getElapsedTime()
     {
         return System.currentTimeMillis() - startTime;
     }
-/*
-    final Handler touchHandler = new Handler();
-    TimerTask timerElapsed = new TimerTask()
-    {
-        @Override
-        public void run()
-        {
-            touchHandler.post(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    try
-                    {
-                        display();
-                    }
-                    catch (Exception ex)
-                    {
-                        int debug = 0;
-                        debug++;
-                    }
-                }
-            });
-        }
-    };
-*/
-    protected int[] vertexBufferObject = new int[1];
-    protected int[] indexBufferObject = new int[1];
 
-    void InitializeVertexBuffer(float[] vertexData, short[] indexData)
+    void initializeVertexBuffer(float[] vertexData, short[] indexData)
     {
         vertexDataFB = VBO_Tools.InitializeVertexBuffer(vertexData);
         elementSB = VBO_Tools.InitializeElementBuffer(indexData);
@@ -126,13 +102,10 @@ public abstract class TutorialBase {
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
     }
 
-    //Called after the window and OpenGL are initialized. Called exactly once, before the main loop.
     protected void init() throws Exception
     {
     }
 
-    //Called whenever the window is resized. The new window size is given, in pixels.
-    //This is an opportunity to call glViewport or glScissor to keep up with the change in size.
     public void reshape()
     {
         GLES20.glViewport(0, 0, width, height);
@@ -143,10 +116,6 @@ public abstract class TutorialBase {
 
     }
 
-    //Called whenever a key on the keyboard was pressed.
-    //The key is given by the ''key'' parameter, which is in ASCII.
-    //It's often a good idea to have the escape key (ASCII value 27) call glutLeaveMainLoop() to
-    //exit the program.
     public String keyboard(int key, int x, int y) throws Exception
     {
         switch (key) {
@@ -157,7 +126,7 @@ public abstract class TutorialBase {
         return "Default keyboard hanlder, only escape enabled.";
     }
 
-    public void SetScale(float scale) {
+    public void setScale(float scale) {
     }
 
     protected static int defaults(int displayMode, int width, int height)
@@ -165,27 +134,25 @@ public abstract class TutorialBase {
         return displayMode;
     }
 
-    protected static float DegToRad(float fAngDeg)
+    protected static float degToRad(float fAngDeg)
     {
         float fDegToRad = 3.14159f * 2.0f / 360.0f;
         return fAngDeg * fDegToRad;
     }
 
-    protected static float CalcFrustumScale(float fFovDeg)
+    protected static float calcFrustumScale(float fFovDeg)
     {
         float degToRad = 3.14159f * 2.0f / 360.0f;
         float fFovRad = fFovDeg * degToRad;
         return 1.0f / (float)Math.tan(fFovRad / 2.0f);
     }
 
-    protected static float fFrustumScale;
-
-    protected static float Mix(float in1, float in2, float mix_factor)
+    protected static float mix(float in1, float in2, float mix_factor)
     {
         return in1 * 1 - mix_factor + in2 * mix_factor;
     }
 
-    public static void QuickToast(String data)
+    public static void quickToast(String data)
     {
         final Toast toast = Toast.makeText(Shader.context,data, Toast.LENGTH_SHORT);
         toast.show();
@@ -193,17 +160,17 @@ public abstract class TutorialBase {
         handler.postDelayed(new Runnable() {@Override public void run() {toast.cancel();}},200);
     }
 
-    public void TouchEvent(int x_position, int y_position) throws Exception
+    public void touchEvent(int x_position, int y_position) throws Exception
     {
 
     }
 
-    public void ReceiveMessage(String message)
+    public void receiveMessage(String message)
     {
 
     }
 
-    protected void SetupDepthAndCull()
+    protected void setupDepthAndCull()
     {
         GLES20.glEnable(GLES20.GL_CULL_FACE);
         GLES20.glCullFace(GLES20.GL_BACK);
@@ -216,9 +183,14 @@ public abstract class TutorialBase {
         GLES20.glEnable(GLES20.GL_CLAMP_TO_EDGE);
     }
 
-    protected void ClearDisplay()
+    public static void setBackgroundColor(Vector4f color)
     {
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        clearColor = color;
+    }
+
+    protected void clearDisplay()
+    {
+        GLES20.glClearColor(clearColor.x, clearColor.y, clearColor.z, clearColor.w);
         GLES20.glClearDepthf(1.0f);
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT |  GLES20.GL_DEPTH_BUFFER_BIT);
     }

@@ -395,7 +395,7 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
         return result.toString();
     }
 
-    public void TouchEvent(int x_position, int y_position) throws Exception
+    public void touchEvent(int x_position, int y_position) throws Exception
     {
         int selectionX = x_position / (width / 7);
         int selectoinY = y_position / (height / 4);

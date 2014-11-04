@@ -44,7 +44,7 @@ public class Tut_Blender extends TutorialBase {
         controls = new TextClass("X_CCW   X_CW    Y_CCW   Y_CW    Z_CCW   Z_CW", 0.4f, 0.04f, staticText);
         controls.setOffset(new Vector3f(-0.9f, -0.8f, 0.0f));
 
-        SetupDepthAndCull();
+        setupDepthAndCull();
     }
 
     double anglehorizontal = 0;
@@ -56,7 +56,7 @@ public class Tut_Blender extends TutorialBase {
 
     public void display()
     {
-        ClearDisplay();
+        clearDisplay();
         blender.draw();
         blender2.draw();
         xoffset = (float) (Math.cos(anglevertical) * Math.cos(anglehorizontal));
@@ -100,7 +100,7 @@ public class Tut_Blender extends TutorialBase {
         return result.toString();
     }
 
-    public void TouchEvent(int x_position, int y_position) throws Exception
+    public void touchEvent(int x_position, int y_position) throws Exception
     {
         int selection = x_position / (width/6);
         switch (selection)

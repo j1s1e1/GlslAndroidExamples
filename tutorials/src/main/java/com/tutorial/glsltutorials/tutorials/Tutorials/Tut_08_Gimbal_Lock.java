@@ -23,7 +23,7 @@ public class Tut_08_Gimbal_Lock extends TutorialBase {
     float currentScale = 1.0f;
     void InitializeProgram()
     {
-        fFrustumScale = CalcFrustumScale(45.0f);
+        fFrustumScale = calcFrustumScale(45.0f);
         float fzNear = 1.0f;
         float fzFar = 600.0f;
         int vertex_shader = Shader.loadShader30(GLES20.GL_VERTEX_SHADER, VertexShaders.PosColorLocalTransform_vert);
@@ -126,14 +126,7 @@ public class Tut_08_Gimbal_Lock extends TutorialBase {
             throw new Exception("Error:" + ex.toString());
         }
 
-        GLES20.glEnable(GLES20.GL_CULL_FACE);
-        GLES20.glCullFace(GLES20.GL_BACK);
-        GLES20.glFrontFace(GLES20.GL_CW);
-
-        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
-        GLES20.glDepthMask(true);
-        GLES20.glDepthFunc(GLES20.GL_LEQUAL);
-        GLES20.glDepthRangef(0.0f, 1.0f);
+        setupDepthAndCull();
     }
 
     class GimbalAngles
@@ -150,9 +143,7 @@ public class Tut_08_Gimbal_Lock extends TutorialBase {
     //If you need continuous updates of the screen, call glutPostRedisplay() at the end of the function.
     public void display() throws Exception
     {
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        GLES20.glClearDepthf(1.0f);
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+        clearDisplay();
 
         MatrixStack currMatrix = new MatrixStack();
         currMatrix.Translate(new Vector3f(0.0f, 0.0f, -200.0f / currentScale));
@@ -225,7 +216,7 @@ public class Tut_08_Gimbal_Lock extends TutorialBase {
         return result;
     }
 
-    public void TouchEvent(int x_position, int y_position) throws Exception
+    public void touchEvent(int x_position, int y_position) throws Exception
     {
         int selection = x_position / (width / 6);
         switch (selection)
@@ -239,7 +230,7 @@ public class Tut_08_Gimbal_Lock extends TutorialBase {
         }
     }
 
-    public void SetScale(float scale)
+    public void setScale(float scale)
     {
         currentScale = scale;
     }

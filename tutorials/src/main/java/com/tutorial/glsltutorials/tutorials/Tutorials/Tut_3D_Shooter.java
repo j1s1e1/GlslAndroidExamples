@@ -105,7 +105,7 @@ public class Tut_3D_Shooter extends TutorialBase {
         infoEnable = new TextClass("Info" , 0.4f, 0.03f, staticText);
         infoEnable.setOffset(new Vector3f(-0.9f, 0.8f, 0.0f));
 
-        SetupDepthAndCull();
+        setupDepthAndCull();
         SetupShaders();
     }
 
@@ -119,7 +119,7 @@ public class Tut_3D_Shooter extends TutorialBase {
             //Looper.loop();
         }
         ArrayList<Integer> deadMissles = new ArrayList<Integer>();
-        ClearDisplay();
+        clearDisplay();
         ship.draw();
         anglehorizontal = anglehorizontal + 0.02f;
         anglevertical = anglevertical + 0.01f;
@@ -265,7 +265,7 @@ public class Tut_3D_Shooter extends TutorialBase {
         return result.toString();
     }
 
-    public void TouchEvent(int x_position, int y_position) throws Exception
+    public void touchEvent(int x_position, int y_position) throws Exception
     {
         int selection = x_position / (width / 7);
         switch (selection)
@@ -312,7 +312,7 @@ public class Tut_3D_Shooter extends TutorialBase {
         }
     }
 
-    public void SetScale(float scale)
+    public void setScale(float scale)
     {
         currentScale = initialScale.mul(scale);
         ship.scale(currentScale);

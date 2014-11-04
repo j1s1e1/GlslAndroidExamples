@@ -100,7 +100,7 @@ public class Tut_03_Shader_Calc_Offset extends TutorialBase {
 
         GLES20.glUseProgram(theProgram);
 
-        GLES20.glUniform1f(elapsedTimeUniform, GetElapsedTime() / 1000.0f);
+        GLES20.glUniform1f(elapsedTimeUniform, getElapsedTime() / 1000.0f);
 
         GLES20.glEnableVertexAttribArray(positionAttribute);
         GLES20.glVertexAttribPointer(positionAttribute, 4, GLES20.GL_FLOAT, false, 0, vertexBuffer);

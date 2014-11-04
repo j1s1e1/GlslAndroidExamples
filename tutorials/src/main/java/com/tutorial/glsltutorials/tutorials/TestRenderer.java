@@ -24,7 +24,7 @@ public class TestRenderer implements GLSurfaceView.Renderer {
 
     private void SetupTutorial()
     {
-        tutorial.Setup();
+        tutorial.setup();
     }
 
     public void EnableGlesDisplay()

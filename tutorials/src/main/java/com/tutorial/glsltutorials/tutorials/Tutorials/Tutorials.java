@@ -14,9 +14,7 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
 import android.view.ContextMenu;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -26,10 +24,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
+import com.tutorial.glsltutorials.tutorials.Geometry.Vector4f;
 import com.tutorial.glsltutorials.tutorials.MainActivity;
 import com.tutorial.glsltutorials.tutorials.R;
 import com.tutorial.glsltutorials.tutorials.SocketServerService;
@@ -249,7 +247,7 @@ public class Tutorials extends Activity implements
             {
                 if (TestRenderer.tutorial != null) {
                     try {
-                        TestRenderer.tutorial.TouchEvent(x_position, y_position);
+                        TestRenderer.tutorial.touchEvent(x_position, y_position);
                     }
                     catch (Exception ex)
                     {
@@ -318,7 +316,7 @@ public class Tutorials extends Activity implements
 
             if (TestRenderer.tutorial != null) {
                 try {
-                    TestRenderer.tutorial.SetScale(scaleFactor);
+                    TestRenderer.tutorial.setScale(scaleFactor);
                 } catch (Exception ex) {
 
                 }}
@@ -327,23 +325,25 @@ public class Tutorials extends Activity implements
     }
 
     public void onBackPressed(){
-        if (paused)
+        if (TestRenderer.tutorial == null)
         {
-            paused = false;
-            // wait for any more intents
-            android.os.SystemClock.sleep(1000);
-            super.onBackPressed();
+            finish();
         }
-        else {
-            Renderer.DisableGlesDisplay();
-            paused = true;
-            Intent startIntent = new Intent(Shader.context, MainActivity.class);
-            startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            Shader.context.startActivity(startIntent);
+        else
+        {
+            endTutorial();
         }
     }
 
-
+    private void endTutorial()
+    {
+        Renderer.DisableGlesDisplay();
+        paused = true;
+        Intent startIntent = new Intent(Shader.context, MainActivity.class);
+        startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Shader.context.startActivity(startIntent);
+        TestRenderer.tutorial = null;
+    }
 
     private void SetupSocketServerService()
     {
@@ -377,12 +377,39 @@ public class Tutorials extends Activity implements
         @Override
         public void onReceive(Context context, Intent intent) {
         if(intent.getAction()=="SOCKET_SERVER_SERVICE"){
-            if (TestRenderer.tutorial != null) {
-                try {
-                    TestRenderer.tutorial.ReceiveMessage(intent.getStringExtra("Message"));
-                } catch (Exception ex) {
+            String message = intent.getStringExtra("Message");
+            if (message.endsWith("\n"))
+            {
+                message = message.substring(0, message.length() - 2);
+            }
+            String[] words = message.split(" ");
+            switch (words[0])
+            {
+                case "Back":
+                    endTutorial();
+                    break;
+                case "SelectTutorial":
+                    if (words.length == 2) {
+                        int tutorialNumber = Integer.parseInt(words[1]);
+                        chooseTutorial(tutorialNumber);
+                    }
+                    break;
+                case "BackgroundColor":
+                    if (words.length == 5) {
+                        TutorialBase.setBackgroundColor(new Vector4f(Float.parseFloat(words[1]), Float.parseFloat(words[2]),
+                                Float.parseFloat(words[3]), Float.parseFloat(words[4])));
+                    }
+                    break;
+                default:
+                    if (TestRenderer.tutorial != null) {
+                        try {
+                            TestRenderer.tutorial.receiveMessage(message);
+                        } catch (Exception ex) {
 
-                }}
+                        }
+                    }
+                    break;
+            }
         }
         }
     };

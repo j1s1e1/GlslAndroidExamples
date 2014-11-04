@@ -131,7 +131,7 @@ public class Tut_3D_Shooter3 extends TutorialBase {
         infoEnable = new TextClass("Info" , 0.4f, 0.03f, staticText);
         infoEnable.setOffset(new Vector3f(-0.9f, 0.8f, 0.0f));
 
-        SetupDepthAndCull();
+        setupDepthAndCull();
         SetupShaders();
     }
 
@@ -139,7 +139,8 @@ public class Tut_3D_Shooter3 extends TutorialBase {
     {
         ArrayList<Integer> deadMissles = new ArrayList<Integer>();
         ArrayList<Integer> deadEnemys = new ArrayList<Integer>();
-        ClearDisplay();
+        clearDisplay();
+
         ship.draw();
         anglehorizontal = anglehorizontal + 0.02f;
         anglevertical = anglevertical + 0.01f;
@@ -262,10 +263,10 @@ public class Tut_3D_Shooter3 extends TutorialBase {
                 }
                 break;
             case KeyEvent.KEYCODE_NUMPAD_ADD:
-                SetScale(1.05f);
+                setScale(1.05f);
                 break;
             case KeyEvent.KEYCODE_NUMPAD_SUBTRACT:
-                SetScale(1f/1.05f);
+                setScale(1f / 1.05f);
                 break;
             case KeyEvent.KEYCODE_NUMPAD_4:
                 Rotate(Vector3f.UnitY, 5f);
@@ -304,7 +305,7 @@ public class Tut_3D_Shooter3 extends TutorialBase {
         return result.toString();
     }
 
-    public void TouchEvent(int x_position, int y_position) throws Exception
+    public void touchEvent(int x_position, int y_position) throws Exception
     {
         int selection = x_position / (width / 7);
         switch (selection)
@@ -322,10 +323,10 @@ public class Tut_3D_Shooter3 extends TutorialBase {
                     }
                 }
                 if (y_position / (height / 8) == 0) {
-                    SetScale(1.05f);
+                    setScale(1.05f);
                 }
                 if (y_position / (height / 8) == 7) {
-                    SetScale(1f/1.05f);
+                    setScale(1f / 1.05f);
                 }
                 break;
             case 4: Rotate(Vector3f.UnitY, -5f); break;
@@ -357,7 +358,7 @@ public class Tut_3D_Shooter3 extends TutorialBase {
         }
     }
 
-    public void SetScale(float scale) {
+    public void setScale(float scale) {
         if ((totalScale * scale) > minScale)
         {
             if ((totalScale * scale) < maxScale) {
@@ -368,16 +369,13 @@ public class Tut_3D_Shooter3 extends TutorialBase {
         //ship.Scale(currentScale);
     }
 
-    public void ReceiveMessage(String message)
+    public void receiveMessage(String message)
     {
-        if (message.endsWith("\n"))
+        String[] words = message.split(" ");
+        switch (words[0])
         {
-            message = message.substring(0, message.length() - 2);
-        }
-        switch (message)
-        {
-            case "ZoomIn": SetScale(1.05f); break;
-            case "ZoomOut": SetScale(1f/1.05f); break;
+            case "ZoomIn": setScale(1.05f); break;
+            case "ZoomOut": setScale(1f / 1.05f); break;
             case "RotateX+": Rotate(Vector3f.UnitX, 5f); break;
             case "RotateX-": Rotate(Vector3f.UnitX, -5f); break;
             case "RotateY+": Rotate(Vector3f.UnitY, 5f); break;
@@ -393,6 +391,19 @@ public class Tut_3D_Shooter3 extends TutorialBase {
                     }
                 }
                 break;
+            case "ShipColor":
+                if (words.length == 5) {
+                    ship.setColor(new float[]{Float.parseFloat(words[1]), Float.parseFloat(words[2]),
+                            Float.parseFloat(words[3]), Float.parseFloat(words[4])});
+                }
+                break;
+            case "SetScale":
+                if (words.length == 2) {
+                    Shape.resetWorldToCameraMatrix();
+                    Shape.scaleWorldToCameraMatrix(Float.parseFloat(words[1]));
+                }
+                break;
+
         }
     }
 }

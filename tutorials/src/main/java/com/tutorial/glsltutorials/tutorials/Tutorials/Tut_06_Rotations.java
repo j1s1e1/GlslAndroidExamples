@@ -58,7 +58,7 @@ public class Tut_06_Rotations extends TutorialBase {
         modelToCameraMatrixUnif = GLES20.glGetUniformLocation(theProgram, "modelToCameraMatrix");
         cameraToClipMatrixUnif = GLES20.glGetUniformLocation(theProgram, "cameraToClipMatrix");
 
-        fFrustumScale = CalcFrustumScale(45.0f);
+        fFrustumScale = calcFrustumScale(45.0f);
         float fzNear = 1.0f;
         float fzFar = 61.0f;
 
@@ -244,16 +244,9 @@ public class Tut_06_Rotations extends TutorialBase {
     {
         SetupGInstanceList();
         InitializeProgram();
-        InitializeVertexBuffer(vertexData, indexData);
+        initializeVertexBuffer(vertexData, indexData);
 
-        GLES20.glEnable(GLES20.GL_CULL_FACE);
-        GLES20.glCullFace(GLES20.GL_BACK);
-        GLES20.glFrontFace(GLES20.GL_CW);
-
-        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
-        GLES20.glDepthMask(true);
-        GLES20.glDepthFunc(GLES20.GL_LEQUAL);
-        GLES20.glDepthRangef(0.0f, 1.0f);
+        setupDepthAndCull();
     }
 
     //Called to update the display.
@@ -261,9 +254,7 @@ public class Tut_06_Rotations extends TutorialBase {
     //If you need continuous updates of the screen, call glutPostRedisplay() at the end of the function.
     public void display()
     {
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        GLES20.glClearDepthf(1.0f);
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+        clearDisplay();
 
         GLES20.glUseProgram(theProgram);
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vertexBufferObject[0]);
@@ -275,7 +266,7 @@ public class Tut_06_Rotations extends TutorialBase {
 
         GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, indexBufferObject[0]);
 
-        float fElapsedTime = GetElapsedTime() / 1000.0f;
+        float fElapsedTime = getElapsedTime() / 1000.0f;
         for(int iLoop = 0; iLoop < g_instanceList.length; iLoop++)
         {
             Instance currInst = g_instanceList[iLoop];
