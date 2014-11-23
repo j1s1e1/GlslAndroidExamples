@@ -1,5 +1,9 @@
 package com.tutorial.glsltutorials.tutorials.Shapes;
 
+import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
+
+import java.util.ArrayList;
+
 /**
  * Created by Jamie on 1/5/14.
  */
@@ -8,6 +12,9 @@ public class Icosahedron {
     static float[][] vertices;
     
     public static float[] triangles;
+
+    public static ArrayList<Vector3f> vertexList;
+    public static ArrayList<Triangle2> triangleList;
 
     static float[] CalculateVertex(float theta, float phi)
     {
@@ -99,5 +106,92 @@ public class Icosahedron {
     {
         CreateVertices();
         CreateTriangles();
+        CreateVertexList();
+        CreateTriangleList();
+    }
+
+    public static void CreateVertexList()
+    {
+        vertexList = new ArrayList<Vector3f>();
+        for (int i = 0; i < triangles.length; i = i + 3)
+        {
+            vertexList.add(new Vector3f(triangles[i], triangles[i+1], triangles[i+2]));
+        }
+    }
+
+    public static void CreateTriangleList()
+    {
+        triangleList = new ArrayList<Triangle2>();
+        for (int i = 0; i < vertexList.size(); i = i + 3)
+        {
+            triangleList.add(new Triangle2(vertexList.get(i), vertexList.get(i+1), vertexList.get(i+2)));
+        }
+    }
+
+
+    public static ArrayList<Triangle2> DivideTriangles(ArrayList<Triangle2> triangles)
+    {
+        ArrayList<Triangle2> result = new ArrayList<Triangle2>();
+        for (int i = 0; i < triangles.size(); i++)
+        {
+            result.addAll(triangles.get(i).Divide());
+        }
+        return result;
+    }
+
+    public static ArrayList<Vector3f> GetVertices(ArrayList<Triangle2> triangles)
+    {
+        ArrayList<Vector3f> result = new ArrayList<Vector3f>();
+        for (int i = 0; i < triangles.size(); i++)
+        {
+            result.addAll(triangles.get(i).GetVertices());
+        }
+        return result;
+    }
+
+    public static ArrayList<Vector3f> NormalizeVertices(ArrayList<Vector3f> vertices)
+    {
+        ArrayList<Vector3f> result = new ArrayList<Vector3f>();
+        for (Vector3f v : vertices)
+        {
+            result.add(v.normalize());
+        }
+        return result;
+    }
+
+    public static float[] GetFloatsFromVertices(ArrayList<Vector3f> vertices)
+    {
+        float[] result = new float[vertices.size() * 3];
+        for (int i = 0; i < vertices.size(); i++)
+        {
+            System.arraycopy(vertices.get(i).toArray(), 0, result, i * 3, 3);
+        }
+        return result;
+    }
+
+    public static float[] GetFloats(ArrayList<Triangle2> triangles)
+    {
+        float[] result = new float[triangles.size() * 9];
+        for (int i = 0; i < triangles.size(); i++)
+        {
+            System.arraycopy(triangles.get(i).GetFloats(), 0, result, i * 9, 9);
+        }
+        return result;
+    }
+
+    public static float[] GetDividedTriangles(int divideCount)
+    {
+        ArrayList<Triangle2> result = new ArrayList<Triangle2>();
+        for (Triangle2 t : triangleList)
+        {
+            result.add(t.Clone());
+        }
+        while (divideCount-- > 0)
+        {
+            result = DivideTriangles(result);
+        }
+        ArrayList<Vector3f> vertices = GetVertices(result);
+        vertices = NormalizeVertices(vertices);
+        return GetFloatsFromVertices(vertices);
     }
 }

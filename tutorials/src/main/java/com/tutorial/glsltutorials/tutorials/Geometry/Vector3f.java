@@ -256,4 +256,9 @@ public class Vector3f {
     {
         return new String("X= " + String.valueOf(x) + " Y= " + String.valueOf(y) + " Z= " + String.valueOf(z));
     }
+
+    public Vector3f Clone()
+    {
+        return  new Vector3f(x, y, z);
+    }
 }

@@ -135,6 +135,7 @@ public class Tutorials extends Activity implements
                 break;
             case 32: TestRenderer.tutorial = new Tut_Triangles(); break;
             case 33: TestRenderer.tutorial = new Tut_SingleMeshItem(); break;
+            case 34: TestRenderer.tutorial = new Tut_TextureSphere(); break;
             default:
                 final Toast toast2 = Toast.makeText(Shader.context,"Not implemented", Toast.LENGTH_SHORT);
                 toast2.show();

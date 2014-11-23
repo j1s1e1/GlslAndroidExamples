@@ -4,6 +4,7 @@ import android.opengl.GLES20;
 import android.opengl.Matrix;
 
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
+import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;

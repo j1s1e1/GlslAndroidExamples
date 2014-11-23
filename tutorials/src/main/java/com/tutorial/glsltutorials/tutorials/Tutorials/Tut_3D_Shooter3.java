@@ -376,6 +376,9 @@ public class Tut_3D_Shooter3 extends TutorialBase {
         {
             case "ZoomIn": setScale(1.05f); break;
             case "ZoomOut": setScale(1f / 1.05f); break;
+            case "RotateX":  Rotate(Vector3f.UnitX, Float.parseFloat(words[1])); break;
+            case "RotateY":  Rotate(Vector3f.UnitY, Float.parseFloat(words[1])); break;
+            case "RotateZ":  Rotate(Vector3f.UnitZ, Float.parseFloat(words[1])); break;
             case "RotateX+": Rotate(Vector3f.UnitX, 5f); break;
             case "RotateX-": Rotate(Vector3f.UnitX, -5f); break;
             case "RotateY+": Rotate(Vector3f.UnitY, 5f); break;
@@ -403,7 +406,12 @@ public class Tut_3D_Shooter3 extends TutorialBase {
                     Shape.scaleWorldToCameraMatrix(Float.parseFloat(words[1]));
                 }
                 break;
-
+            case "SetScaleLimit":
+                if (words.length == 3) {
+                    minScale = Float.parseFloat(words[1]);
+                    maxScale = Float.parseFloat(words[2]);
+                }
+                break;
         }
     }
 }

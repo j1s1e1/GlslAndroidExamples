@@ -935,7 +935,9 @@ containing a value of this type.
         public static final int green_earth=0x7f020058;
         public static final int green_jupiter=0x7f020059;
         public static final int jupiter=0x7f02005a;
-        public static final int tutorials=0x7f02005b;
+        public static final int mars_mgs_colorhillshade_mola_1024=0x7f02005b;
+        public static final int tutorials=0x7f02005c;
+        public static final int venus_magellan=0x7f02005d;
     }
     public static final class id {
         public static final int Image=0x7f09003e;

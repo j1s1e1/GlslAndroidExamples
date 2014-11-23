@@ -23,11 +23,16 @@ public abstract class TutorialBase {
 
     boolean tutorialLog = true;
 
+    protected static final int BYTES_PER_FLOAT = 4;
+    protected static final int BYTES_PER_SHORT = 2;
+
     protected int COORDS_PER_VERTEX = 4;
     protected int POSITION_DATA_SIZE_IN_ELEMENTS = 4;
     protected int COLOR_DATA_SIZE_IN_ELEMENTS = 4;
     protected int POSITION_STRIDE = POSITION_DATA_SIZE_IN_ELEMENTS * BYTES_PER_FLOAT;
     protected int COLOR_STRIDE = COLOR_DATA_SIZE_IN_ELEMENTS * BYTES_PER_FLOAT;
+    protected static int TEXTURE_DATA_SIZE_IN_ELEMENTS = 2;
+    protected static int TEXTURE_STRIDE = TEXTURE_DATA_SIZE_IN_ELEMENTS * BYTES_PER_FLOAT;
 
     static long startTime;
 
@@ -47,9 +52,6 @@ public abstract class TutorialBase {
 
     protected int[] vertexBufferObject = new int[1];
     protected int[] indexBufferObject = new int[1];
-
-    protected static final int BYTES_PER_FLOAT = 4;
-    protected static final int BYTES_PER_SHORT = 2;
 
     public int width = 512;
     public int height = 512;
@@ -82,6 +84,16 @@ public abstract class TutorialBase {
     protected static float getElapsedTime()
     {
         return System.currentTimeMillis() - startTime;
+    }
+
+    void initializeVertexBuffer(float[] vertexData)
+    {
+        vertexDataFB = VBO_Tools.InitializeVertexBuffer(vertexData);
+        GLES20.glGenBuffers(1, vertexBufferObject, 0);
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vertexBufferObject[0]);
+        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, vertexDataFB.capacity()
+                * BYTES_PER_FLOAT, vertexDataFB, GLES20.GL_STATIC_DRAW);
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
     }
 
     void initializeVertexBuffer(float[] vertexData, short[] indexData)

@@ -103,5 +103,16 @@ public class FragmentShaders {
 
         "gl_FragColor = (diffuseColor * lightIntensity * cosAngIncidence) + (diffuseColor * ambientIntensity);" +
     "}";
+
+    public static final String SimpleTexture =
+
+    "varying vec2 colorCoord;" +
+
+    "uniform sampler2D diffuseColorTex;" +
+
+    "void main()" +
+    "{" +
+        "gl_FragColor = texture2D(diffuseColorTex, colorCoord);" +
+    "}";
 }
 

@@ -35,5 +35,6 @@
         <item>Tut_3D_Shooter2</item>
         <item>Triangles</item>
         <item>SingleMeshItem</item>
+        <item>TextureSphere</item>
     </string-array>
 </resources>

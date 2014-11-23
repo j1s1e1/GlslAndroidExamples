@@ -293,4 +293,17 @@ public class VertexShaders {
 
     //"theColor = lightIntensity  * cosAngIncidence * color;" +
     "}";
+
+    public static final String SimpleTexture =
+
+    "attribute vec4 position;" +
+    "attribute vec2 texCoord;" +
+
+    "varying vec2 colorCoord;" +
+
+    "void main()" +
+    "{" +
+        "gl_Position = position;" +
+        "colorCoord = texCoord;" +
+     "}";
 }

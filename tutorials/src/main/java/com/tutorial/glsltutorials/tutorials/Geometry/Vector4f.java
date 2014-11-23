@@ -58,4 +58,9 @@ public class Vector4f {
     {
         return left.x * right.x + left.y * right.y + left.z * right.z + left.w * right.w;
     }
+
+    public static int sizeInBytes()
+    {
+        return 16;
+    }
 }
