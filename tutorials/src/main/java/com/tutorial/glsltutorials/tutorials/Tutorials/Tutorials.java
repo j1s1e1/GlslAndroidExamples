@@ -136,6 +136,7 @@ public class Tutorials extends Activity implements
             case 32: TestRenderer.tutorial = new Tut_Triangles(); break;
             case 33: TestRenderer.tutorial = new Tut_SingleMeshItem(); break;
             case 34: TestRenderer.tutorial = new Tut_TextureSphere(); break;
+            case 35: TestRenderer.tutorial = new Tut_Colors(); break;
             default:
                 final Toast toast2 = Toast.makeText(Shader.context,"Not implemented", Toast.LENGTH_SHORT);
                 toast2.show();
@@ -290,6 +291,12 @@ public class Tutorials extends Activity implements
 
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        if (TestRenderer.tutorial != null) {
+            try {
+                TestRenderer.tutorial.scroll(distanceX, distanceY);
+            } catch (Exception ex) {
+
+            }}
         return true;
     }
 

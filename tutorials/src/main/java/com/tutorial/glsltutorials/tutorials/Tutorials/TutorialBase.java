@@ -141,6 +141,11 @@ public abstract class TutorialBase {
     public void setScale(float scale) {
     }
 
+    public void scroll(float distanceX, float distanceY)
+    {
+
+    }
+
     protected static int defaults(int displayMode, int width, int height)
     {
         return displayMode;

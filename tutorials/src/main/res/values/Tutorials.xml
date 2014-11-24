@@ -36,5 +36,6 @@
         <item>Triangles</item>
         <item>SingleMeshItem</item>
         <item>TextureSphere</item>
+        <item>Tut_Colors</item>
     </string-array>
 </resources>
