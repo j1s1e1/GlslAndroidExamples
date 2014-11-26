@@ -57,6 +57,16 @@ public class Programs {
         ActivePrograms.get(program).setUniformColor(color);
     }
 
+    public static void setUniformTexture(int program, int colorTexUnit)
+    {
+        ActivePrograms.get(program).setUniformTexture(colorTexUnit);
+    }
+
+    public static void loadTexture(int program, int texture, boolean oneTwenty)
+    {
+        ActivePrograms.get(program).loadTexture(texture, oneTwenty);
+    }
+
     public static void setLightPosition(int program, Vector3f lightPos)
     {
         ActivePrograms.get(program).setLightPosition(lightPos);

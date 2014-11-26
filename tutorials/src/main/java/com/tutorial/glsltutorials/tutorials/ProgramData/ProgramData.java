@@ -3,6 +3,7 @@ package com.tutorial.glsltutorials.tutorials.ProgramData;
 import android.opengl.GLES20;
 
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
+import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Textures;
 import com.tutorial.glsltutorials.tutorials.Geometry.Matrix3f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
@@ -16,14 +17,20 @@ import javax.microedition.khronos.opengles.GL;
  * Created by jamie on 10/12/14.
  */
 public class ProgramData {
-    public int theProgram;
-    public int positionAttribute;
-    public int colorAttribute;
-    public int modelToCameraMatrixUnif;
-    public int modelToWorldMatrixUnif;
-    public int worldToCameraMatrixUnif;
-    public int cameraToClipMatrixUnif;
-    public int baseColorUnif;
+    private int theProgram;
+    private int positionAttribute;
+    private int colorAttribute;
+    private int modelToCameraMatrixUnif;
+    private int modelToWorldMatrixUnif;
+    private int worldToCameraMatrixUnif;
+    private int cameraToClipMatrixUnif;
+    private int baseColorUnif;
+    private int texCoordAttribute;
+    private int colorTextureUnif;
+
+    private int sampler = 0;
+    private int texUnit = 0;
+    private int current_texture;
 
     public int normalModelToCameraMatrixUnif;
     public int dirToLightUnif;
@@ -42,6 +49,8 @@ public class ProgramData {
     int COLOR_DATA_SIZE_IN_ELEMENTS = 4;
     int NORMAL_DATA_SIZE_IN_ELEMENTS = 3;
     int NORMAL_START = 3 * 4; // POSITION_DATA_SIZE_IN_ELEMENTS * BYTES_PER_FLOAT;
+    int TEXTURE_DATA_SIZE_IN_ELEMENTS = 2;
+    int TEXTURE_START = 3 * 4 + 3 * 4;
     protected int vertexStride = 3 * 4; // bytes per vertex default to only 3 position floats
 
 
@@ -92,6 +101,19 @@ public class ProgramData {
         {
             vertexStride = 3 * 4 * 2;
         }
+        texCoordAttribute = GLES20.glGetAttribLocation(theProgram, "texCoord");
+        if (texCoordAttribute != -1)
+        {
+            createSampler();
+            vertexStride = 3 * 4 * 2 + 2 * 4;
+        }
+        colorTextureUnif = GLES20.glGetUniformLocation(theProgram, "diffuseColorTex");
+    }
+
+    void createSampler()
+    {
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_NEAREST);
     }
 
     public boolean compareShaders(String vertexShaderIn, String fragmentShaderIn)
@@ -118,7 +140,7 @@ public class ProgramData {
         {
             GLES20.glUniformMatrix4fv(modelToCameraMatrixUnif, 1, false, mm.toArray(), 0);
         }
-        GLES20.glUniform4fv(baseColorUnif, 1, color, 0);
+        if (baseColorUnif != -1) GLES20.glUniform4fv(baseColorUnif, 1, color, 0);
 
 
         GLES20.glEnableVertexAttribArray(positionAttribute);
@@ -133,12 +155,25 @@ public class ProgramData {
                     GLES20.GL_FLOAT, false, vertexStride, NORMAL_START);
         }
 
+        if (texCoordAttribute != -1)
+        {
+            GLES20.glEnable(GLES20.GL_TEXTURE_2D);
+            GLES20.glEnableVertexAttribArray(texCoordAttribute);
+            GLES20.glVertexAttribPointer(texCoordAttribute, TEXTURE_DATA_SIZE_IN_ELEMENTS,
+                    GLES20.GL_FLOAT, false, vertexStride, TEXTURE_START);
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, current_texture);
+        }
+
         // Draw the triangle
         GLES20.glDrawElements(GLES20.GL_TRIANGLES, indexDataLength, GLES20.GL_UNSIGNED_SHORT, 0);
 
         // Disable vertex array
         GLES20.glDisableVertexAttribArray(positionAttribute);
         if (normalAttribute != -1) GLES20.glDisableVertexAttribArray(normalAttribute);
+        if (texCoordAttribute != -1)
+        {
+            GLES20.glDisableVertexAttribArray(texCoordAttribute);
+        }
 
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
         GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -169,6 +204,18 @@ public class ProgramData {
         GLES20.glUseProgram(theProgram);
         GLES20.glUniform4fv(baseColorUnif, 1, color.toArray(), 0);
         GLES20.glUseProgram(0);
+    }
+
+    public void setUniformTexture(int colorTexUnit)
+    {
+        GLES20.glUseProgram(theProgram);
+        GLES20.glUniform1f(colorTextureUnif, colorTexUnit);
+        GLES20.glUseProgram(0);
+    }
+
+    public void loadTexture(int texture, boolean oneTwenty)
+    {
+        current_texture = Textures.loadTexture(Shader.context, texture, oneTwenty);
     }
 
     public void setLightPosition(Vector3f lightPosition)

@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<pre-dex-items>
+<items version="2" >
 
     <item
-        dex="/home/jamie/repos/AndroidGitHub/GlslTutorials/tutorials/build/intermediates/pre-dexed/debug/support-v4-19.1.0-95a363f7fadad141ffe290eb5375030e031abdb4.jar"
-        jar="/opt/android-sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
+        jar="/opt/android-sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.2/support-annotations-21.0.2.jar"
         jumboMode="false"
-        revision="19.1.0"
-        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
+        revision="21.0.2"
+        sha1="99373741f99a0556ee293c41e8faa1ca3ae8a4e6">
+        <dex dex="/home/jamie/repos/AndroidGitHub/GlslTutorials/tutorials/build/intermediates/pre-dexed/debug/support-annotations-21.0.2-1e9bba1e7979125665c442d859d2bfa58fa53060.jar" />
+    </item>
     <item
-        dex="/home/jamie/repos/AndroidGitHub/GlslTutorials/tutorials/build/intermediates/pre-dexed/debug/support-v13-19.0.0-ba0cde83f27d20640b15b0da952f5bfe1f226626.jar"
-        jar="/opt/android-sdk/extras/android/m2repository/com/android/support/support-v13/19.0.0/support-v13-19.0.0.jar"
+        jar="/home/jamie/repos/AndroidGitHub/GlslTutorials/tutorials/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.2/classes.jar"
         jumboMode="false"
-        revision="19.1.0"
-        sha1="cc8ccb8ee435883471a5f5856b00f5f86d3f938c"/>
+        revision="21.0.2"
+        sha1="7ae2d38807a43b2f2185ff4089a92c790b579e54">
+        <dex dex="/home/jamie/repos/AndroidGitHub/GlslTutorials/tutorials/build/intermediates/pre-dexed/debug/classes-ecb6d387ff21b82d864a75d5cfc3abbbbe61fec3.jar" />
+    </item>
     <item
-        dex="/home/jamie/repos/AndroidGitHub/GlslTutorials/tutorials/build/intermediates/pre-dexed/debug/classes-1a7afba30d00c227cb23d5c293ca6b7ded4c4bf5.jar"
-        jar="/home/jamie/repos/AndroidGitHub/GlslTutorials/tutorials/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/classes.jar"
+        jar="/home/jamie/repos/AndroidGitHub/GlslTutorials/tutorials/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.2/libs/internal_impl-21.0.2.jar"
         jumboMode="false"
-        revision="19.1.0"
-        sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28"/>
+        revision="21.0.2"
+        sha1="962e8b12569c56dbdcf8367eb4eac8bb129cd18f">
+        <dex dex="/home/jamie/repos/AndroidGitHub/GlslTutorials/tutorials/build/intermediates/pre-dexed/debug/internal_impl-21.0.2-fd09dd31ed7e4c93cfe43d79b1d4838472161bb8.jar" />
+    </item>
+    <item
+        jar="/home/jamie/repos/AndroidGitHub/GlslTutorials/tutorials/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.2/classes.jar"
+        jumboMode="false"
+        revision="21.0.2"
+        sha1="d1bf02de1c56d942e7a9d093b8610ba1ef4128e3">
+        <dex dex="/home/jamie/repos/AndroidGitHub/GlslTutorials/tutorials/build/intermediates/pre-dexed/debug/classes-4fbd5211e5ca0dd57fba9490adc61b33cbad8aba.jar" />
+    </item>
 
-</pre-dex-items>
+</items>

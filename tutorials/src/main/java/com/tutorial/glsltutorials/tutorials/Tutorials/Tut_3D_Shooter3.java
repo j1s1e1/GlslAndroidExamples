@@ -1,5 +1,6 @@
 package com.tutorial.glsltutorials.tutorials.Tutorials;
 
+import android.opengl.GLES20;
 import android.view.KeyEvent;
 
 import com.tutorial.glsltutorials.tutorials.Blender.Blender;
@@ -15,6 +16,7 @@ import com.tutorial.glsltutorials.tutorials.Objects.Missle;
 import com.tutorial.glsltutorials.tutorials.ProgramData.Programs;
 import com.tutorial.glsltutorials.tutorials.R;
 import com.tutorial.glsltutorials.tutorials.Shapes.Shape;
+import com.tutorial.glsltutorials.tutorials.Shapes.TextureSphere;
 import com.tutorial.glsltutorials.tutorials.Text.TextClass;
 
 import java.io.InputStream;
@@ -29,6 +31,7 @@ public class Tut_3D_Shooter3 extends TutorialBase {
     }
 
     Blender ship;
+    TextureSphere planet;
     ArrayList<Missle> missles = new ArrayList<Missle>();
     boolean addMissle = false;
 
@@ -67,6 +70,9 @@ public class Tut_3D_Shooter3 extends TutorialBase {
     float minScale = 0.1f;
     float maxScale = 10f;
 
+    float planetAngle = 0f;
+    Vector3f planetAxis = new Vector3f(0.2f, 0.8f, 0.1f);
+
     private void SetupShaders()
     {
         defaultShader = Programs.addProgram(VertexShaders.lms_vertexShaderCode,
@@ -101,6 +107,7 @@ public class Tut_3D_Shooter3 extends TutorialBase {
         ship.readBinaryFile(binaryBlenderData);
         ship.setColor(Colors.WHITE_COLOR);
         ship.scale(currentScale);
+        planet = new TextureSphere(0.35f, R.drawable.venus_magellan);
 
         enemies = new ArrayList<Enemy>();
 
@@ -208,6 +215,11 @@ public class Tut_3D_Shooter3 extends TutorialBase {
         deadEnemysText.draw();
         credit1.draw();
         credit2.draw();
+        planet.setOffset(new Vector3f(0.45f + (float) Math.sin(planetAngle),
+                0.45f + (float) Math.cos(planetAngle), 2.5f + 0.01f * (float) Math.tan(planetAngle)));
+        planetAngle = planetAngle + 0.02f;
+        planet.rotateShape(planetAxis, planetAngle/40f);
+        planet.draw();
     }
 
     private void UpdateInfoText()

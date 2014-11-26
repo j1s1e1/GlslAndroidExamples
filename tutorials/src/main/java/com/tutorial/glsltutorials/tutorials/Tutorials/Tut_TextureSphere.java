@@ -100,12 +100,10 @@ public class Tut_TextureSphere extends TutorialBase {
             float y = vertexData[vertex * 3 + 1];
             float z = vertexData[vertex * 3 + 2];
             float longitude = (float)Math.atan2(y, x);
-            float lattitude = (float)Math.asin(z);
-            //lattitude = lattitude + (float)Math.PI/4;
-            //longitude = longitude + 3 * (float)Math.PI/4;
+            float latitude = (float)Math.asin(z);
 
             textureCoordinates[vertex * 2] = (float)((longitude + Math.PI) / (Math.PI * 2));
-            textureCoordinates[vertex * 2 + 1] = (float)((lattitude + Math.PI/2) / Math.PI);
+            textureCoordinates[vertex * 2 + 1] = (float)((latitude + Math.PI/2) / Math.PI);
             if (textureCoordinates[vertex * 2] < 0) textureCoordinates[vertex * 2] = 0f;
             if (textureCoordinates[vertex * 2] > 1) textureCoordinates[vertex * 2] = 1f;
             if (textureCoordinates[vertex * 2 + 1] < 0) textureCoordinates[vertex * 2] = 0f;

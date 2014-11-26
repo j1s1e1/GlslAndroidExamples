@@ -357,6 +357,13 @@ public class Shape
         modelToWorld = Matrix4f.Mult(modelToWorld, rotation);
     }
 
+    public void scale(Vector3f size)
+    {
+        modelToWorld.M11 = size.x;
+        modelToWorld.M22 = size.y;
+        modelToWorld.M33 = size.z;
+    }
+
     public void draw()
     {
 

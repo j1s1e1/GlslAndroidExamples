@@ -2,66 +2,53 @@ package com.tutorial.glsltutorials.tutorials.Tutorials;
 
 import android.opengl.GLES20;
 
+import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
+import com.tutorial.glsltutorials.tutorials.ProgramData.Programs;
+import com.tutorial.glsltutorials.tutorials.R;
+import com.tutorial.glsltutorials.tutorials.Shapes.LitMatrixSphere2;
 import com.tutorial.glsltutorials.tutorials.Shapes.MatrixSphere;
+import com.tutorial.glsltutorials.tutorials.Shapes.Shape;
 import com.tutorial.glsltutorials.tutorials.Shapes.Sphere;
+import com.tutorial.glsltutorials.tutorials.Shapes.TextureSphere;
 
 /**
  * Created by Jamie on 6/13/14.
  */
 public class Tut_Spheres extends TutorialBase {
-    Sphere[] spheres;
-    MatrixSphere[] mSphreres;
+    LitMatrixSphere2 lms1;
+    LitMatrixSphere2 lms2;
+    TextureSphere ts;
 
     protected void init() {
-        spheres = new Sphere[5];
-        for (int i = 0; i < spheres.length; i++) {
-            float x_offset = (0.05f * i);
-            float y_offset = (0.05f * i);
-            float z_offset = (-0.1f * i);
-            spheres[i] = new Sphere(0.05f);
-            spheres[i].move(x_offset, y_offset, z_offset);
-        }
-
-        mSphreres = new MatrixSphere[5];
-        for (int i = 0; i < mSphreres.length; i++) {
-            float x_offset = (-0.05f * i);
-            float y_offset = (-0.05f * i);
-            float z_offset = (-0.1f * i);
-            mSphreres[i] = new MatrixSphere(0.07f);
-            mSphreres[i].move(x_offset, y_offset, z_offset);
-            mSphreres[i].setColor(1f, 0f, 0f);
-        }
+        Programs.reset();
+        Shape.resetWorldToCameraMatrix();
+        lms1 = new LitMatrixSphere2(0.2f);
+        lms2 = new LitMatrixSphere2(0.2f);
+        ts = new TextureSphere(0.2f, R.drawable.venus_magellan);
+        setupDepthAndCull();
     }
 
-   float worldx = 0;
+    float angle = 0;
+    Vector3f tsAxis = new Vector3f(0.1f, 1f, 0f);
 
-    float mSphere0x = 0;
-    float mSphere0y = 0;
-    float mSphere0z = 0;
-
-    float mSphere4Angle = 0;
+    private void MoveSpheres()
+    {
+        float sin = (float) Math.sin(angle);
+        float cos = (float) Math.cos(angle);
+        lms1.setOffset(new Vector3f(sin, cos, 0f));
+        lms2.setOffset(new Vector3f(cos, sin, 0f));
+        ts.setOffset(new Vector3f(-sin/2f, cos/2f, 0f));
+        ts.rotateShape(tsAxis, angle/4f);
+        angle += 0.02f;
+    }
 
     public void display()
     {
-        // Draw background color
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
-        for (int i = 0; i < spheres.length; i++) {
-            spheres[i].draw();
-            mSphreres[i].draw();
-        }
-        worldx = worldx + 0.01f;
-        if (worldx > 1.5f) worldx = -1.5f;
-        MatrixSphere.MoveWorld(worldx, 0, 0);
-        mSphreres[0].MoveModel(mSphere0x, mSphere0y,mSphere0z);
-        mSphere0x = mSphere0x + 0.01f;
-        if (mSphere0x > 0.4f) mSphere0x = -0.4f;
-        mSphere0y = mSphere0y - 0.02f;
-        if (mSphere0y < -0.3f) mSphere0y = 0.3f;
-        mSphere0z = mSphere0z + 0.01f;
-        if (mSphere0z > 0.3f) mSphere0z = -0.3f;
-        mSphreres[4].UpdateAngle(mSphere4Angle);
-        mSphere4Angle = mSphere4Angle + 1f;
-        if (mSphere4Angle > 360f) mSphere4Angle = 0f;
+        clearDisplay();
+        lms1.draw();
+        lms2.draw();
+        ts.draw();
+        MoveSpheres();
     }
 
 }

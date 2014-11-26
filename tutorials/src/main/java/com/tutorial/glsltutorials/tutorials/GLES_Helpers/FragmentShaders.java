@@ -114,5 +114,25 @@ public class FragmentShaders {
     "{" +
         "gl_FragColor = texture2D(diffuseColorTex, colorCoord);" +
     "}";
+
+    public static final String MatrixTexture =
+    "uniform vec3 lightPos;" +
+    "uniform sampler2D diffuseColorTex;" +
+
+    "varying vec3 v_Position;" +
+    "varying vec3 v_Normal;" +
+    "varying vec2 colorCoord;" +
+
+    "void main()" +
+    "{" +
+        "float distance = length(lightPos - v_Position);" +
+        "vec3 lightVector = normalize(lightPos - v_Position);" +
+        "float diffuse = max(dot(v_Normal, lightVector), 0.0);" +
+
+        "diffuse = diffuse * (1.0 / distance);" +
+
+        //"gl_FragColor = ((diffuse + 0.7) * texture2D(diffuseColorTex, colorCoord));"
+        "gl_FragColor = (0.7 * texture2D(diffuseColorTex, colorCoord));" +
+    "}";
 }
 
