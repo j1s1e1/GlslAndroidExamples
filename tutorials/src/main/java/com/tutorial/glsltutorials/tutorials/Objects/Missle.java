@@ -50,10 +50,10 @@ public class Missle {
         bottomLeft.setOffset(right.mul(-1).sub(up));
         bottomRight.setOffset(right.sub(up));
 
-        topLeftDirection = Vector3f.multiply(axis.sub(topLeft.GetOffset()), stepMultiple);
-        topRightDirection = Vector3f.multiply(axis.sub(topRight.GetOffset()), stepMultiple);
-        bottomLeftDirection = Vector3f.multiply(axis.sub(bottomLeft.GetOffset()), stepMultiple);
-        bottomRightDirection = Vector3f.multiply(axis.sub(bottomRight.GetOffset()), stepMultiple);
+        topLeftDirection = Vector3f.multiply(axis.sub(topLeft.getOffset()), stepMultiple);
+        topRightDirection = Vector3f.multiply(axis.sub(topRight.getOffset()), stepMultiple);
+        bottomLeftDirection = Vector3f.multiply(axis.sub(bottomLeft.getOffset()), stepMultiple);
+        bottomRightDirection = Vector3f.multiply(axis.sub(bottomRight.getOffset()), stepMultiple);
 
         fire = true;
         started = true;
@@ -82,23 +82,23 @@ public class Missle {
     public Vector3f[] GetOffsets()
     {
         Vector3f[] offsets = new Vector3f[4];
-        offsets[0] = topLeft.GetOffset();
-        offsets[1] = topLeft.GetOffset();
-        offsets[2] = topLeft.GetOffset();
-        offsets[3] = topLeft.GetOffset();
+        offsets[0] = topLeft.getOffset();
+        offsets[1] = topLeft.getOffset();
+        offsets[2] = topLeft.getOffset();
+        offsets[3] = topLeft.getOffset();
         return offsets;
     }
 
     public void DrawMissle(LitMatrixSphere2 missle, Vector3f step)
     {
         missle.draw();
-        Vector3f offset = missle.GetOffset();
+        Vector3f offset = missle.getOffset();
         missle.setOffset(offset.add(step));
     }
 
     public void Draw()
     {
-        Vector3f offset = topLeft.GetOffset();
+        Vector3f offset = topLeft.getOffset();
         if ((offset.sub(axis).length()) < 0.01)
         {
             if (finishedFrameCount == 0)

@@ -37,5 +37,6 @@
         <item>SingleMeshItem</item>
         <item>TextureSphere</item>
         <item>Tut_Colors</item>
+        <item>Tut_Tennis</item>
     </string-array>
 </resources>

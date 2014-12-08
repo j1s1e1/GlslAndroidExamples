@@ -196,7 +196,7 @@ public class Shape
         offset = offsetIn;
     }
 
-    public Vector3f GetOffset()
+    public Vector3f getOffset()
     {
         return offset;
     }

@@ -4,6 +4,7 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.os.Handler;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.widget.Toast;
 
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
@@ -143,8 +144,10 @@ public abstract class TutorialBase {
 
     public void scroll(float distanceX, float distanceY)
     {
-
     }
+
+    public void onLongPress(MotionEvent event)
+    {}
 
     protected static int defaults(int displayMode, int width, int height)
     {

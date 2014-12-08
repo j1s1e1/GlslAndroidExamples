@@ -1,4 +1,4 @@
-package com.tutorial.glsltutorials.tutorials.Creatures;
+package com.tutorial.glsltutorials.tutorials.Movement;
 
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 
@@ -7,24 +7,10 @@ import java.util.Random;
 /**
  * Created by jamie on 10/20/14.
  */
-public class RandomMovement {
+public class RandomMovement extends Movement {
     public RandomMovement ()
     {
     }
-
-    static Random random = new Random();
-
-    float xLimitLow = -1.0f;
-    float yLimitLow = -1.0f;
-    float zLimitLow = 0f;
-
-    float xLimitHigh = 1.0f;
-    float yLimitHigh = 1.0f;
-    float zLimitHigh = 1.0f;
-
-    float maxXmovement = 0.1f;
-    float maxYmovement = 0.1f;
-    float maxZmovement = 0.1f;
 
     private float newValue(float oldValue, float maxMovement, float lowLimit, float highLimit)
     {

@@ -9,18 +9,18 @@
         <dex dex="/home/jamie/repos/AndroidGitHub/GlslTutorials/tutorials/build/intermediates/pre-dexed/debug/support-annotations-21.0.2-1e9bba1e7979125665c442d859d2bfa58fa53060.jar" />
     </item>
     <item
-        jar="/home/jamie/repos/AndroidGitHub/GlslTutorials/tutorials/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.2/classes.jar"
-        jumboMode="false"
-        revision="21.0.2"
-        sha1="7ae2d38807a43b2f2185ff4089a92c790b579e54">
-        <dex dex="/home/jamie/repos/AndroidGitHub/GlslTutorials/tutorials/build/intermediates/pre-dexed/debug/classes-ecb6d387ff21b82d864a75d5cfc3abbbbe61fec3.jar" />
-    </item>
-    <item
         jar="/home/jamie/repos/AndroidGitHub/GlslTutorials/tutorials/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.2/libs/internal_impl-21.0.2.jar"
         jumboMode="false"
         revision="21.0.2"
         sha1="962e8b12569c56dbdcf8367eb4eac8bb129cd18f">
         <dex dex="/home/jamie/repos/AndroidGitHub/GlslTutorials/tutorials/build/intermediates/pre-dexed/debug/internal_impl-21.0.2-fd09dd31ed7e4c93cfe43d79b1d4838472161bb8.jar" />
+    </item>
+    <item
+        jar="/home/jamie/repos/AndroidGitHub/GlslTutorials/tutorials/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.2/classes.jar"
+        jumboMode="false"
+        revision="21.0.2"
+        sha1="7ae2d38807a43b2f2185ff4089a92c790b579e54">
+        <dex dex="/home/jamie/repos/AndroidGitHub/GlslTutorials/tutorials/build/intermediates/pre-dexed/debug/classes-ecb6d387ff21b82d864a75d5cfc3abbbbe61fec3.jar" />
     </item>
     <item
         jar="/home/jamie/repos/AndroidGitHub/GlslTutorials/tutorials/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.2/classes.jar"

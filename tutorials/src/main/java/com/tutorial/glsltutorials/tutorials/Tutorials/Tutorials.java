@@ -137,6 +137,7 @@ public class Tutorials extends Activity implements
             case 33: TestRenderer.tutorial = new Tut_SingleMeshItem(); break;
             case 34: TestRenderer.tutorial = new Tut_TextureSphere(); break;
             case 35: TestRenderer.tutorial = new Tut_Colors(); break;
+            case 36: TestRenderer.tutorial = new Tut_Tennis(); break;
             default:
                 final Toast toast2 = Toast.makeText(Shader.context,"Not implemented", Toast.LENGTH_SHORT);
                 toast2.show();
@@ -302,6 +303,12 @@ public class Tutorials extends Activity implements
 
     @Override
     public void onLongPress(MotionEvent event) {
+        if (TestRenderer.tutorial != null) {
+            try {
+                TestRenderer.tutorial.onLongPress(event);
+            } catch (Exception ex) {
+
+            }}
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.tutorial.glsltutorials.tutorials.Blender.Blender;
 import com.tutorial.glsltutorials.tutorials.Colors;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
+import com.tutorial.glsltutorials.tutorials.Movement.RandomMovement;
 import com.tutorial.glsltutorials.tutorials.Objects.Missle;
 import com.tutorial.glsltutorials.tutorials.R;
 

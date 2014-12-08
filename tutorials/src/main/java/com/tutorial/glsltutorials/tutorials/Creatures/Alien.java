@@ -2,6 +2,7 @@ package com.tutorial.glsltutorials.tutorials.Creatures;
 
 import com.tutorial.glsltutorials.tutorials.Colors;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
+import com.tutorial.glsltutorials.tutorials.Movement.RandomMovement;
 import com.tutorial.glsltutorials.tutorials.Objects.Missle;
 import com.tutorial.glsltutorials.tutorials.Shapes.LitMatrixSphere2;
 
@@ -56,7 +57,7 @@ public class Alien {
         else
         {
             frameCount = 0;
-            body.setOffset(movement.newOffset(body.GetOffset()));
+            body.setOffset(movement.newOffset(body.getOffset()));
         }
     }
 
@@ -64,7 +65,7 @@ public class Alien {
     {
         for (Missle m : missles)
         {
-            if (collision.detectColisions(body.GetOffset(), m.GetOffsets()))
+            if (collision.detectColisions(body.getOffset(), m.GetOffsets()))
             {
                 dead = true;
                 break;
