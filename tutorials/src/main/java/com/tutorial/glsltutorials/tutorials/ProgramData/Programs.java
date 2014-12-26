@@ -67,6 +67,12 @@ public class Programs {
         ActivePrograms.get(program).loadTexture(texture, oneTwenty);
     }
 
+    public static void setTexture(int program, int texture)
+    {
+        ActivePrograms.get(program).setTexture(texture);
+    }
+
+
     public static void setLightPosition(int program, Vector3f lightPos)
     {
         ActivePrograms.get(program).setLightPosition(lightPos);

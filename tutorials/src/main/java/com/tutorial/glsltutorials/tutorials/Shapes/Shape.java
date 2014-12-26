@@ -167,9 +167,15 @@ public class Shape
 
     public void move(float x_add, float y_add, float z_add)
     {
-        x = x + x_add;
-        y = y + y_add;
-        z = z + z_add;
+        move(new Vector3f(x_add, y_add, z_add));
+    }
+
+    public void move(Vector3f v)
+    {
+        offset = offset.add(v);
+        x = x + v.x;
+        y = y + v.y;
+        z = z + v.z;
     }
 
     public void setOffset(float x_in, float y_in, float z_in)

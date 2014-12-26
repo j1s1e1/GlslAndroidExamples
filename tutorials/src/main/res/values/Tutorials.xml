@@ -38,5 +38,7 @@
         <item>TextureSphere</item>
         <item>Tut_Colors</item>
         <item>Tut_Tennis</item>
+        <item>Tut_Tennis3D</item>
+        <item>Tut_Texture</item>
     </string-array>
 </resources>

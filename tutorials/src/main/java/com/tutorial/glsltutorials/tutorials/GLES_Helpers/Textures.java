@@ -79,4 +79,32 @@ public class Textures {
 
         return textureHandle[0];
     }
+
+    public static int createFromBitmap(Bitmap bitmap)
+    {
+        final int[] textureHandle = new int[1];
+
+        GLES20.glGenTextures(1, textureHandle, 0);
+
+        if (textureHandle[0] != 0)
+        {
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureHandle[0]);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_NEAREST);
+            GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
+        }
+        else
+        {
+            throw new RuntimeException("Error loading texture.");
+        }
+        return textureHandle[0];
+    }
+
+    public static void enableTextures()
+    {
+        GLES20.glEnable(GLES20.GL_TEXTURE_2D);
+        //FIXME GLES20.glEnable(EnableCap.Blend);
+        //FIXME GLES20.glBlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+        //FIXME GLES20.glEnable(EnableCap.DepthTest);
+    }
 }

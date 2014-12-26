@@ -1304,12 +1304,14 @@ containing a value of this type.
         public static final int abc_textfield_search_default_mtrl_alpha=0x7f020031;
         public static final int abc_textfield_search_material=0x7f020032;
         public static final int earth=0x7f020033;
-        public static final int green_earth=0x7f020034;
-        public static final int green_jupiter=0x7f020035;
-        public static final int jupiter=0x7f020036;
-        public static final int mars_mgs_colorhillshade_mola_1024=0x7f020037;
-        public static final int tutorials=0x7f020038;
-        public static final int venus_magellan=0x7f020039;
+        public static final int flashlight=0x7f020034;
+        public static final int green_earth=0x7f020035;
+        public static final int green_jupiter=0x7f020036;
+        public static final int jupiter=0x7f020037;
+        public static final int mars_mgs_colorhillshade_mola_1024=0x7f020038;
+        public static final int tutorials=0x7f020039;
+        public static final int venus_magellan=0x7f02003a;
+        public static final int wood4_rotate=0x7f02003b;
     }
     public static final class id {
         public static final int Image=0x7f0a0041;
@@ -1417,22 +1419,24 @@ containing a value of this type.
         public static final int main=0x7f0e0000;
     }
     public static final class raw {
-        public static final int largegimbal=0x7f050000;
-        public static final int mediumgimbal=0x7f050001;
-        public static final int ship=0x7f050002;
-        public static final int smallgimbal=0x7f050003;
-        public static final int test=0x7f050004;
-        public static final int test_with_normals=0x7f050005;
-        public static final int test_with_normals_binary=0x7f050006;
-        public static final int unitconetint=0x7f050007;
-        public static final int unitcubecolor=0x7f050008;
-        public static final int unitcubetint=0x7f050009;
-        public static final int unitcylinder=0x7f05000a;
-        public static final int unitcylindertint=0x7f05000b;
-        public static final int unitplane=0x7f05000c;
-        public static final int x_wing=0x7f05000d;
-        public static final int xwing_with_normals=0x7f05000e;
-        public static final int xwng_with_normals_binary=0x7f05000f;
+        public static final int infinity=0x7f050000;
+        public static final int largegimbal=0x7f050001;
+        public static final int mediumgimbal=0x7f050002;
+        public static final int ship=0x7f050003;
+        public static final int smallgimbal=0x7f050004;
+        public static final int test=0x7f050005;
+        public static final int test_with_normals=0x7f050006;
+        public static final int test_with_normals_binary=0x7f050007;
+        public static final int unitconetint=0x7f050008;
+        public static final int unitcubecolor=0x7f050009;
+        public static final int unitcubetint=0x7f05000a;
+        public static final int unitcylinder=0x7f05000b;
+        public static final int unitcylindertint=0x7f05000c;
+        public static final int unitplane=0x7f05000d;
+        public static final int unitsphere12=0x7f05000e;
+        public static final int x_wing=0x7f05000f;
+        public static final int xwing_with_normals=0x7f050010;
+        public static final int xwng_with_normals_binary=0x7f050011;
     }
     public static final class string {
         public static final int abc_action_bar_home_description=0x7f0c0000;

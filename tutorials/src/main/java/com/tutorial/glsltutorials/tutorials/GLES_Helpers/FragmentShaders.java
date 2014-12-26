@@ -134,5 +134,103 @@ public class FragmentShaders {
         //"gl_FragColor = ((diffuse + 0.7) * texture2D(diffuseColorTex, colorCoord));"
         "gl_FragColor = (0.7 * texture2D(diffuseColorTex, colorCoord));" +
     "}";
+
+    public static String unlit =
+
+    "uniform vec4 objectColor;" +
+
+    "void main()" +
+    "{" +
+        "gl_FragColor = objectColor;" +
+    "}";
+
+    public static String ShaderGaussian =
+    "varying vec3 vertexNormal;" +
+    "varying vec3 cameraSpacePosition;" +
+
+    "struct Material" +
+    "{" +
+        "vec4 diffuseColor;" +
+        "vec4 specularColor;" +
+        "float specularShininess;" +
+    "};" +
+
+    "uniform Material Mtl;" +
+
+    "struct PerLight" +
+    "{" +
+        "vec4 cameraSpaceLightPos;" +
+        "vec4 lightIntensity;" +
+    "};" +
+
+    "const int numberOfLights = 2;" +
+
+    "struct Light" +
+    "{" +
+        "vec4 ambientIntensity;" +
+        "float lightAttenuation;" +
+        "PerLight lights[numberOfLights];" +
+    "};" +
+
+    "uniform Light Lgt;" +
+
+    "vec3 lightDirection;" +
+
+    "float CalcAttenuation(vec3 cameraSpacePosition, vec3 cameraSpaceLightPos)" +
+    "{" +
+        "vec3 lightDifference =  cameraSpaceLightPos - cameraSpacePosition;" +
+        "float lightDistanceSqr = dot(lightDifference, lightDifference);" +
+        "lightDirection = lightDifference * inversesqrt(lightDistanceSqr);" +
+
+        "return (1.0 / ( 1.0 + Lgt.lightAttenuation * lightDistanceSqr));" +
+    "}" +
+
+    "vec4 ComputeLighting(PerLight lightData, vec3 cameraSpacePosition, vec3 cameraSpaceNormal)" +
+    "{" +
+        "vec4 lightIntensity;" +
+        "if(lightData.cameraSpaceLightPos.w == 0.0)" +
+         "{" +
+            "lightDirection = vec3(lightData.cameraSpaceLightPos);" +
+            "lightIntensity = lightData.lightIntensity;" +
+        "}" +
+        "else" +
+        "{" +
+            "float atten = CalcAttenuation(cameraSpacePosition, lightData.cameraSpaceLightPos.xyz);" +
+            "lightIntensity = atten * lightData.lightIntensity;" +
+        "}" +
+
+        "vec3 surfaceNormal = normalize(cameraSpaceNormal);" +
+        "float cosAngIncidence = dot(surfaceNormal, lightDirection);" +
+        "cosAngIncidence = cosAngIncidence < 0.0001 ? 0.0 : cosAngIncidence;" +
+
+        "vec3 viewDirection = normalize(-cameraSpacePosition);" +
+
+        "vec3 halfAngle = normalize(lightDirection + viewDirection);" +
+
+        "float angleNormalHalf = acos(dot(halfAngle, surfaceNormal));" +
+        "float exponent = angleNormalHalf / Mtl.specularShininess;" +
+        "exponent = -(exponent * exponent);" +
+        "float gaussianTerm = exp(exponent);" +
+
+        "gaussianTerm = cosAngIncidence != 0.0 ? gaussianTerm : 0.0;" +
+
+        "vec4 lighting = Mtl.diffuseColor * lightIntensity * cosAngIncidence;" +
+        "lighting += Mtl.specularColor * lightIntensity * gaussianTerm;" +
+
+        "return lighting;" +
+    "}" +
+
+    "void main()" +
+    "{" +
+        "vec4 accumLighting = Mtl.diffuseColor * Lgt.ambientIntensity;" +
+        "for(int light = 0; light < numberOfLights; light++)" +
+        "{" +
+            "accumLighting += ComputeLighting(Lgt.lights[light]," +
+            "cameraSpacePosition, vertexNormal);" +
+        "}" +
+
+        "gl_FragColor = sqrt(accumLighting);" + //2.0 gamma correction / OK
+    "}";
+
 }
 

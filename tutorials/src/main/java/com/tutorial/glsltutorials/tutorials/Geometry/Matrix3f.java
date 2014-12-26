@@ -114,4 +114,9 @@ public class Matrix3f {
     {
         return new Matrix3f();
     }
+
+    static public void invert()
+    {
+
+    }
 }

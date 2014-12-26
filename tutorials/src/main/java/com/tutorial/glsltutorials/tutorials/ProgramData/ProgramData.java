@@ -218,6 +218,11 @@ public class ProgramData {
         current_texture = Textures.loadTexture(Shader.context, texture, oneTwenty);
     }
 
+    public void setTexture(int texture)
+    {
+        current_texture = texture;
+    }
+
     public void setLightPosition(Vector3f lightPosition)
     {
         GLES20.glUseProgram(theProgram);

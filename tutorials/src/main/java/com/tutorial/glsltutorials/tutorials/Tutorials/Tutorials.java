@@ -138,6 +138,8 @@ public class Tutorials extends Activity implements
             case 34: TestRenderer.tutorial = new Tut_TextureSphere(); break;
             case 35: TestRenderer.tutorial = new Tut_Colors(); break;
             case 36: TestRenderer.tutorial = new Tut_Tennis(); break;
+            case 37: TestRenderer.tutorial = new Tut_Tennis3D(); break;
+            case 38: TestRenderer.tutorial = new Tut_Texture(); break;
             default:
                 final Toast toast2 = Toast.makeText(Shader.context,"Not implemented", Toast.LENGTH_SHORT);
                 toast2.show();

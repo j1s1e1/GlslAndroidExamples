@@ -14,6 +14,8 @@ import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Quaternion;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector4f;
+import com.tutorial.glsltutorials.tutorials.Light.LightBlock;
+import com.tutorial.glsltutorials.tutorials.Material.MaterialBlock;
 import com.tutorial.glsltutorials.tutorials.MatrixStack;
 import com.tutorial.glsltutorials.tutorials.Mesh.Mesh;
 import com.tutorial.glsltutorials.tutorials.MouseButtons;
@@ -358,7 +360,7 @@ public class Tut_14_Basic_Textures extends TutorialBase {
             modelMatrix.SetMatrix(g_viewPole.CalcMatrix());
             Matrix4f worldToCamMat = modelMatrix.Top();
 
-            LightBlock lightData = new LightBlock();
+            LightBlock lightData = new LightBlock(2);
 
             lightData.ambientIntensity = new Vector4f(0.2f, 0.2f, 0.2f, 1.0f);
             lightData.lightAttenuation = g_fLightAttenuation;
@@ -535,68 +537,6 @@ class PerLight
         System.arraycopy(cameraSpaceLightPos.toArray(), 0, result, position, 4);
         position += 4;
         System.arraycopy(lightIntensity.toArray(), 0, result, position, 4);
-        return result;
-    }
-};
-
-class LightBlock
-{
-    static int NUMBER_OF_LIGHTS = 2;
-    public Vector4f ambientIntensity;
-    public float lightAttenuation;
-    public float[] padding = new float[3];
-    public PerLight[] lights = new PerLight[NUMBER_OF_LIGHTS];
-
-    public static int Size()
-    {
-        int size = 0;
-        size += Vector4f.sizeInBytes();
-        size += 4 * 4;
-        size += NUMBER_OF_LIGHTS * PerLight.Size();
-        return size;
-    }
-
-    public float[] ToFloat()
-    {
-        float[] result = new float[Size()/4];
-        int position = 0;
-        System.arraycopy(ambientIntensity.toArray(), 0, result, position, 4);
-        position += 4;
-        result[position] = lightAttenuation;
-        position += 4;
-        for (int i = 0; i < NUMBER_OF_LIGHTS; i++)
-        {
-            System.arraycopy(lights[i].ToFloat(), 0, result, position, PerLight.Size()/4);
-            position += PerLight.Size()/4;
-        }
-        return result;
-    }
-};
-
-class MaterialBlock
-{
-    public Vector4f diffuseColor;
-    public Vector4f specularColor;
-    public float specularShininess;
-    public float[] padding = new float[3];
-
-    public static int Size()
-    {
-        int size = 0;
-        size += 2 * Vector4f.sizeInBytes();
-        size += 4 * 4;
-        return size;
-    }
-
-    public float[] ToFloat()
-    {
-        float[] result = new float[Size()/4];
-        int position = 0;
-        System.arraycopy(diffuseColor.toArray(), 0, result, position, 4);
-        position += 4;
-        System.arraycopy(specularColor.toString(), 0, result, position, 4);
-        position += 4;
-        result[position] = specularShininess;
         return result;
     }
 };
