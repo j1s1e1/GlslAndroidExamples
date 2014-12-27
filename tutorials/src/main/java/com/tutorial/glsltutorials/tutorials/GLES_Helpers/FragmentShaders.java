@@ -131,7 +131,11 @@ public class FragmentShaders {
 
         "diffuse = diffuse * (1.0 / distance);" +
 
-        "gl_FragColor = (diffuse * texture2D(diffuseColorTex, colorCoord));" +
+        "vec4 textureColor = texture2D(diffuseColorTex, colorCoord);" +
+
+        "if (textureColor.w == 0.0) discard;" +
+
+        "gl_FragColor = vec4(diffuse * textureColor.xyz, textureColor.w);" +
     "}";
 
     public static String unlit =

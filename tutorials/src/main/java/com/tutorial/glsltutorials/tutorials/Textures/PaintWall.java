@@ -15,6 +15,7 @@ public class PaintWall
     Bitmap bitmap;
     int width = 256;
     int height = 256;
+    int clearWidth = 120;
     TextureElement textureElement;
     Random random;
     public PaintWall ()
@@ -24,7 +25,7 @@ public class PaintWall
         {
             for (int row = 0; row < height; row++)
             {
-                if ((Math.abs(row - 128) < 100) & (Math.abs(col - 128) < 100))
+                if ((Math.abs(row - 128) < clearWidth) & (Math.abs(col - 128) < clearWidth))
                 {
                     // clear pixels bitmap.SetPixel(col, row, Color.White);
                 }
@@ -87,17 +88,22 @@ public class PaintWall
         Paint(colStart, rowStart, 50, color);
     }
 
-    public void Move(float x, float y, float z)
+    public void move(float x, float y, float z)
     {
         textureElement.move(new Vector3f(x, y, z));
     }
 
-    public void Move(Vector3f movement)
+    public void move(Vector3f movement)
     {
         textureElement.move(movement);
     }
 
-    public void Scale(float scale)
+    public Vector3f getOffset()
+    {
+        return textureElement.getOffset();
+    }
+
+    public void scale(float scale)
     {
         textureElement.scale(scale);
     }

@@ -21,14 +21,16 @@ import com.tutorial.glsltutorials.tutorials.R;
 import com.tutorial.glsltutorials.tutorials.Textures.PaintWall;
 
 import java.io.InputStream;
+import java.util.Random;
 
 /**
  * Created by jamie on 12/25/14.
  */
 public class Tut_Tennis3D extends TutorialBase 
 {
+    Random random = new Random();
     Vector3f position = new Vector3f(0f, 0f, 0f);
-    Vector3f velocity = new Vector3f(1f, 1.5f, 0.5f);
+    Vector3f velocity = new Vector3f(5f, 7f, 3f);
     Vector3f positionLimitLow =  new Vector3f(-50f, -50f, -100f);
     Vector3f positionLimitHigh =  new Vector3f(50f, 50f, 100f);
     Matrix4f ballModelMatrix = Matrix4f.Identity();
@@ -36,10 +38,10 @@ public class Tut_Tennis3D extends TutorialBase
     String renderString = "";
     PaintWall frontWall;
     PaintWall backWall;
-    //PaintWall leftWall = new PaintWall();
-    //PaintWall rightWall = new PaintWall();
-    //PaintWall topWall = new PaintWall();
-    //PaintWall bottomWall = new PaintWall();
+    PaintWall leftWall;
+    PaintWall rightWall;
+    PaintWall topWall;
+    PaintWall bottomWall;
 
     class ProgramData {
         public int theProgram;
@@ -175,10 +177,13 @@ public class Tut_Tennis3D extends TutorialBase
     //Called after the window and OpenGL are initialized. Called exactly once, before the main loop.
     protected void init() throws Exception
     {
-        Textures.enableTextures();
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         frontWall = new PaintWall();
         backWall = new PaintWall();
+        topWall = new PaintWall();
+        bottomWall = new PaintWall();
+        leftWall = new PaintWall();
+        rightWall = new PaintWall();
         initializeProgram();
         try
         {
@@ -204,38 +209,37 @@ public class Tut_Tennis3D extends TutorialBase
         }
 
         setupDepthAndCull();
+        Textures.enableTextures();
 
         Camera.Move(0f, 0f, 0f);
         Camera.MoveTarget(0f, 0f, 0.0f);
         reshape();
         current_mesh = g_unitSphereMesh;
-        frontWall.Move(0f, 0f, -0.05f);
+        frontWall.move(0f, 0f, -0.05f);
         //frontWall.Scale(2f);
 
-        backWall.Move(0f, 0f, -0.9f);
-        backWall.Scale(0.5f);
-/*
-        leftWall.Move(-0.8f, 0f, 0f);
+        backWall.move(0f, 0f, -0.9f);
+        backWall.scale(0.5f);
+
+        leftWall.move(-0.8f, 0f, 0f);
         leftWall.rotateShape(Vector3f.UnitY, 70f);
-        rightWall.Move(0.8f, 0f, 0f);
+        rightWall.move(0.8f, 0f, 0f);
         rightWall.rotateShape(Vector3f.UnitY, -70f);
 
-        topWall.Move(0f, 0.8f, 0f);
+        topWall.move(0f, 0.8f, 0f);
         topWall.rotateShape(Vector3f.UnitX, 70f);
-        bottomWall.Move(0f, -0.8f, 0f);
+        bottomWall.move(0f, -0.8f, 0f);
         bottomWall.rotateShape(Vector3f.UnitX, -70f);
-        */
     }
 
     public void display() throws Exception
     {
-        GLES20.glDisable(GLES20.GL_DEPTH_TEST);
-        clearDisplay();
+        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
         backWall.draw();
-        //leftWall.draw();
-        //rightWall.draw();
-        //topWall.draw();
-        //bottomWall.draw();
+        leftWall.draw();
+        rightWall.draw();
+        topWall.draw();
+        bottomWall.draw();
 
         if (current_mesh != null)
         {
@@ -283,7 +287,7 @@ public class Tut_Tennis3D extends TutorialBase
             perspectiveAngle = newPerspectiveAngle;
             reshape();
         }
-        //frontWall.draw();
+        frontWall.draw();
         UpdatePosition();
     }
 
@@ -291,29 +295,33 @@ public class Tut_Tennis3D extends TutorialBase
     {
         if (ballModelMatrix.M41 < positionLimitLow.x)
         {
-            if (velocity.x < 0) velocity.x *= -1;
+            leftWall.Paint(ballModelMatrix.M43/positionLimitHigh.x, ballModelMatrix.M42/positionLimitHigh.y);
+            if (velocity.x < 0) velocity.x *= -1 * (0.95f + random.nextInt(10)/100f);
         }
         if (ballModelMatrix.M41 > positionLimitHigh.x)
         {
-            if (velocity.x > 0) velocity.x *= -1;
+            rightWall.Paint(ballModelMatrix.M43/positionLimitHigh.x, ballModelMatrix.M42/positionLimitHigh.y);
+            if (velocity.x > 0) velocity.x *= -1 * (0.95f + random.nextInt(10)/100f);
         }
         if (ballModelMatrix.M42 < positionLimitLow.y)
         {
-            if (velocity.y < 0) velocity.y *= -1;
+            bottomWall.Paint(ballModelMatrix.M41/positionLimitHigh.x, ballModelMatrix.M43/positionLimitHigh.y);
+            if (velocity.y < 0) velocity.y *= -1 * (0.95f + random.nextInt(10)/100f);
         }
         if (ballModelMatrix.M42 > positionLimitHigh.y)
         {
-            if (velocity.y > 0) velocity.y *= -1;
+            topWall.Paint(ballModelMatrix.M41/positionLimitHigh.x, ballModelMatrix.M43/positionLimitHigh.y);
+            if (velocity.y > 0) velocity.y *= -1 * (0.95f + random.nextInt(10)/100f);
         }
         if (ballModelMatrix.M43 < positionLimitLow.z)
         {
             backWall.Paint(ballModelMatrix.M41/positionLimitHigh.x, ballModelMatrix.M42/positionLimitHigh.y);
-            if (velocity.z < 0) velocity.z *= -1;
+            if (velocity.z < 0) velocity.z *= -1 * (0.95f + random.nextInt(10)/100f);
         }
         if (ballModelMatrix.M43 > positionLimitHigh.z)
         {
             frontWall.Paint(ballModelMatrix.M41/positionLimitHigh.x, ballModelMatrix.M42/positionLimitHigh.y);
-            if (velocity.z > 0) velocity.z *= -1;
+            if (velocity.z > 0) velocity.z *= -1 * (0.95f + random.nextInt(10)/100f);
         }
         position = position.add(velocity);
     }

@@ -4,11 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Point;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.hardware.Camera;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 
@@ -91,7 +87,8 @@ public class Textures {
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureHandle[0]);
             GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
             GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_NEAREST);
-            GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
+            // This does not preserve alpha
+            GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, bitmap, 0);
         }
         else
         {
@@ -103,8 +100,10 @@ public class Textures {
     public static void enableTextures()
     {
         GLES20.glEnable(GLES20.GL_TEXTURE_2D);
-        //FIXME GLES20.glEnable(EnableCap.Blend);
-        //FIXME GLES20.glBlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-        //FIXME GLES20.glEnable(EnableCap.DepthTest);
+        GLES20.glEnable(GLES20.GL_BLEND);
+        GLES20.glBlendEquation(GLES20.GL_FUNC_ADD);
+        GLES20.glBlendFunc(GLES20.GL_BLEND_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+        GLES20.glEnable(GLES20.GL_ALPHA);
+        //GL.AlphaFunc(AlphaFunction.Gequal, 0.01f);
     }
 }
