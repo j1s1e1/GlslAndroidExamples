@@ -91,8 +91,6 @@ public class Tut_3D_Shooter2 extends TutorialBase {
 
     protected void init()
     {
-        Programs.reset();
-        Shape.resetWorldToCameraMatrix();
         InputStream test1 = Shader.context.getResources().openRawResource(R.raw.xwing_with_normals);
         ship = new Blender();
         ship.readFile(test1);

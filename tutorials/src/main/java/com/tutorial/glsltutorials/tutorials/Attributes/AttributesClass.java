@@ -21,12 +21,12 @@ public class AttributesClass {
 
     public static void InitializeG_All_AttribeTypes()
     {
-        g_allAttributeTypes = new AttribType[4];
+        g_allAttributeTypes = new AttribType[5];
         g_allAttributeTypes[0] = new AttribType("float", false,  GLES20.GL_FLOAT, 4);
         g_allAttributeTypes[1] = new AttribType("int", false, 	 GLES20.GL_INT, 4);
-        g_allAttributeTypes[2] = new AttribType("short", false,  GLES20.GL_SHORT, 2); // just using int size
-        g_allAttributeTypes[3] = new AttribType("ushort", false, GLES20.GL_UNSIGNED_SHORT, 2);  // just using int size
-
+        g_allAttributeTypes[2] = new AttribType("short", false,  GLES20.GL_SHORT, 2);
+        g_allAttributeTypes[3] = new AttribType("ushort", false, GLES20.GL_UNSIGNED_SHORT, 2);
+        g_allAttributeTypes[4] = new AttribType("uint", false, 	 GLES20.GL_UNSIGNED_INT, 4);
     }
     /*
         {"uint",		false,	GL_UNSIGNED_INT,	sizeof(GLuint),		ParseUInts,		WriteUInts},

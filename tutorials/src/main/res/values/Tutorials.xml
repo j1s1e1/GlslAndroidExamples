@@ -40,5 +40,7 @@
         <item>Tut_Tennis</item>
         <item>Tut_Tennis3D</item>
         <item>Tut_Texture</item>
+        <item>Tut_MoveMeshItem</item>
+
     </string-array>
 </resources>

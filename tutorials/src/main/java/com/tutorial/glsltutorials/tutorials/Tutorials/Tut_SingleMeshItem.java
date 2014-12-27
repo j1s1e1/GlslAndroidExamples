@@ -73,8 +73,6 @@ public class Tut_SingleMeshItem extends TutorialBase {
     //Called after the window and OpenGL are initialized. Called exactly once, before the main loop.
     protected void init() throws Exception
     {
-        Programs.reset();
-        Shape.resetWorldToCameraMatrix();
         InitializeProgram();
         try 
         {

@@ -20,8 +20,6 @@ public class Tut_Spheres extends TutorialBase {
     TextureSphere ts;
 
     protected void init() {
-        Programs.reset();
-        Shape.resetWorldToCameraMatrix();
         lms1 = new LitMatrixSphere2(0.2f);
         lms2 = new LitMatrixSphere2(0.2f);
         ts = new TextureSphere(0.2f, R.drawable.venus_magellan);

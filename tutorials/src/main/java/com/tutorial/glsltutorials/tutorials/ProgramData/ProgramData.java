@@ -104,7 +104,7 @@ public class ProgramData {
         texCoordAttribute = GLES20.glGetAttribLocation(theProgram, "texCoord");
         if (texCoordAttribute != -1)
         {
-            createSampler();
+            //createSampler();
             vertexStride = 3 * 4 * 2 + 2 * 4;
         }
         colorTextureUnif = GLES20.glGetUniformLocation(theProgram, "diffuseColorTex");
@@ -112,6 +112,7 @@ public class ProgramData {
 
     void createSampler()
     {
+        // not used?? applied with setup
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_NEAREST);
     }
@@ -157,7 +158,7 @@ public class ProgramData {
 
         if (texCoordAttribute != -1)
         {
-            GLES20.glEnable(GLES20.GL_TEXTURE_2D);
+            // throws error gl2mERROR: result=0x0500 GLES20.glEnable(GLES20.GL_TEXTURE_2D);
             GLES20.glEnableVertexAttribArray(texCoordAttribute);
             GLES20.glVertexAttribPointer(texCoordAttribute, TEXTURE_DATA_SIZE_IN_ELEMENTS,
                     GLES20.GL_FLOAT, false, vertexStride, TEXTURE_START);

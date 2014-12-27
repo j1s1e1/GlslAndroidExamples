@@ -1,6 +1,7 @@
 package com.tutorial.glsltutorials.tutorials;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
+import android.util.Log;
 
 import com.tutorial.glsltutorials.tutorials.Tutorials.TutorialBase;
 
@@ -48,8 +49,7 @@ public class TestRenderer implements GLSurfaceView.Renderer {
         }
         catch (Exception ex)
         {
-            int debug = 0;
-            debug++;
+            Log.e("onDrawFrame ", ex.getMessage());
         }
         frame_count++;
         if ((frame_count % 10) == 0) {

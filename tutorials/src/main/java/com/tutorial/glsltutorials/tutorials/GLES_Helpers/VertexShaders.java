@@ -285,11 +285,11 @@ public class VertexShaders {
     "cosAngIncidence = clamp(cosAngIncidence, 0.0, 1.0);" +
 
     //"theColor = lightIntensity * color;" + // works
-    //"theColor = vec4(normal, 1.0f);" + // works
-    "theColor = vec4(normCamSpace, 1.0f);" + // works\
-    "theColor = cosAngIncidence * vec4(normCamSpace, 1.0f);" +  // works for some faces
+    //"theColor = vec4(normal, 1.0);" + // works
+    "theColor = vec4(normCamSpace, 1.0);" + // works\
+    "theColor = cosAngIncidence * vec4(normCamSpace, 1.0);" +  // works for some faces
 
-    "theColor = lightIntensity * cosAngIncidence * vec4(normCamSpace, 1.0f);" +  // works for some faces
+    "theColor = lightIntensity * cosAngIncidence * vec4(normCamSpace, 1.0);" +  // works for some faces
 
     //"theColor = lightIntensity  * cosAngIncidence * color;" +
     "}";

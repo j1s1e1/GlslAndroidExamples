@@ -42,8 +42,6 @@ public class Tut_Tennis extends TutorialBase {
     static String paddleSelection;
 
     protected void init() {
-        Programs.reset();
-        Shape.resetWorldToCameraMatrix();
         ball = new Ball();
         ball.setLimits(new Vector3f(-1f, -1f, 0.5f), new Vector3f(1f, 1f, 0.5f));
         topPaddle = new Paddle();

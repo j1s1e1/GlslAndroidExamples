@@ -24,8 +24,6 @@ public class Tut_Vectors extends TutorialBase {
 
     protected void init()
     {
-        Programs.reset();
-        Shape.resetWorldToCameraMatrix();
         lmb2 = new LitMatrixBlock2(new Vector3f (0.05f, 1f, 0.05f), Colors.GREEN_COLOR);
         axis = new Vector3f(0f, 1f, 0f);
         lmb2.setAxis(axis);

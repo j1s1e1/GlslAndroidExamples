@@ -69,8 +69,6 @@ public class Tut_Text extends TutorialBase {
     //Called after the window and OpenGL are initialized. Called exactly once, before the main loop.
     protected void init()
     {
-        Programs.reset();
-        Shape.resetWorldToCameraMatrix();
         SetupText();
         setupDepthAndCull();
     }

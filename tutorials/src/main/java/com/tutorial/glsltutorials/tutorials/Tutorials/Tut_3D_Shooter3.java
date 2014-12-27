@@ -100,8 +100,6 @@ public class Tut_3D_Shooter3 extends TutorialBase {
 
     protected void init()
     {
-        Programs.reset();
-        Shape.resetWorldToCameraMatrix();
         InputStream binaryBlenderData = Shader.context.getResources().openRawResource(R.raw.xwng_with_normals_binary);
         ship = new Blender();
         ship.readBinaryFile(binaryBlenderData);

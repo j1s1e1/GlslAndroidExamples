@@ -50,6 +50,9 @@ public class AttribType{
                         case GLES20.GL_UNSIGNED_SHORT:
                             ad.sValue = Short.parseShort(values[j]);
                             break;
+                        case GLES20.GL_UNSIGNED_INT:
+                            ad.iValue = Integer.parseInt(values[j]);
+                            break;
                         default:  throw new Exception("Unidentified type");
                     }
                     attrib_data.add(ad);
@@ -101,7 +104,17 @@ public class AttribType{
                     ushortBuffer[i++]  = a.sValue;
                 }
                 ShortBuffer usb = VBO_Tools.MakeShortBuffer(ushortBuffer);
-                GLES20.glBufferSubData(eBuffer, iOffset, (ushortBuffer.length * 2), usb);  break;
+                GLES20.glBufferSubData(eBuffer, iOffset, (ushortBuffer.length * 2), usb);
+                break;
+            case GLES20.GL_UNSIGNED_INT:
+                int[] uintBuffer = new int[attribData.size()];
+                for (AttribData a : attribData)
+                {
+                    uintBuffer[i++]  = a.iValue;
+                }
+                IntBuffer uib = VBO_Tools.MakeIntBuffer(uintBuffer);
+                GLES20.glBufferSubData(eBuffer, iOffset, (uintBuffer.length * 4), uib);
+                break;
             default:  throw new Exception("Unidentified type");
         }
     }

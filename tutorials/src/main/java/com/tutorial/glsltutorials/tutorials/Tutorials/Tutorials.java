@@ -29,7 +29,9 @@ import android.widget.Toast;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector4f;
 import com.tutorial.glsltutorials.tutorials.MainActivity;
+import com.tutorial.glsltutorials.tutorials.ProgramData.Programs;
 import com.tutorial.glsltutorials.tutorials.R;
+import com.tutorial.glsltutorials.tutorials.Shapes.Shape;
 import com.tutorial.glsltutorials.tutorials.SocketServerService;
 import com.tutorial.glsltutorials.tutorials.TestRenderer;
 import com.tutorial.glsltutorials.tutorials.TestRenderer30;
@@ -96,6 +98,8 @@ public class Tutorials extends Activity implements
         // An item was selected. You can retrieve the selected item using
         // parent.getItemAtPosition(pos)
         int version = 2;
+        Programs.reset();
+        Shape.resetWorldToCameraMatrix();
         switch (pos)
         {
             case 0:
@@ -140,6 +144,7 @@ public class Tutorials extends Activity implements
             case 36: TestRenderer.tutorial = new Tut_Tennis(); break;
             case 37: TestRenderer.tutorial = new Tut_Tennis3D(); break;
             case 38: TestRenderer.tutorial = new Tut_Texture(); break;
+            case 39: TestRenderer.tutorial = new Tut_MoveMeshItem(); break;
             default:
                 final Toast toast2 = Toast.makeText(Shader.context,"Not implemented", Toast.LENGTH_SHORT);
                 toast2.show();

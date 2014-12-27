@@ -27,8 +27,6 @@ public class Tut_Camera extends TutorialBase {
 
     protected void init()
     {
-        Programs.reset();
-        Shape.resetWorldToCameraMatrix();
         lms1 = new LitMatrixSphere2(0.2f);
         lms2 = new LitMatrixSphere2(0.2f);
         lms2.setOffset(new Vector3f(-0.5f, 0f, 0f));

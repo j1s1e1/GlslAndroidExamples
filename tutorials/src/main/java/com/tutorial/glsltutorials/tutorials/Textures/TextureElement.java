@@ -51,10 +51,10 @@ public class TextureElement extends Shape
         setupSimpleIndexBuffer();
         initializeVertexBuffer();
 
-            programNumber = Programs.addProgram(VertexShaders.MatrixTexture, FragmentShaders.MatrixTexture);
-            Programs.setUniformTexture(programNumber, texUnit);
-            Programs.setTexture(programNumber, texture);
-        }
+        programNumber = Programs.addProgram(VertexShaders.MatrixTexture, FragmentShaders.MatrixTexture);
+        Programs.setUniformTexture(programNumber, texUnit);
+        Programs.setTexture(programNumber, texture);
+    }
 
     public void replace(int resourceID)
     {

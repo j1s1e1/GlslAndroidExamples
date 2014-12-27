@@ -3,6 +3,7 @@ package com.tutorial.glsltutorials.tutorials.Tutorials;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.os.Handler;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.widget.Toast;
@@ -11,6 +12,8 @@ import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.VBO_Tools;
 import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector4f;
+import com.tutorial.glsltutorials.tutorials.ProgramData.Programs;
+import com.tutorial.glsltutorials.tutorials.Shapes.Shape;
 
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
@@ -73,8 +76,7 @@ public abstract class TutorialBase {
         }
         catch (Exception ex)
         {
-            int debug = 0;
-            debug++;
+            Log.e("Setup ",  ex.getMessage());
         }
         reshape();
         timer = new Timer(false);

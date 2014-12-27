@@ -29,8 +29,6 @@ public class Tut_Blender extends TutorialBase {
 
     protected void init()
     {
-        Programs.reset();
-        Shape.resetWorldToCameraMatrix();
         InputStream test1 = Shader.context.getResources().openRawResource(R.raw.test);
         blender = new Blender();
         blender.readFile(test1);
