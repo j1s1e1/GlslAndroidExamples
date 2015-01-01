@@ -41,6 +41,7 @@
         <item>Tut_Tennis3D</item>
         <item>Tut_Texture</item>
         <item>Tut_MoveMeshItem</item>
+        <item>Tut_RotateTexture</item>
 
     </string-array>
 </resources>

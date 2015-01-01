@@ -1,5 +1,7 @@
 package com.tutorial.glsltutorials.tutorials.Tutorials;
 
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.opengl.GLES20;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -18,6 +20,8 @@ public class Tut_Texture extends TutorialBase
     TextureElement textureElement;
     PaintWall paintWall;
     TextureElement newTextureElement;
+    TextureElement bitmapWithAlpha;
+
     boolean paint = false;
     boolean blend = false;
     boolean lastBlend = false;
@@ -37,8 +41,21 @@ public class Tut_Texture extends TutorialBase
         newTextureElement.scale(0.4f);
         paintWall = new PaintWall();
         paintWall.move(0.0f, 0.0f, 0.5f);
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        for (int col = 0; col < width; col++)
+        {
+            for (int row = 0; row < width; row++)
+            {
+                if ((Math.abs(width/2 - col) > 5) & (Math.abs(height/2 - row) > 5))
+                {
+                    bitmap.setPixel(col, row, Color.argb(255, 100, 200, 55));
+                }
+            }
+        }
+        bitmapWithAlpha = new TextureElement(bitmap);
+        bitmapWithAlpha.move(new Vector3f(0f, 0f, 0.5f));
+
         setupDepthAndCull();
-        //Test
         Textures.enableTextures();
     }
 
@@ -49,6 +66,7 @@ public class Tut_Texture extends TutorialBase
         textureElement.draw();
         textureElement.move(-0.02f, 0.05f, 0.00f);
         paintWall.draw();
+        bitmapWithAlpha.draw();
         if (paint)
         {
             paintWall.PaintRandom();

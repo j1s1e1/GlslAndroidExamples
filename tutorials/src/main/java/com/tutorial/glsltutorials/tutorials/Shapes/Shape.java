@@ -5,8 +5,10 @@ import com.tutorial.glsltutorials.tutorials.Colors;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.FragmentShaders;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.VBO_Tools;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.VertexShaders;
+import com.tutorial.glsltutorials.tutorials.Geometry.Matrix3f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
+import com.tutorial.glsltutorials.tutorials.Geometry.Vector4f;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -363,6 +365,13 @@ public class Shape
         modelToWorld = Matrix4f.Mult(modelToWorld, rotation);
     }
 
+    public void setRotation(Matrix3f rotation)
+    {
+        modelToWorld.SetRow0(new Vector4f(rotation.GetRow0(), modelToWorld.M14));
+        modelToWorld.SetRow1(new Vector4f(rotation.GetRow1(), modelToWorld.M24));
+        modelToWorld.SetRow2(new Vector4f(rotation.GetRow2(), modelToWorld.M34));
+    }
+
     public void scale(Vector3f size)
     {
         modelToWorld.M11 = size.x;
@@ -373,5 +382,10 @@ public class Shape
     public void draw()
     {
 
+    }
+
+    public void setCameraToClipMatrix(Matrix4f m)
+    {
+        cameraToClip = m;
     }
 }

@@ -1,7 +1,6 @@
 package com.tutorial.glsltutorials.tutorials.Textures;
 
 import android.graphics.Bitmap;
-import android.os.Build;
 
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.FragmentShaders;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
@@ -72,12 +71,12 @@ public class TextureElement extends Shape
     {
         super.move(v);
         lightPosition = lightPosition.add(v.mul(scale));
-        }
+    }
 
-public void scale(float scaleIn)
-        {
+    public void scale(float scaleIn)
+    {
         scale = scale * scaleIn;
-        }
+    }
 
     public void draw()
     {
