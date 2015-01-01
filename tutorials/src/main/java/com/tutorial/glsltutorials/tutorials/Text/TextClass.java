@@ -262,8 +262,7 @@ public class TextClass extends Shape {
 
         if (updateLock == false)
         {
-            Programs.draw(programNumber, vertexBufferObject, indexBufferObject, cameraToClip, wtc, mm,
-                    indexData.length, color);
+            Programs.draw(programNumber, vertexBufferObject, indexBufferObject, mm, indexData.length, color);
             waitingForUpdate = false;
         }
         else

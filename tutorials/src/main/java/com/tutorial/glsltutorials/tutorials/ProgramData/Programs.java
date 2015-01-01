@@ -44,12 +44,9 @@ public class Programs {
     }
 
     public static void draw(int program, int[] vertexBufferObject, int[] indexBufferObject,
-                            Matrix4f cameraToClip, Matrix4f worldToCamera, Matrix4f mm,
-                            int indexDataLength, float[] color)
+                            Matrix4f mm, int indexDataLength, float[] color)
     {
-        ActivePrograms.get(program).draw(vertexBufferObject, indexBufferObject,
-                cameraToClip, worldToCamera, mm,
-                indexDataLength, color);
+        ActivePrograms.get(program).draw(vertexBufferObject, indexBufferObject, mm, indexDataLength, color);
     }
 
     public static void setUniformColor(int program, Vector4f color)

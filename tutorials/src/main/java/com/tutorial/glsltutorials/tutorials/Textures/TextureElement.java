@@ -87,8 +87,7 @@ public class TextureElement extends Shape
         mm.M43 = offset.z;
         mm.Scale(new Vector3f(scale, scale, scale) );
         Programs.setTexture(programNumber, texture);
-        Programs.draw(programNumber, vertexBufferObject, indexBufferObject, cameraToClip, worldToCamera, mm,
-        indexData.length, color);
+        Programs.draw(programNumber, vertexBufferObject, indexBufferObject, mm, indexData.length, color);
     }
 
 }

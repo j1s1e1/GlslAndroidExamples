@@ -72,7 +72,7 @@ public class Shape
     protected short[] indexData;
 
     public static Matrix4f worldToCamera = Matrix4f.Identity();
-    protected Matrix4f cameraToClip = Matrix4f.Identity();
+    public static Matrix4f cameraToClip = Matrix4f.Identity();
     protected Matrix4f modelToWorld = Matrix4f.Identity();
 
     protected int[] vertexBufferObject = new int[1];

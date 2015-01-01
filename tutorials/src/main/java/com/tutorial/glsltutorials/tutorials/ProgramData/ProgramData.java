@@ -8,10 +8,7 @@ import com.tutorial.glsltutorials.tutorials.Geometry.Matrix3f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector4f;
-
-import java.nio.IntBuffer;
-
-import javax.microedition.khronos.opengles.GL;
+import com.tutorial.glsltutorials.tutorials.Shapes.Shape;
 
 /**
  * Created by jamie on 10/12/14.
@@ -122,16 +119,15 @@ public class ProgramData {
         return ((vertexShaderIn == vertexShader) & (fragmentShader == fragmentShaderIn));
     }
 
-    public void draw(int[] vertexBufferObject, int[] indexBufferObject,
-                     Matrix4f cameraToClip, Matrix4f worldToCamera, Matrix4f mm,
+    public void draw(int[] vertexBufferObject, int[] indexBufferObject, Matrix4f mm,
                      int indexDataLength, float[] color)
     {
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vertexBufferObject[0]);
         GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, indexBufferObject[0]);
 
         GLES20.glUseProgram(theProgram);
-        GLES20.glUniformMatrix4fv(cameraToClipMatrixUnif, 1, false, cameraToClip.toArray(), 0);
-        GLES20.glUniformMatrix4fv(worldToCameraMatrixUnif, 1, false, worldToCamera.toArray(), 0);
+        GLES20.glUniformMatrix4fv(cameraToClipMatrixUnif, 1, false, Shape.cameraToClip.toArray(), 0);
+        GLES20.glUniformMatrix4fv(worldToCameraMatrixUnif, 1, false, Shape.worldToCamera.toArray(), 0);
         GLES20.glUniformMatrix4fv(modelToWorldMatrixUnif, 1, false, mm.toArray(), 0);
         if (modelToWorldMatrixUnif != -1)
         {

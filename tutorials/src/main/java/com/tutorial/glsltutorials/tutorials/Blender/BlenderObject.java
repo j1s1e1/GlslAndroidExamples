@@ -4,12 +4,11 @@ import com.tutorial.glsltutorials.tutorials.GLES_Helpers.FragmentShaders;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.VertexShaders;
 import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
+import com.tutorial.glsltutorials.tutorials.Portability.BitConverter;
 import com.tutorial.glsltutorials.tutorials.ProgramData.Programs;
 import com.tutorial.glsltutorials.tutorials.Shapes.Shape;
 
 import java.util.ArrayList;
-
-import com.tutorial.glsltutorials.tutorials.Portability.*;
 
 /**
  * Created by jamie on 10/12/14.
@@ -144,8 +143,7 @@ public class BlenderObject extends Shape {
         mm.M42 = offset.y;
         mm.M43 = offset.z;
 
-        Programs.draw(programNumber, vertexBufferObject, indexBufferObject, cameraToClip, worldToCamera, mm,
-                indexData.length, color);
+        Programs.draw(programNumber, vertexBufferObject, indexBufferObject, mm, indexData.length, color);
     }
 
     public ArrayList<Byte> getBinaryBlenderObject()
