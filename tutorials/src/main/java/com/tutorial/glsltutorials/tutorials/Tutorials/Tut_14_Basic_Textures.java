@@ -18,11 +18,11 @@ import com.tutorial.glsltutorials.tutorials.Light.LightBlock;
 import com.tutorial.glsltutorials.tutorials.Material.MaterialBlock;
 import com.tutorial.glsltutorials.tutorials.MatrixStack;
 import com.tutorial.glsltutorials.tutorials.Mesh.Mesh;
-import com.tutorial.glsltutorials.tutorials.MouseButtons;
-import com.tutorial.glsltutorials.tutorials.ObjectData;
 import com.tutorial.glsltutorials.tutorials.ProjectionBlock;
 import com.tutorial.glsltutorials.tutorials.PushStack;
 import com.tutorial.glsltutorials.tutorials.View.Framework;
+import com.tutorial.glsltutorials.tutorials.View.MouseButtons;
+import com.tutorial.glsltutorials.tutorials.View.ObjectData;
 import com.tutorial.glsltutorials.tutorials.View.ObjectPole;
 import com.tutorial.glsltutorials.tutorials.View.ViewData;
 import com.tutorial.glsltutorials.tutorials.View.ViewPole;
@@ -147,22 +147,22 @@ public class Tut_14_Basic_Textures extends TutorialBase {
 
     public static ObjectPole g_objtPole;
 
-    void MouseMotion(int x, int y)
+    void mouseMotion(int x, int y)
     {
-        Framework.ForwardMouseMotion(g_viewPole, x, y);
-        Framework.ForwardMouseMotion(g_objtPole, x, y);
+        Framework.forwardMouseMotion(g_viewPole, x, y);
+        Framework.forwardMouseMotion(g_objtPole, x, y);
     }
 
-    void MouseButton(int button, int state, int x, int y)
+    void mouseButton(int button, int state, int x, int y)
     {
-        Framework.ForwardMouseButton(g_viewPole, button, state, x, y);
-        Framework.ForwardMouseButton(g_objtPole, button, state, x, y);
+        Framework.forwardMouseButton(g_viewPole, button, state, x, y);
+        Framework.forwardMouseButton(g_objtPole, button, state, x, y);
     }
 
     void mouseWheel(int wheel, int direction, int x, int y)
     {
-        Framework.ForwardMouseWheel(g_viewPole, wheel, direction, x, y);
-        Framework.ForwardMouseWheel(g_objtPole, wheel, direction, x, y);
+        Framework.forwardMouseWheel(g_viewPole, wheel, direction, x, y);
+        Framework.forwardMouseWheel(g_objtPole, wheel, direction, x, y);
     }
 
     static Mesh g_pObjectMesh;

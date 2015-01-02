@@ -170,10 +170,10 @@ public class Tut_Quaternion extends TutorialBase {
     public void display() throws Exception
     {
         clearDisplay();
-        // FIXME check GLES20.glFrontFace(GLES20.GL_CW);
+        GLES20.glFrontFace(GLES20.GL_CW);
         quaternionText.draw();
         axisAngleText.draw();
-        // FIXME check GLES20.glFrontFace(GLES20.GL_CCW);
+        GLES20.glFrontFace(GLES20.GL_CCW);
         if (meshes.get(currentMesh) != null)
         {
             MatrixStack modelMatrix = new MatrixStack();
@@ -276,8 +276,8 @@ public class Tut_Quaternion extends TutorialBase {
                 Log.i("KeyEvent", Camera.GetTargetString());
                 break;
             case KeyEvent.KEYCODE_NUMPAD_2:
-                // FIXME ??Camera.MoveTarget(0f, -0.5f, 0.0f);
-                // FIXME ??Log.i("KeyEvent", (Camera.GetTargetString());
+                Camera.MoveTarget(0f, -0.5f, 0.0f);
+                Log.i("KeyEvent", Camera.GetTargetString());
                 break;
             case KeyEvent.KEYCODE_NUMPAD_7:
                 Camera.MoveTarget(0.0f, 0.0f, 0.5f);

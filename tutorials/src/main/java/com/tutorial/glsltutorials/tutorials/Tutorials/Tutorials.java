@@ -124,8 +124,9 @@ public class Tutorials extends Activity implements
             case 15: TestRenderer.tutorial = new  Tut_07_World_Scene(); break;
             case 18: TestRenderer.tutorial = new  Tut_08_Gimbal_Lock(); break;
             case 20: TestRenderer.tutorial = new  Tut_09_Ambient_Lighting(); break;
+            case 21: TestRenderer.tutorial = new Tut_14_Basic_Textures(); break;
+            case 22: TestRenderer.tutorial = new Tut_15_ManyImages(); break;
 
-            case 22: TestRenderer.tutorial = new Tut_14_Basic_Textures(); break;
             case 23: TestRenderer.tutorial = new Tut_Text(); break;
             case 24: TestRenderer.tutorial = new Tut_Spheres(); break;
             case 25: TestRenderer.tutorial = new Tut_Blender(); break;

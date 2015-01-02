@@ -6,7 +6,6 @@ import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Quaternion;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector2f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
-import com.tutorial.glsltutorials.tutorials.MouseButtons;
 
 /**
  * Created by Jamie on 6/7/14.
@@ -99,7 +98,7 @@ public class ViewPole extends ViewProvider {
      \ref module_glutil_poles "the Pole manual" for details.
      **/
     ///@{
-    public void MouseClick(MouseButtons button, boolean isPressed, int modifiers, Point p)
+    public void mouseClick(MouseButtons button, boolean isPressed, int modifiers, Point p)
     {
         Vector2f position = new Vector2f(p.x, p.y);
         if(isPressed)
@@ -133,12 +132,12 @@ public class ViewPole extends ViewProvider {
             }
         }
     }
-    public void MouseMove(Point position)
+    public void mouseMove(Point position)
     {
         if(m_bIsDragging)
             OnDragRotate(new Vector2f(position.x, position.y));
     }
-    public void MouseWheel(int direction, int modifiers, Point position)
+    public void mouseWheel(int direction, int modifiers, Point position)
     {
         if(direction > 0)
             this.MoveCloser((modifiers & MM_KEY_SHIFT) == 0);
@@ -146,10 +145,10 @@ public class ViewPole extends ViewProvider {
             this.MoveAway((modifiers & MM_KEY_SHIFT) == 0);
     }
 
-    public void MouseButton(int button, int state, int x, int y)
+    public void mouseButton(int button, int state, int x, int y)
     {
     }
-    public void MouseButton(int button, int state, Point p)
+    public void mouseButton(int button, int state, Point p)
     {
     }
 

@@ -106,4 +106,40 @@ public class Textures {
         GLES20.glEnable(GLES20.GL_ALPHA);
         //GL.AlphaFunc(AlphaFunction.Gequal, 0.01f);
     }
+
+    public static int createMipMapTexture(final Context context, final int resourceId)
+    {
+        final int[] mipMapTexture = new int[1];
+
+        GLES20.glGenTextures(1, mipMapTexture, 0);
+
+        if (mipMapTexture[0] != 0) {
+            final BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inScaled = false;   // No pre-scaling
+
+            // Read in the resource
+            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId, options);
+
+            // Bind to the texture in OpenGL
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mipMapTexture[0]);
+
+            // Set filtering
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_NEAREST);
+
+            // Load the bitmap into the bound texture.
+            GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
+
+            GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
+
+            // Recycle the bitmap, since its data has been loaded into OpenGL.
+            bitmap.recycle();
+        }
+
+        if (mipMapTexture[0] == 0)
+        {
+            throw new RuntimeException("Error loading texture.");
+        }
+        return mipMapTexture[0];
+    }
 }

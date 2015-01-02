@@ -441,12 +441,6 @@ public class Tut_Tennis3D extends TutorialBase
             currentProgram = g_litShaderProg;
             reshape();
             break;
-            case KeyEvent.KEYCODE_Q:
-                //mouseWheel(1, 0, 10, 10);
-                break;
-            case KeyEvent.KEYCODE_R:
-                //mouseWheel(1, 1, 10, 10);
-                break;
         }
 
         reshape();

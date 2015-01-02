@@ -7,8 +7,6 @@ import com.tutorial.glsltutorials.tutorials.Geometry.Quaternion;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector2f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector4f;
-import com.tutorial.glsltutorials.tutorials.MouseButtons;
-import com.tutorial.glsltutorials.tutorials.ObjectData;
 
 /**
  * Created by Jamie on 6/7/14.
@@ -109,7 +107,7 @@ public class ObjectPole implements IPole {
      \param modifiers A bitfield of MouseModifiers that specifies the modifiers being held down currently.
      \param position The mouse position at the moment of the mouse click.
      **/
-    public void MouseClick(MouseButtons button, boolean isPressed, int modifiers, Point position)
+    public void mouseClick(MouseButtons button, boolean isPressed, int modifiers, Point position)
     {
         if(isPressed)
         {
@@ -140,7 +138,7 @@ public class ObjectPole implements IPole {
             {
                 if(button == m_actionButton)
                 {
-                    MouseMove(position);
+                    mouseMove(position);
 
                     m_bIsDragging = false;
                 }
@@ -162,15 +160,15 @@ public class ObjectPole implements IPole {
      \param position The absolute mouse position at the moment the wheel was rolled.
      **/
 
-    public void MouseButton(int button, int state, int x, int y)
+    public void mouseButton(int button, int state, int x, int y)
     {
     }
 
-    public void MouseButton(int button, int state, Point p)
+    public void mouseButton(int button, int state, Point p)
     {
     }
 
-    public void MouseMove(Point  position)
+    public void mouseMove(Point position)
     {
         Vector2f vectorPositoin = new Vector2f(position.x, position.y);
         if(m_bIsDragging)
@@ -216,7 +214,7 @@ public class ObjectPole implements IPole {
         }
     }
 
-    public void MouseWheel(int direction, int modifiers, Point position)
+    public void mouseWheel(int direction, int modifiers, Point position)
     {
 
     }

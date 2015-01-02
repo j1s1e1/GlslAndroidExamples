@@ -666,6 +666,14 @@ public class FragmentShaders {
         "gl_FragColor = accumLighting / Lgt.maxIntensity;" + // ok
     "}"; // projlight
 
+    public static String Tex =
+    "varying vec2 colorCoord;" +
+    "uniform sampler2D colorTexture;" +
+
+    "void main()" +
+    "{" +
+        "gl_FragColor = texture2D(colorTexture, colorCoord);" +
+    "}";
 
 }
 
