@@ -1,9 +1,9 @@
 package com.tutorial.glsltutorials.tutorials.GLES_Helpers;
 
 import android.opengl.GLES20;
-import android.opengl.GLES20;
 
-import com.tutorial.glsltutorials.tutorials.Geometry.*;
+import com.tutorial.glsltutorials.tutorials.Geometry.Vector2f;
+import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
@@ -90,6 +90,16 @@ public class VBO_Tools {
         // Clear the buffer Binding
         GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, 0);
         return bufferID[0];
+    }
+
+    public static ByteBuffer MakeByteBuffer (byte[] data)
+    {
+        final ByteBuffer byteBuffer;
+        byteBuffer =  ByteBuffer.allocateDirect(data.length * BYTES_PER_SHORT)
+                .order(ByteOrder.nativeOrder());
+        byteBuffer.put(data).position(0);
+
+        return byteBuffer;
     }
 
     public static ShortBuffer MakeShortElementBuffer30 (short[] data)

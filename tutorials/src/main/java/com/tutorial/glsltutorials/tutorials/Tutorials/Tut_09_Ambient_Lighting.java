@@ -4,7 +4,6 @@ import android.opengl.GLES20;
 import android.util.Log;
 import android.view.KeyEvent;
 
-import com.tutorial.glsltutorials.tutorials.Framework;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.AnalysisTools;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.FragmentShaders;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
@@ -18,14 +17,15 @@ import com.tutorial.glsltutorials.tutorials.MatrixStack;
 import com.tutorial.glsltutorials.tutorials.Mesh.Mesh;
 import com.tutorial.glsltutorials.tutorials.MouseButtons;
 import com.tutorial.glsltutorials.tutorials.ObjectData;
-import com.tutorial.glsltutorials.tutorials.ObjectPole;
 import com.tutorial.glsltutorials.tutorials.ProjectionBlock;
 import com.tutorial.glsltutorials.tutorials.PushStack;
 import com.tutorial.glsltutorials.tutorials.R;
-import com.tutorial.glsltutorials.tutorials.Shapes.LitMatrixSphere2;
-import com.tutorial.glsltutorials.tutorials.ViewData;
-import com.tutorial.glsltutorials.tutorials.ViewProvider;
-import com.tutorial.glsltutorials.tutorials.ViewScale;
+import com.tutorial.glsltutorials.tutorials.View.Framework;
+import com.tutorial.glsltutorials.tutorials.View.ObjectPole;
+import com.tutorial.glsltutorials.tutorials.View.ViewData;
+import com.tutorial.glsltutorials.tutorials.View.ViewPole;
+import com.tutorial.glsltutorials.tutorials.View.ViewProvider;
+import com.tutorial.glsltutorials.tutorials.View.ViewScale;
 
 import java.io.InputStream;
 
@@ -45,7 +45,6 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
     Matrix4f groundPlaneModelMatrix = Matrix4f.Identity();
     Matrix4f coloredCylinderModelmatrix  = Matrix4f.Identity();
     Vector3f cylinderTraslation = new Vector3f();
-    LitMatrixSphere2 lms2;
 
     class ProgramData
     {
@@ -75,9 +74,9 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
     ProgramData LoadProgram(String vertexShader, String fragmentShader)
     {
         ProgramData data = new ProgramData();
-        int vertexShaderInt = Shader.loadShader30(GLES20.GL_VERTEX_SHADER, vertexShader);
-        int fragmentShaderInt = Shader.loadShader30(GLES20.GL_FRAGMENT_SHADER, fragmentShader);
-        data.theProgram = Shader.createAndLinkProgram30(vertexShaderInt, fragmentShaderInt);
+        int vertexShaderInt = Shader.compileShader(GLES20.GL_VERTEX_SHADER, vertexShader);
+        int fragmentShaderInt = Shader.compileShader(GLES20.GL_FRAGMENT_SHADER, fragmentShader);
+        data.theProgram = Shader.createAndLinkProgram(vertexShaderInt, fragmentShaderInt);
 
         data.positionAttribute = GLES20.glGetAttribLocation(data.theProgram, "position");
 
@@ -105,9 +104,6 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
         data.lightIntensityUnif = GLES20.glGetUniformLocation(data.theProgram, "lightIntensity");
         data.ambientIntensityUnif = GLES20.glGetUniformLocation(data.theProgram, "ambientIntensity");
 
-        //FIX_THIS  int projectionBlock = GLES20.glGetUniformBlockIndex(data.theProgram, "Projection");
-        //FIX_THIS  GLES20.glUniformBlockBinding(data.theProgram, projectionBlock, g_projectionBlockIndex);
-        // to avoid uniform block
         data.cameraToClipMatrixUnif = GLES20.glGetUniformLocation(data.theProgram, "cameraToClipMatrix");
         return data;
     }
@@ -117,8 +113,7 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
         g_WhiteDiffuseColor = LoadProgram(VertexShaders.DirVertexLighting_PN_vert, FragmentShaders.ColorPassthrough_frag);
         g_VertexDiffuseColor = LoadProgram(VertexShaders.DirVertexLighting_PCN_vert, FragmentShaders.ColorPassthrough_frag);
         g_WhiteAmbDiffuseColor = LoadProgram(VertexShaders.DirAmbVertexLighting_PN_vert, FragmentShaders.ColorPassthrough_frag);
-        g_VertexAmbDiffuseColor = g_WhiteAmbDiffuseColor;
-        //g_VertexAmbDiffuseColor = LoadProgram(VertexShaders.DirAmbVertexLighting_PCN_vert, FragmentShaders.ColorPassthrough_frag);
+        g_VertexAmbDiffuseColor = LoadProgram(VertexShaders.DirAmbVertexLighting_PCN_vert, FragmentShaders.ColorPassthrough_frag);
     }
 
     static Mesh g_pCylinderMesh = null;
@@ -131,7 +126,7 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
     private static void InitializeGInitialViewData()
     {
         g_initialViewData = new ViewData(new Vector3f(0.0f, 0.5f, 0.0f),
-                new Quaternion(0.92387953f, 0.3826834f, 0.0f, 0.0f),
+                Quaternion.fromAxisAngle(new Vector3f(0f, 0f, 1f), 45f),
                 5.0f,
                 0.0f);
     }
@@ -148,7 +143,7 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
     }
 
     public static ObjectData g_initialObjectData = new ObjectData(new Vector3f(0.0f, 0.5f, 0.0f),
-            new Quaternion(1.0f, 0.0f, 0.0f, 0.0f));
+            new Quaternion(0.0f, 0.0f, 0.0f, 1.0f));
 
     public static ViewProvider g_viewPole;
 
@@ -177,10 +172,9 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
     //Called after the window and OpenGL are initialized. Called exactly once, before the main loop.
     protected void init() throws Exception
     {
-        lms2 = new LitMatrixSphere2(0.2f);
         InitializeGInitialViewData();
         InitializeGViewScale();
-        g_viewPole = new ViewProvider(g_initialViewData, g_viewScale, MouseButtons.MB_LEFT_BTN);
+        g_viewPole = new ViewPole(g_initialViewData, g_viewScale, MouseButtons.MB_LEFT_BTN);
         g_objtPole = new ObjectPole(g_initialObjectData, (float)(90.0f / 250.0f),
                 MouseButtons.MB_RIGHT_BTN, g_viewPole);
 
@@ -199,14 +193,7 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
             throw new Exception("Error:" + ex.toString());
         }
 
-        GLES20.glEnable(GLES20.GL_CULL_FACE);
-        GLES20.glCullFace(GLES20.GL_BACK);
-        GLES20.glFrontFace(GLES20.GL_CW);
-
-        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
-        GLES20.glDepthMask(true);
-        GLES20.glDepthFunc(GLES20.GL_LEQUAL);
-        GLES20.glDepthRangef(0.0f, 1.0f);
+        setupDepthAndCull();
 
         reshape();
     }
@@ -216,15 +203,9 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
     static boolean g_bDrawColoredCyl = true;
     static boolean g_bShowAmbient = true;
 
-    //Called to update the display.
-    //You should call glutSwapBuffers after all of your rendering to display what you rendered.
-    //If you need continuous updates of the screen, call glutPostRedisplay() at the end of the function.
-
     public void display() throws Exception
     {
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        GLES20.glClearDepthf(1.0f);
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+        clearDisplay();
 
         if((g_pPlaneMesh != null) && (g_pCylinderMesh != null))
         {
@@ -264,8 +245,10 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
                 try( PushStack pushstack = new PushStack(modelMatrix))
                 {
                     GLES20.glUseProgram(whiteDiffuse.theProgram);
+                    modelMatrix.SetMatrix(g_viewPole.CalcMatrix());
                     modelMatrix.Translate(cylinderTraslation);
                     Matrix4f mm =  modelMatrix.Top();
+
                     groundPlaneModelMatrix = mm;
                     GLES20.glUniformMatrix4fv(whiteDiffuse.modelToCameraMatrixUnif, 1, false, mm.toArray(), 0);
                     //projData.cameraToClipMatrix = Matrix4f.Identity(); // Test
@@ -310,8 +293,6 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
                 }
             }
         }
-        lms2.setOffset(cylinderTraslation);
-        lms2.draw();
     }
 
     static ProjectionBlock projData = new ProjectionBlock();
@@ -341,26 +322,26 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
             case KeyEvent.KEYCODE_SPACE:
                 g_bDrawColoredCyl = !g_bDrawColoredCyl;
                 if (g_bDrawColoredCyl)
-                    result.append("Colored Cylinder On.\n");
+                    Log.i("KeyEvent", "Colored Cylinder On.\n");
                 else
-                    result.append("Colored Cylinder Off.\n");
+                    Log.i("KeyEvent", "Colored Cylinder Off.\n");
                 break;
             case KeyEvent.KEYCODE_T:
                 g_bShowAmbient = !g_bShowAmbient;
                 if(g_bShowAmbient)
-                    result.append("Ambient Lighting On.\n");
+                    Log.i("KeyEvent", "Ambient Lighting On.\n");
                 else
-                    result.append("Ambient Lighting Off.\n");
+                    Log.i("KeyEvent", "Ambient Lighting Off.\n");
 
                 break;
             case KeyEvent.KEYCODE_INFO:
-                Log.e(TUTORIAL, "cameraToClipMatrix = " + projData.cameraToClipMatrix.toString());
-                Log.e(TUTORIAL, "coloredCylinderModelmatrix = " + coloredCylinderModelmatrix.toString());
+                Log.i(TUTORIAL, "cameraToClipMatrix = " + projData.cameraToClipMatrix.toString());
+                Log.i(TUTORIAL, "coloredCylinderModelmatrix = " + coloredCylinderModelmatrix.toString());
                 Matrix4f multiply = Matrix4f.Mult(projData.cameraToClipMatrix, coloredCylinderModelmatrix);
-                Log.e(TUTORIAL, AnalysisTools.CalculateMatrixEffects(multiply));
+                Log.i(TUTORIAL, AnalysisTools.CalculateMatrixEffects(multiply));
 
 
-                Log.e(TUTORIAL, "Ground Plane Model Matrix = " + groundPlaneModelMatrix.toString());
+                Log.i(TUTORIAL, "Ground Plane Model Matrix = " + groundPlaneModelMatrix.toString());
                 break;
             case KeyEvent.KEYCODE_NUMPAD_7:
                 cylinderTraslation.addNoCopy(new Vector3f(0.0f, 0.0f, 0.1f));

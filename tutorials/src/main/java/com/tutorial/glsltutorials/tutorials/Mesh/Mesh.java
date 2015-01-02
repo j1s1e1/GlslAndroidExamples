@@ -107,6 +107,8 @@ public class Mesh {
         {
             case "unitcubecolor.xml": resource = R.raw.unitcubecolor; break;
             case "unitcylinder.xml":  resource = R.raw.unitcylinder; break;
+            case "infinity.xml":  resource = R.raw.infinity; break;
+            case "unitcube.xml": resource = R.raw.unitcube; break;
         }
         InputStream inputStream = Shader.context.getResources().openRawResource(resource);
         setup(inputStream);

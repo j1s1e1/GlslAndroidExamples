@@ -565,4 +565,53 @@ public class Matrix4f {
         result.append(" " + String.valueOf(M43) + " " + String.valueOf(M44) + "\n");
         return result.toString();
     }
+
+    public static Matrix4f createFromAxisAngle(Vector3f axis, float angle)
+    {
+        Matrix4f result = new Matrix4f();
+        // normalize and create a local copy of the vector.
+        axis = axis.normalize();
+        float axisX = axis.x;
+        float axisY = axis.y;
+        float axisZ = axis.z;
+
+        // calculate angles
+        float cos = (float)Math.cos(-angle);
+        float sin = (float)Math.sin(-angle);
+        float t = 1.0f - cos;
+
+        // do the conversion math once
+        float tXX = t * axisX * axisX,
+                tXY = t * axisX * axisY,
+                tXZ = t * axisX * axisZ,
+                tYY = t * axisY * axisY,
+                tYZ = t * axisY * axisZ,
+                tZZ = t * axisZ * axisZ;
+
+        float sinX = sin * axisX,
+                sinY = sin * axisY,
+                sinZ = sin * axisZ;
+
+        result.M11 = tXX + cos;
+        result.M12 = tXY - sinZ;
+        result.M13 = tXZ + sinY;
+        result.M14 = 0;
+        result.M21 = tXY + sinZ;
+        result.M22 = tYY + cos;
+        result.M23 = tYZ - sinX;
+        result.M24 = 0;
+        result.M31 = tXZ - sinY;
+        result.M32 = tYZ + sinX;
+        result.M33 = tZZ + cos;
+        result.M34 = 0;
+        result.SetRow3(new Vector4f(0f, 0f, 0f, 1f));
+        return result;
+    }
+
+    public static Matrix4f createFromQuaternion(Quaternion q)
+    {
+        Vector3f axis = q.getAxis();
+        float angle = q.getAngle();
+        return createFromAxisAngle(axis, angle);
+    }
 }

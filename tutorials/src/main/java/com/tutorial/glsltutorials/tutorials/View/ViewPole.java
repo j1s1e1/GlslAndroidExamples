@@ -1,18 +1,21 @@
-package com.tutorial.glsltutorials.tutorials;
+package com.tutorial.glsltutorials.tutorials.View;
+
+import android.graphics.Point;
 
 import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Quaternion;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector2f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
+import com.tutorial.glsltutorials.tutorials.MouseButtons;
 
 /**
  * Created by Jamie on 6/7/14.
  */
-public class ViewPole extends Pole {
-    protected ViewData position;
-    protected ViewData initialPosition;
-    protected float rotateScale;
-    protected boolean isDragging;
+public class ViewPole extends ViewProvider {
+
+    int MM_KEY_SHIFT = 0x01;	///<One of the shift keys.
+    int MM_KEY_CTRL = 0x02;	///<One of the control keys.
+    int MM_KEY_ALT = 0x04;	///<One of the alt keys.
 
     public ViewPole(ViewData initialView, ViewScale viewScale)
     {
@@ -27,8 +30,12 @@ public class ViewPole extends Pole {
     public ViewPole(ViewData initialView, ViewScale viewScale, MouseButtons actionButton,
                     boolean bRightKeyboardCtrls)
     {
-        position = initialView;
-        initialPosition = initialView;
+        m_currView = initialView;
+        m_viewScale = viewScale;
+        m_initialView = initialView;
+        m_actionButton = actionButton;
+        m_bRightKeyboardCtrls = bRightKeyboardCtrls;
+        m_bIsDragging = false;
     }
 
     ///Generates the world-to-camera matrix for the view.
@@ -92,15 +99,60 @@ public class ViewPole extends Pole {
      \ref module_glutil_poles "the Pole manual" for details.
      **/
     ///@{
-    public void MouseClick(MouseButtons button, boolean isPressed, int modifiers, Vector2f position)
+    public void MouseClick(MouseButtons button, boolean isPressed, int modifiers, Point p)
+    {
+        Vector2f position = new Vector2f(p.x, p.y);
+        if(isPressed)
+        {
+            //Ignore all other button presses when dragging.
+            if(!m_bIsDragging)
+            {
+                if(button == m_actionButton)
+                {
+                    if((modifiers & MM_KEY_CTRL) != 0)
+                        this.BeginDragRotate(position, RotateMode.BIAXIAL);
+                    else if((modifiers & MM_KEY_ALT) != 0)
+                        this.BeginDragRotate(position, RotateMode.SPIN_VIEW_AXIS);
+                    else
+                        this.BeginDragRotate(position, RotateMode.DUAL_AXIS);
+                }
+            }
+        }
+        else
+        {
+            //Ignore all other button releases when not dragging
+            if(m_bIsDragging)
+            {
+                if(button == m_actionButton)
+                {
+                    if(m_RotateMode == RotateMode.DUAL_AXIS ||
+                            m_RotateMode == RotateMode.SPIN_VIEW_AXIS ||
+                            m_RotateMode == RotateMode.BIAXIAL)
+                        this.EndDragRotate(position);
+                }
+            }
+        }
+    }
+    public void MouseMove(Point position)
+    {
+        if(m_bIsDragging)
+            OnDragRotate(new Vector2f(position.x, position.y));
+    }
+    public void MouseWheel(int direction, int modifiers, Point position)
+    {
+        if(direction > 0)
+            this.MoveCloser((modifiers & MM_KEY_SHIFT) == 0);
+        else
+            this.MoveAway((modifiers & MM_KEY_SHIFT) == 0);
+    }
+
+    public void MouseButton(int button, int state, int x, int y)
     {
     }
-    public void MouseMove(Vector2f position)
+    public void MouseButton(int button, int state, Point p)
     {
     }
-    public void MouseWheel(int direction, int modifiers, Vector2f position)
-    {
-    }
+
     public void CharPress(char key)
     {
     }
@@ -129,15 +181,6 @@ public class ViewPole extends Pole {
     void OffsetTargetPos(Vector3f cameraOffset)
     {
     }
-
-    enum RotateMode
-    {
-        RM_DUAL_AXIS_ROTATE,
-        RM_BIAXIAL_ROTATE,
-        RM_XZ_AXIS_ROTATE,
-        RM_Y_AXIS_ROTATE,
-        RM_SPIN_VIEW_AXIS,
-    };
 
     ViewData m_currView;
     ViewScale m_viewScale;
@@ -181,7 +224,7 @@ public class ViewPole extends Pole {
 
     void BeginDragRotate(Vector2f ptStart)
     {
-        BeginDragRotate(ptStart, RotateMode.RM_DUAL_AXIS_ROTATE);
+        BeginDragRotate(ptStart, RotateMode.DUAL_AXIS);
     }
 
     void BeginDragRotate(Vector2f ptStart, RotateMode rotMode)
@@ -208,6 +251,13 @@ public class ViewPole extends Pole {
 
     void MoveCloser(boolean bLargeStep)
     {
+        if(bLargeStep)
+            m_currView.radius -= m_viewScale.largeRadiusDelta;
+        else
+            m_currView.radius -= m_viewScale.smallRadiusDelta;
+
+        if(m_currView.radius < m_viewScale.minRadius)
+            m_currView.radius = m_viewScale.minRadius;
     }
 
     void MoveAway()
@@ -217,5 +267,12 @@ public class ViewPole extends Pole {
 
     void MoveAway(boolean bLargeStep)
     {
+        if(bLargeStep)
+            m_currView.radius += m_viewScale.largeRadiusDelta;
+        else
+            m_currView.radius += m_viewScale.smallRadiusDelta;
+
+        if(m_currView.radius > m_viewScale.maxRadius)
+            m_currView.radius = m_viewScale.maxRadius;
     }
 }

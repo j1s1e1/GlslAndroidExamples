@@ -1,4 +1,4 @@
-package com.tutorial.glsltutorials.tutorials;
+package com.tutorial.glsltutorials.tutorials.View;
 
 import com.tutorial.glsltutorials.tutorials.Geometry.Quaternion;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;

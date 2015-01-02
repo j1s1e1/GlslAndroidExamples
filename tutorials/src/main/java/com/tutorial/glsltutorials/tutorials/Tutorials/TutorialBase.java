@@ -1,7 +1,6 @@
 package com.tutorial.glsltutorials.tutorials.Tutorials;
 
 import android.opengl.GLES20;
-import android.opengl.GLSurfaceView;
 import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -12,13 +11,10 @@ import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.VBO_Tools;
 import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector4f;
-import com.tutorial.glsltutorials.tutorials.ProgramData.Programs;
-import com.tutorial.glsltutorials.tutorials.Shapes.Shape;
 
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Created by Jamie on 5/26/14.
@@ -84,7 +80,7 @@ public abstract class TutorialBase {
         return messages;
     }
 
-    protected static float getElapsedTime()
+    public static float getElapsedTime()
     {
         return System.currentTimeMillis() - startTime;
     }

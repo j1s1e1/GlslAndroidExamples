@@ -86,7 +86,7 @@ public class LightBlock
         GLES20.glUseProgram(programNumber);
         GLES20.glUniform4fv(ambientIntensityUnif, 1, lightblock.ambientIntensity.toArray(), 0);
         GLES20.glUniform1f(lightAttenuationUnif, lightblock.lightAttenuation);
-        GLES20.glUniform1f(maxIntensityUnif, lightblock.maxIntensity);
+        if (maxIntensityUnif != -1) GLES20.glUniform1f(maxIntensityUnif, lightblock.maxIntensity);
         if (gammaUnif != -1) GLES20.glUniform1f(gammaUnif, lightblock.gamma);
         for (int i = 0; i < NUMBER_OF_LIGHTS; i++)
         {

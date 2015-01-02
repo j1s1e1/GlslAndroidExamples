@@ -363,87 +363,90 @@ public class Tut_Tennis3D extends TutorialBase
         StringBuilder result = new StringBuilder();
         result.append(String.valueOf(keyCode));
         switch (keyCode) {
-        case KeyEvent.KEYCODE_NUMPAD_6:
-        Camera.MoveTarget(0.5f, 0f, 0.0f);
-        result.append(Camera.GetTargetString());
-        break;
-        case KeyEvent.KEYCODE_NUMPAD_4:
-        Camera.MoveTarget(-0.5f, 0f, 0.0f);
-        result.append(Camera.GetTargetString());
-        break;
-        case KeyEvent.KEYCODE_NUMPAD_8:
-        Camera.MoveTarget(0.0f, 0.5f, 0.0f);
-        result.append(Camera.GetTargetString());
-        break;
-        case KeyEvent.KEYCODE_NUMPAD_2:
-        Camera.MoveTarget(0f, -0.5f, 0.0f);
-        result.append(Camera.GetTargetString());
-        break;
-        case KeyEvent.KEYCODE_NUMPAD_7:
-        Camera.MoveTarget(0.0f, 0.0f, 0.5f);
-        result.append(Camera.GetTargetString());
-        break;
-        case KeyEvent.KEYCODE_NUMPAD_3:
-        Camera.MoveTarget(0f, 0.0f, -0.5f);
-        result.append(Camera.GetTargetString());
-        break;
-        case KeyEvent.KEYCODE_1:
-        axis = Vector3f.UnitX;
-        angle = angle + 1;
-        break;
-        case KeyEvent.KEYCODE_2:
-        axis = Vector3f.UnitY;
-        angle = angle + 1;
-        break;
-        case KeyEvent.KEYCODE_3:
-        axis = Vector3f.UnitZ;
-        angle = angle + 1;
-        break;
-            case KeyEvent.KEYCODE_P:
-        frontWall.PaintRandom();
-        break;
-        case KeyEvent.KEYCODE_A:
-        renderWithString = false;
-        current_mesh = g_pCylinderMesh;
-        break;
-        case KeyEvent.KEYCODE_B:
-        renderWithString = false;
-        current_mesh = g_pCubeColorMesh;
-        break;
-        case KeyEvent.KEYCODE_C:
-        renderWithString = false;
-        current_mesh = g_pPlaneMesh;
-        break;
-        case KeyEvent.KEYCODE_D:
-        renderWithString = false;
-        current_mesh = g_pInfinityMesh;
-        break;
-        case KeyEvent.KEYCODE_E:
-        renderWithString = false;
-        current_mesh = g_unitSphereMesh;
-        break;
-        case KeyEvent.KEYCODE_F:
-        renderWithString = true;
-        renderString = "flat";
-        current_mesh = g_unitSphereMesh;
-        break;
-        case KeyEvent.KEYCODE_W:
-        currentProgram = ObjectColor;
-        reshape();
-        break;
-        case KeyEvent.KEYCODE_X:
-        noWorldMatrix = true;
-        currentProgram = g_Unlit;
-        reshape();
-        break;
-        case KeyEvent.KEYCODE_Y:
-        noWorldMatrix = true;
-        currentProgram = g_litShaderProg;
-        reshape();
-        break;
-        case KeyEvent.KEYCODE_Q:
-        result.append("currentProgram = " + currentProgram.toString());
-        break;
+            case KeyEvent.KEYCODE_NUMPAD_6:
+            Camera.MoveTarget(0.5f, 0f, 0.0f);
+            result.append(Camera.GetTargetString());
+            break;
+            case KeyEvent.KEYCODE_NUMPAD_4:
+            Camera.MoveTarget(-0.5f, 0f, 0.0f);
+            result.append(Camera.GetTargetString());
+            break;
+            case KeyEvent.KEYCODE_NUMPAD_8:
+            Camera.MoveTarget(0.0f, 0.5f, 0.0f);
+            result.append(Camera.GetTargetString());
+            break;
+            case KeyEvent.KEYCODE_NUMPAD_2:
+            Camera.MoveTarget(0f, -0.5f, 0.0f);
+            result.append(Camera.GetTargetString());
+            break;
+            case KeyEvent.KEYCODE_NUMPAD_7:
+            Camera.MoveTarget(0.0f, 0.0f, 0.5f);
+            result.append(Camera.GetTargetString());
+            break;
+            case KeyEvent.KEYCODE_NUMPAD_3:
+            Camera.MoveTarget(0f, 0.0f, -0.5f);
+            result.append(Camera.GetTargetString());
+            break;
+            case KeyEvent.KEYCODE_1:
+            axis = Vector3f.UnitX;
+            angle = angle + 1;
+            break;
+            case KeyEvent.KEYCODE_2:
+            axis = Vector3f.UnitY;
+            angle = angle + 1;
+            break;
+            case KeyEvent.KEYCODE_3:
+            axis = Vector3f.UnitZ;
+            angle = angle + 1;
+            break;
+                case KeyEvent.KEYCODE_P:
+            frontWall.PaintRandom();
+            break;
+            case KeyEvent.KEYCODE_A:
+            renderWithString = false;
+            current_mesh = g_pCylinderMesh;
+            break;
+            case KeyEvent.KEYCODE_B:
+            renderWithString = false;
+            current_mesh = g_pCubeColorMesh;
+            break;
+            case KeyEvent.KEYCODE_C:
+            renderWithString = false;
+            current_mesh = g_pPlaneMesh;
+            break;
+            case KeyEvent.KEYCODE_D:
+            renderWithString = false;
+            current_mesh = g_pInfinityMesh;
+            break;
+            case KeyEvent.KEYCODE_E:
+            renderWithString = false;
+            current_mesh = g_unitSphereMesh;
+            break;
+            case KeyEvent.KEYCODE_F:
+            renderWithString = true;
+            renderString = "flat";
+            current_mesh = g_unitSphereMesh;
+            break;
+            case KeyEvent.KEYCODE_W:
+            currentProgram = ObjectColor;
+            reshape();
+            break;
+            case KeyEvent.KEYCODE_X:
+            noWorldMatrix = true;
+            currentProgram = g_Unlit;
+            reshape();
+            break;
+            case KeyEvent.KEYCODE_Y:
+            noWorldMatrix = true;
+            currentProgram = g_litShaderProg;
+            reshape();
+            break;
+            case KeyEvent.KEYCODE_Q:
+                //mouseWheel(1, 0, 10, 10);
+                break;
+            case KeyEvent.KEYCODE_R:
+                //mouseWheel(1, 1, 10, 10);
+                break;
         }
 
         reshape();

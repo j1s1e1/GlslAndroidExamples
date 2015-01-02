@@ -1,15 +1,26 @@
-package com.tutorial.glsltutorials.tutorials;
+package com.tutorial.glsltutorials.tutorials.View;
+
+import android.graphics.Point;
 
 import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Quaternion;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector2f;
+import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector4f;
+import com.tutorial.glsltutorials.tutorials.MouseButtons;
+import com.tutorial.glsltutorials.tutorials.ObjectData;
 
 /**
  * Created by Jamie on 6/7/14.
  */
-public class ObjectPole extends Pole {
-    private ObjectData position;
+public class ObjectPole implements IPole {
+    int MM_KEY_SHIFT = 0x01;	///<One of the shift keys.
+    int MM_KEY_CTRL = 0x02;	///<One of the control keys.
+    int MM_KEY_ALT = 0x04;	///<One of the alt keys.
+    boolean rightMultiply()
+    {
+        return true; // MatrixStack.rightMultiply;
+    }
     private ObjectData initialPosition;
     private float rotateScale;
     private boolean isDragging;
@@ -32,14 +43,28 @@ public class ObjectPole extends Pole {
      **/
     public ObjectPole(ObjectData initialData, float rotateScale, MouseButtons actionButton, ViewProvider LookatProvider)
     {
-        position = initialData;
+        m_pView = LookatProvider;
+        m_po = initialData;
+        m_initialPo = initialData;
+        m_rotateScale = rotateScale;
+        m_actionButton = actionButton;
+        m_bIsDragging = false;
         initialPosition = initialData;
     }
 
     ///Generates the local-to-world matrix for this object.
     public Matrix4f CalcMatrix()
     {
-        return Matrix4f.CreateTranslation(position.position);
+        Matrix4f translateMat = Matrix4f.Identity();
+        translateMat.SetRow3(new Vector4f(m_po.position, 1.0f));
+        if (rightMultiply())
+        {
+            return Matrix4f.Mult(translateMat, Matrix4f.createFromQuaternion(m_po.orientation));
+        }
+        else
+        {
+            return Matrix4f.Mult(Matrix4f.createFromQuaternion(m_po.orientation), translateMat);
+        }
     }
 
     /**
@@ -84,9 +109,45 @@ public class ObjectPole extends Pole {
      \param modifiers A bitfield of MouseModifiers that specifies the modifiers being held down currently.
      \param position The mouse position at the moment of the mouse click.
      **/
-    void MouseClick(MouseButtons button, boolean isPressed, int modifiers, Vector2f position)
+    public void MouseClick(MouseButtons button, boolean isPressed, int modifiers, Point position)
     {
+        if(isPressed)
+        {
+            //Ignore button presses when dragging.
+            if(!m_bIsDragging)
+            {
+                if(button == m_actionButton)
+                {
+                    if((modifiers & MM_KEY_ALT) != 0)
+                        m_RotateMode = RotateMode.SPIN_VIEW_AXIS;
+                    else if((modifiers & MM_KEY_CTRL) != 0)
+                        m_RotateMode = RotateMode.BIAXIAL;
+                    else
+                        m_RotateMode = RotateMode.DUAL_AXIS;
+
+                    m_prevMousePos = new Vector2f(position.x, position.y);
+                    m_startDragMousePos =  new Vector2f(position.x, position.y);
+                    m_startDragOrient = m_po.orientation;
+
+                    m_bIsDragging = true;
+                }
+            }
+        }
+        else
+        {
+            //Ignore up buttons if not dragging.
+            if(m_bIsDragging)
+            {
+                if(button == m_actionButton)
+                {
+                    MouseMove(position);
+
+                    m_bIsDragging = false;
+                }
+            }
+        }
     }
+
 
     ///Notifies the pole that the mouse has moved to the given absolute position.
     void MouseMove(Vector2f  position)
@@ -100,8 +161,64 @@ public class ObjectPole extends Pole {
      \param modifiers The modifiers currently being held down when the wheel was rolled.
      \param position The absolute mouse position at the moment the wheel was rolled.
      **/
-    void MouseWheel(int direction, int modifiers, Vector2f position)
+
+    public void MouseButton(int button, int state, int x, int y)
     {
+    }
+
+    public void MouseButton(int button, int state, Point p)
+    {
+    }
+
+    public void MouseMove(Point  position)
+    {
+        Vector2f vectorPositoin = new Vector2f(position.x, position.y);
+        if(m_bIsDragging)
+        {
+            Vector2f iDiff = vectorPositoin.sub(m_prevMousePos);
+
+            switch(m_RotateMode)
+            {
+                case DUAL_AXIS:
+                {
+                    Quaternion rotRight =  Quaternion.fromAxisAngle(Vector3f.UnitY, iDiff.x * m_rotateScale);
+                    Quaternion rotLeft =  Quaternion.fromAxisAngle(Vector3f.UnitX, iDiff.y * m_rotateScale);
+                    Quaternion rot = Quaternion.mult(rotLeft, rotRight);
+                    rot.normalize();
+                    RotateViewDegrees(rot);
+                }
+                break;
+                case BIAXIAL:
+                {
+                    Vector2f iInitDiff = vectorPositoin.sub(m_startDragMousePos);
+                    Quaternion rot;
+
+                    float degAngle;
+                    if(Math.abs(iInitDiff.x) > Math.abs(iInitDiff.y))
+                    {
+                        degAngle = iInitDiff.x * m_rotateScale;
+                        rot =  Quaternion.fromAxisAngle(Vector3f.UnitY, degAngle);
+                    }
+                    else
+                    {
+                        degAngle = iInitDiff.y * m_rotateScale;
+                        rot =  Quaternion.fromAxisAngle(Vector3f.UnitX, degAngle);
+                    }
+                    RotateViewDegrees(rot, true);
+                }
+                break;
+                case SPIN_VIEW_AXIS:
+                    RotateViewDegrees(Quaternion.fromAxisAngle(Vector3f.UnitZ, -iDiff.x * m_rotateScale));
+                    break;
+            }
+
+            m_prevMousePos = vectorPositoin;
+        }
+    }
+
+    public void MouseWheel(int direction, int modifiers, Point position)
+    {
+
     }
 
     /**
@@ -127,13 +244,6 @@ public class ObjectPole extends Pole {
         AXIS_Z,
 
         NUM_AXES,
-    };
-
-    enum RotateMode
-    {
-        RM_DUAL_AXIS,
-        RM_BIAXIAL,
-        RM_SPIN,
     };
 
     void RotateWorldDegrees(Quaternion rot)

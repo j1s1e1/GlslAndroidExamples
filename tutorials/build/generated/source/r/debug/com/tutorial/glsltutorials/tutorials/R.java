@@ -1428,15 +1428,16 @@ containing a value of this type.
         public static final int test_with_normals=0x7f050006;
         public static final int test_with_normals_binary=0x7f050007;
         public static final int unitconetint=0x7f050008;
-        public static final int unitcubecolor=0x7f050009;
-        public static final int unitcubetint=0x7f05000a;
-        public static final int unitcylinder=0x7f05000b;
-        public static final int unitcylindertint=0x7f05000c;
-        public static final int unitplane=0x7f05000d;
-        public static final int unitsphere12=0x7f05000e;
-        public static final int x_wing=0x7f05000f;
-        public static final int xwing_with_normals=0x7f050010;
-        public static final int xwng_with_normals_binary=0x7f050011;
+        public static final int unitcube=0x7f050009;
+        public static final int unitcubecolor=0x7f05000a;
+        public static final int unitcubetint=0x7f05000b;
+        public static final int unitcylinder=0x7f05000c;
+        public static final int unitcylindertint=0x7f05000d;
+        public static final int unitplane=0x7f05000e;
+        public static final int unitsphere12=0x7f05000f;
+        public static final int x_wing=0x7f050010;
+        public static final int xwing_with_normals=0x7f050011;
+        public static final int xwng_with_normals_binary=0x7f050012;
     }
     public static final class string {
         public static final int abc_action_bar_home_description=0x7f0c0000;
