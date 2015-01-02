@@ -276,7 +276,7 @@ public class Tut_Tennis3D extends TutorialBase
 
 
                 if (renderWithString) {
-                    current_mesh.Render(renderString);
+                    current_mesh.render(renderString);
                 } else {
                     current_mesh.render();
                 }

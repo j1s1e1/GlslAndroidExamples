@@ -195,9 +195,9 @@ public class Tut_15_ManyImages extends TutorialBase {
                 useSampler(g_currSampler);
 
                 if(g_drawCorridor)
-                    g_pCorridor.Render("tex");
+                    g_pCorridor.render("tex");
                 else
-                    g_pPlane.Render("tex");
+                    g_pPlane.render("tex");
 
                 GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
 

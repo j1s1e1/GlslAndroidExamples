@@ -3,11 +3,11 @@ package com.tutorial.glsltutorials.tutorials.Attributes;
 import android.opengl.GLES20;
 
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by Jamie on 6/7/14.
@@ -120,6 +120,27 @@ public class Attribute {
             GLES20.glVertexAttribPointer(iAttribIx, iSize,
                     pAttribType.eGLType, pAttribType.bNormalized, 0, iOffset);
         }
+    }
+
+    public float getMin(int offset, int step)
+    {
+        ArrayList<Float> selectedItems = new ArrayList<Float>();
+
+        for (int i = 0; i < dataArray.size(); i += step)
+        {
+            selectedItems.add(dataArray.get(i+offset).fValue);
+        }
+        return Collections.min(selectedItems);
+    }
+
+    public float getMax(int offset, int step)
+    {
+        ArrayList<Float> selectedItems = new ArrayList<Float>();
+        for (int i = 0; i < dataArray.size(); i += step)
+        {
+            selectedItems.add(dataArray.get(i+offset).fValue);
+        }
+        return Collections.max(selectedItems);
     }
 
     public int iAttribIx;

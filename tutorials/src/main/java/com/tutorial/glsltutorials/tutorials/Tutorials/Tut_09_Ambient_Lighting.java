@@ -277,7 +277,7 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
                         Matrix3f normMatrix = new Matrix3f(modelMatrix.Top());
                         if (zeroAllMatrixes) normMatrix = Matrix3f.Identity();
                         GLES20.glUniformMatrix3fv(vertexDiffuse.normalModelToCameraMatrixUnif, 1, false, normMatrix.toArray(), 0);
-                        g_pCylinderMesh.Render("lit-color");
+                        g_pCylinderMesh.render("lit-color");
                     }
                     else
                     {
@@ -287,7 +287,7 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
                         GLES20.glUniformMatrix4fv(whiteDiffuse.cameraToClipMatrixUnif, 1, false, projData.cameraToClipMatrix.toArray(), 0);
                         Matrix3f  normMatrix = new Matrix3f(modelMatrix.Top());
                         GLES20.glUniformMatrix3fv(whiteDiffuse.normalModelToCameraMatrixUnif, 1, false, normMatrix.toArray(), 0);
-                        g_pCylinderMesh.Render("lit");
+                        g_pCylinderMesh.render("lit");
                     }
                     GLES20.glUseProgram(0);
                 }

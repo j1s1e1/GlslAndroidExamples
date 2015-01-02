@@ -63,4 +63,33 @@ public class Vector4f {
     {
         return 16;
     }
+
+    public Vector4f add(Vector4f b){
+        return new Vector4f(
+                x + b.x,
+                y + b.y,
+                z + b.z,
+                w - b.w
+        );
+    }
+
+    public Vector4f sub(Vector4f b) {
+        return new Vector4f(
+                x - b.x,
+                y - b.y,
+                z - b.z,
+                w - b.w
+        );
+    }
+
+    public float length()
+    {
+        return  (float)Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2) + Math.pow(w, 2));
+    }
+
+
+    public static float distance(Vector4f a, Vector4f b)
+    {
+        return (a.sub(b).length());
+    }
 }

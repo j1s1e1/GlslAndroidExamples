@@ -7,6 +7,7 @@ import com.tutorial.glsltutorials.tutorials.Attributes.Attribute;
 import com.tutorial.glsltutorials.tutorials.Attributes.AttributeCollection;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.VBO_Tools;
+import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 import com.tutorial.glsltutorials.tutorials.R;
 
 import org.w3c.dom.Document;
@@ -32,6 +33,11 @@ public class Mesh {
     }
 
     private MeshData m_pData;
+
+    public Vector3f getUnitScaleFactor()
+    {
+        return m_pData.positionMax.sub(m_pData.positionMin);
+    }
 
     static PrimitiveType[] g_allPrimitiveTypes;
 
@@ -100,8 +106,11 @@ public class Mesh {
         return cmd;
     }
 
+    public String fileName = "Unknown";
+
     public Mesh(String meshName) throws Exception
     {
+        fileName = meshName;
         int resource = 0;
         switch(meshName)
         {
@@ -111,6 +120,15 @@ public class Mesh {
             case "unitcube.xml": resource = R.raw.unitcube; break;
             case "corridor.xml": resource = R.raw.corridor; break;
             case "bigplane.xml": resource = R.raw.bigplane; break;
+
+            case "ground.xml": resource = R.raw.ground; break;
+            case "unitcubehdr.xml": resource = R.raw.bigplane; break;
+            case "unittetrahedron.xml": resource = R.raw.bigplane; break;
+            case "unitsphere12.xml": resource = R.raw.bigplane; break;
+
+            case "unitplane.xml": resource = R.raw.unitplane; break;
+            case "unitcylinder9.xml":  resource = R.raw.unitcylinder9; break;
+            case "unitdiorama.xml":  resource = R.raw.unitdiorama; break;
         }
         InputStream inputStream = Shader.context.getResources().openRawResource(resource);
         setup(inputStream);
@@ -225,6 +243,15 @@ public class Mesh {
                             m_pData.positionSize = attribs.get(iLoop).iSize;
                             m_pData.positionOffset = attribStartLocs.get(iLoop);
                             m_pData.positionStride = m_pData.positionSize * attribs.get(iLoop).pAttribType.iNumBytes;
+                            m_pData.vertexCount = attribs.get(iLoop).NumElements();
+                            m_pData.positionMin = new Vector3f();
+                            m_pData.positionMax = new Vector3f();
+                            m_pData.positionMin.x = attribs.get(iLoop).getMin(0, 3);
+                            m_pData.positionMin.y = attribs.get(iLoop).getMin(1, 3);
+                            m_pData.positionMin.z = attribs.get(iLoop).getMin(2, 3);
+                            m_pData.positionMax.x = attribs.get(iLoop).getMax(0, 3);
+                            m_pData.positionMax.y = attribs.get(iLoop).getMax(1, 3);
+                            m_pData.positionMax.z = attribs.get(iLoop).getMax(2, 3);
                             break;
                         case 1:
                             m_pData.colorAttribute = 1;
@@ -352,9 +379,10 @@ public class Mesh {
 
                     //GLES20.glBindVertexArray(0);
                     GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, 0);
-                } else {
-                    throw new Exception("Empty Index Buffer for VAO");
                 }
+                //else {
+                //    throw new Exception("Empty Index Buffer for VAO");
+                //}
             }
         }
     }
@@ -430,7 +458,7 @@ public class Mesh {
         //GLES20.glBindVertexArray(0);
     }
 
-    public void Render(String strMeshName) throws Exception
+    public void render(String strMeshName) throws Exception
     {
         int theIt = m_pData.namedVAOs.Value(strMeshName);
         if (theIt == 0)

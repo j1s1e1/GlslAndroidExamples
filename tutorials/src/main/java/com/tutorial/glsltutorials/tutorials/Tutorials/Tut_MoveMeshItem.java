@@ -1,6 +1,7 @@
 package com.tutorial.glsltutorials.tutorials.Tutorials;
 
 import android.opengl.GLES20;
+import android.util.Log;
 import android.view.KeyEvent;
 
 import com.tutorial.glsltutorials.tutorials.Camera;
@@ -16,9 +17,8 @@ import com.tutorial.glsltutorials.tutorials.Material.MaterialBlock;
 import com.tutorial.glsltutorials.tutorials.MatrixStack;
 import com.tutorial.glsltutorials.tutorials.Mesh.Mesh;
 import com.tutorial.glsltutorials.tutorials.PushStack;
-import com.tutorial.glsltutorials.tutorials.R;
 
-import java.io.InputStream;
+import java.util.ArrayList;
 
 /**
  * Created by jamie on 12/26/14.
@@ -26,6 +26,8 @@ import java.io.InputStream;
 public class Tut_MoveMeshItem extends TutorialBase {
     boolean renderWithString = false;
     String renderString = "";
+    Vector3f initialScale = new Vector3f(50f, 50f, 50f);
+    Vector3f scaleFactor = new Vector3f(1f, 1f, 1f);
 
     class ProgramData {
         public int theProgram;
@@ -175,33 +177,21 @@ public class Tut_MoveMeshItem extends TutorialBase {
         currentProgram = ObjectColor;
     }
 
-    Mesh current_mesh;
-    Mesh g_pCubeColorMesh;
-    Mesh g_pCylinderMesh;
-    Mesh g_pPlaneMesh;
-    Mesh g_pInfinityMesh;
-    Mesh g_unitSphereMesh;
+    int currentMesh = 0;
+    ArrayList<Mesh> meshes = new ArrayList<Mesh>();
 
     protected void init() throws Exception {
         InitializeProgram();
 
         try {
-            InputStream UnitCubeColor = Shader.context.getResources().openRawResource(R.raw.unitcubecolor);
-            g_pCubeColorMesh = new Mesh(UnitCubeColor);
-
-
-            InputStream UnitCylinder = Shader.context.getResources().openRawResource(R.raw.unitcylinder);
-            g_pCylinderMesh = new Mesh(UnitCylinder);
-
-            InputStream unitplane = Shader.context.getResources().openRawResource(R.raw.unitplane);
-            g_pPlaneMesh = new Mesh(unitplane);
-
-            InputStream infinity = Shader.context.getResources().openRawResource(R.raw.infinity);
-            g_pInfinityMesh = new Mesh(infinity);
-
-            InputStream unitSphere = Shader.context.getResources().openRawResource(R.raw.unitsphere12);
-            g_unitSphereMesh = new Mesh(unitSphere);
-
+            meshes.add(new Mesh("unitcubecolor.xml"));
+            meshes.add(new Mesh("unitcylinder.xml"));
+            meshes.add(new Mesh("unitplane.xml"));
+            meshes.add(new Mesh("infinity.xml"));
+            meshes.add(new Mesh("unitsphere12.xml"));
+            meshes.add(new Mesh("unitcylinder9.xml"));
+            meshes.add(new Mesh("unitdiorama.xml"));
+            meshes.add(new Mesh("ground.xml"));
         } catch (Exception ex) {
             throw new Exception("Error " + ex.toString());
         }
@@ -211,18 +201,19 @@ public class Tut_MoveMeshItem extends TutorialBase {
         Camera.Move(0f, 0f, 0f);
         Camera.MoveTarget(0f, 0f, 0.0f);
         reshape();
-        current_mesh = g_pCubeColorMesh;
     }
 
     public void display() throws Exception {
         clearDisplay();
 
-        if (current_mesh != null) {
+        if (meshes.get(currentMesh) != null) {
             MatrixStack modelMatrix = new MatrixStack();
             try (PushStack pushstack = new PushStack(modelMatrix)) {
                 modelMatrix.Rotate(axis, angle);   // rotate last to leave in place
                 modelMatrix.Translate(Camera.g_camTarget);
-                modelMatrix.Scale(15.0f, 15.0f, 15.0f);
+                modelMatrix.Scale(initialScale.x / scaleFactor.x,
+                        initialScale.y / scaleFactor.y,
+                        initialScale.z / scaleFactor.z);
 
 
                 GLES20.glUseProgram(currentProgram.theProgram);
@@ -249,9 +240,9 @@ public class Tut_MoveMeshItem extends TutorialBase {
                 }
             }
             if (renderWithString) {
-                current_mesh.Render(renderString);
+                meshes.get(currentMesh).render(renderString);
             } else {
-                current_mesh.render();
+                meshes.get(currentMesh).render();
             }
             GLES20.glUseProgram(0);
             if (perspectiveAngle != newPerspectiveAngle) {
@@ -339,46 +330,11 @@ public class Tut_MoveMeshItem extends TutorialBase {
                     newPerspectiveAngle = 30f;
                 }
                 break;
-            case KeyEvent.KEYCODE_A:
-                renderWithString = false;
-                current_mesh = g_pCylinderMesh;
-                break;
-            case KeyEvent.KEYCODE_B:
-                renderWithString = false;
-                current_mesh = g_pCubeColorMesh;
-                break;
-            case KeyEvent.KEYCODE_C:
-                renderWithString = false;
-                current_mesh = g_pPlaneMesh;
-                break;
-            case KeyEvent.KEYCODE_D:
-                renderWithString = false;
-                current_mesh = g_pInfinityMesh;
-                break;
-            case KeyEvent.KEYCODE_E:
-                renderWithString = false;
-                current_mesh = g_unitSphereMesh;
-                break;
-            case KeyEvent.KEYCODE_F:
-                renderWithString = true;
-                renderString = "flat";
-                current_mesh = g_unitSphereMesh;
-                break;
-            case KeyEvent.KEYCODE_I:
-                result.append("I Decrease g_camTarget.X");
-                Camera.MoveTarget(-4.0f, 0, 0);
-                break;
             case KeyEvent.KEYCODE_M:
-                result.append("M Increase g_camTarget.X");
-                Camera.MoveTarget(4.0f, 0, 0);
-                break;
-            case KeyEvent.KEYCODE_J:
-                result.append("J Increase g_camTarget.Z");
-                Camera.MoveTarget(0, 0, 4.0f);
-                break;
-            case KeyEvent.KEYCODE_K:
-                result.append("K Decrease g_camTarget.Z");
-                Camera.MoveTarget(0, 0, -4.0f);
+                renderWithString = false;
+                currentMesh++;
+                if (currentMesh > meshes.size() - 1) currentMesh = 0;
+                Log.i("KeyEvent","Mesh = " + meshes.get(currentMesh).fileName);
                 break;
             case KeyEvent.KEYCODE_W:
                 currentProgram = ObjectColor;
@@ -396,6 +352,10 @@ public class Tut_MoveMeshItem extends TutorialBase {
                 break;
             case KeyEvent.KEYCODE_Q:
                 result.append("currentProgram = " + currentProgram.toString());
+                break;
+            case KeyEvent.KEYCODE_O:
+                scaleFactor = meshes.get(currentMesh).getUnitScaleFactor();
+                Log.i("KeyEvent", scaleFactor.toString());
                 break;
         }
         reshape();

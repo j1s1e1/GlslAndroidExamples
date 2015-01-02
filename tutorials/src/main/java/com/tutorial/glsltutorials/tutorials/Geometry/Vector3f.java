@@ -262,4 +262,9 @@ public class Vector3f {
     {
         return  new Vector3f(x, y, z);
     }
+
+    public static float distance(Vector3f a, Vector3f b)
+    {
+        return (a.sub(b).length());
+    }
 }

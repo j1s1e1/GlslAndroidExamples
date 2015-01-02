@@ -162,7 +162,7 @@ public class Tut_08_Gimbal_Lock extends TutorialBase {
         Matrix4f cm = currMatrix.Top();
         GLES20.glUniformMatrix4fv(modelToCameraMatrixUnif, 1, false, cm.toArray(), 0);
 
-        g_pObject.Render("tint");
+        g_pObject.render("tint");
 
         GLES20.glUseProgram(0);
 

@@ -344,7 +344,7 @@ public class Tut_14_Basic_Textures extends TutorialBase {
                 GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + g_gaussTexUnit);
                 GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, g_gaussTextures[g_currTexture]);
 
-                g_pObjectMesh.Render("lit");
+                g_pObjectMesh.render("lit");
 
                 GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
 
@@ -364,7 +364,7 @@ public class Tut_14_Basic_Textures extends TutorialBase {
 
                     Vector4f lightColor = new Vector4f(1f, 1f, 1f, 1f);
                     GLES20.glUniform4fv(g_Unlit.objectColorUnif, 1, lightColor.toArray(), 0);
-                    g_pCubeMesh.Render("flat");
+                    g_pCubeMesh.render("flat");
                 }
 
                 modelMatrix.Translate(globalLightDirection.mul(100.0f));
@@ -372,7 +372,7 @@ public class Tut_14_Basic_Textures extends TutorialBase {
 
                 Matrix4f mm2 = modelMatrix.Top();
                 GLES20.glUniformMatrix4fv(g_Unlit.modelToCameraMatrixUnif, 1, false, mm2.toArray(), 0);
-                g_pCubeMesh.Render("flat");
+                g_pCubeMesh.render("flat");
 
                 GLES20.glUseProgram(0);
             }
@@ -391,11 +391,11 @@ public class Tut_14_Basic_Textures extends TutorialBase {
                     Matrix4f mm = modelMatrix.Top();
                     GLES20.glUniformMatrix4fv(g_Unlit.modelToCameraMatrixUnif, 1, false, mm.toArray(), 0);
                     GLES20.glUniform4f(g_Unlit.objectColorUnif, 0.25f, 0.25f, 0.25f, 1.0f);
-                    g_pCubeMesh.Render("flat");
+                    g_pCubeMesh.render("flat");
                     GLES20.glDepthMask(true);
                     GLES20.glEnable(GLES20.GL_DEPTH_TEST);
                     GLES20.glUniform4f(g_Unlit.objectColorUnif, 1.0f, 1.0f, 1.0f, 1.0f);
-                    g_pCubeMesh.Render("flat");
+                    g_pCubeMesh.render("flat");
                 }
             }
         }

@@ -124,32 +124,33 @@ public class Tutorials extends Activity implements
             case 15: TestRenderer.tutorial = new  Tut_07_World_Scene(); break;
             case 18: TestRenderer.tutorial = new  Tut_08_Gimbal_Lock(); break;
             case 20: TestRenderer.tutorial = new  Tut_09_Ambient_Lighting(); break;
-            case 21: TestRenderer.tutorial = new Tut_14_Basic_Textures(); break;
-            case 22: TestRenderer.tutorial = new Tut_15_ManyImages(); break;
+            case 21: TestRenderer.tutorial = new  Tut_12_HDR_Lighting(); break;
+            case 22: TestRenderer.tutorial = new Tut_14_Basic_Textures(); break;
+            case 23: TestRenderer.tutorial = new Tut_15_ManyImages(); break;
 
-            case 23: TestRenderer.tutorial = new Tut_Text(); break;
-            case 24: TestRenderer.tutorial = new Tut_Spheres(); break;
-            case 25: TestRenderer.tutorial = new Tut_Blender(); break;
-            case 26: TestRenderer.tutorial = new  Tut_Camera(); break;
-            case 27: TestRenderer.tutorial = new  Tut_Blocks(); break;
-            case 28: TestRenderer.tutorial = new Tut_Vectors(); break;
-            case 29: TestRenderer.tutorial = new Tut_MultipleShaders(); break;
-            case 30: TestRenderer.tutorial = new Tut_3D_Shooter(); break;
-            case 31:
+            case 24: TestRenderer.tutorial = new Tut_Text(); break;
+            case 25: TestRenderer.tutorial = new Tut_Spheres(); break;
+            case 26: TestRenderer.tutorial = new Tut_Blender(); break;
+            case 27: TestRenderer.tutorial = new  Tut_Camera(); break;
+            case 28: TestRenderer.tutorial = new  Tut_Blocks(); break;
+            case 29: TestRenderer.tutorial = new Tut_Vectors(); break;
+            case 30: TestRenderer.tutorial = new Tut_MultipleShaders(); break;
+            case 31: TestRenderer.tutorial = new Tut_3D_Shooter(); break;
+            case 32:
                 final Toast toast1 = Toast.makeText(Shader.context,"Slow Loading ....", Toast.LENGTH_SHORT);
                 toast1.show();
                 TestRenderer.tutorial = new Tut_3D_Shooter2();
                 break;
-            case 32: TestRenderer.tutorial = new Tut_Triangles(); break;
-            case 33: TestRenderer.tutorial = new Tut_SingleMeshItem(); break;
-            case 34: TestRenderer.tutorial = new Tut_TextureSphere(); break;
-            case 35: TestRenderer.tutorial = new Tut_Colors(); break;
-            case 36: TestRenderer.tutorial = new Tut_Tennis(); break;
-            case 37: TestRenderer.tutorial = new Tut_Tennis3D(); break;
-            case 38: TestRenderer.tutorial = new Tut_Texture(); break;
-            case 39: TestRenderer.tutorial = new Tut_MoveMeshItem(); break;
-            case 40: TestRenderer.tutorial = new Tut_RotateTexture(); break;
-            case 41: TestRenderer.tutorial = new Tut_Quaternion(); break;
+            case 33: TestRenderer.tutorial = new Tut_Triangles(); break;
+            case 34: TestRenderer.tutorial = new Tut_SingleMeshItem(); break;
+            case 35: TestRenderer.tutorial = new Tut_TextureSphere(); break;
+            case 36: TestRenderer.tutorial = new Tut_Colors(); break;
+            case 37: TestRenderer.tutorial = new Tut_Tennis(); break;
+            case 38: TestRenderer.tutorial = new Tut_Tennis3D(); break;
+            case 39: TestRenderer.tutorial = new Tut_Texture(); break;
+            case 40: TestRenderer.tutorial = new Tut_MoveMeshItem(); break;
+            case 41: TestRenderer.tutorial = new Tut_RotateTexture(); break;
+            case 42: TestRenderer.tutorial = new Tut_Quaternion(); break;
 
             default:
                 final Toast toast2 = Toast.makeText(Shader.context,"Not implemented", Toast.LENGTH_SHORT);

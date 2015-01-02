@@ -369,7 +369,7 @@ public class VertexShaders {
     public static String HDR_PCN =
 
     "attribute vec3 position;" +
-    "attribute vec4 inDiffuseColor;" +
+    "attribute vec4 color;" +
     "attribute vec3 normal;" +
 
     "varying vec4 diffuseColor;" +
@@ -387,7 +387,7 @@ public class VertexShaders {
         "gl_Position = cameraToClipMatrix * tempCamPosition;" +
 
         "vertexNormal = normalize(normalModelToCameraMatrix * normal);" +
-        "diffuseColor = inDiffuseColor;" +
+        "diffuseColor = color;" +
         "cameraSpacePosition = vec3(tempCamPosition);" +
     "}";
 
