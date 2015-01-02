@@ -1,20 +1,13 @@
 package com.tutorial.glsltutorials.tutorials.Mesh;
 
-import android.content.res.Resources;
-import android.net.Uri;
-import android.opengl.GLES20;
 import android.opengl.GLES20;
 
 import com.tutorial.glsltutorials.tutorials.Attributes.AttribIndexMap;
 import com.tutorial.glsltutorials.tutorials.Attributes.Attribute;
 import com.tutorial.glsltutorials.tutorials.Attributes.AttributeCollection;
-import com.tutorial.glsltutorials.tutorials.Attributes.AttributesClass;
+import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.VBO_Tools;
 import com.tutorial.glsltutorials.tutorials.R;
-import com.tutorial.glsltutorials.tutorials.VAOMapData;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -22,11 +15,12 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Set;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 /**
  * Created by Jamie on 6/6/14.
@@ -106,7 +100,25 @@ public class Mesh {
         return cmd;
     }
 
-    public Mesh(InputStream is) throws Exception {
+    public Mesh(String meshName) throws Exception
+    {
+        int resource = 0;
+        switch(meshName)
+        {
+            case "unitcubecolor.xml": resource = R.raw.unitcubecolor; break;
+            case "unitcylinder.xml":  resource = R.raw.unitcylinder; break;
+        }
+        InputStream inputStream = Shader.context.getResources().openRawResource(resource);
+        setup(inputStream);
+    }
+
+    public Mesh(InputStream inputStream) throws Exception
+    {
+        setup(inputStream);
+    }
+
+    private void setup(InputStream inputStream) throws Exception
+    {
         int i;
         m_pData = new MeshData();
         ArrayList<Attribute> attribs = new ArrayList<Attribute>();
@@ -123,7 +135,7 @@ public class Mesh {
             Document doc;
             try {
 
-                doc = dBuilder.parse(is);
+                doc = dBuilder.parse(inputStream);
             } catch (Exception ex) {
                 throw new Exception("Error loading xml mesh: " + ex.toString());
             }
@@ -372,7 +384,7 @@ public class Mesh {
 
 
 
-    public void Render() throws Exception
+    public void render() throws Exception
     {
         //if (m_pData.oVAO[0] == 0)
         if (m_pData.oIndexBuffer[0] == 0)

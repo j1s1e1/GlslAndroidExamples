@@ -20,6 +20,14 @@ public class FragmentShaders {
         "gl_FragColor = baseColor;" +
     "}";
 
+    public static String ObjectPositionColor =
+    "varying vec4 objectPosition;" +
+
+    "void main()" +
+    "{" +
+        "gl_FragColor = vec4(objectPosition.xyz, 1.0);" +
+    "}";
+
     public static final String ColorMultUniform_frag =
     "uniform vec4 baseColor;" +
 
@@ -234,6 +242,338 @@ public class FragmentShaders {
 
         "gl_FragColor = sqrt(accumLighting);" + //2.0 gamma correction / OK
     "}";
+
+    private static String MaterialStructureUniform =
+    "struct Material" +
+    "{" +
+        "vec4 diffuseColor;" +
+        "vec4 specularColor;" +
+        "float specularShininess;" +
+    "};" +
+
+    "uniform Material Mtl;";
+
+    private static String LightStructureUniform =
+    "struct PerLight" +
+    "{" +
+        "vec4 cameraSpaceLightPos;" +
+        "vec4 lightIntensity;" +
+    "};" +
+
+    "const int numberOfLights = 4;" +
+
+    "struct Light" +
+    "{" +
+        "vec4 ambientIntensity;" +
+        "float lightAttenuation;" +
+        "float maxIntensity;" +
+        "PerLight lights[numberOfLights];" +
+    "};" +
+
+    "uniform Light Lgt;";
+
+    private static String CalcAttenuation =
+    "float CalcAttenuation(vec3 cameraSpacePosition, vec3 cameraSpaceLightPos, out vec3 lightDirection)" +
+    "{" +
+        "vec3 lightDifference =  cameraSpaceLightPos - cameraSpacePosition;" +
+        "float lightDistanceSqr = dot(lightDifference, lightDifference);" +
+        "lightDirection = lightDifference * inversesqrt(lightDistanceSqr);" +
+
+        "return (1.0 / ( 1.0 + Lgt.lightAttenuation * lightDistanceSqr));" +
+    "}";
+
+
+    public static String DiffuseSpecularHDR =
+    "varying vec4 diffuseColor;" +
+    "varying vec3 vertexNormal;" +
+    "varying vec3 cameraSpacePosition;" +
+
+    MaterialStructureUniform +
+
+    LightStructureUniform +
+
+    CalcAttenuation +
+
+    "vec4 ComputeLighting(PerLight lightData)" +
+    "{" +
+        "vec3 lightDir;" +
+        "vec4 lightIntensity;" +
+        "if(lightData.cameraSpaceLightPos.w == 0.0)" +
+        "{" +
+            "lightDir = vec3(lightData.cameraSpaceLightPos);" +
+            "lightIntensity = lightData.lightIntensity;" +
+        "}" +
+        "else" +
+        "{" +
+            "float atten = CalcAttenuation(cameraSpacePosition," +
+            "lightData.cameraSpaceLightPos.xyz, lightDir);" +
+            "lightIntensity = atten * lightData.lightIntensity;" +
+        "}" +
+
+        "vec3 surfaceNormal = normalize(vertexNormal);" +
+        "float cosAngIncidence = dot(surfaceNormal, lightDir);" +
+        "cosAngIncidence = cosAngIncidence < 0.0001 ? 0.0 : cosAngIncidence;" +
+
+        "vec3 viewDirection = normalize(-cameraSpacePosition);" +
+
+        "vec3 halfAngle = normalize(lightDir + viewDirection);" +
+        "float angleNormalHalf = acos(dot(halfAngle, surfaceNormal));" +
+        "float exponent = angleNormalHalf / Mtl.specularShininess;" +
+        "exponent = -(exponent * exponent);" +
+        "float gaussianTerm = exp(exponent);" +
+
+        "gaussianTerm = cosAngIncidence != 0.0 ? gaussianTerm : 0.0;" +
+
+        "vec4 lighting = diffuseColor * lightIntensity * cosAngIncidence;" +
+        "lighting += Mtl.specularColor * lightIntensity * gaussianTerm;" +
+
+        "return lighting;" +
+    "}" +
+
+    "void main()" +
+    "{" +
+        "vec4 accumLighting = diffuseColor * Lgt.ambientIntensity;" +
+        "for(int light = 0; light < numberOfLights; light++)" +
+        "{" +
+            "accumLighting += ComputeLighting(Lgt.lights[light]);" +
+        "}" +
+
+        "gl_FragColor = accumLighting / Lgt.maxIntensity;" +
+    "}";
+
+    public static String DiffuseOnlyHDR =
+    "varying vec4 diffuseColor;" +
+    "varying vec3 vertexNormal;" +
+    "varying vec3 cameraSpacePosition;" +
+
+    MaterialStructureUniform +
+
+    LightStructureUniform +
+
+    CalcAttenuation +
+
+    "vec4 ComputeLighting(PerLight lightData)" +
+    "{" +
+        "vec3 lightDir;" +
+        "vec4 lightIntensity;" +
+        "if(lightData.cameraSpaceLightPos.w == 0.0)" +
+        "{" +
+            "lightDir = vec3(lightData.cameraSpaceLightPos);" +
+            "lightIntensity = lightData.lightIntensity;" +
+        "}" +
+        "else" +
+        "{" +
+            "float atten = CalcAttenuation(cameraSpacePosition," +
+            "lightData.cameraSpaceLightPos.xyz, lightDir);" +
+            "lightIntensity = atten * lightData.lightIntensity;" +
+        "}" +
+
+        "vec3 surfaceNormal = normalize(vertexNormal);" +
+        "float cosAngIncidence = dot(surfaceNormal, lightDir);" +
+        "cosAngIncidence = cosAngIncidence < 0.0001 ? 0.0 : cosAngIncidence;" +
+
+        "vec4 lighting = diffuseColor * lightIntensity * cosAngIncidence;" +
+
+        "return lighting;" +
+    "}" +
+
+    "void main()" +
+    "{" +
+        "vec4 accumLighting = diffuseColor * Lgt.ambientIntensity;" +
+        "for(int light = 0; light < numberOfLights; light++)" +
+        "{" +
+            "accumLighting += ComputeLighting(Lgt.lights[light]);" +
+        "}" +
+
+        "gl_FragColor = accumLighting / Lgt.maxIntensity;" +
+    "}"; // DiffuseOnlyHDR
+
+    public static String DiffuseSpecularMtlHDR =
+    "varying vec3 vertexNormal;" +
+    "varying vec3 cameraSpacePosition;" +
+
+    MaterialStructureUniform +
+
+    LightStructureUniform +
+
+    CalcAttenuation +
+
+    "vec4 ComputeLighting(PerLight lightData)" +
+    "{" +
+        "vec3 lightDir;" +
+        "vec4 lightIntensity;" +
+        "if(lightData.cameraSpaceLightPos.w == 0.0)" +
+        "{" +
+            "lightDir = vec3(lightData.cameraSpaceLightPos);" +
+            "lightIntensity = lightData.lightIntensity;" +
+        "}" +
+        "else" +
+        "{" +
+            "float atten = CalcAttenuation(cameraSpacePosition," +
+            "lightData.cameraSpaceLightPos.xyz, lightDir);" +
+            "lightIntensity = atten * lightData.lightIntensity;" +
+        "}" +
+
+        "vec3 surfaceNormal = normalize(vertexNormal);" +
+        "float cosAngIncidence = dot(surfaceNormal, lightDir);" +
+        "cosAngIncidence = cosAngIncidence < 0.0001 ? 0.0 : cosAngIncidence;" +
+
+        "vec3 viewDirection = normalize(-cameraSpacePosition);" +
+
+        "vec3 halfAngle = normalize(lightDir + viewDirection);" +
+        "float angleNormalHalf = acos(dot(halfAngle, surfaceNormal));" +
+        "float exponent = angleNormalHalf / Mtl.specularShininess;" +
+        "exponent = -(exponent * exponent);" +
+        "float gaussianTerm = exp(exponent);" +
+
+        "gaussianTerm = cosAngIncidence != 0.0 ? gaussianTerm : 0.0;" +
+
+        "vec4 lighting = Mtl.diffuseColor * lightIntensity * cosAngIncidence;" +
+        "lighting += Mtl.specularColor * lightIntensity * gaussianTerm;" +
+
+        "return lighting;" +
+    "}" +
+
+    "void main()" +
+    "{" +
+        "vec4 accumLighting = Mtl.diffuseColor * Lgt.ambientIntensity;" +
+        "for(int light = 0; light < numberOfLights; light++)" +
+        "{" +
+            "accumLighting += ComputeLighting(Lgt.lights[light]);" +
+        "}" +
+
+        "gl_FragColor = accumLighting / Lgt.maxIntensity;" +
+    "}";
+
+    public static String DiffuseOnlyMtlHDR =
+    "varying vec3 vertexNormal;" +
+    "varying vec3 cameraSpacePosition;" +
+
+    MaterialStructureUniform +
+
+    LightStructureUniform +
+
+    CalcAttenuation +
+
+    "vec4 ComputeLighting(PerLight lightData)" +
+    "{" +
+        "vec3 lightDir;" +
+        "vec4 lightIntensity;" +
+        "if(lightData.cameraSpaceLightPos.w == 0.0)" +
+        "{" +
+            "lightDir = vec3(lightData.cameraSpaceLightPos);" +
+            "lightIntensity = lightData.lightIntensity;" +
+        "}" +
+        "else" +
+        "{" +
+            "float atten = CalcAttenuation(cameraSpacePosition," +
+            "lightData.cameraSpaceLightPos.xyz, lightDir);" +
+            "lightIntensity = atten * lightData.lightIntensity;" +
+        "}" +
+
+        "vec3 surfaceNormal = normalize(vertexNormal);" +
+        "float cosAngIncidence = dot(surfaceNormal, lightDir);" +
+        "cosAngIncidence = cosAngIncidence < 0.0001 ? 0.0 : cosAngIncidence;" +
+
+        "vec4 lighting = Mtl.diffuseColor * lightIntensity * cosAngIncidence;" +
+
+        "return lighting;" +
+    "}" +
+
+    "void main()" +
+    "{" +
+        "vec4 accumLighting = Mtl.diffuseColor * Lgt.ambientIntensity;" +
+        "for(int light = 0; light < numberOfLights; light++)" +
+        "{" +
+          "accumLighting += ComputeLighting(Lgt.lights[light]);" +
+        "}" +
+
+        "gl_FragColor = accumLighting / Lgt.maxIntensity;" +
+    "}";
+
+    private static String VariableLightStructureUniform =
+    "struct PerLight" +
+    "{" +
+        "vec4 cameraSpaceLightPos;" +
+        "vec4 lightIntensity;" +
+    "};" +
+
+    "uniform int numberOfLights;" +
+
+    "struct Light" +
+    "{" +
+        "vec4 ambientIntensity;" +
+        "float lightAttenuation;" +
+        "float maxIntensity;" +
+        "PerLight lights[4];" +
+    "};" +
+
+    "uniform Light Lgt;";
+
+    public static String projlight =
+
+    "varying vec2 colorCoord;" +
+    "varying  vec3 cameraSpacePosition;" +
+    "varying  vec3 cameraSpaceNormal;" +
+    "varying  vec4 lightProjPosition;" +
+
+    VariableLightStructureUniform +
+
+    CalcAttenuation +
+
+    "vec4 ComputeLighting(in vec4 diffuseColor, in PerLight lightData)" +
+    "{" +
+        "vec3 lightDir;" +
+        "vec4 lightIntensity;" +
+        "if(lightData.cameraSpaceLightPos.w == 0.0)" +
+        "{" +
+            "lightDir = vec3(lightData.cameraSpaceLightPos);" +
+            "lightIntensity = lightData.lightIntensity;" +
+        "}" +
+        "else" +
+        "{" +
+            "float atten = CalcAttenuation(cameraSpacePosition, lightData.cameraSpaceLightPos.xyz, lightDir);" +
+            "lightIntensity = atten * lightData.lightIntensity;" +
+        "}" +
+
+        "vec3 surfaceNormal = normalize(cameraSpaceNormal);" +
+        "float cosAngIncidence = dot(surfaceNormal, lightDir);" +
+        "cosAngIncidence = cosAngIncidence < 0.0001 ? 0.0 : cosAngIncidence;" +
+
+        "vec4 lighting = diffuseColor * lightIntensity * cosAngIncidence;" +
+
+        "return lighting;" +
+    "}" +
+
+    "uniform sampler2D diffuseColorTex;" +
+    "uniform sampler2D lightProjTex;" +
+
+    "uniform vec3 cameraSpaceProjLightPos;" +
+
+    "void main()" +
+    "{" +
+        "vec4 diffuseColor = texture2D(diffuseColorTex, colorCoord);" +
+
+        "PerLight currLight;" +
+        "currLight.cameraSpaceLightPos = vec4(cameraSpaceProjLightPos, 1.0);" +
+        "currLight.lightIntensity = texture2DProj(lightProjTex, lightProjPosition.xyw) * 4.0;" +
+
+        "currLight.lightIntensity = lightProjPosition.w > 0.0 ? currLight.lightIntensity : vec4(0.0);" +
+
+        "vec4 accumLighting = diffuseColor * Lgt.ambientIntensity;" +
+        "for(int light = 0; light < numberOfLights; light++)" +
+        "{" +
+            "accumLighting += ComputeLighting(diffuseColor, Lgt.lights[light]);" +
+        "}" +
+
+        "accumLighting += ComputeLighting(diffuseColor, currLight);" +
+        "if ((accumLighting.x + accumLighting.y + accumLighting.z) == 0.0)" +
+        "{" +
+            "discard;" +
+        "}" +
+        "gl_FragColor = accumLighting / Lgt.maxIntensity;" + // ok
+    "}"; // projlight
+
 
 }
 

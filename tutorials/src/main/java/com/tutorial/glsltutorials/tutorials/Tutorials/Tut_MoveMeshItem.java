@@ -20,8 +20,6 @@ import com.tutorial.glsltutorials.tutorials.R;
 
 import java.io.InputStream;
 
-import javax.microedition.khronos.opengles.GL;
-
 /**
  * Created by jamie on 12/26/14.
  */
@@ -253,7 +251,7 @@ public class Tut_MoveMeshItem extends TutorialBase {
             if (renderWithString) {
                 current_mesh.Render(renderString);
             } else {
-                current_mesh.Render();
+                current_mesh.render();
             }
             GLES20.glUseProgram(0);
             if (perspectiveAngle != newPerspectiveAngle) {

@@ -278,7 +278,7 @@ public class Tut_Tennis3D extends TutorialBase
                 if (renderWithString) {
                     current_mesh.Render(renderString);
                 } else {
-                    current_mesh.Render();
+                    current_mesh.render();
                 }
                 GLES20.glUseProgram(0);
             }

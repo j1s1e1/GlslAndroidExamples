@@ -16,7 +16,6 @@ import com.tutorial.glsltutorials.tutorials.Mesh.Mesh;
 import com.tutorial.glsltutorials.tutorials.ProgramData.Programs;
 import com.tutorial.glsltutorials.tutorials.PushStack;
 import com.tutorial.glsltutorials.tutorials.R;
-import com.tutorial.glsltutorials.tutorials.Shapes.Shape;
 import com.tutorial.glsltutorials.tutorials.Text.TextClass;
 
 import java.io.InputStream;
@@ -122,7 +121,7 @@ public class Tut_SingleMeshItem extends TutorialBase {
                     }
                 }
                 Programs.use(currentProgram);
-                current_mesh.Render();
+                current_mesh.render();
                 GLES20.glUseProgram(0);
                 GLES20.glEnable(GLES20.GL_DEPTH_TEST);
             }

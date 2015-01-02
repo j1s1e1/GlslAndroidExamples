@@ -94,9 +94,9 @@ public class Tut_08_Gimbal_Lock extends TutorialBase {
 
             switch (eAxis)
             {
-                case GIMBAL_X_AXIS: g_Gimbals[0].Render(); break;
-                case GIMBAL_Y_AXIS: g_Gimbals[1].Render(); break;
-                case GIMBAL_Z_AXIS: g_Gimbals[2].Render(); break;
+                case GIMBAL_X_AXIS: g_Gimbals[0].render(); break;
+                case GIMBAL_Y_AXIS: g_Gimbals[1].render(); break;
+                case GIMBAL_Z_AXIS: g_Gimbals[2].render(); break;
             }
 
             GLES20.glUseProgram(0);

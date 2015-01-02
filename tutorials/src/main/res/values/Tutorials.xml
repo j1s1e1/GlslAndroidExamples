@@ -12,10 +12,10 @@
         <item>Tut_04_ShaderPerspective</item>
         <item>Tut_05_Depth_Buffering</item>
         <item>Tut_05_Overlap_No_Depth</item>
-        <item>Tut_06_Hierarchy</item>
         <item>Tut_06_Rotations</item>
         <item>Tut_06_Translation</item>
         <item>Tut_06_Scale</item>
+        <item>Tut_06_Hierarchy</item>
         <item>Tut_07_World_Scene</item>
         <item>Tut_07_World_With_UBO</item>
         <item>Tut_08_Camera_Relative</item>
@@ -42,6 +42,7 @@
         <item>Tut_Texture</item>
         <item>Tut_MoveMeshItem</item>
         <item>Tut_RotateTexture</item>
+        <item>Tut_Quaternion</item>
 
     </string-array>
 </resources>

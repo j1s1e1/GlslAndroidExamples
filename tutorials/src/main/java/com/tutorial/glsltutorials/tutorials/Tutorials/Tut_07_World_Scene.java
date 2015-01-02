@@ -115,7 +115,7 @@ public class Tut_07_World_Scene extends TutorialBase {
             Matrix4f mm = modelMatrix.Top();
             GLES20.glUniformMatrix4fv(UniformColorTint.modelToWorldMatrixUnif, 1, false, mm.toArray(), 0);
             GLES20.glUniform4f(UniformColorTint.baseColorUnif, 0.694f, 0.4f, 0.106f, 1.0f);
-            g_pCylinderMesh.Render();
+            g_pCylinderMesh.render();
             GLES20.glUseProgram(0);
         }
 
@@ -131,7 +131,7 @@ public class Tut_07_World_Scene extends TutorialBase {
             GLES20.glUniformMatrix4fv(UniformColorTint.modelToWorldMatrixUnif, 1, false, mm.toArray(), 0);
             GLES20.glUniform4f(UniformColorTint.baseColorUnif, 0.0f, 1.0f, 0.0f, 1.0f);
 
-            g_pConeMesh.Render();
+            g_pConeMesh.render();
             GLES20.glUseProgram(0);
         }
     }
@@ -156,7 +156,7 @@ public class Tut_07_World_Scene extends TutorialBase {
             Matrix4f mm = modelMatrix.Top();
             GLES20.glUniformMatrix4fv(UniformColorTint.modelToWorldMatrixUnif, 1, false, mm.toArray(), 0);
             GLES20.glUniform4f(UniformColorTint.baseColorUnif, 1.0f, 1.0f, 1.0f, 1.0f);
-            g_pCubeTintMesh.Render();
+            g_pCubeTintMesh.render();
             GLES20.glUseProgram(0);
         }
 
@@ -171,7 +171,7 @@ public class Tut_07_World_Scene extends TutorialBase {
             Matrix4f mm = modelMatrix.Top();
             GLES20.glUniformMatrix4fv(UniformColorTint.modelToWorldMatrixUnif, 1, false, mm.toArray(), 0);
             GLES20.glUniform4f(UniformColorTint.baseColorUnif, 0.9f, 0.9f, 0.9f, 0.9f);
-            g_pCubeTintMesh.Render();
+            g_pCubeTintMesh.render();
             GLES20.glUseProgram(0);
         }
 
@@ -186,7 +186,7 @@ public class Tut_07_World_Scene extends TutorialBase {
             Matrix4f mm = modelMatrix.Top();
             GLES20.glUniformMatrix4fv(UniformColorTint.modelToWorldMatrixUnif, 1, false, mm.toArray(), 0);
             GLES20.glUniform4f(UniformColorTint.baseColorUnif, 0.9f, 0.9f, 0.9f, 0.9f);
-            g_pCylinderMesh.Render();
+            g_pCylinderMesh.render();
             GLES20.glUseProgram(0);
         }
     }
@@ -210,7 +210,7 @@ public class Tut_07_World_Scene extends TutorialBase {
             Matrix4f mm = modelMatrix.Top();
             GLES20.glUniformMatrix4fv(UniformColorTint.modelToWorldMatrixUnif, 1, false, mm.toArray(), 0);
             GLES20.glUniform4f(UniformColorTint.baseColorUnif, 0.9f, 0.9f, 0.9f, 0.9f);
-            g_pCubeTintMesh.Render();
+            g_pCubeTintMesh.render();
             GLES20.glUseProgram(0);
         }
 
@@ -225,7 +225,7 @@ public class Tut_07_World_Scene extends TutorialBase {
             Matrix4f mm = modelMatrix.Top();
             GLES20.glUniformMatrix4fv(UniformColorTint.modelToWorldMatrixUnif, 1, false, mm.toArray(), 0);
             GLES20.glUniform4f(UniformColorTint.baseColorUnif, 0.9f, 0.9f, 0.9f, 0.9f);
-            g_pCubeTintMesh.Render();
+            g_pCubeTintMesh.render();
             GLES20.glUseProgram(0);
         }
 
@@ -281,7 +281,7 @@ public class Tut_07_World_Scene extends TutorialBase {
             GLES20.glUseProgram(ObjectColor.theProgram);
             Matrix4f mm = modelMatrix.Top();
             GLES20.glUniformMatrix4fv(ObjectColor.modelToWorldMatrixUnif,1, false, mm.toArray(), 0);
-            g_pCubeColorMesh.Render();
+            g_pCubeColorMesh.render();
             GLES20.glUseProgram(0);
         }
 
@@ -298,7 +298,7 @@ public class Tut_07_World_Scene extends TutorialBase {
             GLES20.glUseProgram(ObjectColor.theProgram);
             Matrix4f mm = modelMatrix.Top();
             GLES20.glUniformMatrix4fv(ObjectColor.modelToWorldMatrixUnif, 1, false, mm.toArray(), 0);
-            g_pCubeColorMesh.Render();
+            g_pCubeColorMesh.render();
             GLES20.glUseProgram(0);
         }
     }
@@ -341,7 +341,7 @@ public class Tut_07_World_Scene extends TutorialBase {
                 Matrix4f mm = modelMatrix.Top();
                 GLES20.glUniformMatrix4fv(UniformColor.modelToWorldMatrixUnif, 1, false, mm.toArray(), 0);
                 GLES20.glUniform4f(UniformColor.baseColorUnif, 0.302f, 0.416f, 0.0589f, 1.0f);
-                g_pPlaneMesh.Render();
+                g_pPlaneMesh.render();
                 GLES20.glUseProgram(0);
             }
 
@@ -367,7 +367,7 @@ public class Tut_07_World_Scene extends TutorialBase {
                 GLES20.glUseProgram(ObjectColor.theProgram);
                 Matrix4f mm = modelMatrix.Top();
                 GLES20.glUniformMatrix4fv(ObjectColor.modelToWorldMatrixUnif, 1, false, mm.toArray(), 0);
-                g_pCubeColorMesh.Render();
+                g_pCubeColorMesh.render();
                 GLES20.glUseProgram(0);
                 GLES20.glEnable(GLES20.GL_DEPTH_TEST);
             }

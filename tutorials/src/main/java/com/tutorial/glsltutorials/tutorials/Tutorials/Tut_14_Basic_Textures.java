@@ -2,13 +2,10 @@ package com.tutorial.glsltutorials.tutorials.Tutorials;
 
 import android.opengl.GLES20;
 import android.opengl.GLES30;
-import android.opengl.GLES30;
 import android.view.KeyEvent;
 
 import com.tutorial.glsltutorials.tutorials.Framework;
-import com.tutorial.glsltutorials.tutorials.GLES_Helpers.FragmentShaders;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
-import com.tutorial.glsltutorials.tutorials.GLES_Helpers.VertexShaders;
 import com.tutorial.glsltutorials.tutorials.Geometry.Matrix3f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Quaternion;
@@ -23,20 +20,14 @@ import com.tutorial.glsltutorials.tutorials.ObjectData;
 import com.tutorial.glsltutorials.tutorials.ObjectPole;
 import com.tutorial.glsltutorials.tutorials.ProjectionBlock;
 import com.tutorial.glsltutorials.tutorials.PushStack;
-import com.tutorial.glsltutorials.tutorials.R;
 import com.tutorial.glsltutorials.tutorials.ViewData;
 import com.tutorial.glsltutorials.tutorials.ViewProvider;
 import com.tutorial.glsltutorials.tutorials.ViewScale;
-
-import java.io.InputStream;
 
 /**
  * Created by jamie on 11/15/14.
  */
 public class Tut_14_Basic_Textures extends TutorialBase {
-    public Tut_14_Basic_Textures ()
-    {
-    }
 
     class ProgramData
     {
@@ -517,26 +508,3 @@ public class Tut_14_Basic_Textures extends TutorialBase {
         return result.toString();
     }
 }
-
-class PerLight
-{
-    public Vector4f cameraSpaceLightPos;
-    public Vector4f lightIntensity;
-
-    public static int Size()
-    {
-        int size = 0;
-        size += Vector4f.sizeInBytes();
-        return size;
-    }
-
-    public float[] ToFloat()
-    {
-        float[] result = new float[Size()/4];
-        int position = 0;
-        System.arraycopy(cameraSpaceLightPos.toArray(), 0, result, position, 4);
-        position += 4;
-        System.arraycopy(lightIntensity.toArray(), 0, result, position, 4);
-        return result;
-    }
-};

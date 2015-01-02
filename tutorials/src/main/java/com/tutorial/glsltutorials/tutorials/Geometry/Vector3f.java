@@ -254,7 +254,8 @@ public class Vector3f {
 
     public String toString()
     {
-        return new String("X= " + String.valueOf(x) + " Y= " + String.valueOf(y) + " Z= " + String.valueOf(z));
+        return new String("X= " + String.format("%.3f" , x) + " Y= " + String.format("%.3f" , y) +
+                " Z= " + String.format("%.3f" , z));
     }
 
     public Vector3f Clone()

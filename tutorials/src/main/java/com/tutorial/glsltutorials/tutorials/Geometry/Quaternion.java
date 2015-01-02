@@ -20,8 +20,11 @@ public class Quaternion {
         setRotation(v, angle);
     }
 
-    public Quaternion(float x, float y, float z, float angle){
-        setRotation(x, y, z, angle);
+    public Quaternion(float xIn, float yIn, float zIn, float wIn){
+        x = xIn;
+        y = yIn;
+        z = zIn;
+        w = wIn;
     }
 
     public void setIdentity(){
@@ -252,8 +255,70 @@ public class Quaternion {
         return ret;
     }
 
-    public static Quaternion Mult(Quaternion left, Quaternion right)
+    public static Quaternion mult(Quaternion left, Quaternion right)
     {
         return left.mul(right);
+    }
+
+    public float getAngle()
+    {
+        Quaternion q = this;
+        if (Math.abs(q.w) > 1.0f)
+            q.normalize();
+        return 2.0f * (float)Math.acos(q.w);
+    }
+
+    public Vector3f getAxis()
+    {
+        Quaternion q = this;
+        if (Math.abs(q.w) > 1.0f)
+            q.normalize();
+        float angle = 2.0f * (float)Math.acos(q.w);
+        float den = (float)Math.sqrt(1.0 - Math.pow(angle, 2));
+        if (den > 0.0001f)
+        {
+            return new Vector3f(q.x, q.y, q.z).divide(den);
+        }
+        else
+        {
+            return Vector3f.UnitX;
+        }
+    }
+
+    public float length() {
+        return (float)Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2) + Math.pow(w, 2));
+    }
+
+    public Quaternion divide(float divisor)
+    {
+        return new Quaternion(x/divisor, y/divisor, z/divisor, w/divisor);
+    }
+
+    public void normalize()
+    {
+       this.equals(divide(this.length()));
+    }
+
+    public static Quaternion fromAxisAngle(Vector3f axis, float angle)
+    {
+        Quaternion result = new Quaternion();
+        if (axis.length() == 0.0f)
+            return result;
+
+        angle *= 0.5f;
+        axis = axis.normalize();
+        axis = axis.mul((float)Math.sin(angle));
+        result.w = (float)Math.cos(angle);
+        result.x = axis.x;
+        result.y = axis.y;
+        result.z = axis.z;
+        result.normalize();
+        return result;
+    }
+
+    public String toString()
+    {
+        return "X " + String.format("%.3f" , x) + " Y " + String.format("%.3f" , y) + " Z " +
+                String.format("%.3f" , z) + " W " + String.format("%.3f" , w);
     }
 }

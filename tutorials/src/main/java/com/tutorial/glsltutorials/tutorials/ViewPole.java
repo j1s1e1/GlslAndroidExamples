@@ -46,8 +46,8 @@ public class ViewPole extends Pole {
 
         //CreateFromAxisAngle the world to look in the right direction..
         Quaternion fullRotation =
-                Quaternion.Mult(new Quaternion(new Vector3f(0.0f, 0.0f, 1.0f), m_currView.degSpinRotation),
-                m_currView.orient);
+                Quaternion.mult(new Quaternion(new Vector3f(0.0f, 0.0f, 1.0f), m_currView.degSpinRotation),
+                        m_currView.orient);
         theMat = Matrix4f.Mult(theMat, fullRotation.toMatrix());
 
         //Translate the world by the negation of the lookat point, placing the origin at the

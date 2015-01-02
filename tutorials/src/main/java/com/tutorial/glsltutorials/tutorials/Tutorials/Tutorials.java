@@ -117,9 +117,10 @@ public class Tutorials extends Activity implements
             case 5: TestRenderer.tutorial = new Tut_03_Shader_Calc_Offset(); break;
             case 7: TestRenderer.tutorial = new Tut_04_MatrixPerspective(); break;
             case 9: TestRenderer.tutorial = new Tut_05_Depth_Buffering(); break;
-            case 12: TestRenderer.tutorial = new Tut_06_Rotations(); break;
-            case 13: TestRenderer.tutorial = new Tut_06_Translation(); break;
-            case 14: TestRenderer.tutorial = new  Tut_06_Scale(); break;
+            case 11: TestRenderer.tutorial = new Tut_06_Rotations(); break;
+            case 12: TestRenderer.tutorial = new Tut_06_Translation(); break;
+            case 13: TestRenderer.tutorial = new  Tut_06_Scale(); break;
+            case 14: TestRenderer.tutorial = new Tut_06_Hierarchy(); break;
             case 15: TestRenderer.tutorial = new  Tut_07_World_Scene(); break;
             case 18: TestRenderer.tutorial = new  Tut_08_Gimbal_Lock(); break;
             case 20: TestRenderer.tutorial = new  Tut_09_Ambient_Lighting(); break;
@@ -146,6 +147,8 @@ public class Tutorials extends Activity implements
             case 38: TestRenderer.tutorial = new Tut_Texture(); break;
             case 39: TestRenderer.tutorial = new Tut_MoveMeshItem(); break;
             case 40: TestRenderer.tutorial = new Tut_RotateTexture(); break;
+            case 41: TestRenderer.tutorial = new Tut_Quaternion(); break;
+
             default:
                 final Toast toast2 = Toast.makeText(Shader.context,"Not implemented", Toast.LENGTH_SHORT);
                 toast2.show();

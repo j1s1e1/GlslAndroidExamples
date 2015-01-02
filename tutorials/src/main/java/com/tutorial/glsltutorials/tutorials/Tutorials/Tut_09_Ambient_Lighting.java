@@ -274,7 +274,7 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
                     normMatrix.Normalize();
                     GLES20.glUniformMatrix3fv(whiteDiffuse.normalModelToCameraMatrixUnif, 1, false,
                             normMatrix.toArray(), 0);
-                    g_pPlaneMesh.Render();
+                    g_pPlaneMesh.render();
                     GLES20.glUseProgram(0);
                 }
 
