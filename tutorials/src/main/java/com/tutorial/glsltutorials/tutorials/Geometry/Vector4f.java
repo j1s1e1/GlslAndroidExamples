@@ -87,9 +87,14 @@ public class Vector4f {
         return  (float)Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2) + Math.pow(w, 2));
     }
 
-
     public static float distance(Vector4f a, Vector4f b)
     {
         return (a.sub(b).length());
+    }
+
+    public String toString()
+    {
+        return "X " + String.format("%.3f" , x) + " Y " + String.format("%.3f" , y) + " Z " +
+                String.format("%.3f" , z);
     }
 }

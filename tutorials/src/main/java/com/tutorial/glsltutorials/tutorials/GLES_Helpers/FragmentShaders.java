@@ -597,6 +597,8 @@ public class FragmentShaders {
         "vec4 ambientIntensity;" +
         "float lightAttenuation;" +
         "float maxIntensity;" +
+        "float dummy1;" +
+        "float dummy2;" +
         "PerLight lights[4];" +
     "};" +
 
@@ -605,9 +607,9 @@ public class FragmentShaders {
     public static String projlight =
 
     "varying vec2 colorCoord;" +
-    "varying  vec3 cameraSpacePosition;" +
-    "varying  vec3 cameraSpaceNormal;" +
-    "varying  vec4 lightProjPosition;" +
+    "varying vec3 cameraSpacePosition;" +
+    "varying vec3 cameraSpaceNormal;" +
+    "varying vec4 lightProjPosition;" +
 
     VariableLightStructureUniform +
 

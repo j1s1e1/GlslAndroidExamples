@@ -25,7 +25,8 @@ import java.util.ArrayList;
  */
 public class Tut_MoveMeshItem extends TutorialBase {
     boolean renderWithString = false;
-    String renderString = "";
+    int renderString = 0;
+    ArrayList<String> renderStrings = new ArrayList<>();
     Vector3f initialScale = new Vector3f(50f, 50f, 50f);
     Vector3f scaleFactor = new Vector3f(1f, 1f, 1f);
 
@@ -43,7 +44,8 @@ public class Tut_MoveMeshItem extends TutorialBase {
         public int dirToLightUnif;
         public int lightIntensityUnif;
         public int ambientIntensityUnif;
-        public int normalAttribute;
+
+        public int[] attribLocations = new int[]{-1, -1, -1};
 
         public LightBlock lightBlock;
         public MaterialBlock materialBlock;
@@ -79,8 +81,9 @@ public class Tut_MoveMeshItem extends TutorialBase {
         int fragment_shader = Shader.compileShader(GLES20.GL_FRAGMENT_SHADER, strFragmentShader);
         data.theProgram = Shader.createAndLinkProgram(vertex_shader, fragment_shader);
 
-        data.positionAttribute = GLES20.glGetAttribLocation(data.theProgram, "position");
-        data.colorAttribute = GLES20.glGetAttribLocation(data.theProgram, "color");
+        data.attribLocations[positionAttributeLocation] = GLES20.glGetAttribLocation(data.theProgram, "position");
+        data.attribLocations[colorAttributeLocation] = GLES20.glGetAttribLocation(data.theProgram, "color");
+        data.attribLocations[normalAttributeLocation]= GLES20.glGetAttribLocation(data.theProgram, "normal");
 
         data.modelToWorldMatrixUnif = GLES20.glGetUniformLocation(data.theProgram, "modelToWorldMatrix");
         data.worldToCameraMatrixUnif = GLES20.glGetUniformLocation(data.theProgram, "worldToCameraMatrix");
@@ -99,8 +102,6 @@ public class Tut_MoveMeshItem extends TutorialBase {
         data.dirToLightUnif = GLES20.glGetUniformLocation(data.theProgram, "dirToLight");
         data.lightIntensityUnif = GLES20.glGetUniformLocation(data.theProgram, "lightIntensity");
         data.ambientIntensityUnif = GLES20.glGetUniformLocation(data.theProgram, "ambientIntensity");
-        data.normalAttribute = GLES20.glGetAttribLocation(data.theProgram, "normal");
-
         return data;
     }
 
@@ -192,6 +193,9 @@ public class Tut_MoveMeshItem extends TutorialBase {
             meshes.add(new Mesh("unitcylinder9.xml"));
             meshes.add(new Mesh("unitdiorama.xml"));
             meshes.add(new Mesh("ground.xml"));
+            renderStrings.add("flat");
+            renderStrings.add("lit-tex");
+            renderStrings.add("lit");
         } catch (Exception ex) {
             throw new Exception("Error " + ex.toString());
         }
@@ -201,6 +205,7 @@ public class Tut_MoveMeshItem extends TutorialBase {
         Camera.Move(0f, 0f, 0f);
         Camera.MoveTarget(0f, 0f, 0.0f);
         reshape();
+        Log.i("Init", "******* Init Complete ***********");
     }
 
     public void display() throws Exception {
@@ -240,9 +245,9 @@ public class Tut_MoveMeshItem extends TutorialBase {
                 }
             }
             if (renderWithString) {
-                meshes.get(currentMesh).render(renderString);
+                meshes.get(currentMesh).render(currentProgram.attribLocations, renderStrings.get(renderString));
             } else {
-                meshes.get(currentMesh).render();
+                meshes.get(currentMesh).render(currentProgram.attribLocations);
             }
             GLES20.glUseProgram(0);
             if (perspectiveAngle != newPerspectiveAngle) {
@@ -335,6 +340,20 @@ public class Tut_MoveMeshItem extends TutorialBase {
                 currentMesh++;
                 if (currentMesh > meshes.size() - 1) currentMesh = 0;
                 Log.i("KeyEvent","Mesh = " + meshes.get(currentMesh).fileName);
+                break;
+            case KeyEvent.KEYCODE_S:
+                renderString++;
+                if (renderString > renderStrings.size() -1)
+                {
+                    renderString = -1;
+                    renderWithString = false;
+                    Log.i("KeyEvent", "Render String Off");
+                }
+                else
+                {
+                    renderWithString = true;
+                    Log.i("KeyEvent", "Render String " + renderStrings.get(renderString));
+                }
                 break;
             case KeyEvent.KEYCODE_W:
                 currentProgram = ObjectColor;

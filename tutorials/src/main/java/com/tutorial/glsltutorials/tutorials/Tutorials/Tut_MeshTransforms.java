@@ -22,6 +22,7 @@ import com.tutorial.glsltutorials.tutorials.PushStack;
  * Created by jamie on 1/2/15.
  */
 public class Tut_MeshTransforms extends TutorialBase {
+    boolean cull = true;
     static int NUMBER_OF_LIGHTS = 2;
     Vector3f translate = new Vector3f();
     Vector3f scale = new Vector3f(15f, 15f, 15f);
@@ -343,10 +344,6 @@ public class Tut_MeshTransforms extends TutorialBase {
 
     static boolean noWorldMatrix = false;
 
-    //Called whenever a key on the keyboard was pressed.
-    //The key is given by the ''key'' parameter, which is in ASCII.
-    //It's often a good idea to have the escape key (ASCII value 27) call glutLeaveMainLoop() to 
-    //exit the program.
     public String keyboard(int keyCode, int x, int y)
     {
         StringBuilder result = new StringBuilder();
@@ -388,6 +385,20 @@ public class Tut_MeshTransforms extends TutorialBase {
                 break;
             case KeyEvent.KEYCODE_6:
                 break;
+            case KeyEvent.KEYCODE_0:
+                if (cull)
+                {
+                    cull = false;
+                    GLES20.glDisable(GLES20.GL_CULL_FACE);
+                    Log.i("KeyEvent", "cull disabled");
+                }
+                else
+                {
+                    cull = true;
+                    GLES20.glEnable(GLES20.GL_CULL_FACE);
+                    Log.i("KeyEvent", "cull enabled");
+                }
+                break;
             case KeyEvent.KEYCODE_P:
                 newPerspectiveAngle = perspectiveAngle + 5f;
                 if (newPerspectiveAngle > 120f)
@@ -418,7 +429,7 @@ public class Tut_MeshTransforms extends TutorialBase {
             case KeyEvent.KEYCODE_F:
                 renderWithString = true;
                 renderString = "flat";
-                current_mesh = g_unitSphereMesh;
+                current_mesh = g_pInfinityMesh;
                 break;
             case KeyEvent.KEYCODE_I:
                 Log.i("KeyEvent", "I Decrease g_camTarget.x");

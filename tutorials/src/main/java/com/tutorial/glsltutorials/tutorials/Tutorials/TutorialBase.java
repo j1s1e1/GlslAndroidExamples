@@ -23,6 +23,10 @@ public abstract class TutorialBase {
 
     boolean tutorialLog = true;
 
+    protected static final int positionAttributeLocation = 0;
+    protected static final int colorAttributeLocation = 1;
+    protected static final int normalAttributeLocation = 2;
+
     protected static final int BYTES_PER_FLOAT = 4;
     protected static final int BYTES_PER_SHORT = 2;
 

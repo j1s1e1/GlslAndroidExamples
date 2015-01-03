@@ -52,7 +52,7 @@ public class ViewPole extends ViewProvider {
 
         //CreateFromAxisAngle the world to look in the right direction..
         Quaternion fullRotation =
-                Quaternion.mult(new Quaternion(new Vector3f(0.0f, 0.0f, 1.0f), m_currView.degSpinRotation),
+                Quaternion.mult(new Quaternion(new Vector3f(0.0f, 0.0f, 1.0f), m_currView.radSpinRotation),
                         m_currView.orient);
         theMat = Matrix4f.Mult(theMat, fullRotation.toMatrix());
 

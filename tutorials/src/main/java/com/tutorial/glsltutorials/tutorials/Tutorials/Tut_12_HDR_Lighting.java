@@ -35,8 +35,8 @@ import com.tutorial.glsltutorials.tutorials.View.ViewScale;
  */
 public class Tut_12_HDR_Lighting extends TutorialBase {
 
-    boolean renderSun = true;
-    boolean initializationComlete = false;
+    boolean renderSun = false;
+    boolean initializationComplete = false;
     // debug fields
     Matrix4f sunModelToCameraMatrix = Matrix4f.Identity();
     Matrix4f g_viewPole_CalcMatrix = Matrix4f.Identity();
@@ -73,8 +73,6 @@ public class Tut_12_HDR_Lighting extends TutorialBase {
     UnlitProgData g_Unlit;
 
     int g_materialBlockIndex = 0;
-    int g_lightBlockIndex = 1;
-    int g_projectionBlockIndex = 2;
 
     UnlitProgData LoadUnlitProgram(String vertexShader, String fragmentShader)
     {
@@ -114,7 +112,7 @@ public class Tut_12_HDR_Lighting extends TutorialBase {
     static ViewData g_initialViewData = new ViewData
     (
         new Vector3f(-59.5f, 44.0f, 95.0f),
-        new Quaternion(0.92387953f, 0.3826834f, 0.0f, 0.0f),
+        Quaternion.fromAxisAngle(new Vector3f(1.0f, 0f, 0f), 0f),
         50.0f,
         0.0f
     );
@@ -130,19 +128,19 @@ public class Tut_12_HDR_Lighting extends TutorialBase {
         ViewPole g_viewPole = new ViewPole(g_initialViewData,
         g_viewScale, MouseButtons.MB_LEFT_BTN);
 
-    public void MouseMotion(int x, int y)
+    public void mouseMotion(int x, int y)
     {
         Framework.forwardMouseMotion(g_viewPole, x, y);
         Framework.forwardMouseMotion(g_viewPole, x, y);
     }
 
-    public void MouseButton(int button, int state, int x, int y)
+    public void mouseButton(int button, int state, int x, int y)
     {
         Framework.forwardMouseButton(g_viewPole, button, state, x, y);
         Framework.forwardMouseButton(g_viewPole, button, state, x, y);
     }
 
-    void MouseWheel(int wheel, int direction, int x, int y)
+    void mouseWheel(int wheel, int direction, int x, int y)
     {
         Framework.forwardMouseWheel(g_viewPole, wheel, direction, x, y);
         Framework.forwardMouseWheel(g_viewPole, wheel, direction, x, y);
@@ -233,15 +231,15 @@ public class Tut_12_HDR_Lighting extends TutorialBase {
         reshape();
         setupDepthAndCull();
         // FIXME ??  MatrixStack.rightMultiply = false;
-        initializationComlete = true;
+        initializationComplete = true;
     }
 
     boolean g_bDrawCameraPos = false;
-    boolean g_bDrawLights = true;
+    boolean g_bDrawLights = false;
 
     public void display() throws Exception
     {
-        if (!initializationComlete) return;
+        if (!initializationComplete) return;
         g_lights.UpdateTime();
         Vector4f bkg = g_lights.GetBackgroundColor();
         GLES20.glClearColor(bkg.x, bkg.y, bkg.z, bkg.w);
@@ -266,68 +264,59 @@ public class Tut_12_HDR_Lighting extends TutorialBase {
             {
                 g_pScene.Draw(modelMatrix, g_materialBlockIndex, g_lights.GetTimerValue("tetra"));
             }
-        }
 
-        {
             //Render the sun
-            if (renderSun)
-            {
-                try ( PushStack pushstack = new PushStack(modelMatrix))
-                {
-                Vector3f sunlightDir = new Vector3f(g_lights.GetSunlightDirection());
-                modelMatrix.Translate(sunlightDir.mul(500.0f));
-                //TEST 
-                modelMatrix.Scale(30.0f, 30.0f, 30.0f);
+            if (renderSun) {
+                try (PushStack pushstack = new PushStack(modelMatrix)) {
+                    Vector3f sunlightDir = new Vector3f(g_lights.GetSunlightDirection());
+                    modelMatrix.Translate(sunlightDir.mul(500.0f));
+                    //TEST
+                    modelMatrix.Scale(30.0f, 30.0f, 30.0f);
 
-                GLES20.glUseProgram(g_Unlit.theProgram);
-                Matrix4f mm = modelMatrix.Top();
-                sunModelToCameraMatrix = mm;
-                GLES20.glUniformMatrix4fv(g_Unlit.modelToCameraMatrixUnif, 1, false, mm.toArray(), 0);
-        
-                Vector4f lightColor = g_lights.GetSunlightIntensity();
-                GLES20.glUniform4fv(g_Unlit.objectColorUnif, 1, lightColor.toArray(), 0);
-                g_pScene.GetSphereMesh().render("flat");
-            }
-        }
+                    GLES20.glUseProgram(g_Unlit.theProgram);
+                    Matrix4f mm = modelMatrix.Top();
+                    sunModelToCameraMatrix = mm;
+                    GLES20.glUniformMatrix4fv(g_Unlit.modelToCameraMatrixUnif, 1, false, mm.toArray(), 0);
 
-        //Render the lights
-        if(g_bDrawLights)
-        {
-            for(int light = 0; light < g_lights.GetNumberOfPointLights(); light++)
-            {
-                try ( PushStack pushstack = new PushStack(modelMatrix))
-                   {
-                        modelMatrix.Translate(g_lights.GetWorldLightPosition(light));
+                    Vector4f lightColor = g_lights.GetSunlightIntensity();
+                    GLES20.glUniform4fv(g_Unlit.objectColorUnif, 1, lightColor.toArray(), 0);
+                    g_pScene.GetSphereMesh().render("flat");
+                }
 
+                //Render the lights
+                if (g_bDrawLights) {
+                    for (int light = 0; light < g_lights.GetNumberOfPointLights(); light++) {
+                        try (PushStack pushstack = new PushStack(modelMatrix)) {
+                            modelMatrix.Translate(g_lights.GetWorldLightPosition(light));
+
+                            GLES20.glUseProgram(g_Unlit.theProgram);
+                            Matrix4f mm = modelMatrix.Top();
+                            GLES20.glUniformMatrix4fv(g_Unlit.modelToCameraMatrixUnif, 1, false, mm.toArray(), 0);
+
+                            Vector4f lightColor = g_lights.GetPointLightIntensity(light);
+                            GLES20.glUniform4fv(g_Unlit.objectColorUnif, 1, lightColor.toArray(), 0);
+                            g_pScene.GetCubeMesh().render("flat");
+                        }
+                    }
+                }
+
+                if (g_bDrawCameraPos) {
+                    try (PushStack pushstack = new PushStack(modelMatrix)) {
+                        modelMatrix.SetIdentity();
+                        modelMatrix.Translate(new Vector3f(0.0f, 0.0f, -g_viewPole.GetView().radius));
+
+                        GLES20.glDisable(GLES20.GL_DEPTH_TEST);
+                        GLES20.glDepthMask(false);
                         GLES20.glUseProgram(g_Unlit.theProgram);
                         Matrix4f mm = modelMatrix.Top();
                         GLES20.glUniformMatrix4fv(g_Unlit.modelToCameraMatrixUnif, 1, false, mm.toArray(), 0);
-
-                        Vector4f lightColor = g_lights.GetPointLightIntensity(light);
-                        GLES20.glUniform4fv(g_Unlit.objectColorUnif, 1, lightColor.toArray(), 0);
+                        GLES20.glUniform4f(g_Unlit.objectColorUnif, 0.25f, 0.25f, 0.25f, 1.0f);
+                        g_pScene.GetCubeMesh().render("flat");
+                        GLES20.glDepthMask(true);
+                        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+                        GLES20.glUniform4f(g_Unlit.objectColorUnif, 1.0f, 1.0f, 1.0f, 1.0f);
                         g_pScene.GetCubeMesh().render("flat");
                     }
-                }
-            }
-
-            if(g_bDrawCameraPos)
-            {
-                try ( PushStack pushstack = new PushStack(modelMatrix))
-                 {
-                    modelMatrix.SetIdentity();
-                    modelMatrix.Translate(new Vector3f(0.0f, 0.0f, -g_viewPole.GetView().radius));
-            
-                    GLES20.glDisable(GLES20.GL_DEPTH_TEST);
-                    GLES20.glDepthMask(false);
-                    GLES20.glUseProgram(g_Unlit.theProgram);
-                    Matrix4f mm = modelMatrix.Top();
-                    GLES20.glUniformMatrix4fv(g_Unlit.modelToCameraMatrixUnif, 1, false, mm.toArray(), 0);
-                    GLES20.glUniform4f(g_Unlit.objectColorUnif, 0.25f, 0.25f, 0.25f, 1.0f);
-                    g_pScene.GetCubeMesh().render("flat");
-                    GLES20.glDepthMask(true);
-                    GLES20.glEnable(GLES20.GL_DEPTH_TEST);
-                    GLES20.glUniform4f(g_Unlit.objectColorUnif, 1.0f, 1.0f, 1.0f, 1.0f);
-                    g_pScene.GetCubeMesh().render("flat");
                 }
             }
         }

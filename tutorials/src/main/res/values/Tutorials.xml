@@ -46,6 +46,7 @@
         <item>Tut_Quaternion</item>
         <item>Tut_MeshTransforms</item>
         <item>Tut_ObjectPoleQuaternion</item>
+        <item>Tut_Projected_Light_Test</item>
 
     </string-array>
 </resources>

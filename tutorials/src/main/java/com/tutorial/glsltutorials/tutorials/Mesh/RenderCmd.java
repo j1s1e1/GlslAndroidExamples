@@ -18,8 +18,9 @@ public class RenderCmd {
     {
         try
         {
-            if (bIsIndexedCmd)
+            if (bIsIndexedCmd) {
                 GLES20.glDrawElements(ePrimType, elemCount, eIndexDataType, start);
+            }
             else
                 GLES20.glDrawArrays(ePrimType, start, elemCount);
         }
