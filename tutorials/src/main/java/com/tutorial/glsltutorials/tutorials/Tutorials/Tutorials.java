@@ -151,6 +151,8 @@ public class Tutorials extends Activity implements
             case 40: TestRenderer.tutorial = new Tut_MoveMeshItem(); break;
             case 41: TestRenderer.tutorial = new Tut_RotateTexture(); break;
             case 42: TestRenderer.tutorial = new Tut_Quaternion(); break;
+            case 43: TestRenderer.tutorial = new Tut_MeshTransforms(); break;
+            case 44: TestRenderer.tutorial = new Tut_ObjectPoleQuaternion(); break;
 
             default:
                 final Toast toast2 = Toast.makeText(Shader.context,"Not implemented", Toast.LENGTH_SHORT);

@@ -44,6 +44,8 @@
         <item>Tut_MoveMeshItem</item>
         <item>Tut_RotateTexture</item>
         <item>Tut_Quaternion</item>
+        <item>Tut_MeshTransforms</item>
+        <item>Tut_ObjectPoleQuaternion</item>
 
     </string-array>
 </resources>

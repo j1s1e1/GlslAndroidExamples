@@ -81,9 +81,42 @@ public class ObjectPole implements IPole {
     }
 
     ///Retrieves the current position and orientation of the object.
-    ObjectData GetPosOrient()
+    public ObjectData GetPosOrient()
     {
         return m_po;
+    }
+
+    public void move(float x, float y, float z)
+    {
+        move(new Vector3f(x, y, z));
+    }
+
+    public void move(Vector3f v)
+    {
+        m_po.position = m_po.position.add(v);
+    }
+
+    public Quaternion getOrient()
+    {
+        return m_po.orientation;
+    }
+
+    public void setOrient(Quaternion newOrientation)
+    {
+        m_po.orientation = newOrientation;
+    }
+
+
+    public void rotate(Quaternion rotation)
+    {
+        if (rightMultiply())
+        {
+            m_po.orientation = Quaternion.mult(m_po.orientation, rotation);
+        }
+        else
+        {
+            m_po.orientation = Quaternion.mult(rotation, m_po.orientation);
+        }
     }
 
     ///Resets the object to the initial position/orientation. Will fail if currently dragging.
