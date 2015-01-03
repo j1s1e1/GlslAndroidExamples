@@ -109,7 +109,7 @@ public class LightBlock
             GLES20.glUniform4fv(cameraSpaceLightPosUnif[i], 1, lights[i].cameraSpaceLightPos.toArray(), 0);
             GLES20.glUniform4fv(lightIntensityUnif[i], 1, lights[i].lightIntensity.toArray(), 0);
         }
-        if (numberOfLightsUnif != -1) GLES20.glUniform1f(numberOfLightsUnif, NUMBER_OF_LIGHTS);
+        if (numberOfLightsUnif != -1) GLES20.glUniform1i(numberOfLightsUnif, NUMBER_OF_LIGHTS);
         GLES20.glUseProgram(programNumber);
     }
 };
