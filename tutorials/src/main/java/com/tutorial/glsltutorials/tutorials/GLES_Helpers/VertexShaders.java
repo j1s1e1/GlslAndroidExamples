@@ -342,6 +342,31 @@ public class VertexShaders {
         "gl_Position = vec4(position, 1.0);" +
     "}";
 
+    public static String littexture =
+
+    "attribute vec3 position;" +
+    "attribute vec3 normal;" +
+    "attribute vec2 texCoord;" +
+
+    "varying vec2 colorCoord;" +
+    "varying vec3 cameraSpacePosition;" +
+    "varying vec3 cameraSpaceNormal;" +
+
+    "uniform mat4 cameraToClipMatrix;" +
+
+    "uniform mat4 modelToCameraMatrix;" +
+    "uniform mat3 normalModelToCameraMatrix;" +
+
+    "void main()" +
+    "{" +
+        "cameraSpacePosition = (modelToCameraMatrix * vec4(position, 1.0)).xyz;" +
+        "gl_Position = cameraToClipMatrix * vec4(cameraSpacePosition, 1.0);" +
+        "cameraSpaceNormal = normalize(normalModelToCameraMatrix * normal);" +
+
+        "colorCoord = texCoord;" +
+    "}";
+
+
     public static String BasicTexture_PN =
 
     "attribute vec3 position;" +

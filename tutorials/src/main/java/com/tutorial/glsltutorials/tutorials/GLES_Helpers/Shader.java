@@ -4,8 +4,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.opengl.GLES20;
-import android.opengl.GLES20;
 import android.util.Log;
+
+import java.util.ArrayList;
 
 /**
  * Created by Jamie on 1/5/14.
@@ -267,6 +268,46 @@ public class Shader {
 
             // Bind the fragment shader to the program.
             GLES20.glAttachShader(programHandle, fragmentShaderHandle);
+
+            // Link the two shaders together into a program.
+            GLES20.glLinkProgram(programHandle);
+
+            // Get the link status.
+            final int[] linkStatus = new int[1];
+            GLES20.glGetProgramiv(programHandle, GLES20.GL_LINK_STATUS, linkStatus, 0);
+
+            // If the link failed, delete the program.
+            if (linkStatus[0] == 0)
+            {
+                Log.e(TAG, "Error compiling program: " + GLES20.glGetProgramInfoLog(programHandle));
+                GLES20.glDeleteProgram(programHandle);
+                programHandle = 0;
+            }
+        }
+
+        if (programHandle == 0)
+        {
+            MessageBox("Error creating program");
+        }
+        else
+        {
+            //MessageBox("Success creating program");
+        }
+
+        return programHandle;
+    }
+
+    public static int createAndLinkProgram(ArrayList<Integer> shaderHandles)
+    {
+        int programHandle = GLES20.glCreateProgram();
+
+        if (programHandle != 0)
+        {
+            // Bind the shaders to the program.
+            for (Integer handle : shaderHandles)
+            {
+                GLES20.glAttachShader(programHandle, handle);
+            }
 
             // Link the two shaders together into a program.
             GLES20.glLinkProgram(programHandle);

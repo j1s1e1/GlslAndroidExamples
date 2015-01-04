@@ -4,7 +4,6 @@ package com.tutorial.glsltutorials.tutorials.Geometry;
  * Created by Jamie on 5/27/14.
  */
 public class Matrix4f {
-    private Vector4f row0, row1, row2, row3;
     public float   M11, M12, M13, M14,
                     M21, M22, M23, M24,
                     M31, M32, M33, M34,
@@ -12,39 +11,35 @@ public class Matrix4f {
 
     public Matrix4f()
     {
-        row0 = new Vector4f(1f, 0f, 0f, 0f);
-        row1 = new Vector4f(0f, 1f, 0f, 0f);
-        row2 = new Vector4f(0f, 0f, 1f, 0f);
-        row3 = new Vector4f(0f, 0f, 0f, 1f);
-        setFloats();
+        SetRow0(new Vector4f(1f, 0f, 0f, 0f));
+        SetRow1(new Vector4f(0f, 1f, 0f, 0f));
+        SetRow2(new Vector4f(0f, 0f, 1f, 0f));
+        SetRow3(new Vector4f(0f, 0f, 0f, 1f));
     }
 
     public Matrix4f(float[] data)
     {
-        row0 = new Vector4f(data[0], data[1], data[2], data[3]);
-        row1 = new Vector4f(data[4], data[5], data[6], data[7]);
-        row2 = new Vector4f(data[8], data[9], data[10], data[11]);
-        row3 = new Vector4f(data[12], data[13], data[14], data[15]);
-        setFloats();
+        SetRow0( new Vector4f(data[0], data[1], data[2], data[3]));
+        SetRow1(new Vector4f(data[4], data[5], data[6], data[7]));
+        SetRow2(new Vector4f(data[8], data[9], data[10], data[11]));
+        SetRow3(new Vector4f(data[12], data[13], data[14], data[15]));
     }
 
 
     public Matrix4f(Vector4f row0_in, Vector4f row1_in, Vector4f row2_in,Vector4f row3_in)
     {
-        row0 = row0_in;
-        row1 = row1_in;
-        row2 = row2_in;
-        row3 = row3_in;
-        setFloats();
+        SetRow0(row0_in);
+        SetRow1(row1_in);
+        SetRow2(row2_in);
+        SetRow3(row3_in);
     }
 
     public Matrix4f(Matrix4f m)
     {
-        row0 = m.GetRow0();
-        row1 = m.GetRow1();
-        row2 = m.GetRow2();
-        row3 = m.GetRow3();
-        setFloats();
+        SetRow0(m.GetRow0());
+        SetRow1(m.GetRow1());
+        SetRow2(m.GetRow2());
+        SetRow3(m.GetRow3());
     }
 
     public float[] toArray()
@@ -60,74 +55,66 @@ public class Matrix4f {
 
     public void SetRow0(Vector4f v)
     {
-        row0 = v;
-        M11 = row0.x;
-        M12 = row0.y;
-        M13 = row0.z;
-        M14 = row0.w;
+        M11 = v.x;
+        M12 = v.y;
+        M13 = v.z;
+        M14 = v.w;
     }
 
     public void SetRow1(Vector4f v)
     {
-        row1 = v;
-        M21 = row1.x;
-        M22 = row1.y;
-        M23 = row1.z;
-        M24 = row1.w;
+        M21 = v.x;
+        M22 = v.y;
+        M23 = v.z;
+        M24 = v.w;
     }
 
     public void SetRow2(Vector4f v)
     {
-        row2 = v;
-        M31 = row2.x;
-        M32 = row2.y;
-        M33 = row2.z;
-        M34 = row2.w;
+        M31 = v.x;
+        M32 = v.y;
+        M33 = v.z;
+        M34 = v.w;
     }
 
     public void SetRow3(Vector4f v)
     {
-        row3 = v;
-        M41 = row3.x;
-        M42 = row3.y;
-        M43 = row3.z;
-        M44 = row3.w;
+        M41 = v.x;
+        M42 = v.y;
+        M43 = v.z;
+        M44 = v.w;
     }
 
     public void SetRow0(Vector3f v, float f)
     {
-        row0 = new Vector4f(v.x, v.y, v.z, f);
-        M11 = row0.x;
-        M12 = row0.y;
-        M13 = row0.z;
-        M14 = row0.w;
+        M11 = v.x;
+        M12 = v.y;
+        M13 = v.z;
+        M14 = f;
     }
 
     public void SetRow1(Vector3f v, float f)
     {
-        row1 = new Vector4f(v.x, v.y, v.z, f);
-        M21 = row1.x;
-        M22 = row1.y;
-        M23 = row1.z;
-        M24 = row1.w;
+        M21 = v.x;
+        M22 = v.y;
+        M23 = v.z;
+        M24 = f;
     }
 
     public void SetRow2(Vector3f v, float f)
     {
-        row2 = new Vector4f(v.x, v.y, v.z, f);
-        M31 = row2.x;
-        M32 = row2.y;
-        M33 = row2.z;
-        M34 = row2.w;
+        M31 = v.x;
+        M32 = v.y;
+        M33 = v.z;
+        M34 = f;
     }
 
     public void SetRow3(Vector3f v, float f)
     {
-        row3 = new Vector4f(v.x, v.y, v.z, f);
-        M41 = row3.x;
-        M42 = row3.y;
-        M43 = row3.z;
-        M44 = row3.w;
+        M41 = v.x;
+        M42 = v.y;
+        M43 = v.z;
+        M44 = f;
     }
 
     public Vector4f GetRow0()
@@ -170,24 +157,36 @@ public class Matrix4f {
         return (new Vector4f(M14, M24, M34, M44));
     }
 
-    private void setFloats()
+    public void SetCol0(Vector4f v)
     {
-        M11 = row0.x;
-        M12 = row0.y;
-        M13 = row0.z;
-        M14 = row0.w;
-        M21 = row1.x;
-        M22 = row1.y;
-        M23 = row1.z;
-        M24 = row1.w;
-        M31 = row2.x;
-        M32 = row2.y;
-        M33 = row2.z;
-        M34 = row2.w;
-        M41 = row3.x;
-        M42 = row3.y;
-        M43 = row3.z;
-        M44 = row3.w;
+        M11 = v.x;
+        M12 = v.y;
+        M13 = v.z;
+        M14 = v.w;
+    }
+
+    public void SetCol1(Vector4f v)
+    {
+        M21 = v.x;
+        M22 = v.y;
+        M23 = v.z;
+        M24 = v.w;
+    }
+
+    public void SetCol2(Vector4f v)
+    {
+        M31 = v.x;
+        M32 = v.y;
+        M33 = v.z;
+        M34 = v.w;
+    }
+
+    public void SetCol3(Vector4f v)
+    {
+        M41 = v.x;
+        M42 = v.y;
+        M43 = v.z;
+        M44 = v.w;
     }
 
     static public Matrix4f Identity()
@@ -258,14 +257,9 @@ public class Matrix4f {
 
     public void Scale(Vector3f scale)
     {
-        row0 = new Vector4f(M11, M12, M13, M14);
-        row0.Scale(scale.x);
-        row1 = new Vector4f(M21, M22, M23, M24);
-        row1.Scale(scale.y);
-        row2 = new Vector4f(M31, M32, M33, M34);
-        row2.Scale(scale.z);
-        row3 = new Vector4f(M41, M42, M43, M44);
-        setFloats();
+        SetRow0(new Vector4f(M11 * scale.x, M12 * scale.x, M13 * scale.x, M14 * scale.x));
+        SetRow1(new Vector4f(M21 * scale.y, M22 * scale.y, M23 * scale.y, M24 * scale.y));
+        SetRow2(new Vector4f(M31 * scale.z, M32 * scale.z, M33 * scale.z, M34 * scale.z));
     }
 
     static public Matrix4f LookAt(Vector3f cameraPos,Vector3f lookatPos, Vector3f upDir)
@@ -357,7 +351,6 @@ public class Matrix4f {
         SetRow1(new_row1);
         SetRow2(new_row2);
         SetRow3(new_row3);
-        setFloats();
     }
 
     public Matrix4f inverted ()
@@ -369,7 +362,15 @@ public class Matrix4f {
             InvertMatrix(result.toArray(),  invOut);
             result = new Matrix4f(invOut);
         }
+        return result;
+    }
 
+    public Matrix4f transposed()
+    {
+        Matrix4f result = new Matrix4f();
+        result.SetRow0(this.GetCol0());
+        result.SetRow1(this.GetCol1());
+        result.SetRow2(this.GetCol2());
         return result;
     }
 
@@ -614,4 +615,24 @@ public class Matrix4f {
         float angle = q.getAngle();
         return createFromAxisAngle(axis, angle);
     }
+
+    public static Matrix4f createScale (float scale)
+    {
+        Matrix4f result = Matrix4f.Identity();
+        result.M11 = scale;
+        result.M22 = scale;
+        result.M33 = scale;
+        return result;
+    }
+
+    public static Matrix4f createScale (Vector3f scale)
+    {
+        Matrix4f result = Matrix4f.Identity();
+        result.M11 = scale.x;
+        result.M22 = scale.y;
+        result.M33 = scale.z;
+        return result;
+    }
+
+
 }

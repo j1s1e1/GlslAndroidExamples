@@ -87,7 +87,7 @@ public class ViewPole extends ViewProvider {
     }
 
     ///Resets the view to the initial view. Will fail if currently dragging.
-    void Reset()
+    public void reset()
     {
     }
 

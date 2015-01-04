@@ -98,7 +98,7 @@ public class Mesh {
 
     public Mesh(String meshName) throws Exception {
         fileName = meshName;
-        int resource = 0;
+        int resource = -1;
         switch (meshName) {
             case "unitcubecolor.xml":
                 resource = R.raw.unitcubecolor;
@@ -145,9 +145,27 @@ public class Mesh {
             case "sceneunitcube.xml":
                 resource = R.raw.sceneunitcube;
                 break;
+
+            case "unitsphere.xml":
+                resource = R.raw.unitsphere12;
+                break;
+            case "shortbar.xml":
+                resource = R.raw.shortbar;
+                break;
+            case "longbar.xml":
+                resource = R.raw.longbar;
+                break;
+
         }
-        InputStream inputStream = Shader.context.getResources().openRawResource(resource);
-        setup(inputStream);
+        if (resource == -1)
+        {
+            Log.e("Missing mesh resource", fileName);
+            return;
+        }
+        else {
+            InputStream inputStream = Shader.context.getResources().openRawResource(resource);
+            setup(inputStream);
+        }
     }
 
     public Mesh(InputStream inputStream) throws Exception {

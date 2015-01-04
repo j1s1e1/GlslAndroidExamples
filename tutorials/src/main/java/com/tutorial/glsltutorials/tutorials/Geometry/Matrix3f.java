@@ -110,13 +110,35 @@ public class Matrix3f {
         setFloats();
     }
 
+    public void divide(float divsior)
+    {
+        row0 = row0.divide(divsior);
+        row1 = row1.divide(divsior);
+        row2 = row2.divide(divsior);
+        setFloats();
+    }
+
     static public Matrix3f Identity()
     {
         return new Matrix3f();
     }
 
-    static public void invert()
+    public void invert ()
     {
-
+        float det = this.Determinant();
+        if (det != 0) {
+        Matrix3f result = new Matrix3f();
+            result.M11 = +M22 * M33 - M23 * M32;
+            result.M12 = -M12 * M33 + M13 * M32;
+            result.M13 = +M12 * M23 - M13 * M22;
+            result.M21 = -M21 * M33 + M23 * M31;
+            result.M22 = +M11 * M33 - M13 * M31;
+            result.M23 = -M11 * M23 + M13 * M21;
+            result.M31 = +M21 * M32 - M22 * M31;
+            result.M32 = -M11 * M32 + M12 * M31;
+            result.M33 = +M11 * M22 - M12 * M21;
+            this.divide(det);
+        }
     }
+
 }
