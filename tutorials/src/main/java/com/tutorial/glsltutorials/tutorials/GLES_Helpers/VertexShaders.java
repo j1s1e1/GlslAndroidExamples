@@ -53,6 +53,24 @@ public class VertexShaders {
         "gl_Position = cameraToClipMatrix * temp;" +
     " }";
 
+    public static final String PosColorWorldTransform_vert3 =
+            "attribute vec4 color;" +
+                    "attribute vec3 position;" +
+
+                    "uniform mat4 cameraToClipMatrix;" +
+                    "uniform mat4 worldToCameraMatrix;" +
+                    "uniform mat4 modelToWorldMatrix;" +
+
+                    "varying vec4 theColor;" +
+
+                    "void main()" +
+                    "{" +
+                    "vec4 temp = modelToWorldMatrix * vec4(position, 1.0);" +
+                    "temp = worldToCameraMatrix * temp;" +
+                    "gl_Position = cameraToClipMatrix * temp;" +
+                    "theColor = color;" +
+                    "}";
+
     public static final String PosColorWorldTransform_vert =
     "attribute vec4 color;" +
     "attribute vec4 position;" +
@@ -342,6 +360,14 @@ public class VertexShaders {
         "gl_Position = vec4(position, 1.0);" +
     "}";
 
+    public static String noMatrix =
+    "attribute vec3 position;" +
+
+    "void main()" +
+    "{" +
+        "gl_Position = vec4(position, 1.0);" +
+    "}";
+
     public static String littexture =
 
     "attribute vec3 position;" +
@@ -457,5 +483,23 @@ public class VertexShaders {
         "gl_Position = cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
         "colorCoord = texCoord;" +
     "}";
+
+    public static String colored =
+
+    "attribute vec3 position;" +
+    "attribute  vec4 color;" +
+
+    "varying vec4 objectColor;" +
+
+    "uniform mat4 cameraToClipMatrix;" +
+
+    "uniform mat4 modelToCameraMatrix;" +
+
+    "void main()" +
+    "{" +
+        "gl_Position = cameraToClipMatrix * (modelToCameraMatrix * vec4(position, 1.0));" +
+        "objectColor = color;" +
+    "}";
+
 
 }

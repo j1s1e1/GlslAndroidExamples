@@ -146,8 +146,6 @@ public class Tut_SingleMeshItem extends TutorialBase {
         Programs.setWorldToCameraMatrixUnif(program, cm);
     }
 
-    //Called whenever the window is resized. The new window size is given, in pixels.
-    //This is an opportunity to call glViewport or glScissor to keep up with the change in size.
     public void reshape()
     {
         MatrixStack camMatrix = new MatrixStack();

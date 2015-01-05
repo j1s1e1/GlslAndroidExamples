@@ -20,6 +20,12 @@ public class FragmentShaders {
         "gl_FragColor = baseColor;" +
     "}";
 
+    public static  final String white =
+    "void main()" +
+    "{" +
+        "gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);" +
+    "}";
+
     public static String ObjectPositionColor =
     "varying vec4 objectPosition;" +
 
@@ -797,6 +803,14 @@ public class FragmentShaders {
         "gl_FragColor = accumLighting / Lgt.maxIntensity;" +
     "}"; // littexture
 
+    public static String colored =
+
+    "varying vec4 objectColor;" +
+
+    "void main()" +
+    "{" +
+        "gl_FragColor = objectColor;" +
+    "}";
 
 }
 

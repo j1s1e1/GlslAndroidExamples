@@ -24,6 +24,21 @@ import java.util.ArrayList;
  * Created by jamie on 12/26/14.
  */
 public class Tut_MoveMeshItem extends TutorialBase {
+    boolean updateCull = false;
+    boolean updateDepth = false;
+    boolean updateAlpha = false;
+    boolean updateCcw = false;
+    boolean updateBlend = false;
+    boolean blend = false;
+    boolean ccw = false;
+    boolean updateCullFace = false;
+    int cullFaceSelection = 0;
+    boolean cull = true;
+    boolean depth = true;
+    boolean alpha = false;
+    boolean limitTriangles = false;
+    int triangleCount = 0;
+
     boolean renderWithString = false;
     int renderString = 0;
     ArrayList<String> renderStrings = new ArrayList<>();
@@ -189,6 +204,7 @@ public class Tut_MoveMeshItem extends TutorialBase {
             meshes.add(new Mesh("unitcylinder.xml"));
             meshes.add(new Mesh("unitplane.xml"));
             meshes.add(new Mesh("infinity.xml"));
+            meshes.add(new Mesh("halfinfinity.xml"));
             meshes.add(new Mesh("unitsphere12.xml"));
             meshes.add(new Mesh("unitcylinder9.xml"));
             meshes.add(new Mesh("unitdiorama.xml"));
@@ -232,7 +248,9 @@ public class Tut_MoveMeshItem extends TutorialBase {
                         Matrix4f applyMatrix = Matrix4f.Mult(Matrix4f.Identity(),
                                 Matrix4f.CreateTranslation(dirToLight));
                         normalModelToCameraMatrix = new Matrix3f(applyMatrix);
-                        // FIXME normalModelToCameraMatrix.Invert();
+                        normalModelToCameraMatrix.invert();
+                        normalModelToCameraMatrix.transpose();
+                        normalModelToCameraMatrix.normalize();
                         GLES20.glUniformMatrix3fv(currentProgram.normalModelToCameraMatrixUnif, 1, false, normalModelToCameraMatrix.toArray(), 0);
                         //Matrix4f cameraToClipMatrix = Matrix4f.Identity;
                         //GLES20.glUniformMatrix4f(currentProgram.cameraToClipMatrixUnif, false, 1, cameraToClipMatrix); 
@@ -255,7 +273,88 @@ public class Tut_MoveMeshItem extends TutorialBase {
                 reshape();
             }
         }
+        updateDisplayOptions();
     }
+
+    void updateDisplayOptions() {
+        if (updateAlpha) {
+            updateAlpha = false;
+            if (alpha) {
+                alpha = false;
+                GLES20.glBlendEquation(GLES20.GL_FUNC_ADD);
+                GLES20.glBlendFunc(GLES20.GL_ONE, GLES20.GL_ONE);
+                Log.i("KeyEvent", "alpha disabled");
+            } else {
+                alpha = true;
+                GLES20.glBlendEquation(GLES20.GL_FUNC_ADD);
+                GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+                Log.i("KeyEvent", "alpha enabled");
+            }
+        }
+        if (updateBlend) {
+            updateBlend = false;
+            if (blend) {
+                blend = false;
+                GLES20.glDisable(GLES20.GL_BLEND);
+                Log.i("KeyEvent", "blend disabled");
+            } else {
+                blend = true;
+                GLES20.glEnable(GLES20.GL_BLEND);
+                Log.i("KeyEvent", "blend enabled");
+            }
+        }
+        if (updateCull) {
+            updateCull = false;
+            if (cull) {
+                cull = false;
+                GLES20.glDisable(GLES20.GL_CULL_FACE);
+                Log.i("KeyEvent", "cull disabled");
+            } else {
+                cull = true;
+                GLES20.glEnable(GLES20.GL_CULL_FACE);
+                Log.i("KeyEvent", "cull enabled");
+            }
+        }
+        if (updateDepth)
+        {
+            updateDepth = false;
+            if (depth)
+            {
+                depth = false;
+                GLES20.glDisable(GLES20.GL_DEPTH_TEST);
+                GLES20.glDepthMask(false);
+                Log.i("KeyEvent", "depth disabled");
+            }
+            else
+            {
+                depth = true;
+                GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+                GLES20.glDepthMask(true);
+                Log.i("KeyEvent", "depth enabled");
+            }
+        }
+        if (updateCullFace)
+        {
+            updateCullFace = false;
+            switch (cullFaceSelection) {
+                case 0:
+                    GLES20.glCullFace(GLES20.GL_FRONT_AND_BACK);
+                    Log.i("KeyEvent", "cull face GL_FRONT_AND_BACK");
+                    break;
+                case 1:
+                    GLES20.glCullFace(GLES20.GL_FRONT);
+                    Log.i("KeyEvent", "cull face GL_FRONT");
+                    break;
+                case 2:
+                    GLES20.glCullFace(GLES20.GL_BACK);
+                    Log.i("KeyEvent", "cull face GL_BACK");
+                    break;
+            }
+            cullFaceSelection++;
+            if (cullFaceSelection > 2) cullFaceSelection = 0;
+        }
+    }
+
 
     static Vector3f axis = new Vector3f(1f, 1f, 0);
     static float angle = 0;
@@ -355,7 +454,7 @@ public class Tut_MoveMeshItem extends TutorialBase {
                     Log.i("KeyEvent", "Render String " + renderStrings.get(renderString));
                 }
                 break;
-            case KeyEvent.KEYCODE_W:
+            case KeyEvent.KEYCODE_L:
                 currentProgram = ObjectColor;
                 reshape();
                 break;
@@ -375,6 +474,21 @@ public class Tut_MoveMeshItem extends TutorialBase {
             case KeyEvent.KEYCODE_O:
                 scaleFactor = meshes.get(currentMesh).getUnitScaleFactor();
                 Log.i("KeyEvent", scaleFactor.toString());
+                break;
+            case KeyEvent.KEYCODE_A:
+                updateAlpha = true;
+                break;
+            case KeyEvent.KEYCODE_B:
+                updateBlend = true;
+                break;
+            case KeyEvent.KEYCODE_C:
+                updateCull = true;
+                break;
+            case KeyEvent.KEYCODE_D:
+                updateDepth = true;
+                break;
+            case KeyEvent.KEYCODE_W:
+                updateCullFace = true;
                 break;
         }
         reshape();

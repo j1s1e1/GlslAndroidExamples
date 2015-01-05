@@ -254,7 +254,9 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
                     //projData.cameraToClipMatrix = Matrix4f.Identity(); // Test
                     GLES20.glUniformMatrix4fv(whiteDiffuse.cameraToClipMatrixUnif, 1, false, projData.cameraToClipMatrix.toArray(), 0);
                     Matrix3f normMatrix = new Matrix3f(modelMatrix.Top());
-                    normMatrix.Normalize();
+                    normMatrix.normalize();
+                    normMatrix.transpose();
+                    normMatrix.invert();
                     GLES20.glUniformMatrix3fv(whiteDiffuse.normalModelToCameraMatrixUnif, 1, false,
                             normMatrix.toArray(), 0);
                     g_pPlaneMesh.render();
@@ -275,6 +277,9 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
                         GLES20.glUniformMatrix4fv(vertexDiffuse.modelToCameraMatrixUnif, 1, false, mm.toArray(), 0);
                         GLES20.glUniformMatrix4fv(whiteDiffuse.cameraToClipMatrixUnif, 1, false, projData.cameraToClipMatrix.toArray(), 0);
                         Matrix3f normMatrix = new Matrix3f(modelMatrix.Top());
+                        normMatrix.normalize();
+                        normMatrix.transpose();
+                        normMatrix.invert();
                         if (zeroAllMatrixes) normMatrix = Matrix3f.Identity();
                         GLES20.glUniformMatrix3fv(vertexDiffuse.normalModelToCameraMatrixUnif, 1, false, normMatrix.toArray(), 0);
                         g_pCylinderMesh.render("lit-color");
@@ -286,6 +291,9 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
                         GLES20.glUniformMatrix4fv(whiteDiffuse.modelToCameraMatrixUnif, 1, false, mm.toArray(), 0);
                         GLES20.glUniformMatrix4fv(whiteDiffuse.cameraToClipMatrixUnif, 1, false, projData.cameraToClipMatrix.toArray(), 0);
                         Matrix3f  normMatrix = new Matrix3f(modelMatrix.Top());
+                        normMatrix.normalize();
+                        normMatrix.transpose();
+                        normMatrix.invert();
                         GLES20.glUniformMatrix3fv(whiteDiffuse.normalModelToCameraMatrixUnif, 1, false, normMatrix.toArray(), 0);
                         g_pCylinderMesh.render("lit");
                     }

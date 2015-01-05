@@ -48,6 +48,8 @@
         <item>Tut_ObjectPoleQuaternion</item>
         <item>Tut_Projected_Light_Test</item>
         <item>Tut_17_DoubleProjection</item>
+        <item>Tut_17_Projected_Light</item>
+        <item>Tut_InfinityTest</item>
 
     </string-array>
 </resources>

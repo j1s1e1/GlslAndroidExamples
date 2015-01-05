@@ -96,7 +96,7 @@ public class AnalysisTools {
         result.append("");
         result.append("Translation by " + matrix.M41 + " " + matrix.M42 + " " + matrix.M43);
         Matrix3f normalizedMatrix = new Matrix3f(matrix);
-        normalizedMatrix.Normalize();
+        normalizedMatrix.normalize();
         float heading = 0f;
         float attitude = 0f;
         float bank = 0f;

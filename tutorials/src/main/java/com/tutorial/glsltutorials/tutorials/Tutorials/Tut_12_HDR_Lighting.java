@@ -34,7 +34,18 @@ import com.tutorial.glsltutorials.tutorials.View.ViewScale;
  * Created by jamie on 1/2/15.
  */
 public class Tut_12_HDR_Lighting extends TutorialBase {
-
+    boolean updateCull = false;
+    boolean updateDepth = false;
+    boolean updateAlpha = false;
+    boolean updateCcw = false;
+    boolean updateBlend = false;
+    boolean blend = false;
+    boolean cull = false;
+    boolean depth = false;
+    boolean alpha = false;
+    boolean ccw = false;
+    boolean updateCullFace = false;
+    int cullFaceSelection = 0;
     boolean renderSun = false;
     boolean initializationComplete = false;
     // debug fields
@@ -320,7 +331,88 @@ public class Tut_12_HDR_Lighting extends TutorialBase {
                 }
             }
         }
+        updateDisplayOptions();
     }
+
+    void updateDisplayOptions() {
+        if (updateAlpha) {
+            updateAlpha = false;
+            if (alpha) {
+                alpha = false;
+                GLES20.glBlendEquation(GLES20.GL_FUNC_ADD);
+                GLES20.glBlendFunc(GLES20.GL_ONE, GLES20.GL_ONE);
+                Log.i("KeyEvent", "alpha disabled");
+            } else {
+                alpha = true;
+                GLES20.glBlendEquation(GLES20.GL_FUNC_ADD);
+                GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+                Log.i("KeyEvent", "alpha enabled");
+            }
+        }
+        if (updateBlend) {
+            updateBlend = false;
+            if (blend) {
+                blend = false;
+                GLES20.glDisable(GLES20.GL_BLEND);
+                Log.i("KeyEvent", "blend disabled");
+            } else {
+                blend = true;
+                GLES20.glEnable(GLES20.GL_BLEND);
+                Log.i("KeyEvent", "blend enabled");
+            }
+        }
+        if (updateCull) {
+            updateCull = false;
+            if (cull) {
+                cull = false;
+                GLES20.glDisable(GLES20.GL_CULL_FACE);
+                Log.i("KeyEvent", "cull disabled");
+            } else {
+                cull = true;
+                GLES20.glEnable(GLES20.GL_CULL_FACE);
+                Log.i("KeyEvent", "cull enabled");
+            }
+        }
+        if (updateDepth)
+        {
+            updateDepth = false;
+            if (depth)
+            {
+                depth = false;
+                GLES20.glDisable(GLES20.GL_DEPTH_TEST);
+                GLES20.glDepthMask(false);
+                Log.i("KeyEvent", "depth disabled");
+            }
+            else
+            {
+                depth = true;
+                GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+                GLES20.glDepthMask(true);
+                Log.i("KeyEvent", "depth enabled");
+            }
+        }
+        if (updateCullFace)
+        {
+            updateCullFace = false;
+            switch (cullFaceSelection) {
+                case 0:
+                    GLES20.glCullFace(GLES20.GL_FRONT_AND_BACK);
+                    Log.i("KeyEvent", "cull face GL_FRONT_AND_BACK");
+                    break;
+                case 1:
+                    GLES20.glCullFace(GLES20.GL_FRONT);
+                    Log.i("KeyEvent", "cull face GL_FRONT");
+                    break;
+                case 2:
+                    GLES20.glCullFace(GLES20.GL_BACK);
+                    Log.i("KeyEvent", "cull face GL_BACK");
+                    break;
+            }
+            cullFaceSelection++;
+            if (cullFaceSelection > 2) cullFaceSelection = 0;
+        }
+    }
+
 
     ProjectionBlock projData;
 
@@ -414,6 +506,21 @@ public class Tut_12_HDR_Lighting extends TutorialBase {
                 {
                     g_bDrawLights = true;
                 }
+                break;
+            case KeyEvent.KEYCODE_A:
+                updateAlpha = true;
+                break;
+            case KeyEvent.KEYCODE_B:
+                updateBlend = true;
+                break;
+            case KeyEvent.KEYCODE_C:
+                updateCull = true;
+                break;
+            case KeyEvent.KEYCODE_E:
+                updateDepth = true;
+                break;
+            case KeyEvent.KEYCODE_W:
+                updateCullFace = true;
                 break;
         }
 

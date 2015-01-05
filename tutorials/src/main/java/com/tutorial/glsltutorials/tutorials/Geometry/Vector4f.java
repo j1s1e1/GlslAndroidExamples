@@ -1,5 +1,7 @@
 package com.tutorial.glsltutorials.tutorials.Geometry;
 
+import android.util.FloatMath;
+
 /**
  * Created by Jamie on 5/27/14.
  */
@@ -80,6 +82,24 @@ public class Vector4f {
                 z - b.z,
                 w - b.w
         );
+    }
+
+    public Vector4f normalize(){
+        float sqr_length =  FloatMath.sqrt(length());
+        if(sqr_length >= 0.0000001f){
+            float inv = 1/sqr_length;
+            return new Vector4f(x *inv, y *inv, z *inv, w*inv);
+        }
+        return new Vector4f(0.f, 0.f, 0.f, 0.f);
+    }
+
+    public static Vector4f normalize(Vector4f v){
+        float sqr_length =  FloatMath.sqrt(v.length());
+        if(sqr_length >= 0.0000001f){
+            float inv = 1/sqr_length;
+            return new Vector4f(v.x *inv, v.y *inv, v.z *inv, v.w*inv);
+        }
+        return new Vector4f(0.f, 0.f, 0.f, 0.f);
     }
 
     public float length()

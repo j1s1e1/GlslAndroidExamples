@@ -8,11 +8,28 @@ import android.graphics.Rect;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 
+import com.tutorial.glsltutorials.tutorials.R;
+
 /**
  * Created by jamie on 11/23/14.
  */
 public class Textures {
 
+    public static int loadTexture(final Context context, String fileName) {
+        int resource = -1;
+        switch (fileName) {
+            case "flashlight.png":
+                resource = R.drawable.flashlight;
+                break;
+            case "pointsoflight.png":
+                resource = R.drawable.pointsoflight;
+                break;
+            case "bands.png":
+                resource = R.drawable.bands;
+                break;
+        }
+        return loadTexture(context, resource, false);
+    }
 
     public static int loadTexture(final Context context, final int resourceId, boolean oneTwenty)
     {

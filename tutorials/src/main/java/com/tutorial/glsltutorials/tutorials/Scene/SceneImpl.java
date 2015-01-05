@@ -75,13 +75,17 @@ public class SceneImpl {
         return null;
     }
 
-    public SceneImpl(String filename) throws Exception
+    public SceneImpl(String fileName) throws Exception
     {
-        int resource = 0;
-        switch (filename) {
-            case "dp_scene.xml":
-                resource = R.raw.dp_scene;
-                break;
+        int resource = -1;
+        switch (fileName) {
+            case "dp_scene.xml": resource = R.raw.dp_scene; break;
+            case "proj2d_scene.xml": resource = R.raw.proj2d_scene; break;
+        }
+        if (resource == -1)
+        {
+            Log.e("Missing scene resource", fileName);
+            return;
         }
         InputStream inputStream = Shader.context.getResources().openRawResource(resource);
         setup(inputStream);

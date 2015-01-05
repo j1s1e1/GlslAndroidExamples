@@ -145,6 +145,13 @@ public class Mesh {
             case "sceneunitcube.xml":
                 resource = R.raw.sceneunitcube;
                 break;
+            case "sceneunitplane.xml":
+                resource = R.raw.sceneunitplane;
+                break;
+
+            case "unitaxes.xml":
+                resource = R.raw.unitaxes;
+                break;
 
             case "unitsphere.xml":
                 resource = R.raw.unitsphere12;
@@ -275,17 +282,19 @@ public class Mesh {
                             m_pData.vertexCount = attribs.get(iLoop).NumElements();
                             m_pData.positionMin = new Vector3f();
                             m_pData.positionMax = new Vector3f();
+
                             m_pData.positionMin.x = attribs.get(iLoop).getMin(0, 3);
                             m_pData.positionMin.y = attribs.get(iLoop).getMin(1, 3);
                             m_pData.positionMin.z = attribs.get(iLoop).getMin(2, 3);
                             m_pData.positionMax.x = attribs.get(iLoop).getMax(0, 3);
                             m_pData.positionMax.y = attribs.get(iLoop).getMax(1, 3);
                             m_pData.positionMax.z = attribs.get(iLoop).getMax(2, 3);
+
                             break;
                         case 1:
                             m_pData.colorAttribute = 101;
                             m_pData.colorSize = attribs.get(iLoop).iSize;
-                            m_pData.colorOffset = attribStartLocs.get(iLoop);
+                            m_pData.colorOffset = attribStartLocs.get( iLoop);
                             m_pData.colorStride = m_pData.colorSize * attribs.get(iLoop).pAttribType.iNumBytes;
                             break;
                         case 2:
@@ -441,10 +450,20 @@ public class Mesh {
 
     public void render() throws Exception
     {
-        render(defaultAttribs);
+        render(-1);
+    }
+
+    public void render(int triangles) throws Exception
+    {
+        render(defaultAttribs, triangles);
     }
 
     public void render(int[] attribLocations) throws Exception
+    {
+        render(attribLocations, -1);
+    }
+
+    public void render(int[] attribLocations, int triangles) throws Exception
     {
         //if (m_pData.oVAO[0] == 0)
         if (m_pData.oIndexBuffer[0] == 0)
@@ -453,20 +472,20 @@ public class Mesh {
         //GLES20.glBindVertexArray(m_pData.oVAO[0]);
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, m_pData.oAttribArraysBuffer[0]);
         GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, m_pData.oIndexBuffer[0]);
-        if (m_pData.positionAttribute != -1)
+        if (attribLocations[0] != -1)
         {
             GLES20.glEnableVertexAttribArray(attribLocations[0]);
             GLES20.glVertexAttribPointer(attribLocations[0], m_pData.positionSize,
                     GLES20.GL_FLOAT, false, m_pData.positionStride, m_pData.positionOffset);
         }
-        if (m_pData.colorAttribute != -1)
+        if (attribLocations[1] != -1)
         {
             GLES20.glEnableVertexAttribArray(attribLocations[1]);
             GLES20.glVertexAttribPointer(attribLocations[1], m_pData.colorSize,
                     GLES20.GL_FLOAT, false, m_pData.colorStride, m_pData.colorOffset);
 
         }
-        if (m_pData.normalAttribute != -1)
+        if (attribLocations[2] != -1)
         {
             GLES20.glEnableVertexAttribArray(attribLocations[2]);
             GLES20.glVertexAttribPointer(attribLocations[2], m_pData.normalSize,
@@ -476,7 +495,14 @@ public class Mesh {
 
         for (RenderCmd renderCmd : m_pData.primatives)
         {
-            renderCmd.Render();
+            if (triangles > 0)
+            {
+                renderCmd.Render(triangles);
+            }
+            else
+            {
+                renderCmd.Render();
+            }
         }
         if (m_pData.positionAttribute != -1) GLES20.glDisableVertexAttribArray(attribLocations[0]);
         if (m_pData.colorAttribute != -1) GLES20.glDisableVertexAttribArray(attribLocations[1]);

@@ -160,7 +160,8 @@ public class Scene {
                            MatrixStack modelMatrix ) throws Exception
     {
         Matrix3f normMatrix = new Matrix3f(modelMatrix.Top());
-        // FIXME normMatrix = Matrix3f.transpose(normMatrix.Inverted());
+        normMatrix.invert();
+        normMatrix.transposed();
 
         GLES20.glUseProgram(prog.theProgram);
         Matrix4f mm =  modelMatrix.Top();
@@ -181,7 +182,8 @@ public class Scene {
                            MatrixStack modelMatrix) throws Exception
     {
         Matrix3f normMatrix = new Matrix3f(modelMatrix.Top());
-        // FIXME normMatrix = Matrix3f.Transpose(normMatrix.Inverted());
+        normMatrix.invert();
+        normMatrix.transposed();
 
         GLES20.glUseProgram(prog.theProgram);
         // Apply Material

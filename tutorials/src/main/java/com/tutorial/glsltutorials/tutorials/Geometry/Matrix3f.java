@@ -4,34 +4,53 @@ package com.tutorial.glsltutorials.tutorials.Geometry;
  * Created by Jamie on 5/27/14.
  */
 public class Matrix3f {
-    private Vector3f row0, row1, row2;
     public float   M11, M12, M13,
                    M21, M22, M23,
                    M31, M32, M33;
 
     public Matrix3f()
     {
-        row0 = new Vector3f(1f, 0f, 0f);
-        row1 = new Vector3f(0f, 1f, 0f);
-        row2 = new Vector3f(0f, 0f, 1f);
-        setFloats();
+        SetRow0(new Vector3f(1f, 0f, 0f));
+        SetRow1(new Vector3f(0f, 1f, 0f));
+        SetRow2(new Vector3f(0f, 0f, 1f));
     }
 
     public Matrix3f(Vector3f row0_in, Vector3f row1_in, Vector3f row2_in)
     {
-        row0 = row0_in;
-        row1 = row1_in;
-        row2 = row2_in;
-        setFloats();
+        SetRow0(row0_in);
+        SetRow1(row1_in);
+        SetRow2(row2_in);
     }
 
-    public Matrix3f(Matrix4f min)
+    public Matrix3f(Matrix3f mIn)
     {
-        row0 = new Vector3f(min.GetRow0());
-        row1 = new Vector3f(min.GetRow1());
-        row2 = new Vector3f(min.GetRow2());
-        setFloats();
+        SetRow0(mIn.GetRow0());
+        SetRow1(mIn.GetRow1());
+        SetRow2(mIn.GetRow2());
     }
+
+    public void Set(Matrix3f mIn)
+    {
+        SetRow0(mIn.GetRow0());
+        SetRow1(mIn.GetRow1());
+        SetRow2(mIn.GetRow2());
+    }
+
+    public Matrix3f(Matrix4f mIn)
+    {
+        SetRow0(new Vector3f(mIn.GetRow0()));
+        SetRow1(new Vector3f(mIn.GetRow1()));
+        SetRow2(new Vector3f(mIn.GetRow2()));
+    }
+
+    public void Set(Matrix4f mIn)
+    {
+        SetRow0(new Vector3f(mIn.GetRow0()));
+        SetRow1(new Vector3f(mIn.GetRow1()));
+        SetRow2(new Vector3f(mIn.GetRow2()));
+    }
+
+
 
     public float[] toArray()
     {
@@ -45,26 +64,23 @@ public class Matrix3f {
 
     public void SetRow0(Vector3f v)
     {
-        row0 = v;
-        M11 = row0.x;
-        M12 = row0.y;
-        M13 = row0.z;
+        M11 = v.x;
+        M12 = v.y;
+        M13 = v.z;
     }
 
     public void SetRow1(Vector3f v)
     {
-        row1 = v;
-        M21 = row1.x;
-        M22 = row1.y;
-        M23 = row1.z;
+        M21 = v.x;
+        M22 = v.y;
+        M23 = v.z;
     }
 
     public void SetRow2(Vector3f v)
     {
-        row2 = v;
-        M31 = row2.x;
-        M32 = row2.y;
-        M33 = row2.z;
+        M31 = v.x;
+        M32 = v.y;
+        M33 = v.z;
     }
 
     public Vector3f GetRow0()
@@ -82,40 +98,50 @@ public class Matrix3f {
         return (new Vector3f(M31, M32, M33));
     }
 
-    private void setFloats()
-    {
-        M11 = row0.x;
-        M12 = row0.y;
-        M13 = row0.z;
-        M21 = row1.x;
-        M22 = row1.y;
-        M23 = row1.z;
-        M31 = row2.x;
-        M32 = row2.y;
-        M33 = row2.z;
-    }
-
     public float Determinant()
     {
         return M11 * M22 * M33 + M12 * M23 * M31 + M13 * M21 * M32
                     - M13 * M22 * M31 - M11 * M23 * M32 - M12 * M21 * M33;
     }
 
-    public void Normalize()
+    public void normalize()
     {
         float determinant = Determinant();
-        row0 = row0.divide(determinant);
-        row1 = row1.divide(determinant);
-        row2 = row2.divide(determinant);
-        setFloats();
+        this.divide(determinant);
     }
 
-    public void divide(float divsior)
+    public void transpose()
     {
-        row0 = row0.divide(divsior);
-        row1 = row1.divide(divsior);
-        row2 = row2.divide(divsior);
-        setFloats();
+        float M21_temp = M12;
+        float M31_temp = M13;
+        float M32_temp = M23;
+        M12 = M21;
+        M13 = M31;
+        M23 = M32;
+        M21 = M21_temp;
+        M31 = M31_temp;
+        M32 = M32_temp;
+    }
+
+    public Matrix3f transposed()
+    {
+        Matrix3f result = this;
+        result.transpose();
+        return result;
+    }
+
+    public void divide(float divisor)
+    {
+        SetRow0(GetRow0().divide(divisor));
+        SetRow1(GetRow1().divide(divisor));
+        SetRow2(GetRow2().divide(divisor));
+    }
+
+    public Matrix3f divided(float divisor)
+    {
+        Matrix3f result = this;
+        result.divide(divisor);
+        return result;
     }
 
     static public Matrix3f Identity()
@@ -123,7 +149,7 @@ public class Matrix3f {
         return new Matrix3f();
     }
 
-    public void invert ()
+    public void invert()
     {
         float det = this.Determinant();
         if (det != 0) {
@@ -137,8 +163,28 @@ public class Matrix3f {
             result.M31 = +M21 * M32 - M22 * M31;
             result.M32 = -M11 * M32 + M12 * M31;
             result.M33 = +M11 * M22 - M12 * M21;
-            this.divide(det);
+            result.divide(det);
+            Set(result);
         }
+    }
+
+    public Matrix3f inverted()
+    {
+        float det = this.Determinant();
+        if (det != 0) {
+            Matrix3f result = new Matrix3f();
+            result.M11 = +M22 * M33 - M23 * M32;
+            result.M12 = -M12 * M33 + M13 * M32;
+            result.M13 = +M12 * M23 - M13 * M22;
+            result.M21 = -M21 * M33 + M23 * M31;
+            result.M22 = +M11 * M33 - M13 * M31;
+            result.M23 = -M11 * M23 + M13 * M21;
+            result.M31 = +M21 * M32 - M22 * M31;
+            result.M32 = -M11 * M32 + M12 * M31;
+            result.M33 = +M11 * M22 - M12 * M21;
+            return result.divided(det);
+        }
+        return this;
     }
 
 }

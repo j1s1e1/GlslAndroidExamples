@@ -2,7 +2,6 @@ package com.tutorial.glsltutorials.tutorials.Attributes;
 
 import android.opengl.GLES20;
 
-import com.tutorial.glsltutorials.tutorials.Attributes.AttribData;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.VBO_Tools;
 
 import java.nio.FloatBuffer;
@@ -35,6 +34,7 @@ public class AttribType{
             String[] values = items[i].split(" ");
             for (int j = 0; j < values.length; j++) {
                 try {
+                    values[j] = values[j].replaceAll("\t", ""); // parseFloat not handling these
                     AttribData ad = new AttribData();
                     switch (eGLType)
                     {

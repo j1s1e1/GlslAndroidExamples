@@ -23,25 +23,25 @@ import java.util.ArrayList;
 /**
  * Created by jamie on 1/2/15.
  */
-public class Tut_MeshTransforms extends TutorialBase {
+public class Tut_InfinityTest extends TutorialBase {
     boolean updateCull = false;
     boolean updateDepth = false;
     boolean updateAlpha = false;
     boolean updateCcw = false;
     boolean updateBlend = false;
     boolean blend = false;
+    boolean cull = false;
+    boolean depth = false;
+    boolean alpha = false;
     boolean ccw = false;
     boolean updateCullFace = false;
     int cullFaceSelection = 0;
-    boolean cull = true;
-    boolean depth = true;
-    boolean alpha = false;
     boolean limitTriangles = false;
     int triangleCount = 0;
 
     static int NUMBER_OF_LIGHTS = 2;
-    Vector3f translate = new Vector3f();
-    Vector3f scale = new Vector3f(15f, 15f, 15f);
+    Vector3f translate = new Vector3f(0.5f, 0.5f, 0f);
+    Vector3f scale = new Vector3f(80f, 80f, 80f);
     Vector3f rotate = new Vector3f();
 
     boolean rotateNotTranslate = false;
@@ -92,6 +92,7 @@ public class Tut_MeshTransforms extends TutorialBase {
     static float g_fzNear = 10.0f;
     static float g_fzFar = 1000.0f;
 
+    static ProgramData White;
     static ProgramData UniformColor;
     static ProgramData ObjectColor;
     static ProgramData UniformColorTint;
@@ -152,6 +153,8 @@ public class Tut_MeshTransforms extends TutorialBase {
         GLES20.glUseProgram(UniformColor.theProgram);
         GLES20.glUniform4f(UniformColor.baseColorUnif, 0.694f, 0.4f, 0.106f, 1.0f);
         GLES20.glUseProgram(0);
+
+        White = LoadProgram(VertexShaders.noMatrix, FragmentShaders.white);
 
         UniformColorTint = LoadProgram(VertexShaders.PosColorWorldTransform_vert, FragmentShaders.ColorMultUniform_frag);
         GLES20.glUseProgram(UniformColorTint.theProgram);
@@ -217,7 +220,7 @@ public class Tut_MeshTransforms extends TutorialBase {
         GLES20.glUseProgram(0);
 
         ObjectColor = LoadProgram(VertexShaders.PosColorWorldTransform_vert3 , FragmentShaders.ColorPassthrough_frag);
-        currentProgram = UniformColor;
+        currentProgram = ObjectColor;
     }
 
     int currentMesh = 0;
@@ -229,23 +232,13 @@ public class Tut_MeshTransforms extends TutorialBase {
 
         try
         {
-            meshes.add(new Mesh("unitcubecolor.xml"));
-            meshes.add(new Mesh("unitcylinder.xml"));
-            meshes.add(new Mesh("unitplane.xml"));
             meshes.add(new Mesh("infinity.xml"));
-            meshes.add(new Mesh("halfinfinity.xml"));
-            meshes.add(new Mesh("halfinfinitycolors.xml"));
-            meshes.add(new Mesh("unitsphere12.xml"));
-            meshes.add(new Mesh("unitcylinder9.xml"));
-            meshes.add(new Mesh("unitdiorama.xml"));
-            meshes.add(new Mesh("ground.xml"));;
-
         } catch (Exception ex) {
             throw new Exception("Error " + ex.toString());
         }
 
         setupDepthAndCull();
-
+        GLES20.glDisable(GLES20.GL_CULL_FACE);
         Camera.Move(0f, 0f, 0f);
         Camera.MoveTarget(0f, 0f, 0.0f);
         reshape();
@@ -502,18 +495,13 @@ public class Tut_MeshTransforms extends TutorialBase {
                 break;
             case KeyEvent.KEYCODE_SPACE:
                 break;
-            case KeyEvent.KEYCODE_L:
-                currentProgram = ObjectColor;
-                reshape();
-                break;
             case KeyEvent.KEYCODE_U:
-                noWorldMatrix = true;
-                currentProgram = g_Unlit;
+                currentProgram = ObjectColor;
                 reshape();
                 break;
             case KeyEvent.KEYCODE_V:
                 noWorldMatrix = true;
-                currentProgram = g_litShaderProg;
+                currentProgram = g_Unlit;
                 reshape();
                 break;
             case KeyEvent.KEYCODE_Q:
@@ -522,7 +510,7 @@ public class Tut_MeshTransforms extends TutorialBase {
 
             case KeyEvent.KEYCODE_S:
                 scale = Vector3f.multiply(scale, 1.1f);
-                if (scale.x > 50f) scale = new Vector3f(5f, 5f, 5f);
+                if (scale.x > 100f) scale = new Vector3f(5f, 5f, 5f);
                 break;
             case KeyEvent.KEYCODE_X:
                 rotate.x += 10f;
@@ -548,6 +536,18 @@ public class Tut_MeshTransforms extends TutorialBase {
                 if (currentMesh > meshes.size() - 1) currentMesh = 0;
                 Log.i("KeyEvent","Mesh = " + meshes.get(currentMesh).fileName);
                 break;
+            case KeyEvent.KEYCODE_A:
+                updateAlpha = true;
+                break;
+            case KeyEvent.KEYCODE_B:
+                updateBlend = true;
+                break;
+            case KeyEvent.KEYCODE_C:
+                updateCull = true;
+                break;
+            case KeyEvent.KEYCODE_D:
+                updateDepth = true;
+                break;
             case KeyEvent.KEYCODE_N:
                 limitTriangles = true;
                 triangleCount += 3;
@@ -560,18 +560,6 @@ public class Tut_MeshTransforms extends TutorialBase {
                 }
                 Log.i("KeyEvent", "Triangle Count = " +  String.valueOf(triangleCount));
                 limitTriangles = false;
-                break;
-            case KeyEvent.KEYCODE_A:
-                updateAlpha = true;
-                break;
-            case KeyEvent.KEYCODE_B:
-                updateBlend = true;
-                break;
-            case KeyEvent.KEYCODE_C:
-                updateCull = true;
-                break;
-            case KeyEvent.KEYCODE_D:
-                updateDepth = true;
                 break;
             case KeyEvent.KEYCODE_W:
                 updateCullFace = true;
