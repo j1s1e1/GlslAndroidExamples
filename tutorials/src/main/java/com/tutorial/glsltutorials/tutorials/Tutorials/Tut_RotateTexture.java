@@ -47,7 +47,7 @@ public class Tut_RotateTexture extends TutorialBase {
     public void reshape()
     {
         MatrixStack persMatrix = new MatrixStack();
-        persMatrix.Perspective(perspectiveAngle, (width / (float)height), g_fzNear, g_fzFar);
+        persMatrix.perspective(perspectiveAngle, (width / (float) height), g_fzNear, g_fzFar);
 
         cameraToClipMatrix = Matrix4f.Identity();
         cameraToClipMatrix.M34 = -1f;

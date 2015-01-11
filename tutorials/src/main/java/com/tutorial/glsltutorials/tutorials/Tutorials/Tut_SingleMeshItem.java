@@ -102,16 +102,16 @@ public class Tut_SingleMeshItem extends TutorialBase {
             GLES20.glDisable(GLES20.GL_DEPTH_TEST);
             {
                 try (PushStack pushstack = new PushStack(modelMatrix)) {
-                    modelMatrix.Translate(Camera.g_camTarget);
+                    modelMatrix.translate(Camera.g_camTarget);
                     modelMatrix.Translate(50f, 50f, 0f);
-                    modelMatrix.Scale(15.0f, 15.0f, 15.0f);
-                    modelMatrix.Rotate(axis, angle);
+                    modelMatrix.scale(15.0f, 15.0f, 15.0f);
+                    modelMatrix.rotate(axis, angle);
                     angle = angle + 1f;
 
                     Matrix4f mm = modelMatrix.Top();
 
                     if (noWorldMatrix) {
-                        Matrix4f cm2 = Matrix4f.Mult(mm, cm);
+                        Matrix4f cm2 = Matrix4f.mul(mm, cm);
                         Programs.setModelToCameraMatrix(currentProgram, cm2);
                     } else {
                         //mm = Matrix4f.Identity();
@@ -154,7 +154,7 @@ public class Tut_SingleMeshItem extends TutorialBase {
         cm = camMatrix.Top();
 
         MatrixStack persMatrix = new MatrixStack();
-        persMatrix.Perspective(45.0f, (width / (float)height), g_fzNear, g_fzFar);
+        persMatrix.perspective(45.0f, (width / (float) height), g_fzNear, g_fzFar);
         pm = persMatrix.Top();
 
         SetGlobalMatrices(currentProgram);

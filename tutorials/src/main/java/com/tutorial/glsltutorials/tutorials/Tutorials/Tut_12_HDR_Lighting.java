@@ -280,9 +280,9 @@ public class Tut_12_HDR_Lighting extends TutorialBase {
             if (renderSun) {
                 try (PushStack pushstack = new PushStack(modelMatrix)) {
                     Vector3f sunlightDir = new Vector3f(g_lights.GetSunlightDirection());
-                    modelMatrix.Translate(sunlightDir.mul(500.0f));
+                    modelMatrix.translate(sunlightDir.mul(500.0f));
                     //TEST
-                    modelMatrix.Scale(30.0f, 30.0f, 30.0f);
+                    modelMatrix.scale(30.0f, 30.0f, 30.0f);
 
                     GLES20.glUseProgram(g_Unlit.theProgram);
                     Matrix4f mm = modelMatrix.Top();
@@ -298,7 +298,7 @@ public class Tut_12_HDR_Lighting extends TutorialBase {
                 if (g_bDrawLights) {
                     for (int light = 0; light < g_lights.GetNumberOfPointLights(); light++) {
                         try (PushStack pushstack = new PushStack(modelMatrix)) {
-                            modelMatrix.Translate(g_lights.GetWorldLightPosition(light));
+                            modelMatrix.translate(g_lights.GetWorldLightPosition(light));
 
                             GLES20.glUseProgram(g_Unlit.theProgram);
                             Matrix4f mm = modelMatrix.Top();
@@ -314,7 +314,7 @@ public class Tut_12_HDR_Lighting extends TutorialBase {
                 if (g_bDrawCameraPos) {
                     try (PushStack pushstack = new PushStack(modelMatrix)) {
                         modelMatrix.SetIdentity();
-                        modelMatrix.Translate(new Vector3f(0.0f, 0.0f, -g_viewPole.GetView().radius));
+                        modelMatrix.translate(new Vector3f(0.0f, 0.0f, -g_viewPole.GetView().radius));
 
                         GLES20.glDisable(GLES20.GL_DEPTH_TEST);
                         GLES20.glDepthMask(false);
@@ -419,7 +419,7 @@ public class Tut_12_HDR_Lighting extends TutorialBase {
     public void reshape()
     {
         MatrixStack persMatrix = new MatrixStack();
-        persMatrix.Perspective(45.0f, (width / (float)height), g_fzNear, g_fzFar);
+        persMatrix.perspective(45.0f, (width / (float) height), g_fzNear, g_fzFar);
         // added
         persMatrix.Translate(0.0f, 0.0f, -3f);
         persMatrix.Scale(0.01f);

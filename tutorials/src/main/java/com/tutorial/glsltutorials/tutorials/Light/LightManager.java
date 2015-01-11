@@ -304,7 +304,7 @@ public class LightManager {
     public Matrix4f Rotate(Matrix4f input, Vector3f rotationAxis, float angleDeg)
     {
         Matrix4f rotation = Matrix4f.CreateFromAxisAngle(rotationAxis, (float)Math.PI / 180.0f * angleDeg);
-        return Matrix4f.Mult(rotation, input);
+        return Matrix4f.mul(rotation, input);
     }
 
     public Vector4f GetSunlightDirection()

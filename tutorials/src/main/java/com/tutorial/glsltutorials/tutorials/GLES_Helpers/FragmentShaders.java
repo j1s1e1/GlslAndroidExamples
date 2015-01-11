@@ -152,6 +152,29 @@ public class FragmentShaders {
         "gl_FragColor = vec4(diffuse * textureColor.xyz, textureColor.w);" +
     "}";
 
+    public static final String MatrixTextureScale =
+    "uniform vec3 lightPos;" +
+    "uniform sampler2D diffuseColorTex;" +
+    "uniform float scaleFactor;" +
+    "varying vec3 v_Position;" +
+    "varying vec3 v_Normal;" +
+    "varying vec2 colorCoord;" +
+
+    "void main()" +
+    "{" +
+        "float distance = length(lightPos - v_Position);" +
+        "vec3 lightVector = normalize(lightPos - v_Position);" +
+        "float diffuse = max(dot(v_Normal, lightVector), 0.0);" +
+
+        "diffuse = diffuse * (scaleFactor / distance);" +
+
+        "vec4 textureColor = texture2D(diffuseColorTex, colorCoord);" +
+
+        "if (textureColor.w == 0.0) discard;" +
+
+        "gl_FragColor = vec4(diffuse * textureColor.xyz, textureColor.w);" +
+    "}";
+
     public static String unlit =
 
     "uniform vec4 objectColor;" +

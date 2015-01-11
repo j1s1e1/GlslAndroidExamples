@@ -19,9 +19,9 @@ public class Transform {
     {
         // FIXME check matrix orders
         Matrix4f ret;
-        ret = Matrix4f.CreateTranslation(m_trans);
-        ret = Matrix4f.Mult(ret, Matrix4f.createFromQuaternion(m_orient));
-        ret = Matrix4f.Mult(ret, Matrix4f.createScale(m_scale));
+        ret = Matrix4f.createTranslation(m_trans);
+        ret = Matrix4f.mul(ret, Matrix4f.createFromQuaternion(m_orient));
+        ret = Matrix4f.mul(ret, Matrix4f.createScale(m_scale));
         return ret;
     }
 

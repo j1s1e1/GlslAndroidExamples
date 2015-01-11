@@ -239,8 +239,8 @@ public class Tut_InfinityTest extends TutorialBase {
 
         setupDepthAndCull();
         GLES20.glDisable(GLES20.GL_CULL_FACE);
-        Camera.Move(0f, 0f, 0f);
-        Camera.MoveTarget(0f, 0f, 0.0f);
+        Camera.move(0f, 0f, 0f);
+        Camera.moveTarget(0f, 0f, 0.0f);
         reshape();
     }
 
@@ -257,20 +257,20 @@ public class Tut_InfinityTest extends TutorialBase {
                 modelMatrix.RotateY(rotate.y);
                 modelMatrix.RotateZ(rotate.z);
                 modelMatrix.Scale(scale);
-                modelMatrix.Translate(translate);
+                modelMatrix.translate(translate);
 
                 GLES20.glUseProgram(currentProgram.theProgram);
                 Matrix4f mm = modelMatrix.Top();
 
                 if (noWorldMatrix)
                 {
-                    Matrix4f cm2 = Matrix4f.Mult(mm, cm);
+                    Matrix4f cm2 = Matrix4f.mul(mm, cm);
                     GLES20.glUniformMatrix4fv(currentProgram.modelToCameraMatrixUnif, 1, false, cm2.toArray(), 0);
                     if (currentProgram.normalModelToCameraMatrixUnif != 0)
                     {
                         Matrix3f normalModelToCameraMatrix = Matrix3f.Identity();
-                        Matrix4f applyMatrix = Matrix4f.Mult(Matrix4f.Identity(),
-                                Matrix4f.CreateTranslation(dirToLight));
+                        Matrix4f applyMatrix = Matrix4f.mul(Matrix4f.Identity(),
+                                Matrix4f.createTranslation(dirToLight));
                         normalModelToCameraMatrix = new Matrix3f(applyMatrix);
                         normalModelToCameraMatrix.invert();
                         GLES20.glUniformMatrix3fv(currentProgram.normalModelToCameraMatrixUnif, 1, false,
@@ -415,7 +415,7 @@ public class Tut_InfinityTest extends TutorialBase {
         cm = camMatrix.Top();
 
         MatrixStack persMatrix = new MatrixStack();
-        persMatrix.Perspective(perspectiveAngle, (width / (float)height), g_fzNear, g_fzFar);
+        persMatrix.perspective(perspectiveAngle, (width / (float) height), g_fzNear, g_fzFar);
         pm = persMatrix.Top();
 
         SetGlobalMatrices(currentProgram);
@@ -476,19 +476,19 @@ public class Tut_InfinityTest extends TutorialBase {
                 break;
             case KeyEvent.KEYCODE_H:
                 Log.i("KeyEvent", "I Decrease g_camTarget.x");
-                Camera.MoveTarget(-4.0f, 0, 0);
+                Camera.moveTarget(-4.0f, 0, 0);
                 break;
             case KeyEvent.KEYCODE_I:
                 Log.i("KeyEvent", "M Increase g_camTarget.x");
-                Camera.MoveTarget(4.0f, 0, 0);
+                Camera.moveTarget(4.0f, 0, 0);
                 break;
             case KeyEvent.KEYCODE_J:
                 Log.i("KeyEvent", "J Increase g_camTarget.z");
-                Camera.MoveTarget(0, 0, 4.0f);
+                Camera.moveTarget(0, 0, 4.0f);
                 break;
             case KeyEvent.KEYCODE_K:
                 Log.i("KeyEvent", "K Decrease g_camTarget.z");
-                Camera.MoveTarget(0, 0, -4.0f);
+                Camera.moveTarget(0, 0, -4.0f);
                 break;
             case KeyEvent.KEYCODE_ESCAPE:
                 //timer.Enabled = false;

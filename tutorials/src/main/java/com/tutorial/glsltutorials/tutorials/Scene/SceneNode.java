@@ -55,8 +55,8 @@ public class SceneNode {
 
     public void render(ArrayList<Integer> samplers, Matrix4f baseMat) throws Exception
     {
-        baseMat = Matrix4f.Mult(baseMat, m_nodeTm.GetMatrix());
-        Matrix4f objMat = Matrix4f.Mult(baseMat, m_objTm.GetMatrix());
+        baseMat = Matrix4f.mul(baseMat, m_nodeTm.GetMatrix());
+        Matrix4f objMat = Matrix4f.mul(baseMat, m_objTm.GetMatrix());
 
         m_pProg.UseProgram();
         GLES20.glUniformMatrix4fv(m_pProg.GetMatrixLoc(), 1, false, objMat.toArray(), 0);

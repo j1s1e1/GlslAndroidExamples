@@ -183,7 +183,7 @@ public class Tut_Quaternion extends TutorialBase {
             {
                 modelMatrix.Scale(cubeScaleFactor);
                 GLES20.glUseProgram(programs.get(currentProgram).theProgram);
-                modelMatrix.Rotate(axis, angle * 180f / (float)Math.PI);
+                modelMatrix.rotate(axis, angle * 180f / (float) Math.PI);
                 Matrix4f mm = modelMatrix.Top();
 
                 GLES20.glUniformMatrix4fv(programs.get(currentProgram).modelToWorldMatrixUnif, 1, false, mm.toArray(), 0);
@@ -197,12 +197,12 @@ public class Tut_Quaternion extends TutorialBase {
             try (PushStack pushstack = new PushStack(modelMatrix))
             {
                 modelMatrix.Scale(cylinderScaleFactor);
-                modelMatrix.Translate(new Vector3f(0f, 0.4f, 0.0f));
+                modelMatrix.translate(new Vector3f(0f, 0.4f, 0.0f));
                 GLES20.glUseProgram(programs.get(currentProgram).theProgram);
 
                 axis = quaternion.getAxis();
                 angle = quaternion.getAngle();
-                modelMatrix.Rotate(axis, angle * 180f / (float)Math.PI);
+                modelMatrix.rotate(axis, angle * 180f / (float) Math.PI);
                 Matrix4f mm = modelMatrix.Top();
 
                 GLES20.glUniformMatrix4fv(programs.get(currentProgram).modelToWorldMatrixUnif, 1, false, mm.toArray(), 0);
@@ -264,27 +264,27 @@ public class Tut_Quaternion extends TutorialBase {
         result.append(String.valueOf(keyCode));
         switch (keyCode) {
             case KeyEvent.KEYCODE_NUMPAD_6:
-                Camera.MoveTarget(0.5f, 0f, 0.0f);
+                Camera.moveTarget(0.5f, 0f, 0.0f);
                 Log.i("KeyEvent", Camera.GetTargetString());
                 break;
             case KeyEvent.KEYCODE_NUMPAD_4:
-                Camera.MoveTarget(-0.5f, 0f, 0.0f);
+                Camera.moveTarget(-0.5f, 0f, 0.0f);
                 Log.i("KeyEvent", Camera.GetTargetString());
                 break;
             case KeyEvent.KEYCODE_NUMPAD_8:
-                Camera.MoveTarget(0.0f, 0.5f, 0.0f);
+                Camera.moveTarget(0.0f, 0.5f, 0.0f);
                 Log.i("KeyEvent", Camera.GetTargetString());
                 break;
             case KeyEvent.KEYCODE_NUMPAD_2:
-                Camera.MoveTarget(0f, -0.5f, 0.0f);
+                Camera.moveTarget(0f, -0.5f, 0.0f);
                 Log.i("KeyEvent", Camera.GetTargetString());
                 break;
             case KeyEvent.KEYCODE_NUMPAD_7:
-                Camera.MoveTarget(0.0f, 0.0f, 0.5f);
+                Camera.moveTarget(0.0f, 0.0f, 0.5f);
                 Log.i("KeyEvent", Camera.GetTargetString());
                 break;
             case KeyEvent.KEYCODE_NUMPAD_3:
-                Camera.MoveTarget(0f, 0.0f, -0.5f);
+                Camera.moveTarget(0f, 0.0f, -0.5f);
                 Log.i("KeyEvent", Camera.GetTargetString());
                 break;
             case KeyEvent.KEYCODE_1:

@@ -101,9 +101,9 @@ public class Scene {
         {
             modelMatrix.Translate(75.0f, 5.0f, 75.0f);
             modelMatrix.RotateY(360.0f * alphaTetra);
-            modelMatrix.Scale(10.0f, 10.0f, 10.0f);
+            modelMatrix.scale(10.0f, 10.0f, 10.0f);
             modelMatrix.Translate(0.0f, (float)Math.sqrt(2.0f), 0.0f);
-            modelMatrix.Rotate(new Vector3f(-0.707f, 0.0f, -0.707f), 54.735f);
+            modelMatrix.rotate(new Vector3f(-0.707f, 0.0f, -0.707f), 54.735f);
 
             DrawObject(m_pTetraMesh, "lit-color",
                     GetProgram(LightingProgramTypes.LP_VERT_COLOR_DIFFUSE_SPECULAR),
@@ -114,8 +114,8 @@ public class Scene {
         try ( PushStack pushstack = new PushStack(modelMatrix))
         {
             modelMatrix.Translate(88.0f, 5.0f, -80.0f);
-            modelMatrix.Scale(4.0f, 4.0f, 4.0f);
-            modelMatrix.Scale(4.0f, 9.0f, 1.0f);
+            modelMatrix.scale(4.0f, 4.0f, 4.0f);
+            modelMatrix.scale(4.0f, 9.0f, 1.0f);
             modelMatrix.Translate(0.0f, 0.5f, 0.0f);
 
             DrawObject(m_pCubeMesh, "lit", GetProgram(LightingProgramTypes.LP_MTL_COLOR_DIFFUSE_SPECULAR),
@@ -128,7 +128,7 @@ public class Scene {
             modelMatrix.Translate(-52.5f, 14.0f, 65.0f);
             modelMatrix.RotateZ(50.0f);
             modelMatrix.RotateY(-10.0f);
-            modelMatrix.Scale(20.0f, 20.0f, 20.0f);
+            modelMatrix.scale(20.0f, 20.0f, 20.0f);
 
             DrawObject(m_pCubeMesh, "lit-color", GetProgram(LightingProgramTypes.LP_VERT_COLOR_DIFFUSE_SPECULAR),
                     materialBlockIndex, 3, modelMatrix);
@@ -138,7 +138,7 @@ public class Scene {
         try ( PushStack pushstack = new PushStack(modelMatrix))
         {
             modelMatrix.Translate(-7.0f, 30.0f, -14.0f);
-            modelMatrix.Scale(15.0f, 55.0f, 15.0f);
+            modelMatrix.scale(15.0f, 55.0f, 15.0f);
             modelMatrix.Translate(0.0f, 0.5f, 0.0f);
 
             DrawObject(m_pCylMesh, "lit-color", GetProgram(LightingProgramTypes.LP_VERT_COLOR_DIFFUSE_SPECULAR),
@@ -149,7 +149,7 @@ public class Scene {
         try ( PushStack pushstack = new PushStack(modelMatrix))
         {
             modelMatrix.Translate(-83.0f, 14.0f, -77.0f);
-            modelMatrix.Scale(20.0f, 20.0f, 20.0f);
+            modelMatrix.scale(20.0f, 20.0f, 20.0f);
 
             DrawObject(m_pSphereMesh, "lit", GetProgram(LightingProgramTypes.LP_MTL_COLOR_DIFFUSE_SPECULAR),
                     materialBlockIndex, 5, modelMatrix);

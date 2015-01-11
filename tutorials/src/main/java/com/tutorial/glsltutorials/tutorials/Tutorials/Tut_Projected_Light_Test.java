@@ -283,7 +283,7 @@ public class Tut_Projected_Light_Test extends TutorialBase {
             MatrixStack modelMatrix = new MatrixStack();
             try (PushStack pushstack = new PushStack(modelMatrix))
             {
-                modelMatrix.Rotate(axis, angle);   // rotate last to leave in place
+                modelMatrix.rotate(axis, angle);   // rotate last to leave in place
                 //modelMatrix.Translate(Camera.g_camTarget);
                 //modelMatrix.Scale(initialScale.X / scaleFactor.X, 
                 //	initialScale.Y / scaleFactor.Y,
@@ -309,14 +309,14 @@ public class Tut_Projected_Light_Test extends TutorialBase {
 
                 cameraMatrix = cameraMatrixStack.Top();
 
-                modelToCameraMatrix = Matrix4f.Mult(Matrix4f.Identity(), cameraMatrix);
+                modelToCameraMatrix = Matrix4f.mul(Matrix4f.Identity(), cameraMatrix);
                 GLES20.glUniformMatrix4fv(programs.get(currentProgram).modelToCameraMatrixUnif, 1, 
                         false, modelToCameraMatrix.toArray(), 0);
                 if (programs.get(currentProgram).normalModelToCameraMatrixUnif != 0)
                 {
                     Matrix3f normalModelToCameraMatrix = Matrix3f.Identity();
-                    Matrix4f applyMatrix = Matrix4f.Mult(Matrix4f.Identity(),
-                            Matrix4f.CreateTranslation(dirToLight));
+                    Matrix4f applyMatrix = Matrix4f.mul(Matrix4f.Identity(),
+                            Matrix4f.createTranslation(dirToLight));
                     normalModelToCameraMatrix = new Matrix3f(applyMatrix);
                     normalModelToCameraMatrix.invert();
                     GLES20.glUniformMatrix3fv(programs.get(currentProgram).normalModelToCameraMatrixUnif, 1, false,
@@ -376,22 +376,22 @@ public class Tut_Projected_Light_Test extends TutorialBase {
         result.append(String.valueOf(keyCode));
         switch (keyCode) {
             case KeyEvent.KEYCODE_NUMPAD_6:
-                cameraMatrixStack.Translate(new Vector3f(0.1f, 0.0f, 0.0f));
+                cameraMatrixStack.translate(new Vector3f(0.1f, 0.0f, 0.0f));
                 break;
             case KeyEvent.KEYCODE_NUMPAD_4:
-                cameraMatrixStack.Translate(new Vector3f(-0.1f, 0.0f, 0.0f));
+                cameraMatrixStack.translate(new Vector3f(-0.1f, 0.0f, 0.0f));
                 break;
             case KeyEvent.KEYCODE_NUMPAD_8:
-                cameraMatrixStack.Translate(new Vector3f(0.0f, 0.1f, 0.0f));
+                cameraMatrixStack.translate(new Vector3f(0.0f, 0.1f, 0.0f));
                 break;
             case KeyEvent.KEYCODE_NUMPAD_2:
-                cameraMatrixStack.Translate(new Vector3f(0.0f, -0.1f, 0.0f));
+                cameraMatrixStack.translate(new Vector3f(0.0f, -0.1f, 0.0f));
                 break;
             case KeyEvent.KEYCODE_NUMPAD_7:
-                cameraMatrixStack.Translate(new Vector3f(0.0f, 0.0f, 0.1f));
+                cameraMatrixStack.translate(new Vector3f(0.0f, 0.0f, 0.1f));
                 break;
             case KeyEvent.KEYCODE_NUMPAD_3:
-                cameraMatrixStack.Translate(new Vector3f(0.0f, 0.0f, -0.1f));
+                cameraMatrixStack.translate(new Vector3f(0.0f, 0.0f, -0.1f));
                 break;
             case KeyEvent.KEYCODE_1:
                 cameraMatrixStack.RotateX(5f);

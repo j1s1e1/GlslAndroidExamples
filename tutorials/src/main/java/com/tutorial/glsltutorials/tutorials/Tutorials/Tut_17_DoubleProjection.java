@@ -231,10 +231,10 @@ public class Tut_17_DoubleProjection extends TutorialBase {
 
         {
             MatrixStack persMatrix = new MatrixStack();
-            persMatrix.Perspective(60.0f, (width/2f / height), g_fzNear, g_fzFar);
+            persMatrix.perspective(60.0f, (width / 2f / height), g_fzNear, g_fzFar);
 
             // added
-            persMatrix.Translate(translateVector);
+            persMatrix.translate(translateVector);
             persMatrix.Scale(scaleFactor);
             // end added
 
@@ -258,7 +258,7 @@ public class Tut_17_DoubleProjection extends TutorialBase {
             try (PushStack pushstack = new PushStack(modelMatrix))//Draw lookat point.
             {
                 modelMatrix.SetIdentity();
-                modelMatrix.Translate(new Vector3f(0.0f, 0.0f, -g_viewPole.GetView().radius));
+                modelMatrix.translate(new Vector3f(0.0f, 0.0f, -g_viewPole.GetView().radius));
                 modelMatrix.Scale(0.5f);
 
                 GLES20.glDisable(GLES20.GL_DEPTH_TEST);
@@ -282,10 +282,10 @@ public class Tut_17_DoubleProjection extends TutorialBase {
             applyMatrix.SetCol3(new Vector4f(0f, 0f, 0f, 0f));
             applyMatrix.M44 = 1f;
             persMatrix.ApplyMatrix(applyMatrix);
-            persMatrix.Perspective(60.0f, (width/2f / height), g_fzNear, g_fzFar);
+            persMatrix.perspective(60.0f, (width / 2f / height), g_fzNear, g_fzFar);
 
             // added
-            persMatrix.Translate(translateVector);
+            persMatrix.translate(translateVector);
             persMatrix.Scale(scaleFactor);
             // end added
 

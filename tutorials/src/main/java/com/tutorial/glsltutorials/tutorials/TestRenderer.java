@@ -22,6 +22,7 @@ public class TestRenderer implements GLSurfaceView.Renderer {
     public static TutorialBase tutorial;
 
     private boolean displayGLES = false;
+    public static boolean initComplete = false;
 
     private void SetupTutorial()
     {
@@ -44,7 +45,9 @@ public class TestRenderer implements GLSurfaceView.Renderer {
         try
         {
             if (displayGLES) {
-                tutorial.display();
+                if (initComplete) {
+                    tutorial.display();
+                }
             }
         }
         catch (Exception ex)
@@ -65,6 +68,7 @@ public class TestRenderer implements GLSurfaceView.Renderer {
         tutorial.height = height;
         tutorial.width = width;
         tutorial.reshape();
+        Log.i("onSurfaceChanged", "Reshape to " + String.valueOf(width) + " " + String.valueOf(height));
     }
 
 }

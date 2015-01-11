@@ -257,13 +257,13 @@ public class Tut_06_Hierarchy extends TutorialBase {
 
             GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, indexBufferObject[0]);
 
-            modelToCameraStack.Translate(posBase);
+            modelToCameraStack.translate(posBase);
             modelToCameraStack.RotateY(angBase);
 
             //Draw left base.
             {
                 modelToCameraStack.push();
-                modelToCameraStack.Translate(posBaseLeft);
+                modelToCameraStack.translate(posBaseLeft);
                 modelToCameraStack.Scale(new Vector3f(1.0f, 1.0f, scaleBaseZ));
                 Matrix4f mm = modelToCameraStack.Top();
                 GLES20.glUniformMatrix4fv(modelToCameraMatrixUnif, 1, false, mm.toArray(), 0);
@@ -274,7 +274,7 @@ public class Tut_06_Hierarchy extends TutorialBase {
             //Draw right base.
             {
                 modelToCameraStack.push();
-                modelToCameraStack.Translate(posBaseRight);
+                modelToCameraStack.translate(posBaseRight);
                 modelToCameraStack.Scale(new Vector3f(1.0f, 1.0f, scaleBaseZ));
                 Matrix4f mm = modelToCameraStack.Top();
                 GLES20.glUniformMatrix4fv(modelToCameraMatrixUnif, 1, false, mm.toArray(), 0);
@@ -349,11 +349,11 @@ public class Tut_06_Hierarchy extends TutorialBase {
         {
             //Draw left finger
             modelToCameraStack.push();
-            modelToCameraStack.Translate(posLeftFinger);
+            modelToCameraStack.translate(posLeftFinger);
             modelToCameraStack.RotateY(angFingerOpen);
 
             modelToCameraStack.push();
-            modelToCameraStack.Translate(new Vector3f(0.0f, 0.0f, lenFinger / 2.0f));
+            modelToCameraStack.translate(new Vector3f(0.0f, 0.0f, lenFinger / 2.0f));
             modelToCameraStack.Scale(new Vector3f(widthFinger / 2.0f, widthFinger/ 2.0f, lenFinger / 2.0f));
             Matrix4f mm = modelToCameraStack.Top();
             GLES20.glUniformMatrix4fv(modelToCameraMatrixUnif, 1, false, mm.toArray(), 0);
@@ -363,11 +363,11 @@ public class Tut_06_Hierarchy extends TutorialBase {
             {
                 //Draw left lower finger
                 modelToCameraStack.push();
-                modelToCameraStack.Translate(new Vector3f(0.0f, 0.0f, lenFinger));
+                modelToCameraStack.translate(new Vector3f(0.0f, 0.0f, lenFinger));
                 modelToCameraStack.RotateY(-angLowerFinger);
 
                 modelToCameraStack.push();
-                modelToCameraStack.Translate(new Vector3f(0.0f, 0.0f, lenFinger / 2.0f));
+                modelToCameraStack.translate(new Vector3f(0.0f, 0.0f, lenFinger / 2.0f));
                 modelToCameraStack.Scale(new Vector3f(widthFinger / 2.0f, widthFinger/ 2.0f, lenFinger / 2.0f));
 
                 mm = modelToCameraStack.Top();
@@ -382,11 +382,11 @@ public class Tut_06_Hierarchy extends TutorialBase {
 
             //Draw right finger
             modelToCameraStack.push();
-            modelToCameraStack.Translate(posRightFinger);
+            modelToCameraStack.translate(posRightFinger);
             modelToCameraStack.RotateY(-angFingerOpen);
 
             modelToCameraStack.push();
-            modelToCameraStack.Translate(new Vector3f(0.0f, 0.0f, lenFinger / 2.0f));
+            modelToCameraStack.translate(new Vector3f(0.0f, 0.0f, lenFinger / 2.0f));
             modelToCameraStack.Scale(new Vector3f(widthFinger / 2.0f, widthFinger/ 2.0f, lenFinger / 2.0f));
             mm = modelToCameraStack.Top();
             GLES20.glUniformMatrix4fv(modelToCameraMatrixUnif, 1, false, mm.toArray(), 0);
@@ -396,11 +396,11 @@ public class Tut_06_Hierarchy extends TutorialBase {
             {
                 //Draw right lower finger
                 modelToCameraStack.push();
-                modelToCameraStack.Translate(new Vector3f(0.0f, 0.0f, lenFinger));
+                modelToCameraStack.translate(new Vector3f(0.0f, 0.0f, lenFinger));
                 modelToCameraStack.RotateY(angLowerFinger);
 
                 modelToCameraStack.push();
-                modelToCameraStack.Translate(new Vector3f(0.0f, 0.0f, lenFinger / 2.0f));
+                modelToCameraStack.translate(new Vector3f(0.0f, 0.0f, lenFinger / 2.0f));
                 modelToCameraStack.Scale(new Vector3f(widthFinger / 2.0f, widthFinger/ 2.0f, lenFinger / 2.0f));
                 mm = modelToCameraStack.Top();
                 GLES20.glUniformMatrix4fv(modelToCameraMatrixUnif, 0, false, mm.toArray(), 0);
@@ -416,7 +416,7 @@ public class Tut_06_Hierarchy extends TutorialBase {
         private void DrawWrist(MatrixStack modelToCameraStack)
         {
             modelToCameraStack.push();
-            modelToCameraStack.Translate(posWrist);
+            modelToCameraStack.translate(posWrist);
             modelToCameraStack.RotateZ(angWristRoll);
             modelToCameraStack.RotateX(angWristPitch);
 
@@ -435,11 +435,11 @@ public class Tut_06_Hierarchy extends TutorialBase {
         private void DrawLowerArm(MatrixStack modelToCameraStack)
         {
             modelToCameraStack.push();
-            modelToCameraStack.Translate(posLowerArm);
+            modelToCameraStack.translate(posLowerArm);
             modelToCameraStack.RotateX(angLowerArm);
 
             modelToCameraStack.push();
-            modelToCameraStack.Translate(new Vector3f(0.0f, 0.0f, lenLowerArm / 2.0f));
+            modelToCameraStack.translate(new Vector3f(0.0f, 0.0f, lenLowerArm / 2.0f));
             modelToCameraStack.Scale(new Vector3f(widthLowerArm / 2.0f, widthLowerArm / 2.0f, lenLowerArm / 2.0f));
             Matrix4f mm = modelToCameraStack.Top();
             GLES20.glUniformMatrix4fv(modelToCameraMatrixUnif, 1, false, mm.toArray(), 0);
@@ -458,7 +458,7 @@ public class Tut_06_Hierarchy extends TutorialBase {
 
             {
                 modelToCameraStack.push();
-                modelToCameraStack.Translate(new Vector3f(0.0f, 0.0f, (sizeUpperArm / 2.0f) - 1.0f));
+                modelToCameraStack.translate(new Vector3f(0.0f, 0.0f, (sizeUpperArm / 2.0f) - 1.0f));
                 modelToCameraStack.Scale(new Vector3f(1.0f, 1.0f, sizeUpperArm / 2.0f));
                 Matrix4f mm = modelToCameraStack.Top();
                 GLES20.glUniformMatrix4fv(modelToCameraMatrixUnif, 1, false, mm.toArray(), 0);

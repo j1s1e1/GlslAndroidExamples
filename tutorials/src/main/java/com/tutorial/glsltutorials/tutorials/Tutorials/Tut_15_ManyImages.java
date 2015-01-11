@@ -209,7 +209,7 @@ public class Tut_15_ManyImages extends TutorialBase {
     public void reshape()
     {
         MatrixStack persMatrix = new MatrixStack();
-        persMatrix.Perspective(90.0f, (width / (float)height), g_fzNear, g_fzFar);
+        persMatrix.perspective(90.0f, (width / (float) height), g_fzNear, g_fzFar);
 
         ProjectionBlock projData = new ProjectionBlock();
         projData.cameraToClipMatrix = persMatrix.Top();

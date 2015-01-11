@@ -87,6 +87,11 @@ public class Shape
         programNumber = newProgram;
     }
 
+    public static void resetCameraToClipMatrix()
+    {
+        cameraToClip = Matrix4f.Identity();
+    }
+
     public static void resetWorldToCameraMatrix()
     {
         worldToCamera = Matrix4f.Identity();
@@ -350,19 +355,19 @@ public class Shape
     public Matrix4f rotate(Matrix4f input, Vector3f axis, float angDegCCW)
     {
         Matrix4f rotation = Matrix4f.CreateFromAxisAngle(axis, (float) Math.PI / 180.0f * angDegCCW);
-        return Matrix4f.Mult(rotation, input);
+        return Matrix4f.mul(rotation, input);
     }
 
     public static void rotateWorld(Vector3f axis, float angDegCCW)
     {
         Matrix4f rotation = Matrix4f.CreateFromAxisAngle(axis, (float) Math.PI / 180.0f * angDegCCW);
-        worldToCamera = Matrix4f.Mult(worldToCamera, rotation);
+        worldToCamera = Matrix4f.mul(worldToCamera, rotation);
     }
 
     public void rotateShape(Vector3f rotationAxis, float angleDeg)
     {
         Matrix4f rotation = Matrix4f.CreateFromAxisAngle(rotationAxis, (float)Math.PI / 180.0f * angleDeg);
-        modelToWorld = Matrix4f.Mult(modelToWorld, rotation);
+        modelToWorld = Matrix4f.mul(modelToWorld, rotation);
     }
 
     public void setRotation(Matrix3f rotation)
@@ -372,11 +377,9 @@ public class Shape
         modelToWorld.SetRow2(new Vector4f(rotation.GetRow2(), modelToWorld.M34));
     }
 
-    public void scale(Vector3f size)
+    public void scale(Vector3f scale)
     {
-        modelToWorld.M11 = size.x;
-        modelToWorld.M22 = size.y;
-        modelToWorld.M33 = size.z;
+        modelToWorld = Matrix4f.mul(modelToWorld, Matrix4f.createScale(scale));
     }
 
     public void draw()
@@ -384,8 +387,13 @@ public class Shape
 
     }
 
-    public void setCameraToClipMatrix(Matrix4f m)
+    public static void setCameraToClipMatrix(Matrix4f m)
     {
         cameraToClip = m;
+    }
+
+    public static void setWorldToCameraMatrix(Matrix4f m)
+    {
+        worldToCamera = m;
     }
 }

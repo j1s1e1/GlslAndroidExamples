@@ -57,11 +57,11 @@ public class ObjectPole implements IPole {
         translateMat.SetRow3(new Vector4f(m_po.position, 1.0f));
         if (rightMultiply())
         {
-            return Matrix4f.Mult(translateMat, Matrix4f.createFromQuaternion(m_po.orientation));
+            return Matrix4f.mul(translateMat, Matrix4f.createFromQuaternion(m_po.orientation));
         }
         else
         {
-            return Matrix4f.Mult(Matrix4f.createFromQuaternion(m_po.orientation), translateMat);
+            return Matrix4f.mul(Matrix4f.createFromQuaternion(m_po.orientation), translateMat);
         }
     }
 

@@ -24,18 +24,6 @@ import java.util.ArrayList;
  * Created by jamie on 1/2/15.
  */
 public class Tut_MeshTransforms extends TutorialBase {
-    boolean updateCull = false;
-    boolean updateDepth = false;
-    boolean updateAlpha = false;
-    boolean updateCcw = false;
-    boolean updateBlend = false;
-    boolean blend = false;
-    boolean ccw = false;
-    boolean updateCullFace = false;
-    int cullFaceSelection = 0;
-    boolean cull = true;
-    boolean depth = true;
-    boolean alpha = false;
     boolean limitTriangles = false;
     int triangleCount = 0;
 
@@ -246,8 +234,8 @@ public class Tut_MeshTransforms extends TutorialBase {
 
         setupDepthAndCull();
 
-        Camera.Move(0f, 0f, 0f);
-        Camera.MoveTarget(0f, 0f, 0.0f);
+        Camera.move(0f, 0f, 0f);
+        Camera.moveTarget(0f, 0f, 0.0f);
         reshape();
     }
 
@@ -264,20 +252,20 @@ public class Tut_MeshTransforms extends TutorialBase {
                 modelMatrix.RotateY(rotate.y);
                 modelMatrix.RotateZ(rotate.z);
                 modelMatrix.Scale(scale);
-                modelMatrix.Translate(translate);
+                modelMatrix.translate(translate);
 
                 GLES20.glUseProgram(currentProgram.theProgram);
                 Matrix4f mm = modelMatrix.Top();
 
                 if (noWorldMatrix)
                 {
-                    Matrix4f cm2 = Matrix4f.Mult(mm, cm);
+                    Matrix4f cm2 = Matrix4f.mul(mm, cm);
                     GLES20.glUniformMatrix4fv(currentProgram.modelToCameraMatrixUnif, 1, false, cm2.toArray(), 0);
                     if (currentProgram.normalModelToCameraMatrixUnif != 0)
                     {
                         Matrix3f normalModelToCameraMatrix = Matrix3f.Identity();
-                        Matrix4f applyMatrix = Matrix4f.Mult(Matrix4f.Identity(),
-                                Matrix4f.CreateTranslation(dirToLight));
+                        Matrix4f applyMatrix = Matrix4f.mul(Matrix4f.Identity(),
+                                Matrix4f.createTranslation(dirToLight));
                         normalModelToCameraMatrix = new Matrix3f(applyMatrix);
                         normalModelToCameraMatrix.invert();
                         GLES20.glUniformMatrix3fv(currentProgram.normalModelToCameraMatrixUnif, 1, false,
@@ -319,85 +307,6 @@ public class Tut_MeshTransforms extends TutorialBase {
         updateDisplayOptions();
     }
 
-    void updateDisplayOptions() {
-        if (updateAlpha) {
-            updateAlpha = false;
-            if (alpha) {
-                alpha = false;
-                GLES20.glBlendEquation(GLES20.GL_FUNC_ADD);
-                GLES20.glBlendFunc(GLES20.GL_ONE, GLES20.GL_ONE);
-                Log.i("KeyEvent", "alpha disabled");
-            } else {
-                alpha = true;
-                GLES20.glBlendEquation(GLES20.GL_FUNC_ADD);
-                GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-                Log.i("KeyEvent", "alpha enabled");
-            }
-        }
-        if (updateBlend) {
-            updateBlend = false;
-            if (blend) {
-                blend = false;
-                GLES20.glDisable(GLES20.GL_BLEND);
-                Log.i("KeyEvent", "blend disabled");
-            } else {
-                blend = true;
-                GLES20.glEnable(GLES20.GL_BLEND);
-                Log.i("KeyEvent", "blend enabled");
-            }
-        }
-        if (updateCull) {
-            updateCull = false;
-            if (cull) {
-                cull = false;
-                GLES20.glDisable(GLES20.GL_CULL_FACE);
-                Log.i("KeyEvent", "cull disabled");
-            } else {
-                cull = true;
-                GLES20.glEnable(GLES20.GL_CULL_FACE);
-                Log.i("KeyEvent", "cull enabled");
-            }
-        }
-        if (updateDepth)
-        {
-            updateDepth = false;
-            if (depth)
-            {
-                depth = false;
-                GLES20.glDisable(GLES20.GL_DEPTH_TEST);
-                GLES20.glDepthMask(false);
-                Log.i("KeyEvent", "depth disabled");
-            }
-            else
-            {
-                depth = true;
-                GLES20.glEnable(GLES20.GL_DEPTH_TEST);
-                GLES20.glDepthMask(true);
-                Log.i("KeyEvent", "depth enabled");
-            }
-        }
-        if (updateCullFace)
-        {
-            updateCullFace = false;
-            switch (cullFaceSelection) {
-                case 0:
-                    GLES20.glCullFace(GLES20.GL_FRONT_AND_BACK);
-                    Log.i("KeyEvent", "cull face GL_FRONT_AND_BACK");
-                    break;
-                case 1:
-                    GLES20.glCullFace(GLES20.GL_FRONT);
-                    Log.i("KeyEvent", "cull face GL_FRONT");
-                    break;
-                case 2:
-                    GLES20.glCullFace(GLES20.GL_BACK);
-                    Log.i("KeyEvent", "cull face GL_BACK");
-                    break;
-            }
-            cullFaceSelection++;
-            if (cullFaceSelection > 2) cullFaceSelection = 0;
-        }
-    }
-
     static Vector3f axis = new Vector3f(1f, 1f, 0);
     static float angle = 0;
 
@@ -422,7 +331,7 @@ public class Tut_MeshTransforms extends TutorialBase {
         cm = camMatrix.Top();
 
         MatrixStack persMatrix = new MatrixStack();
-        persMatrix.Perspective(perspectiveAngle, (width / (float)height), g_fzNear, g_fzFar);
+        persMatrix.perspective(perspectiveAngle, (width / (float) height), g_fzNear, g_fzFar);
         pm = persMatrix.Top();
 
         SetGlobalMatrices(currentProgram);
@@ -483,19 +392,19 @@ public class Tut_MeshTransforms extends TutorialBase {
                 break;
             case KeyEvent.KEYCODE_H:
                 Log.i("KeyEvent", "I Decrease g_camTarget.x");
-                Camera.MoveTarget(-4.0f, 0, 0);
+                Camera.moveTarget(-4.0f, 0, 0);
                 break;
             case KeyEvent.KEYCODE_I:
                 Log.i("KeyEvent", "M Increase g_camTarget.x");
-                Camera.MoveTarget(4.0f, 0, 0);
+                Camera.moveTarget(4.0f, 0, 0);
                 break;
             case KeyEvent.KEYCODE_J:
                 Log.i("KeyEvent", "J Increase g_camTarget.z");
-                Camera.MoveTarget(0, 0, 4.0f);
+                Camera.moveTarget(0, 0, 4.0f);
                 break;
             case KeyEvent.KEYCODE_K:
                 Log.i("KeyEvent", "K Decrease g_camTarget.z");
-                Camera.MoveTarget(0, 0, -4.0f);
+                Camera.moveTarget(0, 0, -4.0f);
                 break;
             case KeyEvent.KEYCODE_ESCAPE:
                 //timer.Enabled = false;

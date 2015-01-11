@@ -107,33 +107,33 @@ public class MatrixStack {
     ///@{
 
     ///Applies a rotation matrix about the given axis, with the given angle in degrees.
-    public void Rotate(Vector3f axis, float angDegCCW)
+    public void rotate(Vector3f axis, float angDegCCW)
     {
         Matrix4f rotation = Matrix4f.CreateFromAxisAngle(axis, (float) Math.PI / 180.0f * angDegCCW);
-        m_currMatrix = Matrix4f.Mult(rotation, m_currMatrix);
+        m_currMatrix = Matrix4f.mul(rotation, m_currMatrix);
     }
 
     ///Applies a rotation matrix about the given axis, with the given angle in radians.
     public void RotateRadians(Vector3f axis, float angRadCCW)
     {
         Matrix4f rotation = Matrix4f.CreateFromAxisAngle(axis, angRadCCW);
-        m_currMatrix = Matrix4f.Mult(rotation, m_currMatrix);
+        m_currMatrix = Matrix4f.mul(rotation, m_currMatrix);
     }
 
     ///Applies a rotation matrix about the +X axis, with the given angle in degrees.
     public void RotateX(float angDegCCW)
     {
-        Rotate(new Vector3f(1,0,0), angDegCCW);
+        rotate(new Vector3f(1, 0, 0), angDegCCW);
     }
     ///Applies a rotation matrix about the +Y axis, with the given angle in degrees.
     public void RotateY(float angDegCCW)
     {
-        Rotate(new Vector3f(0,1,0), angDegCCW);
+        rotate(new Vector3f(0, 1, 0), angDegCCW);
     }
     ///Applies a rotation matrix about the +Z axis, with the given angle in degrees.
     public void RotateZ(float angDegCCW)
     {
-        Rotate(new Vector3f(0,0,1), angDegCCW);
+        rotate(new Vector3f(0, 0, 1), angDegCCW);
     }
     ///@}
 
@@ -150,7 +150,7 @@ public class MatrixStack {
         m_currMatrix.Scale(scaleVec);
     }
     ///Applies a scale matrix, with the given values as the axis scales.
-    public void Scale(float scaleX, float scaleY, float scaleZ)
+    public void scale(float scaleX, float scaleY, float scaleZ)
     {
         Scale(new Vector3f(scaleX, scaleY, scaleZ));
     }
@@ -169,14 +169,14 @@ public class MatrixStack {
     ///@{
 
     ///Applies a translation matrix, with the given glm::vec3 as the offset.
-    public void Translate(Vector3f offsetVec)
+    public void translate(Vector3f offsetVec)
     {
-        m_currMatrix = Matrix4f.Mult(Matrix4f.CreateTranslation(offsetVec), m_currMatrix);
+        m_currMatrix = Matrix4f.mul(Matrix4f.createTranslation(offsetVec), m_currMatrix);
     }
     ///Applies a translation matrix, with the given X, Y and Z values as the offset.
     public void Translate(float transX, float transY, float transZ)
     {
-        Translate(new Vector3f(transX, transY, transZ));
+        translate(new Vector3f(transX, transY, transZ));
     }
     ///@}
 
@@ -200,7 +200,7 @@ public class MatrixStack {
     void LookAt(Vector3f cameraPos, Vector3f lookatPos, Vector3f upDir)
     {
         Matrix4f look_at = Matrix4f.LookAt(cameraPos, lookatPos, upDir);
-        m_currMatrix = Matrix4f.Mult(look_at, m_currMatrix);
+        m_currMatrix = Matrix4f.mul(look_at, m_currMatrix);
     }
     ///@}
 
@@ -228,11 +228,11 @@ public class MatrixStack {
      \param zFar The farthest camera-space distance from the camera that can be seen.
      The projection will be clipped against this value. It must be larger than \a zNear.
      **/
-    public void Perspective(float degFOV, float aspectRatio, float zNear, float zFar)
+    public void perspective(float degFOV, float aspectRatio, float zNear, float zFar)
     {
         Matrix4f persp = Matrix4f.CreatePerspectiveFieldOfView(
                 (float)Math.PI / 180 * degFOV, aspectRatio, zNear, zFar);
-        m_currMatrix = Matrix4f.Mult(persp, m_currMatrix);
+        m_currMatrix = Matrix4f.mul(persp, m_currMatrix);
     }
 
     /**
@@ -248,7 +248,7 @@ public class MatrixStack {
     void Orthographic(float left, float right, float bottom, float top, float zNear, float zFar)
     {
         Matrix4f orth = Matrix4f.CreateOrthographic(right - left, top-bottom, zNear, zFar);
-        m_currMatrix = Matrix4f.Mult(orth, m_currMatrix);
+        m_currMatrix = Matrix4f.mul(orth, m_currMatrix);
     }
 
     void Orthographic(float left, float right, float bottom, float top)
@@ -275,7 +275,7 @@ public class MatrixStack {
     void PixelPerfectOrtho(Vector2f size, Vector2f depthRange, boolean isTopLeft)
     {
         Matrix4f orth = Matrix4f.CreateOrthographic(size.x, size.y, depthRange.x, depthRange.y);
-        m_currMatrix = Matrix4f.Mult(orth, m_currMatrix);
+        m_currMatrix = Matrix4f.mul(orth, m_currMatrix);
     }
 
     void PixelPerfectOrtho(Vector2f size, Vector2f depthRange)
@@ -293,7 +293,7 @@ public class MatrixStack {
     ///@{
     public void ApplyMatrix(Matrix4f theMatrix)
     {
-        m_currMatrix = Matrix4f.Mult(theMatrix, m_currMatrix);
+        m_currMatrix = Matrix4f.mul(theMatrix, m_currMatrix);
     }
     ///@}
 

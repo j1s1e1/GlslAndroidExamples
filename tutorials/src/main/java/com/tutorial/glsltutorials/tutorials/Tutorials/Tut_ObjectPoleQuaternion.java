@@ -207,7 +207,7 @@ public class Tut_ObjectPoleQuaternion extends TutorialBase {
 
             try (PushStack pushstack = new PushStack(modelMatrix))
             {
-                modelMatrix.Translate(new Vector3f(0f, 0.4f, 0.0f));
+                modelMatrix.translate(new Vector3f(0f, 0.4f, 0.0f));
                 modelMatrix.Scale(cylinderScaleFactor);
                 GLES20.glUseProgram(programs.get(currentProgram).theProgram);
 

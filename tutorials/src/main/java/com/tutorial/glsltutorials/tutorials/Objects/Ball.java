@@ -28,7 +28,19 @@ public class Ball {
     Vector3f lowLimits = new Vector3f(-1f, -1f, 0f);
     Vector3f highLimits = new Vector3f(1f, 1f, 1f);
     ArrayList<Paddle> otherObjects;
+    protected Vector3f speed = new Vector3f(0f, 0f, 0f);
+
     public Ball()
+    {
+        setup(0.05f);
+    }
+
+    public Ball(float radius)
+    {
+        setup(radius);
+    }
+
+    public void setup(float radius)
     {
         otherObjects = new ArrayList<Paddle>();
         body = new LitMatrixSphere2(0.05f);
@@ -136,5 +148,21 @@ public class Ball {
         otherObjects.add(paddle);
         ElasticMovement em = (ElasticMovement) movement;
         em.setPaddles(otherObjects);
+    }
+
+    public void setSpeed(Vector3f speedIn)
+    {
+        speed = speedIn;
+        if (movement instanceof ElasticMovement)
+        {
+            ((ElasticMovement)movement).setSpeed(speedIn);
+        }
+    }
+
+    public void setElasticControl()
+    {
+        movement = new ElasticMovement();
+        movement.setLimits(lowLimits, highLimits);
+        if (speed != null) setSpeed(speed);
     }
 }

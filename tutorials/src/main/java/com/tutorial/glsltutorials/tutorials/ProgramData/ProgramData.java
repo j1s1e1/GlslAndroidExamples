@@ -24,6 +24,7 @@ public class ProgramData {
     private int baseColorUnif;
     private int texCoordAttribute;
     private int colorTextureUnif;
+    private int scaleUniform;
 
     private int sampler = 0;
     private int texUnit = 0;
@@ -40,6 +41,7 @@ public class ProgramData {
     String fragmentShader;
 
 
+    int BYTES_PER_SHORT = 2;
     int BYTES_PER_FLOAT = 4;
     int COORDS_PER_VERTEX = 3;
     int POSITION_DATA_SIZE_IN_ELEMENTS = 3;
@@ -105,6 +107,7 @@ public class ProgramData {
             vertexStride = 3 * 4 * 2 + 2 * 4;
         }
         colorTextureUnif = GLES20.glGetUniformLocation(theProgram, "diffuseColorTex");
+        scaleUniform = GLES20.glGetUniformLocation(theProgram, "scaleFactor");
     }
 
     void createSampler()
@@ -177,6 +180,67 @@ public class ProgramData {
         GLES20.glUseProgram(0);
     }
 
+    public void drawWireFrame(int[] vertexBufferObject, int[] indexBufferObject, Matrix4f mm,
+                     int indexDataLength, float[] color)
+    {
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vertexBufferObject[0]);
+        GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, indexBufferObject[0]);
+
+        GLES20.glUseProgram(theProgram);
+        GLES20.glUniformMatrix4fv(cameraToClipMatrixUnif, 1, false, Shape.cameraToClip.toArray(), 0);
+        GLES20.glUniformMatrix4fv(worldToCameraMatrixUnif, 1, false, Shape.worldToCamera.toArray(), 0);
+        GLES20.glUniformMatrix4fv(modelToWorldMatrixUnif, 1, false, mm.toArray(), 0);
+        if (modelToWorldMatrixUnif != -1)
+        {
+            GLES20.glUniformMatrix4fv(modelToWorldMatrixUnif, 1, false, mm.toArray(), 0);
+        }
+        if (modelToCameraMatrixUnif != -1)
+        {
+            GLES20.glUniformMatrix4fv(modelToCameraMatrixUnif, 1, false, mm.toArray(), 0);
+        }
+        if (baseColorUnif != -1) GLES20.glUniform4fv(baseColorUnif, 1, color, 0);
+
+
+        GLES20.glEnableVertexAttribArray(positionAttribute);
+        // Prepare the triangle coordinate data
+        GLES20.glVertexAttribPointer(positionAttribute, POSITION_DATA_SIZE_IN_ELEMENTS,
+                GLES20.GL_FLOAT, false, vertexStride, 0);
+
+        if (normalAttribute != -1)
+        {
+            GLES20.glEnableVertexAttribArray(normalAttribute);
+            GLES20.glVertexAttribPointer(normalAttribute, NORMAL_DATA_SIZE_IN_ELEMENTS,
+                    GLES20.GL_FLOAT, false, vertexStride, NORMAL_START);
+        }
+
+        if (texCoordAttribute != -1)
+        {
+            // throws error gl2mERROR: result=0x0500 GLES20.glEnable(GLES20.GL_TEXTURE_2D);
+            GLES20.glEnableVertexAttribArray(texCoordAttribute);
+            GLES20.glVertexAttribPointer(texCoordAttribute, TEXTURE_DATA_SIZE_IN_ELEMENTS,
+                    GLES20.GL_FLOAT, false, vertexStride, TEXTURE_START);
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, current_texture);
+        }
+
+        // Draw the wireframes
+        for (int i = 0; i < indexDataLength; i += 3)
+        {
+            GLES20.glDrawElements(GLES20.GL_LINE_LOOP, 3, GLES20.GL_UNSIGNED_SHORT, i * BYTES_PER_SHORT);
+        }
+
+        // Disable vertex array
+        GLES20.glDisableVertexAttribArray(positionAttribute);
+        if (normalAttribute != -1) GLES20.glDisableVertexAttribArray(normalAttribute);
+        if (texCoordAttribute != -1)
+        {
+            GLES20.glDisableVertexAttribArray(texCoordAttribute);
+        }
+
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+        GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, 0);
+        GLES20.glUseProgram(0);
+    }
+
     public String toString()
     {
         StringBuilder result = new StringBuilder();
@@ -206,7 +270,14 @@ public class ProgramData {
     public void setUniformTexture(int colorTexUnit)
     {
         GLES20.glUseProgram(theProgram);
-        GLES20.glUniform1f(colorTextureUnif, colorTexUnit);
+        GLES20.glUniform1i(colorTextureUnif, colorTexUnit);
+        GLES20.glUseProgram(0);
+    }
+
+    public void setUniformScale(float scale)
+    {
+        GLES20.glUseProgram(theProgram);
+        GLES20.glUniform1f(scaleUniform, scale);
         GLES20.glUseProgram(0);
     }
 

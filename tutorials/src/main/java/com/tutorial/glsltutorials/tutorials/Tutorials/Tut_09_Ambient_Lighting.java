@@ -246,7 +246,7 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
                 {
                     GLES20.glUseProgram(whiteDiffuse.theProgram);
                     modelMatrix.SetMatrix(g_viewPole.CalcMatrix());
-                    modelMatrix.Translate(cylinderTraslation);
+                    modelMatrix.translate(cylinderTraslation);
                     Matrix4f mm =  modelMatrix.Top();
 
                     groundPlaneModelMatrix = mm;
@@ -310,7 +310,7 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
     public void reshape ()
     {
         MatrixStack persMatrix = new MatrixStack();
-        persMatrix.Perspective(45.0f, (width / (float)height), g_fzNear, g_fzFar);
+        persMatrix.perspective(45.0f, (width / (float) height), g_fzNear, g_fzFar);
         projData.cameraToClipMatrix = persMatrix.Top();
         GLES20.glViewport(0, 0, width, height);
     }
@@ -345,7 +345,7 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
             case KeyEvent.KEYCODE_INFO:
                 Log.i(TUTORIAL, "cameraToClipMatrix = " + projData.cameraToClipMatrix.toString());
                 Log.i(TUTORIAL, "coloredCylinderModelmatrix = " + coloredCylinderModelmatrix.toString());
-                Matrix4f multiply = Matrix4f.Mult(projData.cameraToClipMatrix, coloredCylinderModelmatrix);
+                Matrix4f multiply = Matrix4f.mul(projData.cameraToClipMatrix, coloredCylinderModelmatrix);
                 Log.i(TUTORIAL, AnalysisTools.CalculateMatrixEffects(multiply));
 
 

@@ -355,7 +355,7 @@ public class Tut_14_Basic_Textures extends TutorialBase {
             {
                 try (PushStack pushstack = new PushStack(modelMatrix))
                 {
-                    modelMatrix.Translate(new Vector3f(CalcLightPosition()));
+                    modelMatrix.translate(new Vector3f(CalcLightPosition()));
                     modelMatrix.Scale(0.25f);
 
                     GLES20.glUseProgram(g_Unlit.theProgram);
@@ -367,7 +367,7 @@ public class Tut_14_Basic_Textures extends TutorialBase {
                     g_pCubeMesh.render("flat");
                 }
 
-                modelMatrix.Translate(globalLightDirection.mul(100.0f));
+                modelMatrix.translate(globalLightDirection.mul(100.0f));
                 modelMatrix.Scale(5.0f);
 
                 Matrix4f mm2 = modelMatrix.Top();
@@ -382,7 +382,7 @@ public class Tut_14_Basic_Textures extends TutorialBase {
                 try (PushStack pushstack = new PushStack(modelMatrix))
                 {
                     modelMatrix.SetIdentity();
-                    modelMatrix.Translate(new Vector3f(0.0f, 0.0f, -g_viewPole.GetView().radius));
+                    modelMatrix.translate(new Vector3f(0.0f, 0.0f, -g_viewPole.GetView().radius));
                     modelMatrix.Scale(0.25f);
 
                     GLES20.glDisable(GLES20.GL_DEPTH_TEST);
@@ -404,7 +404,7 @@ public class Tut_14_Basic_Textures extends TutorialBase {
     void reshape (int w, int h)
     {
         MatrixStack persMatrix = new MatrixStack();
-        persMatrix.Perspective(45.0f, (w / (float)h), g_fzNear, g_fzFar);
+        persMatrix.perspective(45.0f, (w / (float) h), g_fzNear, g_fzFar);
 
         ProjectionBlock projData = new ProjectionBlock();
         projData.cameraToClipMatrix = persMatrix.Top();

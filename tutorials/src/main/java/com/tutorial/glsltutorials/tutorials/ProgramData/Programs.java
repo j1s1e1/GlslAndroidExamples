@@ -49,6 +49,12 @@ public class Programs {
         ActivePrograms.get(program).draw(vertexBufferObject, indexBufferObject, mm, indexDataLength, color);
     }
 
+    public static void drawWireFrame(int program, int[] vertexBufferObject, int[] indexBufferObject,
+                            Matrix4f mm, int indexDataLength, float[] color)
+    {
+        ActivePrograms.get(program).drawWireFrame(vertexBufferObject, indexBufferObject, mm, indexDataLength, color);
+    }
+
     public static void setUniformColor(int program, Vector4f color)
     {
         ActivePrograms.get(program).setUniformColor(color);
@@ -57,6 +63,11 @@ public class Programs {
     public static void setUniformTexture(int program, int colorTexUnit)
     {
         ActivePrograms.get(program).setUniformTexture(colorTexUnit);
+    }
+
+    public static void setUniformScale(int program, float scale)
+    {
+        ActivePrograms.get(program).setUniformScale(scale);
     }
 
     public static void loadTexture(int program, int texture, boolean oneTwenty)

@@ -62,4 +62,8 @@ public class ElasticMovement extends Movement {
         otherObjects = paddles;
     }
 
+    public void setSpeed(Vector3f speedIn)
+    {
+        speed = speedIn;
+    }
 }

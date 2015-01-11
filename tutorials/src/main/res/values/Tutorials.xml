@@ -50,6 +50,9 @@
         <item>Tut_17_DoubleProjection</item>
         <item>Tut_17_Projected_Light</item>
         <item>Tut_InfinityTest</item>
+        <item>Tut_Tennis3D_Old</item>
+        <item>Tut_TexturePerspective</item>
+        <item>Tut_WireFramePerspective</item>
 
     </string-array>
 </resources>

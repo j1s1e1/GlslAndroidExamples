@@ -194,14 +194,14 @@ public class Matrix4f {
         return new Matrix4f();
     }
 
-    static public Matrix4f CreateTranslation(Vector3f v)
+    static public Matrix4f createTranslation(Vector3f v)
     {
         Matrix4f matrix = new Matrix4f();
         matrix.SetRow3(new Vector4f(v.x, v.y, v.z, 1));
         return matrix;
     }
 
-    static public Matrix4f Mult(Matrix4f left, Matrix4f right)
+    static public Matrix4f mul(Matrix4f left, Matrix4f right)
     {
         Matrix4f matrix = new Matrix4f();
         matrix.M11 = Vector4f.Dot(left.GetRow0(), right.GetCol0());
@@ -273,8 +273,8 @@ public class Matrix4f {
                 new Vector4f(x.z, y.z, z.z, 0.0f),
                 new Vector4f(0f, 0f, 0f, 1f));
 
-        Matrix4f trans = Matrix4f.CreateTranslation(cameraPos.mul(-1));
-        return Matrix4f.Mult(trans, rot);
+        Matrix4f trans = Matrix4f.createTranslation(cameraPos.mul(-1));
+        return Matrix4f.mul(trans, rot);
     }
 
     // Formula based on OpenTK formula
@@ -632,6 +632,21 @@ public class Matrix4f {
         result.M22 = scale.y;
         result.M33 = scale.z;
         return result;
+    }
+
+    public Matrix4f sub(Matrix4f m)
+    {
+        Matrix4f result = new Matrix4f();
+        result.SetRow0(GetRow0().sub(m.GetRow0()));
+        result.SetRow1(GetRow1().sub(m.GetRow1()));
+        result.SetRow2(GetRow2().sub(m.GetRow2()));
+        result.SetRow3(GetRow3().sub(m.GetRow3()));
+        return result;
+    }
+
+    public static Matrix4f sub(Matrix4f left, Matrix4f right)
+    {
+        return left.sub(right);
     }
 
 

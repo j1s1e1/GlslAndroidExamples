@@ -37,22 +37,23 @@ public class TextureElement extends Shape
     private void setup()
     {
         vertexData = new float[]{
-        // x y z xn yn zn tx ty
-        -1f, -1f, 0f, 0f, 0f, 1f, 0f, 0f,
-        -1f, 1f, 0f, 0f, 0f, 1f, 0f, 1f,
-        1f, 1f, 0f, 0f, 0f, 1f, 1f, 1f,
+            // x y z xn yn zn tx ty
+            -1f, -1f, 0f, 0f, 0f, 1f, 0f, 0f,
+            -1f, 1f, 0f, 0f, 0f, 1f, 0f, 1f,
+            1f, 1f, 0f, 0f, 0f, 1f, 1f, 1f,
 
-        -1f, -1f, 0f, 0f, 0f, 1f, 0f, 0f,
-        1f, 1f, 0f, 0f, 0f, 1f, 1f, 1f,
-        1f, -1f, 0f, 0f, 0f, 1f, 1f, 0f
+            -1f, -1f, 0f, 0f, 0f, 1f, 0f, 0f,
+            1f, 1f, 0f, 0f, 0f, 1f, 1f, 1f,
+            1f, -1f, 0f, 0f, 0f, 1f, 1f, 0f
         };
         COORDS_PER_VERTEX = 8;
         setupSimpleIndexBuffer();
         initializeVertexBuffer();
 
-        programNumber = Programs.addProgram(VertexShaders.MatrixTexture, FragmentShaders.MatrixTexture);
+        programNumber = Programs.addProgram(VertexShaders.MatrixTexture, FragmentShaders.MatrixTextureScale);
         Programs.setUniformTexture(programNumber, texUnit);
         Programs.setTexture(programNumber, texture);
+        Programs.setUniformScale(programNumber, scale);
     }
 
     public void replace(int resourceID)
@@ -75,12 +76,15 @@ public class TextureElement extends Shape
 
     public void scale(float scaleIn)
     {
+        super.scale(new Vector3f(scaleIn, scaleIn, scaleIn));
         scale = scale * scaleIn;
+        lightPosition = lightPosition.mul(scale);
     }
 
     public void draw()
     {
         Programs.setLightPosition(programNumber, lightPosition);
+        Programs.setUniformScale(programNumber, scale);
         Matrix4f mm = rotate(modelToWorld, axis, angle);
         mm.M41 = offset.x;
         mm.M42 = offset.y;

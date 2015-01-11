@@ -99,6 +99,7 @@ public class Tutorials extends Activity implements
         // parent.getItemAtPosition(pos)
         int version = 2;
         Programs.reset();
+        Shape.resetCameraToClipMatrix();
         Shape.resetWorldToCameraMatrix();
         switch (pos)
         {
@@ -157,6 +158,9 @@ public class Tutorials extends Activity implements
             case 46: TestRenderer.tutorial = new Tut_17_DoubleProjection(); break;
             case 47: TestRenderer.tutorial = new Tut_17_Projected_Light(); break;
             case 48: TestRenderer.tutorial = new Tut_InfinityTest(); break;
+            case 49: TestRenderer.tutorial = new Tut_Tennis3D_Old(); break;
+            case 50: TestRenderer.tutorial = new Tut_TexturePerspective(); break;
+            case 51: TestRenderer.tutorial = new Tut_WireFramePerspective(); break;
 
             default:
                 final Toast toast2 = Toast.makeText(Shader.context,"Not implemented", Toast.LENGTH_SHORT);

@@ -46,20 +46,20 @@ public class ViewPole extends ViewProvider {
 
         //In this space, we are facing in the correct direction. Which means that the camera point
         //is directly behind us by the radius number of units.
-        Matrix4f translation = Matrix4f.CreateTranslation(new Vector3f(0.0f, 0.0f, -m_currView.radius));
+        Matrix4f translation = Matrix4f.createTranslation(new Vector3f(0.0f, 0.0f, -m_currView.radius));
 
-        theMat = Matrix4f.Mult(theMat, translation);
+        theMat = Matrix4f.mul(theMat, translation);
 
         //CreateFromAxisAngle the world to look in the right direction..
         Quaternion fullRotation =
                 Quaternion.mult(new Quaternion(new Vector3f(0.0f, 0.0f, 1.0f), m_currView.radSpinRotation),
                         m_currView.orient);
-        theMat = Matrix4f.Mult(theMat, fullRotation.toMatrix());
+        theMat = Matrix4f.mul(theMat, fullRotation.toMatrix());
 
         //Translate the world by the negation of the lookat point, placing the origin at the
         //lookat point.
-        translation  = Matrix4f.CreateTranslation(m_currView.targetPos.mul(-1f));
-        theMat = Matrix4f.Mult(theMat, translation);
+        translation  = Matrix4f.createTranslation(m_currView.targetPos.mul(-1f));
+        theMat = Matrix4f.mul(theMat, translation);
 
         return theMat;
     }

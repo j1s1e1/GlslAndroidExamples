@@ -11,6 +11,7 @@ import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.VBO_Tools;
 import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector4f;
+import com.tutorial.glsltutorials.tutorials.TestRenderer;
 
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
@@ -22,6 +23,7 @@ import java.util.Timer;
 public abstract class TutorialBase {
 
     boolean tutorialLog = true;
+    boolean info = false;
 
     protected static final int positionAttributeLocation = 0;
     protected static final int colorAttributeLocation = 1;
@@ -49,7 +51,9 @@ public abstract class TutorialBase {
     protected int  		modelToCameraMatrixUnif;
     protected int		cameraToClipMatrixUnif;
     protected int  		baseColorUnif;
-    protected Matrix4f cameraToClipMatrix = new Matrix4f();
+    protected static Matrix4f cameraToClipMatrix = new Matrix4f();
+    protected static Matrix4f worldToCameraMatrix = new Matrix4f();
+
 
     protected ShortBuffer elementSB;
     protected FloatBuffer vertexDataFB;
@@ -57,14 +61,21 @@ public abstract class TutorialBase {
     protected int[] vertexBufferObject = new int[1];
     protected int[] indexBufferObject = new int[1];
 
-    public int width = 512;
-    public int height = 512;
+    public static int width = 512;
+    public static int height = 512;
     protected static float fFrustumScale;
 
-    public static Vector4f clearColor = new Vector4f(0.0f, 0.0f, 0.0f, 1.0f);
+    public static Vector4f clearColor = new Vector4f(0.0f, 0.0f, 0.0f, 0.0f);
 
     public TutorialBase()
     {
+    }
+
+    protected void checkGlError(String TAG) {
+        int error;
+        while ((error = GLES20.glGetError()) != GLES20.GL_NO_ERROR) {
+            Log.e(TAG, ": glError " + error);
+        }
     }
 
     public StringBuilder setup()
@@ -72,7 +83,13 @@ public abstract class TutorialBase {
         StringBuilder messages = new StringBuilder();
         startTime = System.currentTimeMillis();
         try {
+            Log.i("Setup", "Start Initialization");
+            TestRenderer.initComplete = false;
+            checkGlError("Before Init");
             init();
+            checkGlError("Init Error");
+            TestRenderer.initComplete = true;
+            Log.i("Setup", "Initialization Complete");
         }
         catch (Exception ex)
         {
@@ -202,7 +219,6 @@ public abstract class TutorialBase {
         GLES20.glDepthMask(true);
         GLES20.glDepthFunc(GLES20.GL_LEQUAL);
         GLES20.glDepthRangef(0.0f, 1.0f);
-        GLES20.glEnable(GLES20.GL_CLAMP_TO_EDGE);
     }
 
     public static void setBackgroundColor(Vector4f color)
@@ -215,5 +231,165 @@ public abstract class TutorialBase {
         GLES20.glClearColor(clearColor.x, clearColor.y, clearColor.z, clearColor.w);
         GLES20.glClearDepthf(1.0f);
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT |  GLES20.GL_DEPTH_BUFFER_BIT);
+    }
+
+    boolean displayOptions = false;
+    boolean updateCull = false;
+    boolean updateDepth = false;
+    boolean updateDepthMask = false;
+    boolean updateAlpha = false;
+    boolean updateCcw = false;
+    boolean updateBlend = false;
+    boolean blend = false;
+    boolean ccw = false;
+    boolean updateCullFace = false;
+    int cullFaceSelection = 0;
+    boolean cull = true;
+    boolean depth = true;
+    boolean depthMask = true;
+    boolean alpha = false;
+
+    protected float g_fzNear = 1.0f;
+    protected float g_fzFar = 10f;
+    boolean callReshape = false;
+
+    void logDisplayState()
+    {
+        Log.i("Display State", "alpha " +  String.valueOf(alpha));
+        Log.i("Display State", "cull " +  String.valueOf(cull));
+        Log.i("Display State", "cullFaceSelection " +  String.valueOf(cullFaceSelection));
+        Log.i("Display State", "depth " +  String.valueOf(depth));
+        Log.i("Display State", "blend " +  String.valueOf(blend));
+    }
+
+    void setDisplayOptions(int keyCode)
+    {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_ENTER:
+                displayOptions = false;
+                break;
+            case KeyEvent.KEYCODE_A:
+                updateAlpha = true;
+                break;
+            case KeyEvent.KEYCODE_C:
+                updateCull = true;
+                break;
+            case KeyEvent.KEYCODE_D:
+                updateDepth = true;
+                break;
+            case KeyEvent.KEYCODE_M:
+                updateDepthMask = true;
+                break;
+            case KeyEvent.KEYCODE_1:
+                g_fzNear = 1f;
+                g_fzFar = 10;
+                callReshape = true;
+                break;
+            case KeyEvent.KEYCODE_2:
+                g_fzNear = 1f;
+                g_fzFar = 100;
+                callReshape = true;
+                break;
+            case KeyEvent.KEYCODE_3:
+                g_fzNear = 10f;
+                g_fzFar = 100;
+                callReshape = true;
+                break;
+            case KeyEvent.KEYCODE_4:
+                g_fzNear = 10f;
+                g_fzFar = 1000;
+                callReshape = true;
+                break;
+            case KeyEvent.KEYCODE_5:
+                g_fzNear = 0.1f;
+                g_fzFar = 2f;
+                callReshape = true;
+                break;
+        }
+    }
+
+    void updateDisplayOptions() {
+        if (updateAlpha) {
+            updateAlpha = false;
+            if (alpha) {
+                alpha = false;
+                GLES20.glBlendEquation(GLES20.GL_FUNC_ADD);
+                GLES20.glBlendFunc(GLES20.GL_ONE, GLES20.GL_ONE);
+                Log.i("KeyEvent", "alpha disabled");
+            } else {
+                alpha = true;
+                GLES20.glBlendEquation(GLES20.GL_FUNC_ADD);
+                GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+                Log.i("KeyEvent", "alpha enabled");
+            }
+        }
+        if (updateBlend) {
+            updateBlend = false;
+            if (blend) {
+                blend = false;
+                GLES20.glDisable(GLES20.GL_BLEND);
+                Log.i("KeyEvent", "blend disabled");
+            } else {
+                blend = true;
+                GLES20.glEnable(GLES20.GL_BLEND);
+                Log.i("KeyEvent", "blend enabled");
+            }
+        }
+        if (updateCull) {
+            updateCull = false;
+            if (cull) {
+                cull = false;
+                GLES20.glDisable(GLES20.GL_CULL_FACE);
+                Log.i("KeyEvent", "cull disabled");
+            } else {
+                cull = true;
+                GLES20.glEnable(GLES20.GL_CULL_FACE);
+                Log.i("KeyEvent", "cull enabled");
+            }
+        }
+        if (updateDepth)
+        {
+            updateDepth = false;
+            if (depth)
+            {
+                depth = false;
+                GLES20.glDisable(GLES20.GL_DEPTH_TEST);
+                GLES20.glDepthMask(false);
+                Log.i("KeyEvent", "depth disabled");
+            }
+            else
+            {
+                depth = true;
+                GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+                GLES20.glDepthMask(true);
+                Log.i("KeyEvent", "depth enabled");
+            }
+        }
+        if (updateCullFace)
+        {
+            updateCullFace = false;
+            cullFaceSelection++;
+            if (cullFaceSelection > 2) cullFaceSelection = 0;
+            switch (cullFaceSelection) {
+                case 0:
+                    GLES20.glCullFace(GLES20.GL_FRONT_AND_BACK);
+                    Log.i("KeyEvent", "cull face GL_FRONT_AND_BACK");
+                    break;
+                case 1:
+                    GLES20.glCullFace(GLES20.GL_FRONT);
+                    Log.i("KeyEvent", "cull face GL_FRONT");
+                    break;
+                case 2:
+                    GLES20.glCullFace(GLES20.GL_BACK);
+                    Log.i("KeyEvent", "cull face GL_BACK");
+                    break;
+            }
+        }
+        if (callReshape)
+        {
+            callReshape = false;
+            reshape();
+        }
+        if (info) logDisplayState();
     }
 }

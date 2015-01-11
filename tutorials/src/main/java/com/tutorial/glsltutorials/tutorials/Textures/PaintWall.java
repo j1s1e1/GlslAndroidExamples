@@ -108,6 +108,11 @@ public class PaintWall
         textureElement.scale(scale);
     }
 
+    public void scale(Vector3f scale)
+    {
+        textureElement.scale(scale);
+    }
+
     public void rotateShape(Vector3f axis, float angle)
     {
         textureElement.rotateShape(axis, angle);

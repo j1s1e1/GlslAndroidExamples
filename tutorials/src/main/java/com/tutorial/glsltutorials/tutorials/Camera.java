@@ -24,14 +24,14 @@ public class Camera {
         return value;
     }
 
-    public static void Move(float x, float y, float z)
+    public static void move(float x, float y, float z)
     {
         g_sphereCamRelPos = g_sphereCamRelPos.add(new Vector3f(x, y, z));
         g_sphereCamRelPos.y = Clamp(g_sphereCamRelPos.y, -78.75f, -1.0f);
         g_sphereCamRelPos.z = g_sphereCamRelPos.z > 5.0f ? g_sphereCamRelPos.z : 5.0f;
     }
 
-    public static void MoveTarget(float x, float y, float z)
+    public static void moveTarget(float x, float y, float z)
     {
         g_camTarget = g_camTarget.add(new Vector3f(x, y, z));
         g_camTarget.y = g_camTarget.y > 0.0f ? g_camTarget.y : 0.0f;
@@ -86,7 +86,7 @@ public class Camera {
         Matrix4f transMat = Matrix4f.Identity();
         transMat.SetRow3(new Vector4f(cameraPt.mul(-1f), 1.0f));
 
-        return Matrix4f.Mult(rotMat, transMat);
+        return Matrix4f.mul(rotMat, transMat);
     }
 
     public static Matrix4f GetLookAtMatrix()

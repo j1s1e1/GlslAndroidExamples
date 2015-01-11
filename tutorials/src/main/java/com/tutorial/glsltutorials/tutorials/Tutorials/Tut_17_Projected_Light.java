@@ -347,7 +347,7 @@ public class Tut_17_Projected_Light extends TutorialBase {
 
         {
             MatrixStack persMatrix = new MatrixStack();
-            persMatrix.Perspective(60.0f, (g_displayWidth / (float)g_displayHeight), g_fzNear, g_fzFar);
+            persMatrix.perspective(60.0f, (g_displayWidth / (float) g_displayHeight), g_fzNear, g_fzFar);
             // added
             //persMatrix.Scale(scaleFactor);
             //persMatrix.Translate(translateVector);
@@ -378,9 +378,9 @@ public class Tut_17_Projected_Light extends TutorialBase {
             MatrixStack lightProjStack = new MatrixStack();
             //Texture-space transform
             lightProjStack.Translate(0.5f, 0.5f, 0.0f);
-            lightProjStack.Scale(0.5f, 0.5f, 1.0f);
+            lightProjStack.scale(0.5f, 0.5f, 1.0f);
             //Project. Z-range is irrelevant.
-            lightProjStack.Perspective(g_lightFOVs[g_currFOVIndex], 1.0f, 1.0f, 100.0f);
+            lightProjStack.perspective(g_lightFOVs[g_currFOVIndex], 1.0f, 1.0f, 100.0f);
             //Transform from main camera space to light camera space.
             lightProjStack.ApplyMatrix(lightView);
             Matrix4f cmI = cameraMatrix.inverted();
@@ -405,7 +405,7 @@ public class Tut_17_Projected_Light extends TutorialBase {
             {
                 modelMatrix.ApplyMatrix(lightView.inverted());
                 modelMatrix.Scale(15.0f);
-                modelMatrix.Scale(1.0f, 1.0f, -1.0f); //Invert the Z-axis so that it points in the right direction.
+                modelMatrix.scale(1.0f, 1.0f, -1.0f); //Invert the Z-axis so that it points in the right direction.
 
                 GLES20.glUseProgram(g_colroedProg);
                 Matrix4f mm = modelMatrix.Top();
@@ -420,7 +420,7 @@ public class Tut_17_Projected_Light extends TutorialBase {
             try (PushStack pushstack = new PushStack(modelMatrix))
             {
                 modelMatrix.SetIdentity();
-                modelMatrix.Translate(new Vector3f(0.0f, 0.0f, -g_viewPole.GetView().radius));
+                modelMatrix.translate(new Vector3f(0.0f, 0.0f, -g_viewPole.GetView().radius));
                 modelMatrix.Scale(0.5f);
 
                 GLES20.glDisable(GLES20.GL_DEPTH_TEST);

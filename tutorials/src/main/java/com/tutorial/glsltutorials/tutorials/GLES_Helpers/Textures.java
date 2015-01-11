@@ -116,12 +116,9 @@ public class Textures {
 
     public static void enableTextures()
     {
-        GLES20.glEnable(GLES20.GL_TEXTURE_2D);
         GLES20.glEnable(GLES20.GL_BLEND);
         GLES20.glBlendEquation(GLES20.GL_FUNC_ADD);
-        GLES20.glBlendFunc(GLES20.GL_BLEND_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-        GLES20.glEnable(GLES20.GL_ALPHA);
-        //GL.AlphaFunc(AlphaFunction.Gequal, 0.01f);
+        GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
     }
 
     public static int createMipMapTexture(final Context context, final int resourceId)

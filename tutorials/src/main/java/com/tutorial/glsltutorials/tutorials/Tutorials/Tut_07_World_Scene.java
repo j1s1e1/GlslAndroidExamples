@@ -108,7 +108,7 @@ public class Tut_07_World_Scene extends TutorialBase {
         try (PushStack pushstack = new PushStack(modelMatrix))
         {
 
-            modelMatrix.Scale(1.0f, fTrunkHeight, 1.0f);
+            modelMatrix.scale(1.0f, fTrunkHeight, 1.0f);
             modelMatrix.Translate(0.0f, 0.5f, 0.0f);
 
             GLES20.glUseProgram(UniformColorTint.theProgram);
@@ -123,7 +123,7 @@ public class Tut_07_World_Scene extends TutorialBase {
         try (PushStack pushstack = new PushStack(modelMatrix))
         {
             modelMatrix.Translate(0.0f, fTrunkHeight, 0.0f);
-            modelMatrix.Scale(3.0f, fConeHeight, 3.0f);
+            modelMatrix.scale(3.0f, fConeHeight, 3.0f);
 
             GLES20.glUseProgram(UniformColorTint.theProgram);
             Matrix4f mm = modelMatrix.Top();
@@ -149,7 +149,7 @@ public class Tut_07_World_Scene extends TutorialBase {
         //Draw the bottom of the column.
         try (PushStack pushstack = new PushStack(modelMatrix))
         {
-            modelMatrix.Scale(1.0f, g_fColumnBaseHeight, 1.0f);
+            modelMatrix.scale(1.0f, g_fColumnBaseHeight, 1.0f);
             modelMatrix.Translate(0.0f, 0.5f, 0.0f);
 
             GLES20.glUseProgram(UniformColorTint.theProgram);
@@ -163,9 +163,9 @@ public class Tut_07_World_Scene extends TutorialBase {
         //Draw the top of the column.
         try (PushStack pushstack = new PushStack(modelMatrix))
         {
-            modelMatrix.Translate(new Vector3f(0.0f, fHeight - g_fColumnBaseHeight, 0.0f));
+            modelMatrix.translate(new Vector3f(0.0f, fHeight - g_fColumnBaseHeight, 0.0f));
             modelMatrix.Scale(new Vector3f(1.0f, g_fColumnBaseHeight, 1.0f));
-            modelMatrix.Translate(new Vector3f(0.0f, 0.5f, 0.0f));
+            modelMatrix.translate(new Vector3f(0.0f, 0.5f, 0.0f));
 
             GLES20.glUseProgram(UniformColorTint.theProgram);
             Matrix4f mm = modelMatrix.Top();
@@ -178,9 +178,9 @@ public class Tut_07_World_Scene extends TutorialBase {
         //Draw the main column.
         try (PushStack pushstack = new PushStack(modelMatrix))
         {
-            modelMatrix.Translate(new Vector3f(0.0f, g_fColumnBaseHeight, 0.0f));
+            modelMatrix.translate(new Vector3f(0.0f, g_fColumnBaseHeight, 0.0f));
             modelMatrix.Scale(new Vector3f(0.8f, fHeight - (g_fColumnBaseHeight * 2.0f), 0.8f));
-            modelMatrix.Translate(new Vector3f(0.0f, 0.5f, 0.0f));
+            modelMatrix.translate(new Vector3f(0.0f, 0.5f, 0.0f));
 
             GLES20.glUseProgram(UniformColorTint.theProgram);
             Matrix4f mm = modelMatrix.Top();
@@ -202,7 +202,7 @@ public class Tut_07_World_Scene extends TutorialBase {
         //Draw base.
         try (PushStack pushstack = new PushStack(modelMatrix))
         {
-            modelMatrix.Scale(g_fParthenonWidth, g_fParthenonBaseHeight, g_fParthenonLength);
+            modelMatrix.scale(g_fParthenonWidth, g_fParthenonBaseHeight, g_fParthenonLength);
             modelMatrix.Translate(0.0f, 0.5f, 0.0f);
 
             GLES20.glUseProgram(UniformColorTint.theProgram);
@@ -218,7 +218,7 @@ public class Tut_07_World_Scene extends TutorialBase {
         try (PushStack pushstack = new PushStack(modelMatrix))
         {
             modelMatrix.Translate(0.0f, g_fParthenonColumnHeight + g_fParthenonBaseHeight, 0.0f);
-            modelMatrix.Scale(g_fParthenonWidth, g_fParthenonTopHeight, g_fParthenonLength);
+            modelMatrix.scale(g_fParthenonWidth, g_fParthenonTopHeight, g_fParthenonLength);
             modelMatrix.Translate(0.0f, 0.5f, 0.0f);
 
             GLES20.glUseProgram(UniformColorTint.theProgram);
@@ -274,7 +274,7 @@ public class Tut_07_World_Scene extends TutorialBase {
         try (PushStack pushstack = new PushStack(modelMatrix))
         {
             modelMatrix.Translate(0.0f, 1.0f, 0.0f);
-            modelMatrix.Scale(g_fParthenonWidth - 6.0f, g_fParthenonColumnHeight,
+            modelMatrix.scale(g_fParthenonWidth - 6.0f, g_fParthenonColumnHeight,
                     g_fParthenonLength - 6.0f);
             modelMatrix.Translate(0.0f, 0.5f, 0.0f);
 
@@ -334,7 +334,7 @@ public class Tut_07_World_Scene extends TutorialBase {
             //Render the ground plane.
             try (PushStack pushstack = new PushStack(modelMatrix))
             {
-                modelMatrix.Scale(100.0f, 1.0f, 100.0f);
+                modelMatrix.scale(100.0f, 1.0f, 100.0f);
 
                 GLES20.glUseProgram(UniformColor.theProgram);
 
@@ -361,8 +361,8 @@ public class Tut_07_World_Scene extends TutorialBase {
             {
                 GLES20.glDisable(GLES20.GL_DEPTH_TEST);
 
-                modelMatrix.Translate(Camera.g_camTarget);
-                modelMatrix.Scale(1.0f, 1.0f, 1.0f);
+                modelMatrix.translate(Camera.g_camTarget);
+                modelMatrix.scale(1.0f, 1.0f, 1.0f);
 
                 GLES20.glUseProgram(ObjectColor.theProgram);
                 Matrix4f mm = modelMatrix.Top();
@@ -395,7 +395,7 @@ public class Tut_07_World_Scene extends TutorialBase {
         cm = camMatrix.Top();
 
         MatrixStack persMatrix = new MatrixStack();
-        persMatrix.Perspective(45.0f, (width / (float)height), g_fzNear, g_fzFar);
+        persMatrix.perspective(45.0f, (width / (float) height), g_fzNear, g_fzFar);
         pm = persMatrix.Top();
 
         SetGlobalMatrices(UniformColor);
@@ -423,51 +423,51 @@ public class Tut_07_World_Scene extends TutorialBase {
                 return "Escape";
             case KeyEvent.KEYCODE_A:
                 result = "A Decrease g_camTarget.X";
-                Camera.MoveTarget(-4.0f, 0, 0);
+                Camera.moveTarget(-4.0f, 0, 0);
                 break;
             case KeyEvent.KEYCODE_D:
                 result = "D Increase g_camTarget.X";
-                Camera.MoveTarget(4.0f, 0, 0);
+                Camera.moveTarget(4.0f, 0, 0);
                 break;
             case KeyEvent.KEYCODE_E:
                 result = "E Decrease g_camTarget.Y";
-                Camera.MoveTarget(0, -4.0f, 0);
+                Camera.moveTarget(0, -4.0f, 0);
                 break;
             case KeyEvent.KEYCODE_Q:
                 result = "Q Increase g_camTarget.Y";
-                Camera.MoveTarget(0, 4.0f, 0);
+                Camera.moveTarget(0, 4.0f, 0);
                 break;
             case KeyEvent.KEYCODE_W:
                 result = "W Decrease g_camTarget.Z";
-                Camera.MoveTarget(0, 0, -4.0f);
+                Camera.moveTarget(0, 0, -4.0f);
                 break;
             case KeyEvent.KEYCODE_S:
                 result = "S Increase g_camTarget.Z";
-                Camera.MoveTarget(0, 0, 4.0f);
+                Camera.moveTarget(0, 0, 4.0f);
                 break;
             case KeyEvent.KEYCODE_J:
                 result = "J Decrease g_sphereCamRelPos.Y";
-                Camera.Move(-4.0f, 0, 0);
+                Camera.move(-4.0f, 0, 0);
                 break;
             case KeyEvent.KEYCODE_L:
                 result = "L Increase g_sphereCamRelPos.Y";
-                Camera.Move(4.0f, 0, 0);
+                Camera.move(4.0f, 0, 0);
                 break;
             case KeyEvent.KEYCODE_I:
                 result = "I Decrease g_sphereCamRelPos.Y";
-                Camera.Move(0, -4.0f, 0);
+                Camera.move(0, -4.0f, 0);
                 break;
             case KeyEvent.KEYCODE_K:
                 result = "K Increase g_sphereCamRelPos.Y";
-                Camera.Move(0, 4.0f, 0);
+                Camera.move(0, 4.0f, 0);
                 break;
             case KeyEvent.KEYCODE_O:
                 result = "O Decrease g_sphereCamRelPos.Y";
-                Camera.Move(0, 0, -4.0f);
+                Camera.move(0, 0, -4.0f);
                 break;
             case KeyEvent.KEYCODE_U:
                 result = "U Increase g_sphereCamRelPos.Y";
-                Camera.Move(0, 0, 4.0f);
+                Camera.move(0, 0, 4.0f);
                 break;
 
             case KeyEvent.KEYCODE_SPACE:
@@ -487,11 +487,11 @@ public class Tut_07_World_Scene extends TutorialBase {
     {
         if (x_position > width * 3/4)
         {
-            Camera.MoveTarget(-4.0f, 0, 0);
+            Camera.moveTarget(-4.0f, 0, 0);
         }
         if (x_position < width * 1/4)
         {
-            Camera.MoveTarget(0, 0, 4.0f);
+            Camera.moveTarget(0, 0, 4.0f);
         }
         reshape();
         display();

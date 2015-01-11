@@ -146,7 +146,7 @@ public class Tut_08_Gimbal_Lock extends TutorialBase {
         clearDisplay();
 
         MatrixStack currMatrix = new MatrixStack();
-        currMatrix.Translate(new Vector3f(0.0f, 0.0f, -200.0f / currentScale));
+        currMatrix.translate(new Vector3f(0.0f, 0.0f, -200.0f / currentScale));
         currMatrix.RotateX(g_angles.fAngleX);
         DrawGimbal(currMatrix, GimbalAxis.GIMBAL_X_AXIS, new Vector4f(0.4f, 0.4f, 1.0f, 1.0f));
         currMatrix.RotateY(g_angles.fAngleY);
@@ -155,7 +155,7 @@ public class Tut_08_Gimbal_Lock extends TutorialBase {
         DrawGimbal(currMatrix, GimbalAxis.GIMBAL_Z_AXIS, new Vector4f(1.0f, 0.3f, 0.3f, 1.0f));
 
         GLES20.glUseProgram(theProgram);
-        currMatrix.Scale(3.0f, 3.0f, 3.0f);
+        currMatrix.scale(3.0f, 3.0f, 3.0f);
         currMatrix.RotateX(-90);
         //Set the base color for this object.
         GLES20.glUniform4f(baseColorUnif, 1.0f, 1.0f, 1.0f, 1.0f);
