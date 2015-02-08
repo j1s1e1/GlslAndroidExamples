@@ -6,15 +6,15 @@ import com.tutorial.glsltutorials.tutorials.GLES_Helpers.FragmentShaders;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Textures;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.VertexShaders;
-import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
+import com.tutorial.glsltutorials.tutorials.Geometry.Vector4f;
 import com.tutorial.glsltutorials.tutorials.ProgramData.Programs;
 import com.tutorial.glsltutorials.tutorials.Shapes.Shape;
 
 /**
  * Created by jamie on 12/25/14.
  */
-public class TextureElement extends Shape
+public class TextureElement2 extends Shape
 {
    int texture;
    int texUnit = 0;
@@ -22,13 +22,13 @@ public class TextureElement extends Shape
    float scale = 1.0f;
    Vector3f lightPosition = new Vector3f(0f, 0f, 0f);
 
-    public TextureElement(Bitmap bitmap)
+    public TextureElement2(Bitmap bitmap)
     {
         texture = Textures.createFromBitmap(bitmap);
         setup();
     }
 
-    public TextureElement(int resourceID)
+    public TextureElement2(int resourceID)
     {
         texture = Textures.loadTexture(Shader.context, resourceID, false);
         setup();
@@ -50,7 +50,7 @@ public class TextureElement extends Shape
         setupSimpleIndexBuffer();
         initializeVertexBuffer();
 
-        programNumber = Programs.addProgram(VertexShaders.MatrixTexture, FragmentShaders.MatrixTextureScale);
+        programNumber = Programs.addProgram(VertexShaders.MatrixTexture, FragmentShaders.MatrixTextureScale2);
         Programs.setUniformTexture(programNumber, texUnit);
         Programs.setTexture(programNumber, texture);
         Programs.setUniformScale(programNumber, scale);
@@ -70,7 +70,7 @@ public class TextureElement extends Shape
 
     public void move (Vector3f v)
     {
-        super.move(v);
+        modelToWorld.SetRow3(modelToWorld.GetRow3().add(new Vector4f(v, 0.0f)));
         lightPosition = lightPosition.add(v);
     }
 
@@ -79,13 +79,6 @@ public class TextureElement extends Shape
         super.scale(new Vector3f(scaleIn, scaleIn, scaleIn));
         scale = scale * scaleIn;
         lightPosition = lightPosition.mul(scaleIn);
-    }
-
-    public void rotateShape(Vector3f axis, float angle)
-    {
-        super.rotateShape(axis, angle);
-        Matrix4f rotation = Matrix4f.CreateFromAxisAngle(axis, (float)Math.PI / 180.0f * angle);
-        //lightPosition = Vector3f.Transform(lightPosition, rotation);
     }
 
     public void setLightPosition(Vector3f v)
@@ -98,14 +91,9 @@ public class TextureElement extends Shape
     {
         Vector3f light = Vector3f.Transform(lightPosition, modelToWorld);
         Programs.setLightPosition(programNumber, light);
-        //Programs.setLightPosition(programNumber, lightPosition);
         Programs.setUniformScale(programNumber, scale);
-        Matrix4f mm = rotate(modelToWorld, axis, angle);
-        mm.M41 = offset.x;
-        mm.M42 = offset.y;
-        mm.M43 = offset.z;
         Programs.setTexture(programNumber, texture);
-        Programs.draw(programNumber, vertexBufferObject, indexBufferObject, mm, indexData.length, color);
+        Programs.draw(programNumber, vertexBufferObject, indexBufferObject, modelToWorld, indexData.length, color);
     }
 
 }

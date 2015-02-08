@@ -295,32 +295,32 @@ public class Tut_Tennis3D_Old extends TutorialBase
     {
         if (ballModelMatrix.M41 < positionLimitLow.x)
         {
-            leftWall.Paint(ballModelMatrix.M43/positionLimitHigh.x, ballModelMatrix.M42/positionLimitHigh.y);
+            leftWall.paint(ballModelMatrix.M43 / positionLimitHigh.x, ballModelMatrix.M42 / positionLimitHigh.y);
             if (velocity.x < 0) velocity.x *= -1 * (0.95f + random.nextInt(10)/100f);
         }
         if (ballModelMatrix.M41 > positionLimitHigh.x)
         {
-            rightWall.Paint(ballModelMatrix.M43/positionLimitHigh.x, ballModelMatrix.M42/positionLimitHigh.y);
+            rightWall.paint(ballModelMatrix.M43 / positionLimitHigh.x, ballModelMatrix.M42 / positionLimitHigh.y);
             if (velocity.x > 0) velocity.x *= -1 * (0.95f + random.nextInt(10)/100f);
         }
         if (ballModelMatrix.M42 < positionLimitLow.y)
         {
-            bottomWall.Paint(ballModelMatrix.M41/positionLimitHigh.x, ballModelMatrix.M43/positionLimitHigh.y);
+            bottomWall.paint(ballModelMatrix.M41 / positionLimitHigh.x, ballModelMatrix.M43 / positionLimitHigh.y);
             if (velocity.y < 0) velocity.y *= -1 * (0.95f + random.nextInt(10)/100f);
         }
         if (ballModelMatrix.M42 > positionLimitHigh.y)
         {
-            topWall.Paint(ballModelMatrix.M41/positionLimitHigh.x, ballModelMatrix.M43/positionLimitHigh.y);
+            topWall.paint(ballModelMatrix.M41 / positionLimitHigh.x, ballModelMatrix.M43 / positionLimitHigh.y);
             if (velocity.y > 0) velocity.y *= -1 * (0.95f + random.nextInt(10)/100f);
         }
         if (ballModelMatrix.M43 < positionLimitLow.z)
         {
-            backWall.Paint(ballModelMatrix.M41/positionLimitHigh.x, ballModelMatrix.M42/positionLimitHigh.y);
+            backWall.paint(ballModelMatrix.M41 / positionLimitHigh.x, ballModelMatrix.M42 / positionLimitHigh.y);
             if (velocity.z < 0) velocity.z *= -1 * (0.95f + random.nextInt(10)/100f);
         }
         if (ballModelMatrix.M43 > positionLimitHigh.z)
         {
-            frontWall.Paint(ballModelMatrix.M41/positionLimitHigh.x, ballModelMatrix.M42/positionLimitHigh.y);
+            frontWall.paint(ballModelMatrix.M41 / positionLimitHigh.x, ballModelMatrix.M42 / positionLimitHigh.y);
             if (velocity.z > 0) velocity.z *= -1 * (0.95f + random.nextInt(10)/100f);
         }
         position = position.add(velocity);

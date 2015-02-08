@@ -161,7 +161,10 @@ public class Tutorials extends Activity implements
             case 49: TestRenderer.tutorial = new Tut_Tennis3D_Old(); break;
             case 50: TestRenderer.tutorial = new Tut_TexturePerspective(); break;
             case 51: TestRenderer.tutorial = new Tut_WireFramePerspective(); break;
-
+            case 52: TestRenderer.tutorial = new Tut_PaintWallPerspective(); break;
+            case 53: TestRenderer.tutorial = new Tut_PaintBox(); break;
+            case 54: TestRenderer.tutorial = new Tut_PaintBox2(); break;
+            case 55: TestRenderer.tutorial = new Tut_Ball(); break;
             default:
                 final Toast toast2 = Toast.makeText(Shader.context,"Not implemented", Toast.LENGTH_SHORT);
                 toast2.show();

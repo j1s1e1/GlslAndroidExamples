@@ -3,6 +3,7 @@ package com.tutorial.glsltutorials.tutorials.Shapes;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.FragmentShaders;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.VertexShaders;
 import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
+import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 import com.tutorial.glsltutorials.tutorials.ProgramData.Programs;
 
 /**
@@ -10,11 +11,22 @@ import com.tutorial.glsltutorials.tutorials.ProgramData.Programs;
  */
 public class LitMatrixSphere2 extends Shape {
     float radius;
+    int divideCount = 1;
 
-    public LitMatrixSphere2 (float radius_in)
-    {
+    public LitMatrixSphere2 (float radius_in, int divideCountIn) {
         radius = radius_in;
-        vertexCoords = getCircleCoords(radius);
+        divideCount = divideCountIn;
+        setup();
+    }
+
+    public LitMatrixSphere2 (float radius_in) {
+        radius = radius_in;
+        setup();
+    }
+
+    void setup()
+    {
+        vertexCoords = getCircleCoords();
         vertexCount = vertexCoords.length / COORDS_PER_VERTEX / 2;
 
         vertexData = vertexCoords;
@@ -26,9 +38,9 @@ public class LitMatrixSphere2 extends Shape {
                 FragmentShaders.lms_fragmentShaderCode);
     }
 
-    private float[] getCircleCoords(float radius)
+    private float[] getCircleCoords()
     {
-        float[] coords = Icosahedron.triangles.clone();
+        float[] coords = Icosahedron.GetDividedTriangles(divideCount);
         float[] coords_with_normals = new float[2*coords.length];
         int j = 0;
         for (int i = 0; i < coords.length * 2; i++)
@@ -62,6 +74,11 @@ public class LitMatrixSphere2 extends Shape {
         mm.M43 = offset.z;
 
         Programs.draw(programNumber, vertexBufferObject, indexBufferObject, mm, indexData.length, color);
+    }
+
+    public void setLightPosition(Vector3f lightPosition)
+    {
+        Programs.setLightPosition(programNumber, lightPosition);
     }
 
     public void draw() {

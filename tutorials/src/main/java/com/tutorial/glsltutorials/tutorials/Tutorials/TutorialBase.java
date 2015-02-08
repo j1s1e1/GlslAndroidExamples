@@ -305,6 +305,16 @@ public abstract class TutorialBase {
                 g_fzFar = 2f;
                 callReshape = true;
                 break;
+            case KeyEvent.KEYCODE_6:
+                g_fzNear = 0.1f;
+                g_fzFar = 100f;
+                callReshape = true;
+                break;
+            case KeyEvent.KEYCODE_7:
+                g_fzNear = 0.1f;
+                g_fzFar = 10f;
+                callReshape = true;
+                break;
         }
     }
 

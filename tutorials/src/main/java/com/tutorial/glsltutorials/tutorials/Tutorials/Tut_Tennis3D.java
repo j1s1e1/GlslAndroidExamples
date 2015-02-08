@@ -39,12 +39,12 @@ public class Tut_Tennis3D extends TutorialBase
     float wallMovementStep = 0.1f;
 
     float frontwallRotation = 180f;
-    static float wallAngle = 70f;
-    static float wallMovement = 0.7f;
-    static Vector3f wallScale = new Vector3f(20f, 20f, 20f);
+    static float wallAngle = 90f;
+    static float wallMovement = 1.0f;
+    static Vector3f wallScale = new Vector3f(1f, 1f, 1f);
     boolean useBall = false;
-    boolean drawWalls = true;
-    static boolean oldWallMovement = false;
+    boolean drawWalls = false;
+    boolean drawFrontBackWalls = false;
     boolean reverseCamRot = false;
     Random random = new Random();
     int playerNumber = 0;
@@ -111,15 +111,7 @@ public class Tut_Tennis3D extends TutorialBase
         public MaterialBlock materialBlock;
     };
 
-    static ProgramData UniformColor;
     static ProgramData ObjectColor;
-    static ProgramData UniformColorTint;
-
-    static ProgramData g_VertexDiffuseColor;
-    static ProgramData g_WhiteAmbDiffuseColor;
-    static ProgramData g_Unlit;
-    static ProgramData g_litShaderProg;
-
 
     static ProgramData currentProgram;
 
@@ -176,54 +168,6 @@ public class Tut_Tennis3D extends TutorialBase
 
     void initializeProgram()
     {
-        UniformColor = loadProgram(VertexShaders.PosOnlyWorldTransform_vert, FragmentShaders.ColorUniform_frag);
-        GLES20.glUseProgram(UniformColor.theProgram);
-        GLES20.glUniform4f(UniformColor.baseColorUnif, 0.694f, 0.4f, 0.106f, 1.0f);
-        GLES20.glUseProgram(0);
-
-        UniformColorTint = loadProgram(VertexShaders.PosColorWorldTransform_vert, FragmentShaders.ColorMultUniform_frag);
-        GLES20.glUseProgram(UniformColorTint.theProgram);
-        GLES20.glUniform4f(UniformColorTint.baseColorUnif, 0.5f, 0.5f, 0f, 1.0f);
-        GLES20.glUseProgram(0);
-
-        g_WhiteAmbDiffuseColor = loadProgram(VertexShaders.DirAmbVertexLighting_PN_vert,
-                FragmentShaders.ColorPassthrough_frag);
-
-        g_VertexDiffuseColor = loadProgram(VertexShaders.DirVertexLighting_PCN,
-                FragmentShaders.ColorPassthrough_frag);
-
-        g_Unlit = loadProgram(VertexShaders.unlit, FragmentShaders.unlit);
-
-        g_litShaderProg = loadProgram(VertexShaders.BasicTexture_PN, FragmentShaders.ShaderGaussian);
-
-        GLES20.glUseProgram(g_Unlit.theProgram);
-        GLES20.glUniform4f(g_Unlit.baseColorUnif, 0.5f, 0.5f, 0f, 1.0f);
-        Matrix4f test = Matrix4f.Identity();
-        GLES20.glUniformMatrix4fv(g_Unlit.cameraToClipMatrixUnif, 1, false, test.toArray(), 0);
-        GLES20.glUseProgram(0);
-
-        // Test shader lights and materials
-        GLES20.glUseProgram(g_litShaderProg.theProgram);
-        g_litShaderProg.lightBlock = new LightBlock(NUMBER_OF_LIGHTS);
-        g_litShaderProg.lightBlock.setUniforms(g_litShaderProg.theProgram);
-
-        g_litShaderProg.lightBlock.ambientIntensity = new Vector4f(0.1f, 0.1f, 0.1f, 1.0f);
-
-        g_litShaderProg.lightBlock.lights[0].cameraSpaceLightPos = new Vector4f(4.0f, 0.0f, 1.0f, 1.0f);
-        g_litShaderProg.lightBlock.lights[0].lightIntensity = new Vector4f(0.7f, 0.0f, 0.0f, 1.0f);
-
-        g_litShaderProg.lightBlock.lights[1].cameraSpaceLightPos = new Vector4f(4.0f, 0.0f, 1.0f, 1.0f);
-        g_litShaderProg.lightBlock.lights[1].lightIntensity = new Vector4f(0.0f, 0.0f, 0.7f, 1.0f);
-
-        g_litShaderProg.lightBlock.updateInternal();
-
-        g_litShaderProg.materialBlock = new MaterialBlock(new Vector4f(0.0f, 0.3f, 0.0f, 1.0f),
-                new Vector4f(0.5f, 0.0f, 0.5f, 1.0f), 0.6f);
-        g_litShaderProg.materialBlock.setUniforms(g_litShaderProg.theProgram);
-        g_litShaderProg.materialBlock.updateInternal();
-
-        GLES20.glUseProgram(0);
-
         ObjectColor = loadProgram(VertexShaders.PosColorWorldTransform_vert, FragmentShaders.ColorPassthrough_frag);
         currentProgram = ObjectColor;
 
@@ -270,48 +214,32 @@ public class Tut_Tennis3D extends TutorialBase
         Camera.moveTarget(0f, 0f, 0.0f);
         reshape();
         current_mesh = g_unitSphereMesh;
-        if (oldWallMovement)
-        {
-            frontWall.move(0f, 0f, -0.05f);
-            frontWall.rotateShape(Vector3f.UnitX, frontwallRotation);
 
-            backWall.move(0f, 0f, -0.9f);
-            backWall.scale(0.5f);
-
-
-            leftWall.move(-wallMovement, 0f, 0f);
-            leftWall.rotateShape(Vector3f.UnitY, wallAngle);
-            rightWall.move(wallMovement, 0f, 0f);
-            rightWall.rotateShape(Vector3f.UnitY, -wallAngle);
-
-            topWall.move(0f, wallMovement, 0f);
-            topWall.rotateShape(Vector3f.UnitX, wallAngle);
-            bottomWall.move(0f, -wallMovement, 0f);
-            bottomWall.rotateShape(Vector3f.UnitX, -wallAngle);
-        }
-        else
-        {
         frontWall.move(0f, 0f, 1f);
         frontWall.scale(wallScale);
 
         backWall.move(0f, 0f, -1f);
         backWall.scale(wallScale);
 
-        leftWall.move(-wallMovement, 0f, 0f);
+        leftWall.move(-wallMovement, 0f, -0.5f);
         leftWall.scale(wallScale);
         leftWall.rotateShape(Vector3f.UnitY, wallAngle);
-        rightWall.move(wallMovement, 0f, 0f);
+
+        rightWall.move(wallMovement, 0f, -0.5f);
         rightWall.scale(wallScale);
         rightWall.rotateShape(Vector3f.UnitY, -wallAngle);
 
-        topWall.move(0f, wallMovement, 0f);
+        topWall.move(0f, wallMovement, -0.5f);
         topWall.scale(wallScale);
         topWall.rotateShape(Vector3f.UnitX, wallAngle);
-        bottomWall.move(0f, -wallMovement, 0f);
+
+        bottomWall.move(0f, -wallMovement, -0.5f);
         bottomWall.scale(wallScale);
         bottomWall.rotateShape(Vector3f.UnitX, -wallAngle);
 
-        }
+        g_fzNear = 0.5f;
+        g_fzFar = 10f;
+        reshape();
     }
     public void display() throws Exception
     {
@@ -325,7 +253,7 @@ public class Tut_Tennis3D extends TutorialBase
         {
             Shape.worldToCamera = Matrix4f.Identity();
         }
-        if (drawWalls) backWall.draw();
+        if (drawFrontBackWalls) backWall.draw();
         if (drawWalls) leftWall.draw();
         if (drawWalls) rightWall.draw();
         if (drawWalls) topWall.draw();
@@ -397,7 +325,7 @@ public class Tut_Tennis3D extends TutorialBase
         {
             Shape.worldToCamera = Matrix4f.Identity();
         }
-        if (drawWalls) frontWall.draw();
+        if (drawFrontBackWalls) frontWall.draw();
         Shape.cameraToClip = cameraToClipMatrix;
         Shape.worldToCamera = worldToCameraMatrix;
         if (pause == false)
@@ -454,32 +382,32 @@ public class Tut_Tennis3D extends TutorialBase
     {
         if (ballModelMatrix.M41 < positionLimitLow.x)
         {
-            leftWall.Paint(ballModelMatrix.M43/positionLimitHigh.x, ballModelMatrix.M42/positionLimitHigh.y);
+            leftWall.paint(ballModelMatrix.M43 / positionLimitHigh.x, ballModelMatrix.M42 / positionLimitHigh.y);
             if (velocity.x < 0) velocity.x *= -1;
         }
         if (ballModelMatrix.M41 > positionLimitHigh.x)
         {
-            rightWall.Paint(ballModelMatrix.M43/positionLimitHigh.x, ballModelMatrix.M42/positionLimitHigh.y);
+            rightWall.paint(ballModelMatrix.M43 / positionLimitHigh.x, ballModelMatrix.M42 / positionLimitHigh.y);
             if (velocity.x > 0) velocity.x *= -1;
         }
         if (ballModelMatrix.M42 < positionLimitLow.y)
         {
-            bottomWall.Paint(ballModelMatrix.M41/positionLimitHigh.x, ballModelMatrix.M43/positionLimitHigh.y);
+            bottomWall.paint(ballModelMatrix.M41 / positionLimitHigh.x, ballModelMatrix.M43 / positionLimitHigh.y);
             if (velocity.y < 0) velocity.y *= -1;
         }
         if (ballModelMatrix.M42 > positionLimitHigh.y)
         {
-            topWall.Paint(ballModelMatrix.M41/positionLimitHigh.x, ballModelMatrix.M43/positionLimitHigh.y);
+            topWall.paint(ballModelMatrix.M41 / positionLimitHigh.x, ballModelMatrix.M43 / positionLimitHigh.y);
             if (velocity.y > 0) velocity.y *= -1;
         }
         if (ballModelMatrix.M43 < positionLimitLow.z)
         {
-            backWall.Paint(ballModelMatrix.M41/positionLimitHigh.x, ballModelMatrix.M42/positionLimitHigh.y);
+            backWall.paint(ballModelMatrix.M41 / positionLimitHigh.x, ballModelMatrix.M42 / positionLimitHigh.y);
             if (velocity.z < 0) velocity.z *= -1;
         }
         if (ballModelMatrix.M43 > positionLimitHigh.z)
         {
-            frontWall.Paint(ballModelMatrix.M41/positionLimitHigh.x, ballModelMatrix.M42/positionLimitHigh.y);
+            frontWall.paint(ballModelMatrix.M41 / positionLimitHigh.x, ballModelMatrix.M42 / positionLimitHigh.y);
             if (velocity.z > 0) velocity.z *= -1;
         }
         position = position.add(velocity);
@@ -504,11 +432,10 @@ public class Tut_Tennis3D extends TutorialBase
         MatrixStack camMatrix = new MatrixStack();
         camMatrix.SetMatrix(Camera.GetLookAtMatrix());
 
-        worldToCameraMatrix = camMatrix.Top();
-
         MatrixStack persMatrix = new MatrixStack();
         persMatrix.perspective(perspectiveAngle, (width / (float) height), g_fzNear, g_fzFar);
-        cameraToClipMatrix = persMatrix.Top();
+        worldToCameraMatrix = persMatrix.Top();
+        cameraToClipMatrix = Matrix4f.Identity();
         //ChangePlayerView();
         SetGlobalMatrices(currentProgram);
 
@@ -727,17 +654,6 @@ public class Tut_Tennis3D extends TutorialBase
                     else {
                         drawWalls = true;
                         Log.i("KeyEvent", "drawWalls = true");
-                    }
-                    break;
-                case KeyEvent.KEYCODE_O:
-                    if (oldWallMovement) {
-                        oldWallMovement = false;
-                        Log.i("KeyEvent", "newWallMovement");
-                    }
-                    else
-                    {
-                        oldWallMovement = true;
-                        Log.i("KeyEvent", "oldWallMovement");
                     }
                     break;
             }

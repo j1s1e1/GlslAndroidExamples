@@ -56,4 +56,21 @@ public class Movement {
         zLimitLow = low.z;
         zLimitHigh = high.z;
     }
+
+    public void moveLimits(Vector3f v)
+    {
+        xLimitLow += v.x;
+        xLimitHigh += v.x;
+        yLimitLow += v.y;
+        yLimitHigh += v.y;
+        zLimitLow += v.z;
+        zLimitHigh += v.z;
+    }
+
+    public String getLimits()
+    {
+        Vector3f low = new Vector3f(xLimitLow, yLimitLow, zLimitLow);
+        Vector3f high = new Vector3f(xLimitHigh, yLimitHigh, zLimitHigh);
+        return low.toString() + " " + high.toString();
+    }
 }

@@ -8,6 +8,8 @@ import com.tutorial.glsltutorials.tutorials.Geometry.Matrix3f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector4f;
+import com.tutorial.glsltutorials.tutorials.Light.LightBlock;
+import com.tutorial.glsltutorials.tutorials.Material.MaterialBlock;
 import com.tutorial.glsltutorials.tutorials.Shapes.Shape;
 
 /**
@@ -51,6 +53,9 @@ public class ProgramData {
     int TEXTURE_DATA_SIZE_IN_ELEMENTS = 2;
     int TEXTURE_START = 3 * 4 + 3 * 4;
     protected int vertexStride = 3 * 4; // bytes per vertex default to only 3 position floats
+
+    LightBlock lightBlock;
+    MaterialBlock materialBlock;
 
 
     public ProgramData(String vertexShaderIn, String fragmentShaderIn)
@@ -338,6 +343,28 @@ public class ProgramData {
         GLES20.glUseProgram(theProgram);
         GLES20.glUniformMatrix4fv(modelToCameraMatrixUnif, 1, false, modelToCameraMatrix.toArray(), 0);
         GLES20.glUseProgram(0);
+    }
+
+    public void setUpLightBlock(int numberOfLights)
+    {
+        lightBlock = new LightBlock(numberOfLights);
+        lightBlock.setUniforms(theProgram);
+    }
+
+    public void setUpMaterialBlock()
+    {
+        materialBlock = new MaterialBlock();
+        materialBlock.setUniforms(theProgram);
+    }
+
+    public void updateLightBlock(LightBlock lb)
+    {
+        lightBlock.update(lb);
+    }
+
+    public void updateMaterialBlock(MaterialBlock mb)
+    {
+        materialBlock.update(mb);
     }
 
     public void setModelToWorldMatrix(Matrix4f modelToWorldMatrix)

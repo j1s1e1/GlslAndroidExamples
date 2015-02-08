@@ -5,60 +5,63 @@ import android.util.Log;
 import android.view.KeyEvent;
 
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Textures;
-import com.tutorial.glsltutorials.tutorials.Geometry.Matrix3f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 import com.tutorial.glsltutorials.tutorials.MatrixStack;
-import com.tutorial.glsltutorials.tutorials.R;
 import com.tutorial.glsltutorials.tutorials.Shapes.Shape;
-import com.tutorial.glsltutorials.tutorials.Textures.TextureElement;
+import com.tutorial.glsltutorials.tutorials.Textures.PaintBox;
+
+import java.util.Random;
 
 /**
- * Created by jamie on 12/31/14.
+ * Created by jamie on 1/10/15.
  */
-public class Tut_TexturePerspective extends TutorialBase {
-    static TextureElement wood;
-    static TextureElement wood2;
-    static TextureElement wood3;
-    static TextureElement wood4;
-    boolean drawWood = true;
+public class Tut_PaintBox2 extends TutorialBase {
+    static PaintBox paintBox;
+    Random random = new Random();
+    float ballRadius = 0.25f;
+    float ballSpeedFactor = 1f;
+    static float ballLimit = 0.75f;
+    static Vector3f ballOffset = new Vector3f(0f, 0f, -1f);
+    Vector3f ballLimitLow = ballOffset.add(new Vector3f(-ballLimit, -ballLimit, -ballLimit));
+    Vector3f ballLimitHigh = ballOffset.add(new Vector3f(ballLimit, ballLimit, ballLimit));
+    Vector3f boxLimitLow;
+    Vector3f boxLimitHigh;
+    Vector3f ballSpeed;
 
     float perspectiveAngle = 90f;
     float newPerspectiveAngle = 90f;
 
     float textureRotation = -90f;
+    float epsilon = 0.251f;
+
+    float moveZ = -1f;
+
+    int ballProgram;
+    int numberOfLights = 2;
 
     protected void init ()
     {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        // bottom
-        wood = new TextureElement(R.drawable.wood4_rotate);
-        wood.scale(1.0f);
-        wood.rotateShape(new Vector3f(1f, 0f, 0f), textureRotation);
-        wood.move(0f, -1f, -0.5f);
+        boxLimitLow = new Vector3f();
+        boxLimitLow = ballLimitLow.sub(new Vector3f(ballRadius, ballRadius, ballRadius));
+        boxLimitHigh = new Vector3f();
+        boxLimitHigh = ballLimitHigh.add(new Vector3f(ballRadius, ballRadius, ballRadius));
 
-        // right
-        wood2 = new TextureElement(R.drawable.wood4_rotate);
-        wood2.scale(1.0f);
-        wood2.rotateShape(new Vector3f(0f, 1f, 0f), textureRotation);
-        wood2.move(1f, 0f, -0.5f);
+        paintBox = new PaintBox();
+        ballSpeed = new Vector3f(
+                ballSpeedFactor + ballSpeedFactor * (float)random.nextDouble(),
+                ballSpeedFactor + ballSpeedFactor * (float)random.nextDouble(),
+                ballSpeedFactor + ballSpeedFactor * (float)random.nextDouble());
 
-        // top
-        wood3 = new TextureElement(R.drawable.wood4_rotate);
-        wood3.scale(1.0f);
-        wood3.rotateShape(new Vector3f(1f, 0f, 0f), -textureRotation);
-        wood3.move(0f, 1f, -0.5f);
-
-        // left
-        wood4 = new TextureElement(R.drawable.wood4_rotate);
-        wood4.scale(1.0f);
-        wood4.rotateShape(new Vector3f(0f, 1f, 0f), -textureRotation);
-        wood4.move(-1f, 0f, -0.5f);
+        paintBox.setLimits(boxLimitLow, boxLimitHigh, new Vector3f(epsilon, epsilon, epsilon));
+        paintBox.move(new Vector3f(0f, 0f, -1f));
 
         setupDepthAndCull();
+        GLES20.glDisable(GLES20.GL_CULL_FACE);
         Textures.enableTextures();
         g_fzNear = 0.5f;
-        g_fzFar = 10f;
+        g_fzFar = 100f;
         reshape();
     }
 
@@ -86,13 +89,7 @@ public class Tut_TexturePerspective extends TutorialBase {
     public void display()
     {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
-        if (drawWood)
-        {
-            wood.draw();
-            wood2.draw();
-            wood3.draw();
-            wood4.draw();
-        }
+        paintBox.draw();
         if (perspectiveAngle != newPerspectiveAngle)
         {
             perspectiveAngle = newPerspectiveAngle;
@@ -115,33 +112,45 @@ public class Tut_TexturePerspective extends TutorialBase {
                     displayOptions = true;
                     break;
                 case KeyEvent.KEYCODE_1:
-                    wood.rotateShape(Vector3f.UnitX, 5f);
+                    paintBox.move(new Vector3f(0f, 0f, 0.1f));
                     break;
                 case KeyEvent.KEYCODE_2:
-                    wood.rotateShape(Vector3f.UnitY, 5f);
+                    paintBox.move(new Vector3f(0f, 0f, -0.1f));
                     break;
                 case KeyEvent.KEYCODE_3:
-                    wood.rotateShape(Vector3f.UnitZ, 5f);
+                    paintBox.moveFront(new Vector3f(0f, 0f, 0.1f));
                     break;
                 case KeyEvent.KEYCODE_4:
-                    wood.rotateShape(Vector3f.UnitX, -5f);
+                    paintBox.moveFront(new Vector3f(0f, 0f, -0.1f));
                     break;
                 case KeyEvent.KEYCODE_5:
-                    wood.rotateShape(Vector3f.UnitY, -5f);
+                    paintBox.rotateShape(Vector3f.UnitX, 5f);
+                    Log.i("KeyEvent", "RotateShape 5X");
                     break;
                 case KeyEvent.KEYCODE_6:
-                    wood.rotateShape(Vector3f.UnitZ, -5f);
+                    paintBox.rotateShape(Vector3f.UnitY, 5f);
+                    Log.i("KeyEvent", "RotateShape 5Y");
                     break;
                 case KeyEvent.KEYCODE_7:
-                    wood.move(0f, 0f, 0.5f);
+                    paintBox.rotateShape(Vector3f.UnitZ, 5f);
+                    Log.i("KeyEvent", "RotateShape 5Z");
                     break;
                 case KeyEvent.KEYCODE_8:
-                    wood.move(0f, 0f, -0.5f);
+                    paintBox.rotateShapeOffset(Vector3f.UnitX, 5f);
+                    Log.i("KeyEvent", "RotateShapeOffset 5X");
                     break;
                 case KeyEvent.KEYCODE_9:
                     break;
                 case KeyEvent.KEYCODE_0:
-                    wood.setRotation(Matrix3f.Identity());
+                    break;
+                case KeyEvent.KEYCODE_A:
+                    break;
+                case KeyEvent.KEYCODE_B:
+                    break;
+                case KeyEvent.KEYCODE_C:
+                    paintBox.clear();
+                    break;
+                case KeyEvent.KEYCODE_D:
                     break;
                 case KeyEvent.KEYCODE_F:
                     break;
@@ -156,18 +165,6 @@ public class Tut_TexturePerspective extends TutorialBase {
                     if (newPerspectiveAngle > 170f) {
                         newPerspectiveAngle = 30f;
                     }
-                    break;
-                case KeyEvent.KEYCODE_W:
-                    if (drawWood)
-                        drawWood = false;
-                    else
-                        drawWood = true;
-                    break;
-                case  KeyEvent.KEYCODE_Y:
-                    wood.scale(0.9f);
-                    break;
-                case  KeyEvent.KEYCODE_Z:
-                    wood.scale(1.1f);
                     break;
             }
         }

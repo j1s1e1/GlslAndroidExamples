@@ -10,7 +10,7 @@ import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 import com.tutorial.glsltutorials.tutorials.MatrixStack;
 import com.tutorial.glsltutorials.tutorials.R;
-import com.tutorial.glsltutorials.tutorials.Textures.TextureElement;
+import com.tutorial.glsltutorials.tutorials.Textures.TextureElement2;
 
 /**
  * Created by jamie on 12/31/14.
@@ -18,7 +18,7 @@ import com.tutorial.glsltutorials.tutorials.Textures.TextureElement;
 public class Tut_RotateTexture extends TutorialBase {
     boolean cull = true;
     boolean alpha = true;
-    static TextureElement wood;
+    static TextureElement2 wood;
     boolean drawWood = true;
 
     float perspectiveAngle = 60f;
@@ -27,7 +27,7 @@ public class Tut_RotateTexture extends TutorialBase {
     protected void init ()
     {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        wood = new TextureElement(R.drawable.wood4_rotate);
+        wood = new TextureElement2(R.drawable.wood4_rotate);
         wood.scale(0.5f);
         wood.move(0f, 0f, -0.2f);
         setupDepthAndCull();

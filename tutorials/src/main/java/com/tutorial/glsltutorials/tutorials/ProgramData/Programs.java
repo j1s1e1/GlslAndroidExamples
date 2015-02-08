@@ -4,6 +4,8 @@ import com.tutorial.glsltutorials.tutorials.Geometry.Matrix3f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector4f;
+import com.tutorial.glsltutorials.tutorials.Light.LightBlock;
+import com.tutorial.glsltutorials.tutorials.Material.MaterialBlock;
 
 import java.util.ArrayList;
 
@@ -114,6 +116,26 @@ public class Programs {
     public static void setModelToCameraMatrix(int program, Matrix4f modelToCameraMatrix)
     {
         ActivePrograms.get(program).setModelToCameraMatrix(modelToCameraMatrix);
+    }
+
+    public static void setUpLightBlock(int program, int numberOfLights)
+    {
+        ActivePrograms.get(program).setUpLightBlock(numberOfLights);
+    }
+
+    public static void setUpMaterialBlock(int program)
+    {
+        ActivePrograms.get(program).setUpMaterialBlock();
+    }
+
+    public static void updateLightBlock(int program, LightBlock lb)
+    {
+        ActivePrograms.get(program).updateLightBlock(lb);
+    }
+
+    public static void updateMaterialBlock(int program, MaterialBlock mb)
+    {
+        ActivePrograms.get(program).updateMaterialBlock(mb);
     }
 
     public static void setCameraToClipMatrixUnif(int program, Matrix4f cameraToClipMatrix)

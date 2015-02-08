@@ -16,7 +16,7 @@ public class PaintWall
     int width = 256;
     int height = 256;
     int clearWidth = 120;
-    TextureElement textureElement;
+    TextureElement2 textureElement;
     Random random;
     public PaintWall ()
     {
@@ -35,7 +35,7 @@ public class PaintWall
                 }
             }
         }
-        textureElement = new TextureElement(bitmap);
+        textureElement = new TextureElement2(bitmap);
         random = new Random();
     }
 
@@ -77,7 +77,7 @@ public class PaintWall
         Paint(colStart, rowStart, 9, color);
     }
 
-    public void Paint(float x, float y)
+    public void paint(float x, float y)
     {
         int colStart = (int)(width/2 + x * width/2);
         int rowStart = (int)(height/2 + y * width/2);
@@ -116,6 +116,36 @@ public class PaintWall
     public void rotateShape(Vector3f axis, float angle)
     {
         textureElement.rotateShape(axis, angle);
+    }
+
+    public void rotateShape(Vector3f offset, Vector3f axis, float angle)
+    {
+        textureElement.rotateShape(offset, axis, angle);
+    }
+
+    public void setLightPosition(Vector3f v)
+    {
+        textureElement.setLightPosition(v);
+    }
+
+    public void clear()
+    {
+        bitmap=Bitmap.createBitmap( width, height,Bitmap.Config.ARGB_8888);
+        for (int col = 0; col < width; col++)
+        {
+            for (int row = 0; row < height; row++)
+            {
+                if ((Math.abs(row - 128) < clearWidth) & (Math.abs(col - 128) < clearWidth))
+                {
+                    // clear pixels bitmap.SetPixel(col, row, Color.White);
+                }
+                else
+                {
+                    bitmap.setPixel(col, row, Color.BLUE);
+                }
+            }
+        }
+        textureElement.replace(bitmap);
     }
 
     public void draw()

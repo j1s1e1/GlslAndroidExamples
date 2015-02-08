@@ -61,7 +61,6 @@ public class Tut_MultipleShaders extends TutorialBase {
         spheres.add(lms);
 
 
-
         alien = new Alien();
         alien.setProgram(DirVertexLighting_PN);
         aliens.add(alien);

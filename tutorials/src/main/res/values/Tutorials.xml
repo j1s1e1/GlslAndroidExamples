@@ -53,6 +53,9 @@
         <item>Tut_Tennis3D_Old</item>
         <item>Tut_TexturePerspective</item>
         <item>Tut_WireFramePerspective</item>
-
+        <item>Tut_PaintWallPerspective</item>
+        <item>Tut_PaintBox</item>
+        <item>Tut_PaintBox2</item>
+        <item>Tut_Ball</item>
     </string-array>
 </resources>

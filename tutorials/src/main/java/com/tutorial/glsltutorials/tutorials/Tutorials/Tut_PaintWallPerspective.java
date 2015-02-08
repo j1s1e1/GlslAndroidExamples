@@ -5,60 +5,77 @@ import android.util.Log;
 import android.view.KeyEvent;
 
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Textures;
-import com.tutorial.glsltutorials.tutorials.Geometry.Matrix3f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 import com.tutorial.glsltutorials.tutorials.MatrixStack;
-import com.tutorial.glsltutorials.tutorials.R;
 import com.tutorial.glsltutorials.tutorials.Shapes.Shape;
-import com.tutorial.glsltutorials.tutorials.Textures.TextureElement;
+import com.tutorial.glsltutorials.tutorials.Textures.PaintWall;
 
 /**
  * Created by jamie on 12/31/14.
  */
-public class Tut_TexturePerspective extends TutorialBase {
-    static TextureElement wood;
-    static TextureElement wood2;
-    static TextureElement wood3;
-    static TextureElement wood4;
-    boolean drawWood = true;
+public class Tut_PaintWallPerspective extends TutorialBase {
+    static PaintWall backWall;
+    static PaintWall bottomWall;
+    static PaintWall rightWall;
+    static PaintWall topWall;
+    static PaintWall leftWall;
+    static PaintWall frontWall;
+    boolean drawWalls = true;
 
     float perspectiveAngle = 90f;
     float newPerspectiveAngle = 90f;
 
     float textureRotation = -90f;
 
+    float moveZ = -1f;
+
     protected void init ()
     {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+        // back
+        backWall = new PaintWall();
+        backWall.scale(1.0f);
+        backWall.rotateShape(new Vector3f(1f, 0f, 0f), 0f);
+        backWall.move(0f, 0f, -1.9f);
+        backWall.setLightPosition(new Vector3f(0f, 0f, 1.6f));
+
         // bottom
-        wood = new TextureElement(R.drawable.wood4_rotate);
-        wood.scale(1.0f);
-        wood.rotateShape(new Vector3f(1f, 0f, 0f), textureRotation);
-        wood.move(0f, -1f, -0.5f);
+        bottomWall = new PaintWall();
+        bottomWall.scale(1.0f);
+        bottomWall.rotateShape(new Vector3f(1f, 0f, 0f), textureRotation);
+        bottomWall.move(0f, -1f, moveZ);
 
         // right
-        wood2 = new TextureElement(R.drawable.wood4_rotate);
-        wood2.scale(1.0f);
-        wood2.rotateShape(new Vector3f(0f, 1f, 0f), textureRotation);
-        wood2.move(1f, 0f, -0.5f);
+        rightWall = new PaintWall();
+        rightWall.scale(1.0f);
+        rightWall.rotateShape(new Vector3f(0f, 1f, 0f), textureRotation);
+        rightWall.move(1f, 0f, moveZ);
 
         // top
-        wood3 = new TextureElement(R.drawable.wood4_rotate);
-        wood3.scale(1.0f);
-        wood3.rotateShape(new Vector3f(1f, 0f, 0f), -textureRotation);
-        wood3.move(0f, 1f, -0.5f);
+        topWall = new PaintWall();
+        topWall.scale(1.0f);
+        topWall.rotateShape(new Vector3f(1f, 0f, 0f), -textureRotation);
+        topWall.move(0f, 1f, moveZ);
 
         // left
-        wood4 = new TextureElement(R.drawable.wood4_rotate);
-        wood4.scale(1.0f);
-        wood4.rotateShape(new Vector3f(0f, 1f, 0f), -textureRotation);
-        wood4.move(-1f, 0f, -0.5f);
+        leftWall = new PaintWall();
+        leftWall.scale(1.0f);
+        leftWall.rotateShape(new Vector3f(0f, 1f, 0f), -textureRotation);
+        leftWall.move(-1f, 0f, moveZ);
+
+        // front
+        frontWall = new PaintWall();
+        frontWall.scale(1.0f);
+        frontWall.rotateShape(new Vector3f(1f, 0f, 0f), 0f);
+        frontWall.move(0f, 0f, -0.6f);
+        frontWall.setLightPosition(new Vector3f(0f, 0f, 0.2f));
 
         setupDepthAndCull();
         Textures.enableTextures();
         g_fzNear = 0.5f;
-        g_fzFar = 10f;
+        g_fzFar = 100f;
         reshape();
     }
 
@@ -86,12 +103,14 @@ public class Tut_TexturePerspective extends TutorialBase {
     public void display()
     {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
-        if (drawWood)
+        if (drawWalls)
         {
-            wood.draw();
-            wood2.draw();
-            wood3.draw();
-            wood4.draw();
+            backWall.draw();
+            bottomWall.draw();
+            rightWall.draw();
+            topWall.draw();
+            leftWall.draw();
+            frontWall.draw();
         }
         if (perspectiveAngle != newPerspectiveAngle)
         {
@@ -115,33 +134,52 @@ public class Tut_TexturePerspective extends TutorialBase {
                     displayOptions = true;
                     break;
                 case KeyEvent.KEYCODE_1:
-                    wood.rotateShape(Vector3f.UnitX, 5f);
+                    bottomWall.rotateShape(Vector3f.UnitX, 5f);
                     break;
                 case KeyEvent.KEYCODE_2:
-                    wood.rotateShape(Vector3f.UnitY, 5f);
+                    bottomWall.rotateShape(Vector3f.UnitY, 5f);
                     break;
                 case KeyEvent.KEYCODE_3:
-                    wood.rotateShape(Vector3f.UnitZ, 5f);
+                    bottomWall.rotateShape(Vector3f.UnitZ, 5f);
                     break;
                 case KeyEvent.KEYCODE_4:
-                    wood.rotateShape(Vector3f.UnitX, -5f);
+                    bottomWall.rotateShape(Vector3f.UnitX, -5f);
                     break;
                 case KeyEvent.KEYCODE_5:
-                    wood.rotateShape(Vector3f.UnitY, -5f);
+                    bottomWall.rotateShape(Vector3f.UnitY, -5f);
                     break;
                 case KeyEvent.KEYCODE_6:
-                    wood.rotateShape(Vector3f.UnitZ, -5f);
+                    bottomWall.rotateShape(Vector3f.UnitZ, -5f);
                     break;
                 case KeyEvent.KEYCODE_7:
-                    wood.move(0f, 0f, 0.5f);
+                    bottomWall.move(0f, 0f, 0.1f);
                     break;
                 case KeyEvent.KEYCODE_8:
-                    wood.move(0f, 0f, -0.5f);
+                    bottomWall.move(0f, 0f, -0.1f);
                     break;
                 case KeyEvent.KEYCODE_9:
+                    bottomWall.move(0f, 0f, 0.1f);
+                    topWall.move(0f, 0f, 0.1f);
+                    leftWall.move(0f, 0f, 0.1f);
+                    rightWall.move(0f, 0f, 0.1f);
                     break;
                 case KeyEvent.KEYCODE_0:
-                    wood.setRotation(Matrix3f.Identity());
+                    bottomWall.move(0f, 0f, -0.1f);
+                    topWall.move(0f, 0f, -0.1f);
+                    leftWall.move(0f, 0f, -0.1f);
+                    rightWall.move(0f, 0f, -0.1f);
+                    break;
+                case KeyEvent.KEYCODE_A:
+                    backWall.move(0f, 0f, 0.1f);
+                    break;
+                case KeyEvent.KEYCODE_B:
+                    backWall.move(0f, 0f, -0.1f);
+                    break;
+                case KeyEvent.KEYCODE_C:
+                    frontWall.move(0f, 0f, 0.1f);
+                    break;
+                case KeyEvent.KEYCODE_D:
+                    frontWall.move(0f, 0f, -0.1f);
                     break;
                 case KeyEvent.KEYCODE_F:
                     break;
@@ -158,16 +196,16 @@ public class Tut_TexturePerspective extends TutorialBase {
                     }
                     break;
                 case KeyEvent.KEYCODE_W:
-                    if (drawWood)
-                        drawWood = false;
+                    if (drawWalls)
+                        drawWalls = false;
                     else
-                        drawWood = true;
+                        drawWalls = true;
                     break;
                 case  KeyEvent.KEYCODE_Y:
-                    wood.scale(0.9f);
+                    bottomWall.scale(0.9f);
                     break;
                 case  KeyEvent.KEYCODE_Z:
-                    wood.scale(1.1f);
+                    bottomWall.scale(1.1f);
                     break;
             }
         }

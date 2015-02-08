@@ -43,7 +43,7 @@ public class Ball {
     public void setup(float radius)
     {
         otherObjects = new ArrayList<Paddle>();
-        body = new LitMatrixSphere2(0.05f);
+        body = new LitMatrixSphere2(radius, 4);
         float xOffset = 0f; // random.Next(20)/10f - 1f;
         float yOffset = 0f; // random.Next(20)/10f - 1f;
         float zOffset = 0f; // random.Next(10)/10f - 0.5f;
@@ -99,9 +99,19 @@ public class Ball {
         }
     }
 
+    public int getProgram()
+    {
+        return body.getProgram();
+    }
+
     public void setProgram(int newProgram)
     {
         body.setProgram(newProgram);
+    }
+
+    public void setLightPosition(Vector3f lightPosition)
+    {
+        body.setLightPosition(lightPosition);
     }
 
     public void setRandomControl()
@@ -138,9 +148,21 @@ public class Ball {
         movement.setLimits(lowLimits, highLimits);
     }
 
+    public void moveLimits(Vector3f v)
+    {
+        lowLimits.addNoCopy(v);
+        highLimits.addNoCopy(v);
+        movement.moveLimits(v);
+    }
+
     public Vector3f getOffset()
     {
         return body.getOffset();
+    }
+
+    public String getLimits()
+    {
+        return movement.getLimits();
     }
 
     public void addPaddle(Paddle paddle)
@@ -148,6 +170,11 @@ public class Ball {
         otherObjects.add(paddle);
         ElasticMovement em = (ElasticMovement) movement;
         em.setPaddles(otherObjects);
+    }
+
+    public void addOffset(Vector3f v)
+    {
+        body.setOffset(body.getOffset().add(v));
     }
 
     public void setSpeed(Vector3f speedIn)

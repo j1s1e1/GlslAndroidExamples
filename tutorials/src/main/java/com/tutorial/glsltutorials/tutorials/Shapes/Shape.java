@@ -87,6 +87,12 @@ public class Shape
         programNumber = newProgram;
     }
 
+    public int getProgram()
+    {
+        return programNumber;
+    }
+
+
     public static void resetCameraToClipMatrix()
     {
         cameraToClip = Matrix4f.Identity();
@@ -368,6 +374,15 @@ public class Shape
     {
         Matrix4f rotation = Matrix4f.CreateFromAxisAngle(rotationAxis, (float)Math.PI / 180.0f * angleDeg);
         modelToWorld = Matrix4f.mul(modelToWorld, rotation);
+    }
+
+    public void rotateShape(Vector3f offset, Vector3f rotationAxis, float angleDeg)
+    {
+        Matrix4f rotation = Matrix4f.CreateFromAxisAngle(rotationAxis, (float)Math.PI / 180.0f * angleDeg);
+        //rotation.Row3 = rotation.Row3 - new Vector4(offset, 0);
+        modelToWorld.SetRow3(modelToWorld.GetRow3().sub(new Vector4f(offset, 0)));
+        modelToWorld = Matrix4f.mul(modelToWorld, rotation);
+        modelToWorld.SetRow3(modelToWorld.GetRow3().sub(new Vector4f(offset, 0)));
     }
 
     public void setRotation(Matrix3f rotation)
