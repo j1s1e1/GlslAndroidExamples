@@ -176,8 +176,8 @@ public class Tut_05_Depth_Buffering extends TutorialBase {
 
     void InitializeProgram()
     {
-        int vertex_shader = Shader.loadShader(GLES20.GL_VERTEX_SHADER, standard_vert5);
-        int fragment_shader = Shader.loadShader(GLES20.GL_FRAGMENT_SHADER, StandardColors_frag);
+        int vertex_shader = Shader.compileShader(GLES20.GL_VERTEX_SHADER, standard_vert5);
+        int fragment_shader = Shader.compileShader(GLES20.GL_FRAGMENT_SHADER, StandardColors_frag);
         theProgram = Shader.createAndLinkProgram(vertex_shader, fragment_shader);
         positionAttribute = GLES20.glGetAttribLocation(theProgram, "position");
         colorAttribute = GLES20.glGetAttribLocation(theProgram, "color");

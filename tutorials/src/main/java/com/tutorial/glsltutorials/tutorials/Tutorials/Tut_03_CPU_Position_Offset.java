@@ -1,7 +1,9 @@
 package com.tutorial.glsltutorials.tutorials.Tutorials;
 
 import android.opengl.GLES20;
-import com.tutorial.glsltutorials.tutorials.GLES_Helpers.*;
+
+import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
+import com.tutorial.glsltutorials.tutorials.GLES_Helpers.VBO_Tools;
 
 import java.nio.FloatBuffer;
 
@@ -49,8 +51,8 @@ public class Tut_03_CPU_Position_Offset extends TutorialBase {
 
     private void InitializeProgram()
     {
-        int vertexShader = Shader.loadShader(GLES20.GL_VERTEX_SHADER, standard_vert);
-        int fragmentShader = Shader.loadShader(GLES20.GL_FRAGMENT_SHADER, standard_frag);
+        int vertexShader = Shader.compileShader(GLES20.GL_VERTEX_SHADER, standard_vert);
+        int fragmentShader = Shader.compileShader(GLES20.GL_FRAGMENT_SHADER, standard_frag);
         theProgram = Shader.createAndLinkProgram(vertexShader, fragmentShader);
         positionAttribute = GLES20.glGetAttribLocation(theProgram, "position");
     }

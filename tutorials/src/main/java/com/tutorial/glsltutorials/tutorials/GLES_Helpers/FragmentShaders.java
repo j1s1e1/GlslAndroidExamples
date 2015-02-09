@@ -195,15 +195,17 @@ public class FragmentShaders {
 
         // Calculate the dot product of the light vector and vertex normal. If the normal and light vector are
         // pointing in the same direction then it will get max illumination.
-        "float diffuse = max(dot(v_Normal, lightVector), 1.0);" +
+        "float diffuse = max(dot(v_Normal, lightVector), 0.0);" +
 
         // Add attenuation." +
         "diffuse = diffuse * (scaleFactor / distance);" +
 
         // Add ambient lighting"
-        "diffuse = diffuse + 0.2;" +
+        "diffuse = diffuse + 0.5;" +
 
         "vec4 textureColor = texture2D(diffuseColorTex, colorCoord);" +
+
+        "if (textureColor.w == 0.0) discard;" +
 
         // Multiply the color by the diffuse illumination level and texture value to get final output color."
         "gl_FragColor = vec4(diffuse * textureColor.xyz, textureColor.w);" +

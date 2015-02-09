@@ -62,8 +62,8 @@ public class ProgramData {
     {
         vertexShader = vertexShaderIn;
         fragmentShader = fragmentShaderIn;
-        int vertex_shader = Shader.loadShader(GLES20.GL_VERTEX_SHADER, vertexShader);
-        int fragment_shader = Shader.loadShader(GLES20.GL_FRAGMENT_SHADER, fragmentShader);
+        int vertex_shader = Shader.compileShader(GLES20.GL_VERTEX_SHADER, vertexShader);
+        int fragment_shader = Shader.compileShader(GLES20.GL_FRAGMENT_SHADER, fragmentShader);
         theProgram  = Shader.createAndLinkProgram(vertex_shader, fragment_shader);
 
         positionAttribute = GLES20.glGetAttribLocation(theProgram, "position");

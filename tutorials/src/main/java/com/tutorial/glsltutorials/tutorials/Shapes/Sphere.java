@@ -1,6 +1,7 @@
 package com.tutorial.glsltutorials.tutorials.Shapes;
 
 import android.opengl.GLES20;
+
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 
@@ -160,9 +161,9 @@ public class Sphere extends Shape {
         if (mProgram < 0)
         {
             // prepare shaders and OpenGL program
-            int vertexShader = Shader.loadShader(GLES20.GL_VERTEX_SHADER,
+            int vertexShader = Shader.compileShader(GLES20.GL_VERTEX_SHADER,
                     vertexShaderCode);
-            int fragmentShader = Shader.loadShader(GLES20.GL_FRAGMENT_SHADER,
+            int fragmentShader = Shader.compileShader(GLES20.GL_FRAGMENT_SHADER,
                     fragmentShaderCode);
 
             mProgram = Shader.createAndLinkProgram(vertexShader, fragmentShader,

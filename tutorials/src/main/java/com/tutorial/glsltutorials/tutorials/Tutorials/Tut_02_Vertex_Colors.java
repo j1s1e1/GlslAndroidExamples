@@ -32,8 +32,8 @@ public class Tut_02_Vertex_Colors extends TutorialBase {
 
     void InitializeProgram()
     {
-        int vertex_shader = Shader.loadShader(GLES20.GL_VERTEX_SHADER, VertexColor_vert);
-        int fragment_shader = Shader.loadShader(GLES20.GL_FRAGMENT_SHADER, VertexColor_frag);
+        int vertex_shader = Shader.compileShader(GLES20.GL_VERTEX_SHADER, VertexColor_vert);
+        int fragment_shader = Shader.compileShader(GLES20.GL_FRAGMENT_SHADER, VertexColor_frag);
         theProgram = Shader.createAndLinkProgram(vertex_shader, fragment_shader);
         positionAttribute = GLES20.glGetAttribLocation(theProgram, "position");
         colorAttribute = GLES20.glGetAttribLocation(theProgram, "color");

@@ -26,8 +26,8 @@ public class Tut_08_Gimbal_Lock extends TutorialBase {
         fFrustumScale = calcFrustumScale(45.0f);
         float fzNear = 1.0f;
         float fzFar = 600.0f;
-        int vertex_shader = Shader.loadShader30(GLES20.GL_VERTEX_SHADER, VertexShaders.PosColorLocalTransform_vert);
-        int fragment_shader = Shader.loadShader30(GLES20.GL_FRAGMENT_SHADER, FragmentShaders.ColorMultUniform_frag);
+        int vertex_shader = Shader.compileShader(GLES20.GL_VERTEX_SHADER, VertexShaders.PosColorLocalTransform_vert);
+        int fragment_shader = Shader.compileShader(GLES20.GL_FRAGMENT_SHADER, FragmentShaders.ColorMultUniform_frag);
         theProgram = Shader.createAndLinkProgram30(vertex_shader, fragment_shader);
         positionAttribute = GLES20.glGetAttribLocation(theProgram, "position");
         colorAttribute = GLES20.glGetAttribLocation(theProgram, "color");

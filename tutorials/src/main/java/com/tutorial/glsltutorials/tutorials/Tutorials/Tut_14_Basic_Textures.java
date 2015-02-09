@@ -70,8 +70,8 @@ public class Tut_14_Basic_Textures extends TutorialBase {
     UnlitProgData LoadUnlitProgram(String strVertexShader, String strFragmentShader)
     {
         UnlitProgData data = new UnlitProgData();
-        int vertex_shader = Shader.loadShader(GLES20.GL_VERTEX_SHADER, strVertexShader);
-        int fragment_shader = Shader.loadShader(GLES20.GL_FRAGMENT_SHADER, strFragmentShader);
+        int vertex_shader = Shader.compileShader(GLES20.GL_VERTEX_SHADER, strVertexShader);
+        int fragment_shader = Shader.compileShader(GLES20.GL_FRAGMENT_SHADER, strFragmentShader);
         data.theProgram  = Shader.createAndLinkProgram(vertex_shader, fragment_shader);
 
         data.modelToCameraMatrixUnif =  GLES20.glGetUniformLocation(data.theProgram, "modelToCameraMatrix");

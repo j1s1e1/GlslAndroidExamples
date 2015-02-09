@@ -42,8 +42,8 @@ public class Tut_07_World_Scene extends TutorialBase {
     ProgramData LoadProgram(String strVertexShader, String strFragmentShader)
     {
         ProgramData data = new ProgramData();
-        int vertex_shader = Shader.loadShader30(GLES20.GL_VERTEX_SHADER, strVertexShader);
-        int fragment_shader = Shader.loadShader30(GLES20.GL_FRAGMENT_SHADER, strFragmentShader);
+        int vertex_shader = Shader.compileShader(GLES20.GL_VERTEX_SHADER, strVertexShader);
+        int fragment_shader = Shader.compileShader(GLES20.GL_FRAGMENT_SHADER, strFragmentShader);
         data.theProgram  = Shader.createAndLinkProgram30(vertex_shader, fragment_shader);
 
 

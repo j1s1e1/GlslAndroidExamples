@@ -122,33 +122,6 @@ public class Shader {
         "gl_FragColor *= (NdotL+1.)/2.;" +
     "}";
 
-    public static int loadShader(int type, String shaderCode) {
-
-        // create a vertex shader type (GLES20.GL_VERTEX_SHADER)
-        // or a fragment shader type (GLES20.GL_FRAGMENT_SHADER)
-        int shader = GLES20.glCreateShader(type);
-
-        // add the source code to the shader and compile it
-        GLES20.glShaderSource(shader, shaderCode);
-        GLES20.glCompileShader(shader);
-
-        return shader;
-    }
-
-
-    public static int loadShader30(int type, String shaderCode) {
-
-        // create a vertex shader type (GLES20.GL_VERTEX_SHADER)
-        // or a fragment shader type (GLES20.GL_FRAGMENT_SHADER)
-        int shader = GLES20.glCreateShader(type);
-
-        // add the source code to the shader and compile it
-        GLES20.glShaderSource(shader, shaderCode);
-        GLES20.glCompileShader(shader);
-
-        return shader;
-    }
-
     private static final String TAG = "ShaderHelper";
 
     public static int compileShader(final int shaderType, final String shaderSource)
@@ -171,6 +144,7 @@ public class Shader {
             if (compileStatus[0] == 0)
             {
                 Log.e(TAG, "Error compiling shader: " + GLES20.glGetShaderInfoLog(shaderHandle));
+                Log.e(TAG, "Error shader source: " + shaderSource);
                 GLES20.glDeleteShader(shaderHandle);
                 shaderHandle = 0;
             }

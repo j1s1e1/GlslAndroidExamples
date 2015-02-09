@@ -214,6 +214,7 @@ public class VertexShaders {
         "temp = cameraToClipMatrix * temp;" +
         "v_Position = vec3(temp);" +
         "v_Normal = normal;" +
+        "if (length(v_Normal) == 0.0) v_Normal = vec3(0.0, 0.0, 1.0);" +
         "gl_Position = temp;" +
     "}";
 
@@ -423,14 +424,13 @@ public class VertexShaders {
     "attribute vec4 color;" +
     "attribute vec3 normal;" +
 
+    "uniform mat4 cameraToClipMatrix;" +
+    "uniform mat4 modelToCameraMatrix;" +
+    "uniform mat3 normalModelToCameraMatrix;" +
+
     "varying vec4 diffuseColor;" +
     "varying vec3 vertexNormal;" +
     "varying vec3 cameraSpacePosition;" +
-
-    "uniform mat4 cameraToClipMatrix;" +
-
-    "uniform mat4 modelToCameraMatrix;" +
-    "uniform mat3 normalModelToCameraMatrix;" +
 
     "void main()" +
     "{" +
@@ -442,7 +442,35 @@ public class VertexShaders {
         "cameraSpacePosition = vec3(tempCamPosition);" +
     "}";
 
-    public static String HDR_PCN2 =
+    public static final String HDR_PCN2 =
+    "attribute vec4 position;" +
+    "attribute vec3 normal;" +
+
+    "uniform mat4 cameraToClipMatrix;" +
+    "uniform mat4 worldToCameraMatrix;" +
+    "uniform mat4 modelToWorldMatrix;" +
+    "uniform mat3 normalModelToCameraMatrix;" +
+
+    "varying vec4 diffuseColor;" +
+    "varying vec3 vertexNormal;" +
+    "varying vec3 cameraSpacePosition;" +
+
+    "void main()" +
+    "{" +
+        "vec4 temp = modelToWorldMatrix * position;" +
+        "temp = worldToCameraMatrix * temp;" +
+        "gl_Position = cameraToClipMatrix * temp;" +
+
+        "vec4 tempCamPosition = position;" +
+        "vec3 normalDirection = normalModelToCameraMatrix * normal;" +
+
+        "vertexNormal = normalize(normalModelToCameraMatrix * normal);" +
+        "if (length(normalDirection) == 0.0) vertexNormal = vec3(0.0, 0.0, 1.0);" +
+        "diffuseColor = vec4(1.0, 1.0, 0.0, 1.0);" +
+        "cameraSpacePosition = tempCamPosition.xyz;" +
+    "}";
+
+    public static String HDR_PCN3 =
 
     "attribute vec4 position;" +
     "attribute vec4 color;" +
@@ -460,15 +488,10 @@ public class VertexShaders {
 
     "void main()" +
     "{" +
-        "vec4 temp = modelToWorldMatrix * position;" +
-        "temp = worldToCameraMatrix * temp;" +
-        "gl_Position = cameraToClipMatrix * temp;" +
-        //"gl_Position = position;" +
-
-        //"vec4 tempCamPosition = (modelToCameraMatrix * vec4(position, 1.0));" +
+        "gl_Position = position;" +
         "vec4 tempCamPosition = position;" +
-        "vertexNormal = normalize(normalModelToCameraMatrix * normal);" +
-        "diffuseColor = vec4(1f, 1f, 0f, 1f);" +
+        //"vertexNormal = normalize(normalModelToCameraMatrix * normal);" +
+        "diffuseColor = vec4(1.0, 1.0, 0.0, 1.0);" +
         "cameraSpacePosition = vec3(tempCamPosition);" +
     "}";
 

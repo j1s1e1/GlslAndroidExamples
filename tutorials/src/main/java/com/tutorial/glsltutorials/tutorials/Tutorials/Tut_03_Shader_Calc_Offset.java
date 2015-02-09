@@ -2,7 +2,8 @@ package com.tutorial.glsltutorials.tutorials.Tutorials;
 
 import android.opengl.GLES20;
 
-import com.tutorial.glsltutorials.tutorials.GLES_Helpers.*;
+import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
+import com.tutorial.glsltutorials.tutorials.GLES_Helpers.VBO_Tools;
 
 import java.nio.FloatBuffer;
 
@@ -61,8 +62,8 @@ public class Tut_03_Shader_Calc_Offset extends TutorialBase {
     void InitializeProgram()
     {
         // prepare shaders and OpenGL program
-        int vertexShader = Shader.loadShader(GLES20.GL_VERTEX_SHADER, calcOffset_vert);
-        int fragmentShader = Shader.loadShader(GLES20.GL_FRAGMENT_SHADER, calcColor_frag);
+        int vertexShader = Shader.compileShader(GLES20.GL_VERTEX_SHADER, calcOffset_vert);
+        int fragmentShader = Shader.compileShader(GLES20.GL_FRAGMENT_SHADER, calcColor_frag);
 
         theProgram = Shader.createAndLinkProgram(vertexShader, fragmentShader);
 

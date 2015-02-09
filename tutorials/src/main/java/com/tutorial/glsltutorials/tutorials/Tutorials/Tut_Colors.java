@@ -3,8 +3,6 @@ package com.tutorial.glsltutorials.tutorials.Tutorials;
 import android.opengl.GLES20;
 
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
-import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
-import com.tutorial.glsltutorials.tutorials.Shapes.Shape;
 
 /**
  * Created by Jamie on 6/5/14.
@@ -121,8 +119,8 @@ public class Tut_Colors extends TutorialBase {
 
     void InitializeProgram()
     {
-        int vertex_shader = Shader.loadShader(GLES20.GL_VERTEX_SHADER, VertexColor_vert);
-        int fragment_shader = Shader.loadShader(GLES20.GL_FRAGMENT_SHADER, VertexColor_frag);
+        int vertex_shader = Shader.compileShader(GLES20.GL_VERTEX_SHADER, VertexColor_vert);
+        int fragment_shader = Shader.compileShader(GLES20.GL_FRAGMENT_SHADER, VertexColor_frag);
         theProgram = Shader.createAndLinkProgram(vertex_shader, fragment_shader);
         positionAttribute = GLES20.glGetAttribLocation(theProgram, "position");
         colorAttribute = GLES20.glGetAttribLocation(theProgram, "color");

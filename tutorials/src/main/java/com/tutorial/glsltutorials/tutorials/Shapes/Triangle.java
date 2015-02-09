@@ -4,7 +4,6 @@ import android.opengl.GLES20;
 import android.opengl.Matrix;
 
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
-import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -117,9 +116,9 @@ public class Triangle {
         if (mProgram < 0)
         {
             // prepare shaders and OpenGL program
-            int vertexShader = Shader.loadShader(GLES20.GL_VERTEX_SHADER,
+            int vertexShader = Shader.compileShader(GLES20.GL_VERTEX_SHADER,
                     vertexShaderCode);
-            int fragmentShader = Shader.loadShader(GLES20.GL_FRAGMENT_SHADER,
+            int fragmentShader = Shader.compileShader(GLES20.GL_FRAGMENT_SHADER,
                     fragmentShaderCode);
 
             mProgram = GLES20.glCreateProgram();             // create empty OpenGL Program

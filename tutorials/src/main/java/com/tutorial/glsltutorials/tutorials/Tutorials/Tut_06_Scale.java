@@ -41,8 +41,8 @@ public class Tut_06_Scale extends TutorialBase  {
 
     void InitializeProgram()
     {
-        int vertexShader = Shader.loadShader(GLES20.GL_VERTEX_SHADER, PosColorLocalTransform_vert);
-        int fragmentShader = Shader.loadShader(GLES20.GL_FRAGMENT_SHADER, ColorPassthrough_frag);
+        int vertexShader = Shader.compileShader(GLES20.GL_VERTEX_SHADER, PosColorLocalTransform_vert);
+        int fragmentShader = Shader.compileShader(GLES20.GL_FRAGMENT_SHADER, ColorPassthrough_frag);
         theProgram = Shader.createAndLinkProgram(vertexShader, fragmentShader);
 
         positionAttribute = GLES20.glGetAttribLocation(theProgram, "position");

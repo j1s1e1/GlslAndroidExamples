@@ -43,7 +43,7 @@ public class Ball {
     public void setup(float radius)
     {
         otherObjects = new ArrayList<Paddle>();
-        body = new LitMatrixSphere2(radius, 4);
+        body = new LitMatrixSphere2(radius, 2);
         float xOffset = 0f; // random.Next(20)/10f - 1f;
         float yOffset = 0f; // random.Next(20)/10f - 1f;
         float zOffset = 0f; // random.Next(10)/10f - 0.5f;

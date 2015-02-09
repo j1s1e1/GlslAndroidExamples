@@ -3,8 +3,7 @@ package com.tutorial.glsltutorials.tutorials.Tutorials;
 import android.opengl.GLES20;
 
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
-
-import com.tutorial.glsltutorials.tutorials.Geometry.*;
+import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 
 /**
  * Created by Jamie on 5/27/14.
@@ -160,8 +159,8 @@ public class Tut_04_MatrixPerspective extends TutorialBase  {
 
     void InitializeProgram()
     {
-        int vertexShader = Shader.loadShader(GLES20.GL_VERTEX_SHADER, MatrixPerspective_vert);
-        int fragmentShader = Shader.loadShader(GLES20.GL_FRAGMENT_SHADER, StandardColors_frag);
+        int vertexShader = Shader.compileShader(GLES20.GL_VERTEX_SHADER, MatrixPerspective_vert);
+        int fragmentShader = Shader.compileShader(GLES20.GL_FRAGMENT_SHADER, StandardColors_frag);
         theProgram = Shader.createAndLinkProgram(vertexShader, fragmentShader);
 
         offsetUniform = GLES20.glGetUniformLocation(theProgram, "offset");
