@@ -1,5 +1,8 @@
 package com.tutorial.glsltutorials.tutorials.Tutorials;
 
+import android.util.Log;
+import android.view.KeyEvent;
+
 import com.tutorial.glsltutorials.tutorials.Creatures.Alien;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.FragmentShaders;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.VertexShaders;
@@ -22,6 +25,10 @@ public class Tut_MultipleShaders extends TutorialBase {
 
     ArrayList<LitMatrixSphere2> spheres = new ArrayList<LitMatrixSphere2>();
     ArrayList<Alien> aliens = new ArrayList<Alien>();
+
+    ArrayList<Integer> programs = new ArrayList<Integer>();
+    int currentProgram = 0;
+
     protected void init()
     {
         int lms_program = Programs.addProgram(VertexShaders.lms_vertexShaderCode,
@@ -29,9 +36,11 @@ public class Tut_MultipleShaders extends TutorialBase {
 
         Programs.setUniformColor(lms_program, new Vector4f(0f, 0.5f, 0.5f, 1f));
         Programs.setLightPosition(lms_program, new Vector3f(0f, 0.5f, -0.5f));
+        programs.add(lms_program);
 
         int greenprog = Programs.addProgram(VertexShaders.lms_vertexShaderCode,
                 FragmentShaders.solid_green_with_normals_frag);
+        programs.add(greenprog);
 
         int DirVertexLighting_PN = Programs.addProgram(VertexShaders.DirVertexLighting_PN_vert,
                 FragmentShaders.ColorPassthrough_frag);
@@ -41,6 +50,7 @@ public class Tut_MultipleShaders extends TutorialBase {
         Programs.setLightIntensity(DirVertexLighting_PN, new Vector4f(0.8f, 0.8f, 0.8f, 1.0f));
         Programs.setNormalModelToCameraMatrix(DirVertexLighting_PN, Matrix3f.Identity());
         Programs.setModelToCameraMatrix(DirVertexLighting_PN, Matrix4f.Identity());
+        programs.add(DirVertexLighting_PN);
 
         Alien alien;
         LitMatrixSphere2 lms;
@@ -86,5 +96,26 @@ public class Tut_MultipleShaders extends TutorialBase {
         {
             a.draw();
         }
+    }
+
+    public String keyboard(int keyCode, int x, int y) throws Exception
+    {
+        StringBuilder result = new StringBuilder();
+        Log.i("KeyEvent", String.valueOf(keyCode));
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_P:
+                currentProgram++;
+                if (currentProgram >= programs.size())
+                {
+                    currentProgram = 0;
+                }
+                break;
+            case KeyEvent.KEYCODE_V:
+                Log.i("KeyEvent", Programs.getVertexShaderInfo(programs.get(currentProgram)));
+                break;
+        }
+        result.append(keyCode);
+        reshape();
+        return result.toString();
     }
 }

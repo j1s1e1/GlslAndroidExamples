@@ -158,4 +158,71 @@ public class Programs {
     {
         ActivePrograms.get(program).use();
     }
+
+    public static String getProgramInfoLog(int program)
+    {
+        return ActivePrograms.get(program).getProgramInfoLog();
+    }
+
+    public static String getVertexShaderInfoLog(int program)
+    {
+        return ActivePrograms.get(program).getVertexShaderInfoLog();
+    }
+
+    public static int getVertexShader(int program)
+    {
+        return ActivePrograms.get(program).getVertexShader();
+    }
+
+    public static int getFragmentShader(int program)
+    {
+        return ActivePrograms.get(program).getFragmentShader();
+    }
+
+    public static String getVertexAttributes(int program)
+    {
+        return ActivePrograms.get(program).getVertexAttributes();
+    }
+
+    public static String getVertexShaderSource(int program)
+    {
+        return ActivePrograms.get(program).getVertexShaderSource();
+    }
+
+    public static String getUniforms(int program)
+    {
+        return ActivePrograms.get(program).getUniforms();
+    }
+
+    public static String getVertexShaderInfo(int program)
+    {
+        StringBuilder result = new StringBuilder();
+        result.append("\n");
+        result.append(getProgramInfoLog(program));
+        result.append("\n");
+        result.append(getVertexShaderInfoLog(program));
+        result.append("\n");
+        result.append("Vertex Shader = " + String.valueOf(getVertexShader(program)));
+        result.append("\n");
+        result.append(getVertexShaderSource(program));
+        result.append("\n");
+        result.append(getVertexAttributes(program));
+        result.append(getUniforms(program));
+        return result.toString();
+    }
+
+    public static String getFragmentShaderSource(int program)
+    {
+        return ActivePrograms.get(program).getFragmentShaderSource();
+    }
+
+    public static String getFragmentShaderInfo(int program)
+    {
+        StringBuilder result = new StringBuilder();
+        result.append("Fragment Shader = " + String.valueOf(getFragmentShader(program)));
+        result.append("\n");
+        result.append(getFragmentShaderSource(program));
+        result.append("\n");
+        return result.toString();
+    }
 }

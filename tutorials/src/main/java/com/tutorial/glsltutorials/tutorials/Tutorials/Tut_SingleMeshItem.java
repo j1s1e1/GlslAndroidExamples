@@ -1,6 +1,7 @@
 package com.tutorial.glsltutorials.tutorials.Tutorials;
 
 import android.opengl.GLES20;
+import android.util.Log;
 import android.view.KeyEvent;
 
 import com.tutorial.glsltutorials.tutorials.Camera;
@@ -72,6 +73,7 @@ public class Tut_SingleMeshItem extends TutorialBase {
     //Called after the window and OpenGL are initialized. Called exactly once, before the main loop.
     protected void init() throws Exception
     {
+        Log.i("init", "start");
         InitializeProgram();
         try 
         {
@@ -88,10 +90,12 @@ public class Tut_SingleMeshItem extends TutorialBase {
         current_mesh = g_pCubeColorMesh;
         touchText = new TextClass(" ", 0.5f, 0.05f);
         touchText.setOffset(-0.5f, 0.5f, 0.0f);
+        Log.i("init", "end");
     }
 
     public void display() throws Exception
     {
+        Log.i("display", "start");
         clearDisplay();
 
         if (current_mesh != null)
@@ -132,6 +136,7 @@ public class Tut_SingleMeshItem extends TutorialBase {
             touchText.UpdateText(touchTextString);
             updateTouchText = false;
         }
+        Log.i("display", "end");
     }
 
     static Vector3f axis = new Vector3f(1f, 1f, 0);
@@ -171,6 +176,7 @@ public class Tut_SingleMeshItem extends TutorialBase {
     public String keyboard(int keyCode, int x, int y) throws Exception
     {
         StringBuilder result = new StringBuilder();
+        Log.i("KeyEvent", String.valueOf(keyCode));
         switch (keyCode) {
             case KeyEvent.KEYCODE_A:
                 currentProgram = g_WhiteAmbDiffuseColor;
@@ -206,6 +212,9 @@ public class Tut_SingleMeshItem extends TutorialBase {
                 //timer.Enabled = false;
                 break;
             case KeyEvent.KEYCODE_SPACE:
+                break;
+            case KeyEvent.KEYCODE_V:
+                Log.i("KeyEvent", Programs.getVertexShaderInfo(currentProgram));
                 break;
         }
         result.append(keyCode);
