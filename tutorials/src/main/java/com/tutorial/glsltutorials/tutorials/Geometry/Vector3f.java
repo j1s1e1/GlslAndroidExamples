@@ -86,25 +86,14 @@ public class Vector3f {
         return array;
     }
 
-    /*** Lenght of this vector */
     public float length(){
-        return x * x + y * y + z * z;
+        return FloatMath.sqrt(x * x + y * y + z * z);
     }
 
-    /*** sqrt(Lenght) of this vector */
-    public float lengthSqrt(){
-        return FloatMath.sqrt(length());
-    }
-    /*** Perform a normalization
-     * If sqrt(len) of this vector is greater than an EPSILON value (0,0000001)
-     * this methods perform a normalization of this vector.
-     * Original vector is untouched, a new one is returned.
-     * @return Returns a new normalized vector.
-     */
     public Vector3f normalize(){
-        float sqr_length =  FloatMath.sqrt(length());
-        if(sqr_length >= 0.0000001f){
-            float inv = 1/sqr_length;
+        float length =  length();
+        if(length >= 0.0000001f){
+            float inv = 1/length;
             return new Vector3f(x *inv, y *inv, z *inv);
         }
         return new Vector3f(0.f, 0.f, 0.f);
@@ -118,9 +107,9 @@ public class Vector3f {
      * Normalizes this vector without creating a new one
      */
     public float normalizeNoCopy(){
-        float sqr_length =  FloatMath.sqrt(length());
-        if(sqr_length >= 0.0000001f){
-            float inv = 1/sqr_length;
+        float length =  length();
+        if(length >= 0.0000001f){
+            float inv = 1/length;
             x *= inv;
             y *= inv;
             z *= inv;
@@ -130,7 +119,7 @@ public class Vector3f {
             z = 0.f;
         }
 
-        return sqr_length;
+        return length;
     }
 
     public float getX(){

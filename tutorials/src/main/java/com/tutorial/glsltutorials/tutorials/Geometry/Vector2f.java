@@ -44,7 +44,7 @@ public class Vector2f {
 
     /*** Lenght of this vector */
     public float length(){
-        return x * x + y * y;
+        return FloatMath.sqrt(x * x + y * y);
     }
     /*** Perform a normalization
      * If sqrt(len) of this vector is greater than an EPSILON value (0,0000001)
@@ -53,9 +53,9 @@ public class Vector2f {
      * @return Returns a new normalized vector.
      */
     public Vector2f normalize(){
-        float sqr_length =  FloatMath.sqrt(length());
-        if(sqr_length >= 0.0000001f){
-            float inv = 1/sqr_length;
+        float length =  length();
+        if(length >= 0.0000001f){
+            float inv = 1/length;
             return new Vector2f(x *inv, y *inv);
         }
         return new Vector2f(0.f, 0.f);
