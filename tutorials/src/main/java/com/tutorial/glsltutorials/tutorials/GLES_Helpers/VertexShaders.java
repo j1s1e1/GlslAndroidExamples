@@ -555,5 +555,26 @@ public class VertexShaders {
         "objectColor = color;" +
     "}";
 
+    public static String ShadowMap =
+        "varying vec4 ShadowCoord;" +
+        "void main()" +
+        "{" +
+            "ShadowCoord= gl_TextureMatrix[7] * gl_Vertex;" +
+            "gl_Position = ftransform();" +
+            "gl_FrontColor = gl_Color;" +
+        "}";
 
+    public static String sCube =
+        "attribute vec4 position;" +
+
+        "uniform mat4 cameraToClipMatrix;" +
+        "uniform mat4 modelToCameraMatrix;" +
+        "uniform vec4 offset;" +
+
+        "void main()" +
+        "{" +
+            "vec4 cameraPos = modelToCameraMatrix * position;" +
+            "cameraPos = cameraPos + offset;" +
+            "gl_Position = cameraToClipMatrix * cameraPos;" +
+        "}";
 }

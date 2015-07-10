@@ -477,4 +477,9 @@ public class ProgramData {
     {
         return fragment_shader;
     }
+
+    public int getProgram()
+    {
+        return theProgram;
+    }
 }

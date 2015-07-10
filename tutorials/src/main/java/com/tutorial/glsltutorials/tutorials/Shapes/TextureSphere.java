@@ -53,8 +53,8 @@ public class TextureSphere extends Shape {
             textureCoordinates[vertex * 2 + 1] = (float)((latitude + Math.PI/2) / Math.PI);
             if (textureCoordinates[vertex * 2] < 0) textureCoordinates[vertex * 2] = 0f;
             if (textureCoordinates[vertex * 2] > 1) textureCoordinates[vertex * 2] = 1f;
-            if (textureCoordinates[vertex * 2 + 1] < 0) textureCoordinates[vertex * 2] = 0f;
-            if (textureCoordinates[vertex * 2 + 1] > 1) textureCoordinates[vertex * 2] = 1f;
+            if (textureCoordinates[vertex * 2 + 1] < 0) textureCoordinates[vertex * 2 + 1] = 0f;
+            if (textureCoordinates[vertex * 2 + 1] > 1) textureCoordinates[vertex * 2 + 1] = 1f;
         }
         // center all x coordinates in original 100%
         for (int vertex = 0; vertex < vertexCount; vertex++)

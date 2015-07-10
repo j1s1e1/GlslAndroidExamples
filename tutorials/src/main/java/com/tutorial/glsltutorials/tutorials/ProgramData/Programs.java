@@ -225,4 +225,25 @@ public class Programs {
         result.append("\n");
         return result.toString();
     }
+
+    public static String dumpShaders()
+    {
+        StringBuilder result = new StringBuilder();
+        for (int program = 0; program < ActivePrograms.size(); program++) {
+            result.append("\n");
+            result.append("Program " + String.valueOf(program));
+            result.append("\n");
+            result.append(getVertexShaderInfo(program));
+            result.append("\n");
+            result.append(getFragmentShaderInfo(program));
+            result.append("\n");
+        }
+        return result.toString();
+    }
+
+    public static int getProgram(int program)
+    {
+        return ActivePrograms.get(program).getProgram();
+    }
+
 }

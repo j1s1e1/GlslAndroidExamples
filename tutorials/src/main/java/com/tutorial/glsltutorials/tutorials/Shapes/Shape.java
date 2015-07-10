@@ -73,7 +73,7 @@ public class Shape
 
     public static Matrix4f worldToCamera = Matrix4f.Identity();
     public static Matrix4f cameraToClip = Matrix4f.Identity();
-    protected Matrix4f modelToWorld = Matrix4f.Identity();
+    public Matrix4f modelToWorld = Matrix4f.Identity();
 
     protected int[] vertexBufferObject = new int[1];
     protected int[] indexBufferObject = new int[1];
@@ -299,7 +299,6 @@ public class Shape
                         break;
                     case 6:
                         colorData[i] = 224 << 8;
-                        ;
                         break;
                     case 7:
                         colorData[i] = 255 << 8;

@@ -65,15 +65,14 @@ public class LitMatrixSphere2 extends Shape {
 
     private void drawSub(int first_triangle, int last_triangle)
     {
-        int newVertexCount = (last_triangle - first_triangle + 1) * 3 * 3 / COORDS_PER_VERTEX;
-        // Add program to OpenGL environment
+        int newVertexCount = indexData.length / 20 * (last_triangle - first_triangle + 1);
 
         Matrix4f mm = rotate(modelToWorld, axis, angle);
         mm.M41 = offset.x;
         mm.M42 = offset.y;
         mm.M43 = offset.z;
 
-        Programs.draw(programNumber, vertexBufferObject, indexBufferObject, mm, indexData.length, color);
+        Programs.draw(programNumber, vertexBufferObject, indexBufferObject, mm, newVertexCount, color);
     }
 
     public void setLightPosition(Vector3f lightPosition)
@@ -85,7 +84,7 @@ public class LitMatrixSphere2 extends Shape {
         drawSub(0, 19);
     }
 
-    public void DrawSemi(int first_triangle, int last_triangle)
+    public void drawSemi(int first_triangle, int last_triangle)
     {
         drawSub(first_triangle, last_triangle);
     }

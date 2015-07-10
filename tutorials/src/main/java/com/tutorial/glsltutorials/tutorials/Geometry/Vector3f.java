@@ -256,4 +256,18 @@ public class Vector3f {
     {
         return (a.sub(b).length());
     }
+
+    public float [] getAsArray(){
+        float array[] = new float[3];
+        array[0] = x;
+        array[1] = y;
+        array[2] = z;
+
+        return array;
+    }
+
+    public float[] getFloats()
+    {
+        return getAsArray();
+    }
 }

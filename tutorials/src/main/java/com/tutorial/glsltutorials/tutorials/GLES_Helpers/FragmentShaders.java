@@ -872,5 +872,53 @@ public class FragmentShaders {
         "gl_FragColor = objectColor;" +
     "}";
 
+    public static String ShadowMap =
+        "uniform sampler2D ShadowMap;" +
+        "varying vec4 ShadowCoord;" +
+        "void main()" +
+        "{" +
+            "vec4 shadowCoordinateWdivide = ShadowCoord / ShadowCoord.w ;" +
+            "shadowCoordinateWdivide.z += 0.0005;" +
+            "float distanceFromLight = texture2D(ShadowMap,shadowCoordinateWdivide.st).z;" +
+            "float shadow = 1.0;" +
+            "if (ShadowCoord.w > 0.0)" +
+            "shadow = distanceFromLight < shadowCoordinateWdivide.z ? 0.5 : 1.0 ;" +
+            "gl_FragColor =	 shadow * gl_Color;" +
+        "}";
+
+    public static String sCube =
+    "uniform vec4 baseColor;" +
+
+    "void main()" +
+    "{" +
+        "gl_FragColor = baseColor;" +
+    "}";
+
+    public static String NoColorSwapTexture =
+    "uniform sampler2D diffuseColorTex;" +
+
+    "varying vec2 colorCoord;" +
+
+    "uniform vec4 COLOR_MASKS[ 16 ];" +
+
+    "void main()" +
+    "{" +
+        "gl_FragColor = texture2D(diffuseColorTex, colorCoord);" +
+    "}";
+
+    public static String ColorSwapTexture =
+    "uniform sampler2D diffuseColorTex;" +
+
+    "varying vec2 colorCoord;" +
+
+    "uniform vec4 COLOR_MASKS[ 16 ];" +
+
+    "void main()" +
+    "{" +
+        "vec4 tcolor = texture2D(diffuseColorTex, colorCoord);" +
+        "int green = int(tcolor.y * 16.0);" +
+        "gl_FragColor = COLOR_MASKS[green];" +
+    "}";
+
 }
 

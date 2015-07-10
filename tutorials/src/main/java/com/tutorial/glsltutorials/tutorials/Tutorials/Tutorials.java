@@ -165,6 +165,12 @@ public class Tutorials extends Activity implements
             case 53: TestRenderer.tutorial = new Tut_PaintBox(); break;
             case 54: TestRenderer.tutorial = new Tut_PaintBox2(); break;
             case 55: TestRenderer.tutorial = new Tut_Ball(); break;
+            case 56: TestRenderer.tutorial = new Tut_Zoo(); break;
+            case 57: TestRenderer.tutorial = new Tut_DragonFly(); break;
+            case 58: TestRenderer.tutorial = new Tut_SCube(); break;
+            case 59: TestRenderer.tutorial = new Tut_ColorTransform(); break;
+            case 60: TestRenderer.tutorial = new Tut_Dither(); break;
+
             default:
                 final Toast toast2 = Toast.makeText(Shader.context,"Not implemented", Toast.LENGTH_SHORT);
                 toast2.show();

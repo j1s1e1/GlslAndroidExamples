@@ -649,5 +649,14 @@ public class Matrix4f {
         return left.sub(right);
     }
 
+    public Matrix4f mul(float f)
+    {
+        Matrix4f result = new Matrix4f( new float[]{f*M11, f*M12, f*M13, f*M14,
+                                        f*M21, f*M22, f*M23, f*M24,
+                                        f*M31, f*M32, f*M33, f*M34,
+                                        f*M41, f*M42, f*M43, f*M44});
+        return result;
+    }
+
 
 }

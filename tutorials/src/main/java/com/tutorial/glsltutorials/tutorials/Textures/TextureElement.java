@@ -18,18 +18,27 @@ public class TextureElement extends Shape
 {
    int texture;
    int texUnit = 0;
+   static boolean texturesEnabled = false;
 
    float scale = 1.0f;
    Vector3f lightPosition = new Vector3f(0f, 0f, 0f);
 
     public TextureElement(Bitmap bitmap)
     {
+        if (!texturesEnabled)
+        {
+            Textures.enableTextures();
+        }
         texture = Textures.createFromBitmap(bitmap);
         setup();
     }
 
     public TextureElement(int resourceID)
     {
+        if (!texturesEnabled)
+        {
+            Textures.enableTextures();
+        }
         texture = Textures.loadTexture(Shader.context, resourceID, false);
         setup();
     }

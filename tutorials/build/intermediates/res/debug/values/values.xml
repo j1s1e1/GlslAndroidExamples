@@ -65,6 +65,11 @@
         <item>Tut_PaintBox</item>
         <item>Tut_PaintBox2</item>
         <item>Tut_Ball</item>
+        <item>Tut_Zoo</item>
+        <item>Tut_Dragonfly</item>
+        <item>Tut_SCube</item>
+        <item>Tut_ColorTransform</item>
+        <item>Tut_Dither</item>
     </string-array>
     <!-- From: file:/home/jamie/repos/AndroidGitHub/GlslTutorials/tutorials/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.2/res/values/values.xml -->
     <eat-comment/>
