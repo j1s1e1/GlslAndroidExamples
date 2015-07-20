@@ -102,4 +102,13 @@ public class FireFly3d extends Bug3d {
             move();
         }
     }
+
+    public void setProgram(int program)
+    {
+        super.setProgram(program);
+        for(LitMatrixSphere2 l : body)
+        {
+            l.setProgram(program);
+        }
+    }
 }

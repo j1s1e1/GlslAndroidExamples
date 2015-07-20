@@ -74,8 +74,8 @@ public class DragonFly extends Bug {
     {
         float rotation = (x % 256) - 128;
         Shape.global_y_rotate = rotation;
-        wings[0].setAngles(90 + wing_offset/5, 0, 0);
-        wings[1].setAngles(90 - wing_offset/5, 0, 0);
+        wings[0].setAngles(90 + wing_offset / 5, 0, 0);
+        wings[1].setAngles(90 - wing_offset / 5, 0, 0);
 			/*
 			body[0].SetAngles(0, rotation, 0);
 			body[1].SetAngles(0, rotation, 0);;
@@ -166,6 +166,10 @@ public class DragonFly extends Bug {
                 y_direction = -abs_y_direction;
             }
         }
+    }
+
+    public void rotateShapes(Vector3f rotationAxis, float angle)
+    {
 
     }
 }

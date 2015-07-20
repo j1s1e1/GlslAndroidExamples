@@ -369,6 +369,14 @@ public class Shape
         worldToCamera = Matrix4f.mul(worldToCamera, rotation);
     }
 
+    public static void rotateWorld(Vector3f offset, Vector3f rotationAxis, float angleDeg)
+    {
+        Matrix4f rotation = Matrix4f.createFromAxisAngle(rotationAxis, (float) Math.PI / 180.0f * angleDeg);
+        worldToCamera.SetRow3(worldToCamera.GetRow3().add(new Vector4f(offset, 0)));
+        worldToCamera = Matrix4f.mul(worldToCamera, rotation);
+        worldToCamera.SetRow3(worldToCamera.GetRow3().sub(new Vector4f(offset, 0)));
+    }
+
     public void rotateShape(Vector3f rotationAxis, float angleDeg)
     {
         Matrix4f rotation = Matrix4f.CreateFromAxisAngle(rotationAxis, (float)Math.PI / 180.0f * angleDeg);
@@ -409,5 +417,12 @@ public class Shape
     public static void setWorldToCameraMatrix(Matrix4f m)
     {
         worldToCamera = m;
+    }
+
+    public static void moveWorld(Vector3f v)
+    {
+        worldToCamera.M41 += v.x;
+        worldToCamera.M42 += v.y;
+        worldToCamera.M43 += v.z;
     }
 }

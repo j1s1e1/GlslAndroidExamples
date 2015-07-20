@@ -88,7 +88,7 @@ public class AnalysisTools {
     }
 
 
-    public static String CalculateMatrixEffects(Matrix4f matrix)
+    public static String calculateMatrixEffects(Matrix4f matrix)
     {
         // Check This
         StringBuilder result = new StringBuilder();
@@ -137,13 +137,13 @@ public class AnalysisTools {
         StringBuilder result = new StringBuilder();
         Matrix4f X45 = Matrix4f.CreateRotationX(45f * (float)Math.PI / 180f);
         result.append("X45");
-        result.append(CalculateMatrixEffects(X45));
+        result.append(calculateMatrixEffects(X45));
         Matrix4f Y45 = Matrix4f.CreateRotationY(45f * (float)Math.PI / 180f);
         result.append("Y45");
-        result.append(CalculateMatrixEffects(Y45));
+        result.append(calculateMatrixEffects(Y45));
         Matrix4f Z45 = Matrix4f.CreateRotationZ(45f * (float)Math.PI / 180f);
         result.append("Z45");
-        result.append(CalculateMatrixEffects(Z45));
+        result.append(calculateMatrixEffects(Z45));
         return result.toString();
     }
 }

@@ -204,6 +204,11 @@ public abstract class TutorialBase {
 
     }
 
+    public void orientationEvent(float azimuth_angle, float pitch_angle, float roll_angle)
+    {
+
+    }
+
     public void receiveMessage(String message)
     {
 

@@ -97,7 +97,7 @@ public class Tut_Projected_Light_Test extends TutorialBase {
             result.append("normalAttribute = " + String.valueOf(normalAttribute));
             return result.toString();
         }
-    };
+    }
 
     static float g_fzNear = 10.0f;
     static float g_fzFar = 1000.0f;
@@ -410,7 +410,7 @@ public class Tut_Projected_Light_Test extends TutorialBase {
                     ambientIntensity = new Vector4f(0f, 0f, 0f, 1.0f);
                 }
                 Log.i("KeyEvent", "ambientIntensity = " + ambientIntensity.toString());
-                updateLightBlock = true;;
+                updateLightBlock = true;
                 break;
             case KeyEvent.KEYCODE_9:
                 redLight.w = 1f;
@@ -476,7 +476,7 @@ public class Tut_Projected_Light_Test extends TutorialBase {
                 break;
             case KeyEvent.KEYCODE_I:
                 Log.i("KeyEvent", "CameraMatrix " + cameraMatrix.toString());
-                Log.i("KeyEvent", AnalysisTools.CalculateMatrixEffects(cameraMatrix));
+                Log.i("KeyEvent", AnalysisTools.calculateMatrixEffects(cameraMatrix));
                 break;
             case KeyEvent.KEYCODE_C:
                 GLES20.glFrontFace(GLES20.GL_CW);
@@ -487,14 +487,7 @@ public class Tut_Projected_Light_Test extends TutorialBase {
                 Log.i("KeyEvent", "FrontFaceDirection.Ccw");
                 break;
             case KeyEvent.KEYCODE_E:
-                if (allLightsTogether)
-                {
-                    allLightsTogether = false;
-                }
-                else
-                {
-                    allLightsTogether = true;
-                }
+                allLightsTogether = !allLightsTogether;
                 break;
         }
 

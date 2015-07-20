@@ -52,4 +52,15 @@ public class LadyBug3d extends Bug3d {
             move();
         }
     }
+
+    public void setProgram(int program)
+    {
+        super.setProgram(program);
+        sphere.setProgram(program);
+
+        for(LitMatrixSphere2 w : wings)
+        {
+            w.setProgram(program);
+        }
+    }
 }

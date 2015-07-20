@@ -577,4 +577,47 @@ public class VertexShaders {
             "cameraPos = cameraPos + offset;" +
             "gl_Position = cameraToClipMatrix * cameraPos;" +
         "}";
+
+    public static String flightControl_lms =
+    "attribute vec4 position;" +
+    "attribute vec3 normal;" +
+    "uniform mat4 systemMovementMatrix;" +
+    "uniform mat4 cameraToClipMatrix;" +
+    "uniform mat4 worldToCameraMatrix;" +
+    "uniform mat4 modelToWorldMatrix;" +
+
+    "varying vec3 v_Normal;" +
+    "varying vec3 v_Position;" +
+    "void main()" +
+    "{" +
+        "vec4 temp = modelToWorldMatrix * position;" +
+        "temp = worldToCameraMatrix * temp;" +
+        "temp = cameraToClipMatrix * temp;" +
+        "temp = systemMovementMatrix * temp;" +
+        "v_Position = vec3(temp);" +
+        "v_Normal = normal;" +
+        "gl_Position = temp;" +
+    "}";
+
+    public static String spherical_lms =
+    "attribute vec4 position;" +
+    "attribute vec3 normal;" +
+    "uniform mat4 rotationMatrix;" +
+    "uniform mat4 systemMovementMatrix;" +
+    "uniform mat4 cameraToClipMatrix;" +
+    "uniform mat4 worldToCameraMatrix;" +
+    "uniform mat4 modelToWorldMatrix;" +
+
+    "varying vec3 v_Normal;" +
+    "varying vec3 v_Position;" +
+    "void main()" +
+    "{" +
+        "vec4 temp = modelToWorldMatrix * position;" +
+        "temp = cameraToClipMatrix * temp;" +
+        "temp = systemMovementMatrix * temp;" +
+        "temp = rotationMatrix * temp;" + "temp = worldToCameraMatrix * temp;" +
+        "v_Position = vec3(temp);" +
+        "v_Normal = normal;" +
+        "gl_Position = temp;" +
+    "}";
 }

@@ -10,6 +10,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.ConfigurationInfo;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.os.Build;
@@ -45,7 +49,10 @@ import javax.microedition.khronos.egl.EGLDisplay;
  * Created by Jamie on 5/26/14.
  */
 public class Tutorials extends Activity implements
-        GestureDetector.OnGestureListener {
+        GestureDetector.OnGestureListener, SensorEventListener {
+
+    private SensorManager mSensorManager;
+    private Sensor mAccelerometer;
 
     private GestureDetector mDetector;
     private ScaleGestureDetector scaleGestureDetector;
@@ -90,6 +97,8 @@ public class Tutorials extends Activity implements
         mDetector = new GestureDetector(this,this);
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
         SetupSocketServerService();
+        mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
     }
 
     static boolean firstlaunch = true;
@@ -170,7 +179,9 @@ public class Tutorials extends Activity implements
             case 58: TestRenderer.tutorial = new Tut_SCube(); break;
             case 59: TestRenderer.tutorial = new Tut_ColorTransform(); break;
             case 60: TestRenderer.tutorial = new Tut_Dither(); break;
-
+            case 61: TestRenderer.tutorial = new Tut_FlightControl(); break;
+            case 62: TestRenderer.tutorial = new Tut_SphericalCoordinates(); break;
+            case 63: TestRenderer.tutorial = new Tut_Swarm(); break;
             default:
                 final Toast toast2 = Toast.makeText(Shader.context,"Not implemented", Toast.LENGTH_SHORT);
                 toast2.show();
@@ -310,9 +321,6 @@ public class Tutorials extends Activity implements
         return super.onKeyDown(keyCode, event);
     }
 
-
-
-
     @Override
     public boolean onDown(MotionEvent event) {
         return true;
@@ -380,6 +388,26 @@ public class Tutorials extends Activity implements
         else
         {
             endTutorial();
+        }
+    }
+
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    }
+
+    public void onSensorChanged(SensorEvent event) {
+        float azimuth_angle = event.values[0];
+        float pitch_angle = event.values[1];
+        float roll_angle = event.values[2];
+        if (TestRenderer.tutorial != null)
+        {
+            try
+            {
+                TestRenderer.tutorial.orientationEvent(azimuth_angle, pitch_angle, roll_angle);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
     }
 
@@ -467,6 +495,13 @@ public class Tutorials extends Activity implements
     {
         super.onResume();
         registerReceiver(broadcastReceiver, intentFilter);
+        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mSensorManager.unregisterListener(this);
     }
 
     @Override
@@ -480,5 +515,6 @@ public class Tutorials extends Activity implements
         if (serviceConnection != null) {
             unbindService(serviceConnection);
         }
+        mSensorManager.unregisterListener(this);
     }
 }

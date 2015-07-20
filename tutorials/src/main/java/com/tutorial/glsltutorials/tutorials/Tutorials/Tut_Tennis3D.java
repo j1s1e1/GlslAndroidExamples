@@ -109,7 +109,7 @@ public class Tut_Tennis3D extends TutorialBase
 
         public LightBlock lightBlock;
         public MaterialBlock materialBlock;
-    };
+    }
 
     static ProgramData ObjectColor;
 
@@ -536,14 +536,7 @@ public class Tut_Tennis3D extends TutorialBase
                 case KeyEvent.KEYCODE_4:
                     break;
                 case KeyEvent.KEYCODE_7:
-                    if (zeroCameraToClip)
-                    {
-                        zeroCameraToClip = false;
-                    }
-                    else
-                    {
-                        zeroCameraToClip = true;
-                    }
+                    zeroCameraToClip = !zeroCameraToClip;
                     break;
                 case KeyEvent.KEYCODE_8:
                     if (zeroWorldToCamera)
@@ -598,11 +591,7 @@ public class Tut_Tennis3D extends TutorialBase
                     Log.i("KeyEvent", "currentProgram = " + currentProgram.toString());
                     break;
                 case KeyEvent.KEYCODE_P:
-                    if (pause) {
-                        pause = false;
-                    } else {
-                        pause = true;
-                    }
+                    pause = !pause;
                     break;
                 case KeyEvent.KEYCODE_V:
                     playerNumber++;
@@ -613,30 +602,23 @@ public class Tut_Tennis3D extends TutorialBase
                     result.append("Player number = " + String.valueOf(playerNumber));
                     break;
                 case KeyEvent.KEYCODE_I:
-                    if (info)
-                    {
-                        info = false;
-                    }
-                    else
-                    {
-                        info = true;
-                    }
+                    info = !info;
                     result.append("cameraToClipMatrix " + cameraToClipMatrix.toString());
-                    result.append(AnalysisTools.CalculateMatrixEffects(cameraToClipMatrix));
+                    result.append(AnalysisTools.calculateMatrixEffects(cameraToClipMatrix));
                     result.append("worldToCameraMatrix " + worldToCameraMatrix.toString());
-                    result.append(AnalysisTools.CalculateMatrixEffects(worldToCameraMatrix));
+                    result.append(AnalysisTools.calculateMatrixEffects(worldToCameraMatrix));
 
                     Matrix4f cameraToClipMatrixTimesWorldToCameraMatrix =
                             Matrix4f.mul(cameraToClipMatrix, worldToCameraMatrix);
                     result.append("cameraToClipMatrixTimesWorldToCameraMatrix " +
                             cameraToClipMatrixTimesWorldToCameraMatrix.toString());
-                    result.append(AnalysisTools.CalculateMatrixEffects(cameraToClipMatrixTimesWorldToCameraMatrix));
+                    result.append(AnalysisTools.calculateMatrixEffects(cameraToClipMatrixTimesWorldToCameraMatrix));
 
                     Matrix4f worldToCameraMatrixTimesCameraToClipMatrix =
                             Matrix4f.mul(worldToCameraMatrix, cameraToClipMatrix);
                     result.append("worldToCameraMatrixTimesCameraToClipMatrix " +
                             worldToCameraMatrixTimesCameraToClipMatrix.toString());
-                    result.append(AnalysisTools.CalculateMatrixEffects(worldToCameraMatrixTimesCameraToClipMatrix));
+                    result.append(AnalysisTools.calculateMatrixEffects(worldToCameraMatrixTimesCameraToClipMatrix));
                     break;
                 case KeyEvent.KEYCODE_S:
                     ball.setSocketControl();

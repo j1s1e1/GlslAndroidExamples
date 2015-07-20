@@ -23,6 +23,7 @@ public class Movement {
     protected float maxZmovement = 0.1f;
 
     protected Vector3f speed = new Vector3f(0f, 0f, 0f);
+    protected Vector3f currentPosition = new Vector3f(0f, 0f, 0f);
 
     public Vector3f newOffset(Vector3f oldOffset)
     {
@@ -72,5 +73,14 @@ public class Movement {
         Vector3f low = new Vector3f(xLimitLow, yLimitLow, zLimitLow);
         Vector3f high = new Vector3f(xLimitHigh, yLimitHigh, zLimitHigh);
         return low.toString() + " " + high.toString();
+    }
+
+    public String movementInfo()
+    {
+        return "Position = " + currentPosition.toString();
+    }
+
+    public void translate(Vector3f offset)
+    {
     }
 }

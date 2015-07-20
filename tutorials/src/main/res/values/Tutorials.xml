@@ -62,5 +62,9 @@
         <item>Tut_SCube</item>
         <item>Tut_ColorTransform</item>
         <item>Tut_Dither</item>
+        <item>Tut_FlightControl</item>
+        <item>Tut_SphericalCoordinates</item>
+        <item>Tut_Swarm</item>
+
     </string-array>
 </resources>

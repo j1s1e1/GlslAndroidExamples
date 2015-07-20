@@ -62,7 +62,7 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
         public int normalModelToCameraMatrixUnif;
 
         public int cameraToClipMatrixUnif;	// to avoid uniform buffer block
-    };
+    }
 
     static ProgramData g_WhiteDiffuseColor;
     static ProgramData g_VertexDiffuseColor;
@@ -175,7 +175,7 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
         InitializeGInitialViewData();
         InitializeGViewScale();
         g_viewPole = new ViewPole(g_initialViewData, g_viewScale, MouseButtons.MB_LEFT_BTN);
-        g_objtPole = new ObjectPole(g_initialObjectData, (float)(90.0f / 250.0f),
+        g_objtPole = new ObjectPole(g_initialObjectData, 90.0f / 250.0f,
                 MouseButtons.MB_RIGHT_BTN, g_viewPole);
 
 
@@ -346,7 +346,7 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
                 Log.i(TUTORIAL, "cameraToClipMatrix = " + projData.cameraToClipMatrix.toString());
                 Log.i(TUTORIAL, "coloredCylinderModelmatrix = " + coloredCylinderModelmatrix.toString());
                 Matrix4f multiply = Matrix4f.mul(projData.cameraToClipMatrix, coloredCylinderModelmatrix);
-                Log.i(TUTORIAL, AnalysisTools.CalculateMatrixEffects(multiply));
+                Log.i(TUTORIAL, AnalysisTools.calculateMatrixEffects(multiply));
 
 
                 Log.i(TUTORIAL, "Ground Plane Model Matrix = " + groundPlaneModelMatrix.toString());
@@ -421,14 +421,7 @@ public class Tut_09_Ambient_Lighting extends TutorialBase {
                 }
                 break;
             case 3: {
-                if (zeroAllMatrixes)
-                {
-                    zeroAllMatrixes = false;
-                }
-                else
-                {
-                    zeroAllMatrixes = true;
-                }
+                zeroAllMatrixes = !zeroAllMatrixes;
                 break;
             }
             default:

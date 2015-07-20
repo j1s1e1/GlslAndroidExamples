@@ -66,7 +66,7 @@ public class Tut_12_HDR_Lighting extends TutorialBase {
         GLES20.glUniformMatrix4fv(cameraToClipMatrixUnif, 1, false, cameraToClip.toArray(), 0);
         GLES20.glUseProgram(0);
     }
-};
+}
 
     float g_fzNear = 1.0f;
     float g_fzFar = 1000.0f;
@@ -102,7 +102,7 @@ public class Tut_12_HDR_Lighting extends TutorialBase {
 
     void InitializePrograms()
     {
-        for(int iProg = 0; iProg < (int)LightingProgramTypes.LP_MAX_LIGHTING_PROGRAM_TYPES; iProg++)
+        for(int iProg = 0; iProg < LightingProgramTypes.LP_MAX_LIGHTING_PROGRAM_TYPES; iProg++)
         {
             g_Programs[iProg] = SceneProgramData.LoadLitProgram(g_ShaderFiles[iProg]);
         }
@@ -469,13 +469,13 @@ public class Tut_12_HDR_Lighting extends TutorialBase {
 
             case KeyEvent.KEYCODE_I:
                 Log.i("KeyEvent", "projData.cameraToClipMatrix" + projData.cameraToClipMatrix.toString());
-                Log.i("KeyEvent", AnalysisTools.CalculateMatrixEffects(projData.cameraToClipMatrix));
+                Log.i("KeyEvent", AnalysisTools.calculateMatrixEffects(projData.cameraToClipMatrix));
 
                 Log.i("KeyEvent", "sunModelToCameraMatrix = " + sunModelToCameraMatrix.toString());
-                Log.i("KeyEvent", AnalysisTools.CalculateMatrixEffects(sunModelToCameraMatrix));
+                Log.i("KeyEvent", AnalysisTools.calculateMatrixEffects(sunModelToCameraMatrix));
 
                 Log.i("KeyEvent", "g_viewPole.CalcMatrix()" + g_viewPole_CalcMatrix.toString());
-                Log.i("KeyEvent", AnalysisTools.CalculateMatrixEffects(g_viewPole_CalcMatrix));
+                Log.i("KeyEvent", AnalysisTools.calculateMatrixEffects(g_viewPole_CalcMatrix));
                 break;
 
             case KeyEvent.KEYCODE_SPACE:
@@ -488,24 +488,10 @@ public class Tut_12_HDR_Lighting extends TutorialBase {
                 Log.i("KeyEvent", "SunHours " + String.valueOf(sunHours) + " SunMinutes " + String.valueOf(sunMinutes));
                 break;
             case KeyEvent.KEYCODE_S:
-                if (renderSun)
-                {
-                    renderSun = false;
-                }
-                else
-                {
-                    renderSun = true;
-                }
+                renderSun = !renderSun;
                 break;
             case KeyEvent.KEYCODE_L:
-                if (g_bDrawLights)
-                {
-                    g_bDrawLights = false;
-                }
-                else
-                {
-                    g_bDrawLights = true;
-                }
+                g_bDrawLights = !g_bDrawLights;
                 break;
             case KeyEvent.KEYCODE_A:
                 updateAlpha = true;

@@ -3,12 +3,13 @@ package com.tutorial.glsltutorials.tutorials.Creatures;
 import android.view.KeyEvent;
 
 import com.tutorial.glsltutorials.tutorials.Colors;
+import com.tutorial.glsltutorials.tutorials.ProgramData.Programs;
 import com.tutorial.glsltutorials.tutorials.Shapes.LitMatrixSphere2;
 
 /**
  * Created by jamie on 6/13/15.
  */
-public class DragonFly3d extends Bug3d {
+public class Dragonfly3d extends Bug3d {
     int x_step = 0;
     float x_offset = 0f;
     float y_direction = 0;
@@ -16,12 +17,12 @@ public class DragonFly3d extends Bug3d {
 
     LitMatrixSphere2[] body;
 
-    public DragonFly3d()
+    public Dragonfly3d()
     {
         this(0, 0, 0);
     }
 
-    public DragonFly3d(int x_in, int y_in, int z_in)
+    public Dragonfly3d(int x_in, int y_in, int z_in)
     {
         super(x_in, y_in, z_in);
         scale = 0.005f;
@@ -40,6 +41,8 @@ public class DragonFly3d extends Bug3d {
         body[5].setColor(Colors.LIME_GREEN_COLOR);
 
         setOffsets();
+        programNumber = body[0].getProgram();
+        theProgram = Programs.getProgram(programNumber);
     }
 
     private void setOffsets()
@@ -123,6 +126,15 @@ public class DragonFly3d extends Bug3d {
             direction = 2;
         }
         x = wp + 256;
+    }
+
+    public void setProgram(int program)
+    {
+        super.setProgram(program);
+        for(LitMatrixSphere2 l : body)
+        {
+            l.setProgram(program);
+        }
     }
 
 }

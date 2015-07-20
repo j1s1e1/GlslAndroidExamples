@@ -6,7 +6,7 @@ import android.view.KeyEvent;
 import com.tutorial.glsltutorials.tutorials.Creatures.Animal;
 import com.tutorial.glsltutorials.tutorials.Creatures.Cat;
 import com.tutorial.glsltutorials.tutorials.Creatures.Dog;
-import com.tutorial.glsltutorials.tutorials.Creatures.DragonFly3d;
+import com.tutorial.glsltutorials.tutorials.Creatures.Dragonfly3d;
 import com.tutorial.glsltutorials.tutorials.Creatures.FireFly3d;
 import com.tutorial.glsltutorials.tutorials.Creatures.LadyBug3d;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
@@ -16,7 +16,6 @@ import com.tutorial.glsltutorials.tutorials.Place.Grass;
 import com.tutorial.glsltutorials.tutorials.Place.River;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by jamie on 6/13/15.
@@ -74,7 +73,7 @@ public class Tut_Zoo extends TutorialBase {
                 break;
             case DOG: animals.add(new Dog());
                 break;
-            case DRAGONFLY: animals.add(new DragonFly3d());
+            case DRAGONFLY: animals.add(new Dragonfly3d());
                 break;
             case LADYBUG: animals.add(new LadyBug3d());
                 break;

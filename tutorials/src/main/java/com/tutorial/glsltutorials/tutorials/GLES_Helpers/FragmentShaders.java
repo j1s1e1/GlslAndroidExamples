@@ -142,13 +142,9 @@ public class FragmentShaders {
         "float distance = length(lightPos - v_Position);" +
         "vec3 lightVector = normalize(lightPos - v_Position);" +
         "float diffuse = max(dot(v_Normal, lightVector), 0.0);" +
-
         "diffuse = diffuse * (1.0 / distance);" +
-
         "vec4 textureColor = texture2D(diffuseColorTex, colorCoord);" +
-
         "if (textureColor.w == 0.0) discard;" +
-
         "gl_FragColor = vec4(diffuse * textureColor.xyz, textureColor.w);" +
     "}";
 

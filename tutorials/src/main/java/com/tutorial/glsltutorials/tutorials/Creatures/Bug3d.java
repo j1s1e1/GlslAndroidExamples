@@ -3,6 +3,8 @@ package com.tutorial.glsltutorials.tutorials.Creatures;
 import android.graphics.Color;
 
 import com.tutorial.glsltutorials.tutorials.Colors;
+import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
+import com.tutorial.glsltutorials.tutorials.Movement.BugMovement2D;
 
 import java.util.Random;
 
@@ -10,6 +12,8 @@ import java.util.Random;
  * Created by jamie on 6/13/15.
  */
 public class Bug3d extends Animal {
+    protected Vector3f lastPosition = new Vector3f();
+    protected Vector3f position = new Vector3f();
     protected float x;
     protected float y;
     protected float z;
@@ -18,10 +22,15 @@ public class Bug3d extends Animal {
     public int size = 25;
     public float[] color = Colors.RED_COLOR;
     boolean alive;
+    protected int direction = 0;
+    public static int player_x;
+    public static int player_y;
+    public static int player_distance = 10;
+
     static protected Random random = new Random();
 
     protected float scale = 0.005f;
-    protected boolean autoMove = true;
+    protected Vector3f speed;
 
     public Bug3d (int x_in, int y_in, int z_in)
     {
@@ -29,6 +38,11 @@ public class Bug3d extends Animal {
         y = y_in;
         z = z_in;
         alive = true;
+        lastPosition = new Vector3f(x, y, z);
+        position = lastPosition;
+        speed = new Vector3f(scale, scale, scale);
+
+        movement = new BugMovement2D(speed);
     }
 
     private void drawBug()
@@ -42,67 +56,6 @@ public class Bug3d extends Animal {
             drawBug();
         }
     }
-
-    int move_count = 0;
-    protected int direction = 0;
-
-    private void SI_Move()
-    {
-        switch (move_count)
-        {
-            case   0:
-                direction = 1;
-                break;
-            case  50:
-                direction = 3;
-                break;
-            case  60:
-                direction = 2;
-                break;
-            case  160:
-                direction = 3;
-                break;
-            case  170:
-                direction = 1;
-                break;
-            case  270:
-                direction = 3;
-                break;
-            case  280:
-                direction = 2;
-                break;
-            case  380:
-                direction = 3;
-                break;
-            case  390:
-                direction = 0;
-                break;
-        }
-        if (direction == 1)
-        {
-            x = x - speed;
-        }
-        if (direction == 2)
-        {
-            x = x + speed;
-        }
-        if (direction == 3)
-        {
-            y = y - speed;
-        }
-        if (direction == 4)
-        {
-            y = y + speed;
-        }
-        move_count++;
-    }
-
-    int repeat_count = 0;
-    int repeat_limit = 50;
-    float x_low = -1;
-    float x_high = 1;
-    float y_low = -1;
-    float y_high = 1;
 
     private void chaseCheck()
     {
@@ -139,50 +92,19 @@ public class Bug3d extends Animal {
             */
     }
 
-    float speed = 1;
-
     private void random_Move()
     {
-        speed = scale;
-        if (repeat_count < repeat_limit)
+        lastPosition = position;
+        position = movement.newOffset(position);
+        x = position.x;
+        y = position.y;
+        z = position.z;
+        if (movement instanceof BugMovement2D)
         {
-            repeat_count++;
-            chaseCheck();
+            direction = ((BugMovement2D)movement).getDirection();
         }
-        else
-        {
-            direction = random.nextInt(5);
-            repeat_count = random.nextInt(repeat_limit/2);
-        }
-        if (direction == 1)
-        {
-            x = x - speed;
-            if (x < x_low) repeat_count = repeat_limit;
-        }
-        if (direction == 2)
-        {
-            x = x + speed;
-            if (x > x_high) repeat_count = repeat_limit;
-        }
-        if (direction == 3)
-        {
-            y = y - speed;
-            if (y < y_low) repeat_count = repeat_limit;
-        }
-        if (direction == 4)
-        {
-            y = y + speed;
-            if (y > y_high) repeat_count = repeat_limit;
-        }
-        move_count++;
+        chaseCheck();
     }
-
-    public bug_move_option_enum bug_move_option = bug_move_option_enum.LADYBUG;
-
-    public static int player_x;
-    public static int player_y;
-
-    public static int player_distance = 10;
 
     private void player_Hit()
     {
@@ -218,17 +140,13 @@ public class Bug3d extends Animal {
     {
         if (alive)
         {
-            switch(bug_move_option)
-            {
-                case LADYBUG:
-                    player_Hit ();
-                    random_Move ();
-                    break;
-                default:
-                    player_Hit();
-                    random_Move();
-                    break;
-            }
+            player_Hit ();
+            random_Move ();
         }
+    }
+
+    public void setBug2DMovement()
+    {
+        movement = new BugMovement2D(speed);
     }
 }
