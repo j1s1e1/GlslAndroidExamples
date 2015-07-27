@@ -94,7 +94,7 @@ public class TextureElement extends Shape
     {
         super.rotateShape(axis, angle);
         Matrix4f rotation = Matrix4f.CreateFromAxisAngle(axis, (float)Math.PI / 180.0f * angle);
-        //lightPosition = Vector3f.Transform(lightPosition, rotation);
+        //lightPosition = Vector3f.transform(lightPosition, rotation);
     }
 
     public void setLightPosition(Vector3f v)
@@ -105,7 +105,7 @@ public class TextureElement extends Shape
 
     public void draw()
     {
-        Vector3f light = Vector3f.Transform(lightPosition, modelToWorld);
+        Vector3f light = Vector3f.transform(lightPosition, modelToWorld);
         Programs.setLightPosition(programNumber, light);
         //Programs.setLightPosition(programNumber, lightPosition);
         Programs.setUniformScale(programNumber, scale);

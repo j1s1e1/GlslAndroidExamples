@@ -1,6 +1,5 @@
 package com.tutorial.glsltutorials.tutorials.Tutorials;
 
-import android.opengl.GLES20;
 import android.view.KeyEvent;
 
 import com.tutorial.glsltutorials.tutorials.Blender.Blender;
@@ -232,9 +231,9 @@ public class Tut_3D_Shooter3 extends TutorialBase {
     {
         ship.rotateShapes(rotationAxis, angle);
         Matrix4f rotation = Matrix4f.CreateFromAxisAngle(rotationAxis, (float)Math.PI / 180.0f * angle);
-        axis = Vector3f.Transform(axis, rotation);
-        up = Vector3f.Transform(up, rotation);
-        right = Vector3f.Transform(right, rotation);
+        axis = Vector3f.transform(axis, rotation);
+        up = Vector3f.transform(up, rotation);
+        right = Vector3f.transform(right, rotation);
     }
 
     public String keyboard(int keyCode, int x, int y)
@@ -348,11 +347,7 @@ public class Tut_3D_Shooter3 extends TutorialBase {
             if (selection == 0) {
                 if (y_position / (height / 4) == 1) {
                     enableInfoDebounce = 15;
-                    if (enableInfo) {
-                        enableInfo = false;
-                    } else {
-                        enableInfo = true;
-                    }
+                    enableInfo = !enableInfo;
                 }
                 if (y_position / (height / 4) == 1) {
                     ship.setProgram(shaderFragWhiteDiffuseColor);

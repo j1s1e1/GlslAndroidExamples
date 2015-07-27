@@ -14,6 +14,8 @@ import com.tutorial.glsltutorials.tutorials.Shapes.LitMatrixSphere2;
  */
 public class Animal
 {
+    protected Vector3f lastPosition = new Vector3f();
+    protected Vector3f position = new Vector3f();
     int programNumber = -1;
     int theProgram = -1;
     int systemMovementMatrixUnif = -1;
@@ -67,6 +69,11 @@ public class Animal
         GLES20.glUseProgram(0);
     }
 
+    public boolean getAutoMove()
+    {
+        return autoMove;
+    }
+
     public void setAutoMove()
     {
         autoMove = true;
@@ -95,6 +102,11 @@ public class Animal
     public void translate(Vector3f offset)
     {
         movement.translate(offset);
+    }
+
+    public String getInfo()
+    {
+        return "Animal Position = " + position.toString();
     }
 
 }

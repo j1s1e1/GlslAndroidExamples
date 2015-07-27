@@ -2306,6 +2306,8 @@
         <item>Tut_FlightControl</item>
         <item>Tut_SphericalCoordinates</item>
         <item>Tut_Swarm</item>
+        <item>Tut_Skeleton</item>
+        <item>Tut_Hand</item>
 
     </string-array></file><file path="/home/jamie/repos/AndroidGitHub/GlslTutorials/tutorials/src/main/res/values/strings.xml" qualifiers=""><string name="hello_world">Hello world!</string><string name="action_settings">Settings</string><string name="app_name">GlslTutorials</string></file><file path="/home/jamie/repos/AndroidGitHub/GlslTutorials/tutorials/src/main/res/values/dimens.xml" qualifiers=""><dimen name="activity_vertical_margin">16dp</dimen><dimen name="activity_horizontal_margin">16dp</dimen></file><file path="/home/jamie/repos/AndroidGitHub/GlslTutorials/tutorials/src/main/res/values/MainMenu.xml" qualifiers=""><string-array name="MainMenu">
         <item>None</item>

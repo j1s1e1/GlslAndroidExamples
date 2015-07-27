@@ -1,6 +1,7 @@
 package com.tutorial.glsltutorials.tutorials.Creatures;
 
 import com.tutorial.glsltutorials.tutorials.Colors;
+import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 import com.tutorial.glsltutorials.tutorials.Shapes.LitMatrixSphere2;
 
 /**
@@ -30,9 +31,9 @@ public class LadyBug3d extends Bug3d {
 
     private void setOffsets()
     {
-        sphere.setOffset(x, y, z);
-        wings[0].setOffset(x, y - wing_angle, z);
-        wings[1].setOffset(x, y + wing_angle, z);
+        sphere.setOffset(position);
+        wings[0].setOffset(position.add(new Vector3f(0f, -wing_angle, 0f)));
+        wings[1].setOffset(position.add(new Vector3f(0f, + wing_angle, 0f)));
         wings[0].setAngles(0, 0, -wing_angle * 10);
         wings[1].setAngles(80, 0, wing_angle * 10);
     }

@@ -89,7 +89,7 @@ public class TextureElement2 extends Shape
 
     public void draw()
     {
-        Vector3f light = Vector3f.Transform(lightPosition, modelToWorld);
+        Vector3f light = Vector3f.transform(lightPosition, modelToWorld);
         Programs.setLightPosition(programNumber, light);
         Programs.setUniformScale(programNumber, scale);
         Programs.setTexture(programNumber, texture);

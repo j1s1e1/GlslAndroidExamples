@@ -73,6 +73,8 @@
         <item>Tut_FlightControl</item>
         <item>Tut_SphericalCoordinates</item>
         <item>Tut_Swarm</item>
+        <item>Tut_Skeleton</item>
+        <item>Tut_Hand</item>
 
     </string-array>
     <!-- From: file:/home/jamie/repos/AndroidGitHub/GlslTutorials/tutorials/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.2/res/values/values.xml -->

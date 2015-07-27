@@ -232,7 +232,7 @@ public class Vector3f {
         return vector.mul(multiple);
     }
 
-    public static Vector3f Transform(Vector3f vec, Matrix4f mat)
+    public static Vector3f transform(Vector3f vec, Matrix4f mat)
     {
         Vector3f v = new Vector3f();
         v.x = Vector3f.dot(vec, new Vector3f(mat.GetCol0()));

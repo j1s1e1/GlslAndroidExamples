@@ -182,6 +182,9 @@ public class Tutorials extends Activity implements
             case 61: TestRenderer.tutorial = new Tut_FlightControl(); break;
             case 62: TestRenderer.tutorial = new Tut_SphericalCoordinates(); break;
             case 63: TestRenderer.tutorial = new Tut_Swarm(); break;
+            case 64: TestRenderer.tutorial = new Tut_Skeleton(); break;
+            case 65: TestRenderer.tutorial = new Tut_Hand(); break;
+
             default:
                 final Toast toast2 = Toast.makeText(Shader.context,"Not implemented", Toast.LENGTH_SHORT);
                 toast2.show();

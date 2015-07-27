@@ -12,11 +12,6 @@ import java.util.Random;
  * Created by jamie on 6/13/15.
  */
 public class Bug3d extends Animal {
-    protected Vector3f lastPosition = new Vector3f();
-    protected Vector3f position = new Vector3f();
-    protected float x;
-    protected float y;
-    protected float z;
     protected int wing_step = 0;
     protected float wing_angle = 0;
     public int size = 25;
@@ -34,12 +29,11 @@ public class Bug3d extends Animal {
 
     public Bug3d (int x_in, int y_in, int z_in)
     {
-        x = x_in;
-        y = y_in;
-        z = z_in;
+        position.x = x_in;
+        position.y = y_in;
+        position.z = z_in;
         alive = true;
-        lastPosition = new Vector3f(x, y, z);
-        position = lastPosition;
+        lastPosition = position;
         speed = new Vector3f(scale, scale, scale);
 
         movement = new BugMovement2D(speed);
@@ -94,11 +88,8 @@ public class Bug3d extends Animal {
 
     private void random_Move()
     {
-        lastPosition = position;
+        lastPosition = position.Clone();
         position = movement.newOffset(position);
-        x = position.x;
-        y = position.y;
-        z = position.z;
         if (movement instanceof BugMovement2D)
         {
             direction = ((BugMovement2D)movement).getDirection();
@@ -140,8 +131,8 @@ public class Bug3d extends Animal {
     {
         if (alive)
         {
-            player_Hit ();
-            random_Move ();
+            player_Hit();
+            random_Move();
         }
     }
 

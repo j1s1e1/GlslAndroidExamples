@@ -67,12 +67,7 @@ public class LitMatrixSphere2 extends Shape {
     {
         int newVertexCount = indexData.length / 20 * (last_triangle - first_triangle + 1);
 
-        Matrix4f mm = rotate(modelToWorld, axis, angle);
-        mm.M41 = offset.x;
-        mm.M42 = offset.y;
-        mm.M43 = offset.z;
-
-        Programs.draw(programNumber, vertexBufferObject, indexBufferObject, mm, newVertexCount, color);
+        Programs.draw(programNumber, vertexBufferObject, indexBufferObject, modelToWorld, newVertexCount, color);
     }
 
     public void setLightPosition(Vector3f lightPosition)

@@ -3,6 +3,7 @@ package com.tutorial.glsltutorials.tutorials.Creatures;
 import android.view.KeyEvent;
 
 import com.tutorial.glsltutorials.tutorials.Colors;
+import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 import com.tutorial.glsltutorials.tutorials.ProgramData.Programs;
 import com.tutorial.glsltutorials.tutorials.Shapes.LitMatrixSphere2;
 
@@ -47,12 +48,12 @@ public class Dragonfly3d extends Bug3d {
 
     private void setOffsets()
     {
-        body[0].setOffset(x, y, z);
-        body[1].setOffset(x + x_offset, y + y_direction, z);
-        body[2].setOffset(x + 2 * x_offset, y + 2 * y_direction, z);
-        body[3].setOffset(x + 3 * x_offset, y + 3 * y_direction, z);
-        body[4].setOffset(x + 4 * x_offset, y + 4 * y_direction, z);
-        body[5].setOffset(x + x_offset, y + y_direction + wing_offset, z);
+        body[0].setOffset(position);
+        body[1].setOffset(position.add(new Vector3f(+x_offset, +y_direction, 0f)));
+        body[2].setOffset(position.add(new Vector3f(2*x_offset, +2 * y_direction, 0f)));
+        body[3].setOffset(position.add(new Vector3f(3*x_offset, +3 * y_direction, 0f)));
+        body[4].setOffset(position.add(new Vector3f(4*x_offset, +4 * y_direction, 0f)));
+        body[5].setOffset(position.add(new Vector3f(+x_offset, +y_direction + wing_offset, 0f)));
     }
 
     public void draw()
@@ -100,16 +101,16 @@ public class Dragonfly3d extends Bug3d {
         switch (key) {
             case KeyEvent.KEYCODE_NUMPAD_8:
             {
-                if (y < 500) {
-                    y += 2;
+                if (position.y < 500) {
+                    position.y += 2;
                     y_direction = -5;
                 }
                 break;
             }
             case KeyEvent.KEYCODE_NUMPAD_2:
             {
-                if (y > 12) {
-                    y -= 2;
+                if (position.y > 12) {
+                    position.y -= 2;
                     y_direction = 5;
                 }
                 break;
@@ -119,13 +120,13 @@ public class Dragonfly3d extends Bug3d {
 
     public void newWorldPosition(int wp)
     {
-        if (wp > x - 256) {
+        if (wp > position.x - 256) {
             direction = 1;
         }
-        if (wp < x - 256) {
+        if (wp < position.x - 256) {
             direction = 2;
         }
-        x = wp + 256;
+        position.x = wp + 256;
     }
 
     public void setProgram(int program)

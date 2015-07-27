@@ -22,9 +22,6 @@ public class Shape
 {
     protected static int BYTES_PER_FLOAT = 4;
     protected static int BYTES_PER_SHORT = 2;
-    public static float global_x_offset = 0;
-    public static float global_y_offset = 0;
-    public static float global_z_offset = 0;
     public static float global_x_rotate = 0;
     public static float global_y_rotate = 0;
     public static float global_z_rotate = 0;
@@ -103,6 +100,14 @@ public class Shape
         worldToCamera = Matrix4f.Identity();
     }
 
+    public static void setWorldToCameraRotation(float xRotation, float yRotation, float zRotation)
+    {
+        resetWorldToCameraMatrix();
+        rotateWorld(Vector3f.UnitX, xRotation);
+        rotateWorld(Vector3f.UnitY, yRotation);
+        rotateWorld(Vector3f.UnitZ, zRotation);
+    }
+
     public static void scaleWorldToCameraMatrix(float scaleFactor)
     {
         worldToCamera.Scale(new Vector3f(scaleFactor, scaleFactor, scaleFactor));
@@ -178,46 +183,42 @@ public class Shape
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
     }
 
-    public void move(float x_add, float y_add, float z_add)
+    public void move (float x_add, float y_add, float z_add)
     {
         move(new Vector3f(x_add, y_add, z_add));
     }
 
-    public void move(Vector3f v)
+    public void move (Vector3f v)
     {
-        offset = offset.add(v);
-        x = x + v.x;
-        y = y + v.y;
-        z = z + v.z;
+        modelToWorld.SetRow3(modelToWorld.GetRow3().add(new Vector4f(v, 0f)));
     }
 
-    public void setOffset(float x_in, float y_in, float z_in)
+    public void setOffset(float x, float y, float z)
     {
-        offset.x = x_in;
-        offset.y = y_in;
-        offset.z = z_in;
+        setOffset(new Vector3f(x, y, z));
     }
+
+    public void setOffset (Vector3f offsetIn)
+    {
+        modelToWorld.SetRow3(new Vector4f(offsetIn, 1.0f));
+    }
+
     public void setXOffset(float x_in)
     {
-        offset.x = x_in;
+        modelToWorld.M41 = x_in;
     }
     public void setYOffset(float y_in)
     {
-        offset.y = y_in;
+        modelToWorld.M42 = y_in;
     }
     public void setZOffset(float z_in)
     {
-        offset.z = z_in;
-    }
-
-    public void setOffset(Vector3f offsetIn)
-    {
-        offset = offsetIn;
+        modelToWorld.M43 = z_in;
     }
 
     public Vector3f getOffset()
     {
-        return offset;
+        return new Vector3f(modelToWorld.M41, modelToWorld.M42, modelToWorld.M43);
     }
 
     protected void setupIndexBuffer()
@@ -386,10 +387,9 @@ public class Shape
     public void rotateShape(Vector3f offset, Vector3f rotationAxis, float angleDeg)
     {
         Matrix4f rotation = Matrix4f.CreateFromAxisAngle(rotationAxis, (float)Math.PI / 180.0f * angleDeg);
-        //rotation.Row3 = rotation.Row3 - new Vector4(offset, 0);
         modelToWorld.SetRow3(modelToWorld.GetRow3().sub(new Vector4f(offset, 0)));
         modelToWorld = Matrix4f.mul(modelToWorld, rotation);
-        modelToWorld.SetRow3(modelToWorld.GetRow3().sub(new Vector4f(offset, 0)));
+        modelToWorld.SetRow3(modelToWorld.GetRow3().add(new Vector4f(offset, 0)));
     }
 
     public void setRotation(Matrix3f rotation)

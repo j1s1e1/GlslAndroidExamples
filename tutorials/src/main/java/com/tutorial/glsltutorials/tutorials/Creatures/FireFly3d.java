@@ -1,6 +1,7 @@
 package com.tutorial.glsltutorials.tutorials.Creatures;
 
 import com.tutorial.glsltutorials.tutorials.Colors;
+import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 import com.tutorial.glsltutorials.tutorials.Shapes.LitMatrixSphere2;
 
 /**
@@ -45,13 +46,13 @@ public class FireFly3d extends Bug3d {
 
     private void setOffsets()
     {
-        body[0].setOffset(x - sizef - scale * 1, y, z);
-        body[1].setOffset(x, y, z);
-        body[2].setOffset(x + sizef, y, z);
-        body[3].setOffset(x + 2 * sizef, y, z);
-        body[4].setOffset(x + sizef - wingOffset, y - wingOffset, z);
-        body[5].setOffset(x + sizef - wingOffset, y + wingOffset , z);
-        body[6].setOffset(x + 2 * sizef, y, z);
+        body[0].setOffset(position.add(new Vector3f(-sizef - scale * 1, 0f, 0f)));
+        body[1].setOffset(position);
+        body[2].setOffset(position.add(new Vector3f(+sizef, 0f, 0f)));
+        body[3].setOffset(position.add(new Vector3f(2 * sizef, 0f, 0f)));
+        body[4].setOffset(position.add(new Vector3f(+sizef - wingOffset, -wingOffset, 0f)));
+        body[5].setOffset(position.add(new Vector3f(+sizef - wingOffset, +wingOffset, 0f)));
+        body[6].setOffset(position.add(new Vector3f(2*sizef, 0f, 0f)));
 
         body[4].setAngles(0, 0, -wingOffset * 10);
         body[5].setAngles(80, 0, wingOffset * 10);

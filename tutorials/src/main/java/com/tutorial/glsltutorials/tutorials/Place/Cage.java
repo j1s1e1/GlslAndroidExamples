@@ -19,15 +19,16 @@ public class Cage extends Exhibit {
         float xstep = 0.2f;
         float ystart = -0.8f;
         float yend = 0.8f;
+        float barSize = 0.02f;
         for (float x = xstart; x <= xend; x += xstep)
         {
-            LitMatrixBlock2 newBar = new LitMatrixBlock2(new Vector3f(0.05f, 2 * height, 0.5f), Colors.RED_COLOR);
+            LitMatrixBlock2 newBar = new LitMatrixBlock2(new Vector3f(barSize, 2 * height, barSize), Colors.RED_COLOR);
             newBar.move(new Vector3f(x, 0f, 0.5f));
             bars.add(newBar);
         }
         for (float x = xstart; x <= xend; x += xstep)
         {
-            LitMatrixBlock2 newBar = new LitMatrixBlock2(new Vector3f(0.05f, 2 * height, 0.5f), Colors.YELLOW_COLOR);
+            LitMatrixBlock2 newBar = new LitMatrixBlock2(new Vector3f(barSize, 2 * height, barSize), Colors.YELLOW_COLOR);
             newBar.move(new Vector3f(x, 0f, -0.5f));
             bars.add(newBar);
         }

@@ -91,7 +91,7 @@ public class Tut_17_Projected_Light extends TutorialBase {
             name = n;
         }
 
-    };
+    }
 
     TexDef[] g_texDefs = new TexDef[]
     {
@@ -381,7 +381,7 @@ public class Tut_17_Projected_Light extends TutorialBase {
             lightProjStack.scale(0.5f, 0.5f, 1.0f);
             //Project. Z-range is irrelevant.
             lightProjStack.perspective(g_lightFOVs[g_currFOVIndex], 1.0f, 1.0f, 100.0f);
-            //Transform from main camera space to light camera space.
+            //transform from main camera space to light camera space.
             lightProjStack.ApplyMatrix(lightView);
             Matrix4f cmI = cameraMatrix.inverted();
             lightProjStack.ApplyMatrix(cmI);
@@ -479,7 +479,7 @@ public class Tut_17_Projected_Light extends TutorialBase {
             }
             break;
             case KeyEvent.KEYCODE_Y:
-                g_currFOVIndex = Math.min(g_currFOVIndex + 1, (int)(g_lightFOVs.length - 1));
+                g_currFOVIndex = Math.min(g_currFOVIndex + 1, g_lightFOVs.length - 1);
                 Log.i("KeyEvent", "Curr FOV: " + String.valueOf(g_lightFOVs[g_currFOVIndex]));
                 break;
             case KeyEvent.KEYCODE_N:

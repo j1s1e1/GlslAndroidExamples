@@ -83,4 +83,9 @@ public class Movement {
     public void translate(Vector3f offset)
     {
     }
+
+    public void setSpeed(Vector3f v)
+    {
+        speed = v;
+    }
 }
