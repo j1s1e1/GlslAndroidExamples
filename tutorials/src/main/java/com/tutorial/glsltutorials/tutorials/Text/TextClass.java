@@ -98,47 +98,47 @@ public class TextClass extends Shape {
         Float[] result;
         switch (next_char)
         {
-            case (char)'A': result = Letters.A; break;
-            case (char)'B': result = Letters.B; break;
-            case (char)'C': result = Letters.C; break;
-            case (char)'D': result = Letters.D; break;
-            case (char)'E': result = Letters.E; break;
-            case (char)'F': result = Letters.F; break;
-            case (char)'G': result = Letters.G; break;
-            case (char)'H': result = Letters.H; break;
-            case (char)'I': result = Letters.I; break;
-            case (char)'J': result = Letters.J; break;
-            case (char)'K': result = Letters.K; break;
-            case (char)'L': result = Letters.L; break;
-            case (char)'M': result = Letters.M; break;
-            case (char)'N': result = Letters.N; break;
-            case (char)'O': result = Letters.O; break;
-            case (char)'P': result = Letters.P; break;
-            case (char)'Q': result = Letters.Q; break;
-            case (char)'R': result = Letters.R; break;
-            case (char)'S': result = Letters.S; break;
-            case (char)'T': result = Letters.T; break;
-            case (char)'U': result = Letters.U; break;
-            case (char)'V': result = Letters.V; break;
-            case (char)'W': result = Letters.W; break;
-            case (char)'X': result = Letters.X; break;
-            case (char)'Y': result = Letters.Y; break;
-            case (char)'Z': result = Letters.Z; break;
+            case 'A': result = Letters.A; break;
+            case 'B': result = Letters.B; break;
+            case 'C': result = Letters.C; break;
+            case 'D': result = Letters.D; break;
+            case 'E': result = Letters.E; break;
+            case 'F': result = Letters.F; break;
+            case 'G': result = Letters.G; break;
+            case 'H': result = Letters.H; break;
+            case 'I': result = Letters.I; break;
+            case 'J': result = Letters.J; break;
+            case 'K': result = Letters.K; break;
+            case 'L': result = Letters.L; break;
+            case 'M': result = Letters.M; break;
+            case 'N': result = Letters.N; break;
+            case 'O': result = Letters.O; break;
+            case 'P': result = Letters.P; break;
+            case 'Q': result = Letters.Q; break;
+            case 'R': result = Letters.R; break;
+            case 'S': result = Letters.S; break;
+            case 'T': result = Letters.T; break;
+            case 'U': result = Letters.U; break;
+            case 'V': result = Letters.V; break;
+            case 'W': result = Letters.W; break;
+            case 'X': result = Letters.X; break;
+            case 'Y': result = Letters.Y; break;
+            case 'Z': result = Letters.Z; break;
 
-            case (char)'0': result = Numbers.Zero; break;
-            case (char)'1': result = Numbers.One; break;
-            case (char)'2': result = Numbers.Two; break;
-            case (char)'3': result = Numbers.Three; break;
-            case (char)'4': result = Numbers.Four; break;
-            case (char)'5': result = Numbers.Five; break;
-            case (char)'6': result = Numbers.Six; break;
-            case (char)'7': result = Numbers.Seven; break;
-            case (char)'8': result = Numbers.Eight; break;
-            case (char)'9': result = Numbers.Nine; break;
+            case '0': result = Numbers.Zero; break;
+            case '1': result = Numbers.One; break;
+            case '2': result = Numbers.Two; break;
+            case '3': result = Numbers.Three; break;
+            case '4': result = Numbers.Four; break;
+            case '5': result = Numbers.Five; break;
+            case '6': result = Numbers.Six; break;
+            case '7': result = Numbers.Seven; break;
+            case '8': result = Numbers.Eight; break;
+            case '9': result = Numbers.Nine; break;
 
-            case (char)' ': result = Symbols.Space; break;
-            case (char)'.': result = Symbols.Period; break;
-            case (char)'=': result = Symbols.Equals; break;
+            case ' ': result = Symbols.Space; break;
+            case '.': result = Symbols.Period; break;
+            case '=': result = Symbols.Equals; break;
 
             default:  result = Symbols.Dash; break;
         }
@@ -262,7 +262,7 @@ public class TextClass extends Shape {
 
         if (updateLock == false)
         {
-            Programs.draw(programNumber, vertexBufferObject, indexBufferObject, mm, indexData.length, color);
+            Programs.draw(programNumber, vertexBufferObject[0], indexBufferObject[0], mm, indexData.length, color);
             waitingForUpdate = false;
         }
         else

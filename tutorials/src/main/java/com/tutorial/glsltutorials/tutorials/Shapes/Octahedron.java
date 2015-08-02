@@ -4,6 +4,12 @@ import android.opengl.GLES20;
 
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 import com.tutorial.glsltutorials.tutorials.ProgramData.Programs;
+import com.tutorial.glsltutorials.tutorials.Tutorials.Tutorials;
+
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
+import java.nio.ShortBuffer;
 
 /**
  * Created by jamie on 7/26/15.
@@ -48,8 +54,67 @@ public class Octahedron extends Shape {
                     0f, BOTTOM_EXTENT, 0f,
             };
 
+    static FloatBuffer vertexBuffer;
+    static ShortBuffer indexBuffer;
+    static int[] vertexBufferObject = new int[]{-1};
+    static int[] indexBufferObject = new int[1];
+    static float[] vertexData;
+    static short[] indexData;
+    static int tutorialRunCount = -1;
+
+    static void initializeStaticVertexBuffer()
+    {
+        // initialize vertex byte buffer for shape coordinates
+        ByteBuffer vb = ByteBuffer.allocateDirect(
+                // (number of coordinate values * 4 bytes per float)
+                vertexData.length * 4);
+        // use the device hardware's native byte order
+        vb.order(ByteOrder.nativeOrder());
+
+        // create a floating point buffer from the ByteBuffer
+        vertexBuffer = vb.asFloatBuffer();
+        // add the coordinates to the FloatBuffer
+        vertexBuffer.put(vertexData);
+        // set the buffer to read the first coordinate
+        vertexBuffer.position(0);
+
+        // initialize index byte buffer for vertex indexes
+        ByteBuffer sb = ByteBuffer.allocateDirect(
+                // (number of coordinate values * 2 bytes per short)
+                indexData.length * 2);
+        // use the device hardware's native byte order
+        sb.order(ByteOrder.nativeOrder());
+
+        // create a floating point buffer from the ByteBuffer
+        indexBuffer = sb.asShortBuffer();
+        // add the coordinates to the FloatBuffer
+        indexBuffer.put(indexData);
+        // set the buffer to read the first coordinate
+        indexBuffer.position(0);
+
+        GLES20.glGenBuffers(1, vertexBufferObject, 0);
+        GLES20.glGenBuffers(1, indexBufferObject, 0);
+
+        GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, indexBufferObject[0]);
+        GLES20.glBufferData(GLES20.GL_ELEMENT_ARRAY_BUFFER, indexBuffer.capacity() * BYTES_PER_SHORT,
+                indexBuffer, GLES20.GL_STATIC_DRAW);
+        GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, 0);
+
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vertexBufferObject[0]);
+        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, vertexBuffer.capacity() * BYTES_PER_FLOAT,
+                vertexBuffer, GLES20.GL_STATIC_DRAW);
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+    }
+
+
     public Octahedron (Vector3f sizeIn, float[] colorIn)
     {
+        if (Tutorials.tutorialRunCount > tutorialRunCount)
+        {
+            tutorialRunCount = Tutorials.tutorialRunCount;
+            vertexBufferObject = new int[]{-1};
+            indexBufferObject = new int[1];
+        }
         size = sizeIn;
         color = colorIn;
         modelToWorld.M11 = size.x;
@@ -58,15 +123,17 @@ public class Octahedron extends Shape {
 
         programNumber = Programs.addProgram(VertexShader, FragmentShader);
 
-        vertexCount = 3 * 8;
-        vertexStride = 3 * 4; // no color for now
-        // fill in index data
-        indexData = lmbIndexData;
+        if (vertexBufferObject[0] == -1) {
+            vertexCount = 3 * 8;
+            vertexStride = 3 * 4; // no color for now
+            // fill in index data
+            indexData = lmbIndexData;
 
-        // fill in vertex data
-        vertexData = lmbVertexData; //  GetVertexData();
+            // fill in vertex data
+            vertexData = lmbVertexData; //  GetVertexData();
 
-        initializeVertexBuffer();
+            initializeStaticVertexBuffer();
+        }
     }
 
     private float[] getVertexData()
@@ -83,6 +150,6 @@ public class Octahedron extends Shape {
 
     public void draw()
     {
-        Programs.draw(programNumber, vertexBufferObject, indexBufferObject, modelToWorld, indexData.length, color);
+        Programs.draw(programNumber, vertexBufferObject[0], indexBufferObject[0], modelToWorld, indexData.length, color);
     }
 }

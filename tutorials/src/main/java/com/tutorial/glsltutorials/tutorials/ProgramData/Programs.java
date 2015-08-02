@@ -45,7 +45,7 @@ public class Programs {
         return program_number;
     }
 
-    public static void draw(int program, int[] vertexBufferObject, int[] indexBufferObject,
+    public static void draw(int program, int vertexBufferObject, int indexBufferObject,
                             Matrix4f mm, int indexDataLength, float[] color)
     {
         ActivePrograms.get(program).draw(vertexBufferObject, indexBufferObject, mm, indexDataLength, color);

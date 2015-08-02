@@ -23,6 +23,7 @@ public class Movement {
     protected float maxZmovement = 0.1f;
 
     protected Vector3f speed = new Vector3f(0f, 0f, 0f);
+    protected Vector3f speedLimit = new Vector3f(0.05f, 0.05f, 0.05f);
     protected Vector3f currentPosition = new Vector3f(0f, 0f, 0f);
 
     public Vector3f newOffset(Vector3f oldOffset)

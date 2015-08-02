@@ -3,6 +3,7 @@ package com.tutorial.glsltutorials.tutorials.Creatures;
 import com.tutorial.glsltutorials.tutorials.BodyParts.Leg;
 import com.tutorial.glsltutorials.tutorials.Colors;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
+import com.tutorial.glsltutorials.tutorials.Movement.BugMovement3D;
 import com.tutorial.glsltutorials.tutorials.Shapes.LitMatrixSphere2;
 
 import java.util.ArrayList;
@@ -61,6 +62,8 @@ public class Scorpion extends Bug3d {
         body.scale(new Vector3f(2.0f, 0.55f, 1.0f));
         body.move(new Vector3f(0f, 0.1f, 0.5f));
         body.setColor(Colors.RED_COLOR);
+        movement = new BugMovement3D(new Vector3f(0.02f, 0.02f, 0.02f));
+        movement.setLimits(new Vector3f(-0.6f, -0.6f, -0.6f), new Vector3f(0.6f, -0.4f, 0.6f));
     }
 
     public void draw()

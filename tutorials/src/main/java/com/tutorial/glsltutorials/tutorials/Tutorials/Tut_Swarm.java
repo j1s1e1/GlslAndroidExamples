@@ -7,6 +7,7 @@ import com.tutorial.glsltutorials.tutorials.Creatures.Animal;
 import com.tutorial.glsltutorials.tutorials.Creatures.Dragonfly3d;
 import com.tutorial.glsltutorials.tutorials.Creatures.FireFly3d;
 import com.tutorial.glsltutorials.tutorials.Creatures.LadyBug3d;
+import com.tutorial.glsltutorials.tutorials.Creatures.Scorpion;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.AnalysisTools;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.FragmentShaders;
 import com.tutorial.glsltutorials.tutorials.GLES_Helpers.VertexShaders;
@@ -64,7 +65,8 @@ public class Tut_Swarm extends TutorialBase {
     {
         DRAGONFLY,
         LADYBUG,
-        FIREFLY;
+        FIREFLY,
+        SCORPION;
         private static animal_enum[] vals = values();
         public animal_enum next()
         {
@@ -122,6 +124,7 @@ public class Tut_Swarm extends TutorialBase {
             case DRAGONFLY: animal = new Dragonfly3d(); break;
             case LADYBUG: animal = new LadyBug3d(); break;
             case FIREFLY: animal = new FireFly3d(); break;
+            case SCORPION: animal = new Scorpion(); break;
             default: animal = new Dragonfly3d(); break;
         }
         setupSphericalAnimal(animal);

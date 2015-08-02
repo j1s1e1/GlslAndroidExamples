@@ -42,11 +42,29 @@ public class Bone {
 
     public void rotate(Vector3f axis, float angleDeg)
     {
+        Matrix4f rotation = Matrix4f.CreateFromAxisAngle(axis, (float)Math.PI / 180.0f * angleDeg);
         for(Shape s : shapes)
         {
-            s.rotateShape(sphere1position, axis, angleDeg);
+            s.rotateShape(sphere1position, rotation);
         }
-        Matrix4f rotation = Matrix4f.CreateFromAxisAngle(axis, (float)Math.PI / 180.0f * angleDeg);
+        sphere2position = sphere2position.sub(sphere1position);
+        sphere2position = Vector3f.transform(sphere2position, rotation);
+        sphere2position = sphere2position.add(sphere1position);
+        if (children.size() != 0)
+        {
+            for (Bone child : children)
+            {
+                child.move(sphere2position.sub(child.getSphere1Position()));
+            }
+        }
+    }
+
+    public void rotate(Matrix4f rotation)
+    {
+        for(Shape s : shapes)
+        {
+            s.rotateShape(sphere1position, rotation);
+        }
         sphere2position = sphere2position.sub(sphere1position);
         sphere2position = Vector3f.transform(sphere2position, rotation);
         sphere2position = sphere2position.add(sphere1position);

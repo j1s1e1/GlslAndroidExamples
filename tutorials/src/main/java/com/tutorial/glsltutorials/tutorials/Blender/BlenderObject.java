@@ -143,7 +143,7 @@ public class BlenderObject extends Shape {
         mm.M42 = offset.y;
         mm.M43 = offset.z;
 
-        Programs.draw(programNumber, vertexBufferObject, indexBufferObject, mm, indexData.length, color);
+        Programs.draw(programNumber, vertexBufferObject[0], indexBufferObject[0], mm, indexData.length, color);
     }
 
     public ArrayList<Byte> getBinaryBlenderObject()

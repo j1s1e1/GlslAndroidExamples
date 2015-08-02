@@ -93,7 +93,7 @@ public class TextureElement2 extends Shape
         Programs.setLightPosition(programNumber, light);
         Programs.setUniformScale(programNumber, scale);
         Programs.setTexture(programNumber, texture);
-        Programs.draw(programNumber, vertexBufferObject, indexBufferObject, modelToWorld, indexData.length, color);
+        Programs.draw(programNumber, vertexBufferObject[0], indexBufferObject[0], modelToWorld, indexData.length, color);
     }
 
 }

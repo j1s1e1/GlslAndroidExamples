@@ -1,5 +1,6 @@
 package com.tutorial.glsltutorials.tutorials.BodyParts;
 
+import com.tutorial.glsltutorials.tutorials.Geometry.Matrix4f;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 
 import java.util.ArrayList;
@@ -11,6 +12,8 @@ public class Leg {
     ArrayList<Bone> bones;
 
     int crawlCountOffset = 0;
+
+    static {setCrawlRotations();}
 
     public Leg (int boneCount)
     {
@@ -47,6 +50,14 @@ public class Leg {
         }
     }
 
+    public void rotateAngles(Matrix4f[] rotations)
+    {
+        for (int i = 0; i < bones.size(); i++)
+        {
+            if (i < rotations.length) bones.get(i).rotate(rotations[i]);
+        }
+    }
+
     public void draw()
     {
         for (Bone b : bones)
@@ -68,34 +79,34 @@ public class Leg {
         crawlCountOffset = crawlCountOffsetIn;
     }
 
+    static Matrix4f[][] crawlRotations;
+
+    private static Matrix4f[] createRotationsX(float[] anglesDeg)
+    {
+        Matrix4f[] result = new Matrix4f[anglesDeg.length];
+        for (int i = 0; i < result.length; i++)
+        {
+            result[i] = Matrix4f.CreateRotationX((float)Math.PI / 180.0f * anglesDeg[i]);
+        }
+        return result;
+    }
+
+    private static void setCrawlRotations()
+    {
+        crawlRotations = new Matrix4f[8][];
+        crawlRotations[0] = createRotationsX(new float[]{2f, 2f, 0f});
+        crawlRotations[1] = createRotationsX(new float[]{3f, 3f, 0f});
+        crawlRotations[2] = createRotationsX(new float[]{-2f, -2f, 0f});
+        crawlRotations[3] = createRotationsX(new float[]{-3f, -3f, 0f});
+        crawlRotations[4] = createRotationsX(new float[]{0f, 0f, 0f});
+        crawlRotations[5] = createRotationsX(new float[]{0f, 0f, 0f});
+        crawlRotations[6] = createRotationsX(new float[]{0f, 0f, 0f});
+        crawlRotations[7] = createRotationsX(new float[]{0f, 0f, 0f});
+
+    }
+
     public void crawl(int crawlCount)
     {
-        switch ((crawlCount + crawlCountOffset) % 8)
-        {
-            case 0:
-                rotateAngles(new Vector3f[]{Vector3f.UnitX, Vector3f.UnitX, Vector3f.UnitX}, new float[]{2f, 2f, 0f});
-                break;
-            case 1:
-                rotateAngles(new Vector3f[]{Vector3f.UnitX, Vector3f.UnitX, Vector3f.UnitX}, new float[]{3f, 3f, 0f});
-                break;
-            case 2:
-                rotateAngles(new Vector3f[]{Vector3f.UnitX, Vector3f.UnitX, Vector3f.UnitX}, new float[]{-2f, -2f, 0f});
-                break;
-            case 3:
-                rotateAngles(new Vector3f[]{Vector3f.UnitX, Vector3f.UnitX, Vector3f.UnitX}, new float[]{-3f, -3f, 0f});
-                break;
-            case 4:
-                rotateAngles(new Vector3f[]{Vector3f.UnitX, Vector3f.UnitX, Vector3f.UnitX}, new float[]{0f, 0f, 0f});
-                break;
-            case 5:
-                rotateAngles(new Vector3f[]{Vector3f.UnitX, Vector3f.UnitX, Vector3f.UnitX}, new float[]{0f, 0f, 0f});
-                break;
-            case 6:
-                rotateAngles(new Vector3f[]{Vector3f.UnitX, Vector3f.UnitX, Vector3f.UnitX}, new float[]{0f, 0f, 0f});
-                break;
-            case 7:
-                rotateAngles(new Vector3f[]{Vector3f.UnitX, Vector3f.UnitX, Vector3f.UnitX}, new float[]{0f, 0f, 0f});
-                break;
-        }
+        rotateAngles(crawlRotations[(crawlCount + crawlCountOffset) % 8]);
     }
 }

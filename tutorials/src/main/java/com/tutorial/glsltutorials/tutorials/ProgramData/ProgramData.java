@@ -121,10 +121,10 @@ public class ProgramData {
         return ((vertexShaderIn == vertexShader) & (fragmentShader == fragmentShaderIn));
     }
 
-    public void draw(int[] vertexBufferObject, int[] indexBufferObject, Matrix4f mm,
+    public void draw(int vertexBufferObject, int indexBufferObject, Matrix4f mm,
                      int indexDataLength, float[] color) {
-        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vertexBufferObject[0]);
-        GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, indexBufferObject[0]);
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vertexBufferObject);
+        GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, indexBufferObject);
 
         GLES20.glUseProgram(theProgram);
         GLES20.glUniformMatrix4fv(cameraToClipMatrixUnif, 1, false, Shape.cameraToClip.toArray(), 0);

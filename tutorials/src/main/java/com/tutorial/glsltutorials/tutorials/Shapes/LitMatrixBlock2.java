@@ -79,7 +79,7 @@ public class LitMatrixBlock2 extends Shape {
 
     public void draw()
     {
-        Programs.draw(programNumber, vertexBufferObject, indexBufferObject, modelToWorld, indexData.length, color);
+        Programs.draw(programNumber, vertexBufferObject[0], indexBufferObject[0], modelToWorld, indexData.length, color);
     }
    
 }

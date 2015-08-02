@@ -102,11 +102,13 @@ public class Tutorials extends Activity implements
     }
 
     static boolean firstlaunch = true;
+    public static int tutorialRunCount = 0;
 
     public void chooseTutorial(int pos) {
         // An item was selected. You can retrieve the selected item using
         // parent.getItemAtPosition(pos)
         int version = 2;
+        tutorialRunCount++;
         Programs.reset();
         Shape.resetCameraToClipMatrix();
         Shape.resetWorldToCameraMatrix();
