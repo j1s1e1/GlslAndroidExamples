@@ -90,9 +90,8 @@ public class Tut_3D_Shooter2 extends TutorialBase {
 
     protected void init()
     {
-        InputStream test1 = Shader.context.getResources().openRawResource(R.raw.xwing_with_normals);
         ship = new Blender();
-        ship.readFile(test1);
+        ship.readFromResource(R.raw.xwng_with_normals_binary);
         ship.setColor(Colors.WHITE_COLOR);
         ship.scale(currentScale);
 

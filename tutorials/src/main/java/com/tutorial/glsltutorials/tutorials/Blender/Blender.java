@@ -1,7 +1,10 @@
 package com.tutorial.glsltutorials.tutorials.Blender;
 
+import com.tutorial.glsltutorials.tutorials.GLES_Helpers.Shader;
 import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 import com.tutorial.glsltutorials.tutorials.Portability.BitConverter;
+import com.tutorial.glsltutorials.tutorials.R;
+import com.tutorial.glsltutorials.tutorials.Shapes.Shape;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -11,7 +14,7 @@ import java.util.ArrayList;
 /**
  * Created by jamie on 10/12/14.
  */
-public class Blender {
+public class Blender extends Shape {
     public Blender ()
     {
     }
@@ -49,6 +52,11 @@ public class Blender {
             blenderObjects.add(bo);
         }
         return result.toString();
+    }
+
+    public void readFromResource(int resource) {
+        InputStream resourceData = Shader.context.getResources().openRawResource(resource);
+        readBinaryFile(resourceData);
     }
 
     public void readFile(InputStream filename)

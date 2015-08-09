@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 
 import com.tutorial.glsltutorials.tutorials.Creatures.Animal;
+import com.tutorial.glsltutorials.tutorials.Creatures.Butterfly;
 import com.tutorial.glsltutorials.tutorials.Creatures.Cat;
 import com.tutorial.glsltutorials.tutorials.Creatures.Dog;
 import com.tutorial.glsltutorials.tutorials.Creatures.Dragonfly3d;
@@ -17,6 +18,7 @@ import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 import com.tutorial.glsltutorials.tutorials.Place.Cage;
 import com.tutorial.glsltutorials.tutorials.Place.Exhibit;
 import com.tutorial.glsltutorials.tutorials.Place.Grass;
+import com.tutorial.glsltutorials.tutorials.Place.Meadow;
 import com.tutorial.glsltutorials.tutorials.Place.River;
 import com.tutorial.glsltutorials.tutorials.ProgramData.Programs;
 import com.tutorial.glsltutorials.tutorials.Shapes.Shape;
@@ -34,15 +36,19 @@ public class Tut_Zoo extends TutorialBase {
     boolean nextExhibit = false;
     float yRotation = 0f;
     int sphericalProgram;
+    boolean autoRotate = true;
 
     protected void init()
     {
         sphericalProgram = Programs.addProgram(VertexShaders.spherical_lms, FragmentShaders.lms_fragmentShaderCode);
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         animals = new ArrayList<Animal>();
-        
-        animals.add(new Scorpion());
-        exhibit = new Cage();
+
+        for (int i = 0; i< 20; i++)
+        {
+            animals.add(new Butterfly());
+        }
+        exhibit = new Meadow();
         setupDepthAndCull();
     }
 
@@ -61,6 +67,7 @@ public class Tut_Zoo extends TutorialBase {
         }
         if (nextAnimal)
         {
+            currentAnimal = currentAnimal.next();
             nextAnimal = false;
             animals.clear();
             selectNextAnimal();
@@ -70,26 +77,25 @@ public class Tut_Zoo extends TutorialBase {
             nextExhibit = false;
             selectNextExhibit();
         }
+        if (autoRotate)
+        {
+            yRotation += 0.1f;
+            Shape.setWorldToCameraRotation(0f, yRotation, 0f);
+        }
         updateDisplayOptions();
     }
 
     private void selectNextAnimal()
     {
-        currentAnimal = currentAnimal.next();
         switch (currentAnimal)
         {
-            case CAT: animals.add(new Cat());
-                break;
-            case DOG: animals.add(new Dog());
-                break;
-            case DRAGONFLY: animals.add(new Dragonfly3d());
-                break;
-            case LADYBUG: animals.add(new LadyBug3d());
-                break;
-            case FIREFLY: animals.add(new FireFly3d());
-                break;
-            case SCORPION: animals.add(new Scorpion());
-                break;
+            case CAT: animals.add(new Cat()); break;
+            case DOG: animals.add(new Dog()); break;
+            case DRAGONFLY: animals.add(new Dragonfly3d()); break;
+            case LADYBUG: animals.add(new LadyBug3d()); break;
+            case FIREFLY: animals.add(new FireFly3d()); break;
+            case SCORPION: animals.add(new Scorpion()); break;
+            case BUTTERFLY: animals.add(new Butterfly()); break;
         }
     }
 
@@ -102,6 +108,7 @@ public class Tut_Zoo extends TutorialBase {
             case CAGE: exhibit = new Cage(); break;
             case GRASS: exhibit = new Grass(); break;
             case RIVER: exhibit = new River(); break;
+            case MEADOW: exhibit = new Meadow(); break;
         }
     }
 
@@ -112,7 +119,8 @@ public class Tut_Zoo extends TutorialBase {
         DRAGONFLY,
         LADYBUG,
         FIREFLY,
-        SCORPION;
+        SCORPION,
+        BUTTERFLY;
         private static AnimalsEnum[] vals = values();
         public AnimalsEnum next()
         {
@@ -125,7 +133,8 @@ public class Tut_Zoo extends TutorialBase {
         DEFAULT,
         CAGE,
         GRASS,
-        RIVER;
+        RIVER,
+        MEADOW;
         private static ExhibitsEnum[] vals = values();
         public ExhibitsEnum next()
         {
@@ -133,7 +142,7 @@ public class Tut_Zoo extends TutorialBase {
         }
     }
 
-    AnimalsEnum currentAnimal = AnimalsEnum.CAT;
+    AnimalsEnum currentAnimal = AnimalsEnum.BUTTERFLY;
 
     ExhibitsEnum currentExhibit = ExhibitsEnum.DEFAULT;
 
@@ -228,6 +237,9 @@ public class Tut_Zoo extends TutorialBase {
                     }
                 }
                 break;
+                case KeyEvent.KEYCODE_V:
+                    autoRotate = !autoRotate;
+                    break;
             }
         }
         return result.toString();
