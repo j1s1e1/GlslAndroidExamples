@@ -5,6 +5,7 @@ import com.tutorial.glsltutorials.tutorials.Geometry.Vector3f;
 import com.tutorial.glsltutorials.tutorials.Portability.BitConverter;
 import com.tutorial.glsltutorials.tutorials.R;
 import com.tutorial.glsltutorials.tutorials.Shapes.Shape;
+import com.tutorial.glsltutorials.tutorials.Tutorials.Tutorials;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -17,10 +18,21 @@ import java.util.ArrayList;
 public class Blender extends Shape {
     public Blender ()
     {
+        if (Tutorials.tutorialRunCount > tutorialRunCount)
+        {
+            tutorialRunCount = Tutorials.tutorialRunCount;
+            blenderObjectList = new ArrayList<ArrayList<BlenderObject>>();
+            blenderResources = new ArrayList<Integer>();
+        }
     }
+    static int tutorialRunCount = -1;
+    static ArrayList<ArrayList<BlenderObject>> blenderObjectList = new ArrayList<ArrayList<BlenderObject>>();
+    static ArrayList<Integer> blenderResources = new ArrayList<Integer>();
 
     ArrayList<BlenderObject> blenderObjects;
     Vector3f currentOffset = new Vector3f();
+
+    Vector3f scale = new Vector3f(1f, 1f, 1f);
 
     // These files were created from blender objects using C# version
     public String readBinaryFile(InputStream filename)
@@ -51,12 +63,21 @@ public class Blender extends Shape {
             bo.setup();
             blenderObjects.add(bo);
         }
+
+        blenderObjectList.add(blenderObjects);
         return result.toString();
     }
 
     public void readFromResource(int resource) {
-        InputStream resourceData = Shader.context.getResources().openRawResource(resource);
-        readBinaryFile(resourceData);
+        if (blenderResources.contains(resource))
+        {
+            blenderObjects = blenderObjectList.get(blenderResources.indexOf(resource));
+        }
+        else {
+            InputStream resourceData = Shader.context.getResources().openRawResource(resource);
+            readBinaryFile(resourceData);
+            blenderResources.add(resource);
+        }
     }
 
     public void readFile(InputStream filename)
@@ -126,24 +147,22 @@ public class Blender extends Shape {
     {
         for (BlenderObject bo : blenderObjects)
         {
+            bo.scale(scale);
+            bo.setOffset(currentOffset);
             bo.draw();
         }
     }
 
-    public void scale(Vector3f scale)
+    public void scale(Vector3f v)
     {
-        for (BlenderObject bo : blenderObjects)
-        {
-            bo.scale(scale);
-        }
+        scale.x = scale.x * v.x;
+        scale.y = scale.y * v.y;
+        scale.z = scale.z * v.z;
     }
 
     public void setOffset(Vector3f offset)
     {
-        for (BlenderObject bo : blenderObjects)
-        {
-            bo.setOffset(offset);
-        }
+        currentOffset = offset;
     }
 
     public Vector3f getOffset()

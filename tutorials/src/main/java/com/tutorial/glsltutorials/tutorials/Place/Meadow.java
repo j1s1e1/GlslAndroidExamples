@@ -27,12 +27,12 @@ public class Meadow extends Exhibit {
         grass.rotateShape(Vector3f.UnitX, 45f);
         grass.setColor(Colors.GREEN_COLOR);
         grass.setOffset(new Vector3f(0f, -1.1f, 0f));
-        trees = new Tree[1];
+        trees = new Tree[3];
         for (int i = 0; i < trees.length; i++)
         {
             trees[i] = AddTree();
         }
-        dandelions = new Blender[2];
+        dandelions = new Blender[20];
         for (int i = 0; i < dandelions.length; i++)
         {
             dandelions[i] = CreateDandelion();

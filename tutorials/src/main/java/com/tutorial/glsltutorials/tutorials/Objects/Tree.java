@@ -39,7 +39,6 @@ public class Tree {
     {
         trunk.setOffset(new Vector3f(x, y, z));
         leaves.setOffset(new Vector3f(x, y, z));
-
     }
 
     public void draw()

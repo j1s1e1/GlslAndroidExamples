@@ -138,12 +138,7 @@ public class BlenderObject extends Shape {
 
     public void draw()
     {
-        Matrix4f mm = rotate(modelToWorld, axis, angle);
-        mm.M41 = offset.x;
-        mm.M42 = offset.y;
-        mm.M43 = offset.z;
-
-        Programs.draw(programNumber, vertexBufferObject[0], indexBufferObject[0], mm, indexData.length, color);
+        Programs.draw(programNumber, vertexBufferObject[0], indexBufferObject[0], modelToWorld, indexData.length, color);
     }
 
     public ArrayList<Byte> getBinaryBlenderObject()
