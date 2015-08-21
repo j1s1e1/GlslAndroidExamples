@@ -24,6 +24,7 @@ public class Colors {
     public static float[] SHADOW_COLOR = new float[]{0f, 0f, 0f, 0.6f};
 
     public static float[] FLASH_COLOR = {0x32/256, 0xF9/256, 0xB2/256, 1.0f};
+    public static float[] SKY_BLUE_COLOR = {135f/256f, 206f/256f, 250f/256f, 1.0f};
 
     public static int Red= Color.RED;
     public static int Green=Color.GREEN;

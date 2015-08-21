@@ -14,6 +14,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
+import java.util.Vector;
 
 /**
  * Created by Jamie on 4/30/14.
@@ -431,5 +432,17 @@ public class Shape
         worldToCamera.M41 += v.x;
         worldToCamera.M42 += v.y;
         worldToCamera.M43 += v.z;
+    }
+
+    public static void setWorldOffset(Vector3f v)
+    {
+        worldToCamera.M41 = v.x;
+        worldToCamera.M42 = v.y;
+        worldToCamera.M43 = v.z;
+    }
+
+    public static Vector3f getWorldOffset()
+    {
+        return new Vector3f(worldToCamera.M41, worldToCamera.M42, worldToCamera.M43);
     }
 }
