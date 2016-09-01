@@ -297,7 +297,7 @@ public class SceneImpl {
 
         if (fragmentShader == null)
         {
-            Log.e("Fragment Shader not found", fragmentShaderString);
+            Log.e("Frag Shader not found", fragmentShaderString);
         }
 
         try

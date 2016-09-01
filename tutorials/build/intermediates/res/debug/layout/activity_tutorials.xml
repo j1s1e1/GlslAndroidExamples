@@ -12,4 +12,4 @@
         android:id="@+id/listView"
         android:layout_gravity="center" />
 </FrameLayout>
-<!-- From: file:/home/jamie/repos/AndroidGitHub/GlslTutorials/tutorials/src/main/res/layout/activity_tutorials.xml -->
+<!-- From: file:/C:/Users/Jamie/AndroidStudioProjects/GlslAndroidExamples/tutorials/src/main/res/layout/activity_tutorials.xml -->

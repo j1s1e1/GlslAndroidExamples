@@ -22,4 +22,4 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         style="?attr/actionModeStyle"/>
-<!-- From: file:/home/jamie/repos/AndroidGitHub/GlslTutorials/tutorials/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.2/res/layout/abc_action_mode_bar.xml -->
+<!-- From: file:/C:/Users/Jamie/AndroidStudioProjects/GlslAndroidExamples/tutorials/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.2/res/layout/abc_action_mode_bar.xml -->
